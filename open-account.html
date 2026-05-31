@@ -265,13 +265,13 @@ form {
 }
 
 .back-button {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid #ccc;
   background: white;
   color: #1a1a1a;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -790,23 +790,45 @@ form {
           </div>
         </div>
 
-        <!-- Step 2: Create Account -->
+        <!-- Step 2: Email -->
         <div id="step2" class="form-step">
-          <button type="button" class="back-button" id="prevBtn">←</button>
+          <button type="button" class="back-button" id="prevBtn2">←</button>
           <div class="form-header">
-            <h1>Create Account</h1>
+            <h1>Enter Email</h1>
             <p id="selectedCountryDisplay"></p>
           </div>
 
-          <form>
+          <form id="emailForm">
             <div class="form-group">
               <label for="email">Email Address</label>
               <input type="email" id="email" name="email" placeholder="your@email.com" required/>
             </div>
 
+            <button type="submit" class="submit-btn">Next</button>
+          </form>
+
+          <div class="form-footer">
+            Already have an account? <a href="index.html">Sign in</a>
+          </div>
+        </div>
+
+        <!-- Step 3: Password -->
+        <div id="step3" class="form-step">
+          <button type="button" class="back-button" id="prevBtn3">←</button>
+          <div class="form-header">
+            <h1>Create Password</h1>
+            <p>Secure your account</p>
+          </div>
+
+          <form id="passwordForm">
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" id="password" name="password" placeholder="Enter password" required/>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required/>
             </div>
 
             <button type="submit" class="submit-btn">Create Account</button>
@@ -864,11 +886,30 @@ function handleGoogleSignUp() {
   alert('Google sign-up integration coming soon');
 }
 
-const form = document.querySelector('form');
-if (form) {
-  form.addEventListener('submit', function(e) {
+// Email form submission
+const emailForm = document.getElementById('emailForm');
+if (emailForm) {
+  emailForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+  });
+}
+
+// Password form submission
+const passwordForm = document.getElementById('passwordForm');
+if (passwordForm) {
+  passwordForm.addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     alert(`Account created with email: ${email} in ${selectedCountry.name}`);
   });
 }
@@ -952,7 +993,8 @@ if (countrySearch) {
 
 // Step navigation buttons
 const nextBtn = document.getElementById('nextBtn');
-const prevBtn = document.getElementById('prevBtn');
+const prevBtn2 = document.getElementById('prevBtn2');
+const prevBtn3 = document.getElementById('prevBtn3');
 
 if (nextBtn) {
   nextBtn.addEventListener('click', function() {
@@ -962,10 +1004,17 @@ if (nextBtn) {
   });
 }
 
-if (prevBtn) {
-  prevBtn.addEventListener('click', function() {
+if (prevBtn2) {
+  prevBtn2.addEventListener('click', function() {
     document.getElementById('step2').classList.remove('active');
     document.getElementById('step1').classList.add('active');
+  });
+}
+
+if (prevBtn3) {
+  prevBtn3.addEventListener('click', function() {
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
   });
 }
 </script>
