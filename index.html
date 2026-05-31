@@ -950,18 +950,18 @@ a.button-primary:hover {
   }
 }
 
+/* Hide sections on all screens */
+.markets_item-2,
+.markets_desctop-rive-wrapper-2,
+.seciton-footer-breaker {
+  display: none !important;
+}
+
 /* Hide market links on mobile */
 @media (max-width: 991px) {
   a[href*="derived-indices"],
   a[href*="cryptocurrencies"],
   a[href*="stock-indices"] {
-    display: none !important;
-  }
-
-  /* Hide entire mobile markets section */
-  .markets_item-2,
-  .markets_desctop-rive-wrapper-2,
-  .seciton-footer-breaker {
     display: none !important;
   }
 }
