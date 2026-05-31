@@ -238,6 +238,43 @@ form {
   background: #5a2fb8;
 }
 
+.step-nav-btn {
+  padding: 14px 16px;
+  background: #6c3fd4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.step-nav-btn:hover {
+  background: #5a2fb8;
+}
+
+.prev-btn {
+  background: #999;
+}
+
+.prev-btn:hover {
+  background: #777;
+}
+
+.step-nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.step-nav-buttons .step-nav-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
 .divider {
   display: flex;
   align-items: center;
@@ -733,6 +770,8 @@ form {
             </div>
           </div>
 
+          <button type="button" class="step-nav-btn next-btn" id="nextBtn">Next</button>
+
           <div class="form-footer">
             Already have an account? <a href="index.html">Sign in</a>
           </div>
@@ -772,6 +811,10 @@ form {
             </svg>
             Sign up with Google
           </button>
+
+          <div class="step-nav-buttons">
+            <button type="button" class="step-nav-btn prev-btn" id="prevBtn">Previous</button>
+          </div>
 
           <div class="form-footer">
             Already have an account? <a href="index.html">Sign in</a>
@@ -894,6 +937,25 @@ if (countrySearch) {
         item.style.display = 'none';
       }
     });
+  });
+}
+
+// Step navigation buttons
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+
+if (nextBtn) {
+  nextBtn.addEventListener('click', function() {
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('selectedCountryDisplay').textContent = `Create your account for ${selectedCountry.name}`;
+  });
+}
+
+if (prevBtn) {
+  prevBtn.addEventListener('click', function() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
   });
 }
 </script>
