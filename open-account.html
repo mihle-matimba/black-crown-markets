@@ -327,33 +327,108 @@ form {
   justify-content: center;
 }
 
-.country-search {
+.country-dropdown {
+  position: relative;
   margin-bottom: 20px;
 }
 
-.country-input {
+.dropdown-trigger {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 14px;
   background: white;
   color: #1a1a1a;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.country-input:focus {
+.dropdown-trigger:hover {
+  border-color: #000;
+}
+
+.dropdown-trigger:focus {
   outline: none;
   border-color: #000;
   box-shadow: 0 0 0 1px #000;
 }
 
+.dropdown-trigger.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-color: #000;
+}
+
+.dropdown-selected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  transition: transform 0.3s;
+}
+
+.dropdown-trigger.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-menu.open {
+  display: flex;
+}
+
+.dropdown-search {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+.dropdown-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  color: #1a1a1a;
+}
+
+.dropdown-search input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 1px #000;
+}
+
+.dropdown-search input::placeholder {
+  color: #999;
+}
+
 .country-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 20px;
 }
 
 .country-item {
@@ -361,16 +436,18 @@ form {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s;
   background: white;
+  border: none;
+  font-size: 14px;
+  text-align: left;
+  width: 100%;
+  color: #1a1a1a;
 }
 
 .country-item:hover {
   background: #f5f5f5;
-  border-color: #000;
 }
 
 .country-item .flag {
@@ -445,50 +522,214 @@ form {
             <p>Choose your country or region to continue</p>
           </div>
 
-          <div class="country-search">
-            <input type="text" id="countrySearch" placeholder="Search country..." class="country-input"/>
-          </div>
-
-          <div class="country-list">
-            <div class="country-item" onclick="selectCountry('United States', 'US')">
-              <span class="flag">🇺🇸</span>
-              <span class="country-name">United States</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('United Kingdom', 'GB')">
-              <span class="flag">🇬🇧</span>
-              <span class="country-name">United Kingdom</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('Canada', 'CA')">
-              <span class="flag">🇨🇦</span>
-              <span class="country-name">Canada</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('Australia', 'AU')">
-              <span class="flag">🇦🇺</span>
-              <span class="country-name">Australia</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('Singapore', 'SG')">
-              <span class="flag">🇸🇬</span>
-              <span class="country-name">Singapore</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('India', 'IN')">
-              <span class="flag">🇮🇳</span>
-              <span class="country-name">India</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('Germany', 'DE')">
-              <span class="flag">🇩🇪</span>
-              <span class="country-name">Germany</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('France', 'FR')">
-              <span class="flag">🇫🇷</span>
-              <span class="country-name">France</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('Japan', 'JP')">
-              <span class="flag">🇯🇵</span>
-              <span class="country-name">Japan</span>
-            </div>
-            <div class="country-item" onclick="selectCountry('United Arab Emirates', 'AE')">
-              <span class="flag">🇦🇪</span>
-              <span class="country-name">United Arab Emirates</span>
+          <div class="country-dropdown">
+            <button type="button" class="dropdown-trigger" id="dropdownTrigger">
+              <span class="dropdown-selected">
+                <span id="selectedCountryFlag">🌍</span>
+                <span id="selectedCountryName">Select your region</span>
+              </span>
+              <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+              <div class="dropdown-search">
+                <input type="text" id="countrySearch" placeholder="Search country..."/>
+              </div>
+              <div class="country-list">
+            <div class="country-item" data-code="AF"><span class="flag">🇦🇫</span><span class="country-name">Afghanistan</span></div>
+            <div class="country-item" data-code="AL"><span class="flag">🇦🇱</span><span class="country-name">Albania</span></div>
+            <div class="country-item" data-code="DZ"><span class="flag">🇩🇿</span><span class="country-name">Algeria</span></div>
+            <div class="country-item" data-code="AD"><span class="flag">🇦🇩</span><span class="country-name">Andorra</span></div>
+            <div class="country-item" data-code="AO"><span class="flag">🇦🇴</span><span class="country-name">Angola</span></div>
+            <div class="country-item" data-code="AG"><span class="flag">🇦🇬</span><span class="country-name">Antigua and Barbuda</span></div>
+            <div class="country-item" data-code="AR"><span class="flag">🇦🇷</span><span class="country-name">Argentina</span></div>
+            <div class="country-item" data-code="AM"><span class="flag">🇦🇲</span><span class="country-name">Armenia</span></div>
+            <div class="country-item" data-code="AU"><span class="flag">🇦🇺</span><span class="country-name">Australia</span></div>
+            <div class="country-item" data-code="AT"><span class="flag">🇦🇹</span><span class="country-name">Austria</span></div>
+            <div class="country-item" data-code="AZ"><span class="flag">🇦🇿</span><span class="country-name">Azerbaijan</span></div>
+            <div class="country-item" data-code="BS"><span class="flag">🇧🇸</span><span class="country-name">Bahamas</span></div>
+            <div class="country-item" data-code="BH"><span class="flag">🇧🇭</span><span class="country-name">Bahrain</span></div>
+            <div class="country-item" data-code="BD"><span class="flag">🇧🇩</span><span class="country-name">Bangladesh</span></div>
+            <div class="country-item" data-code="BB"><span class="flag">🇧🇧</span><span class="country-name">Barbados</span></div>
+            <div class="country-item" data-code="BY"><span class="flag">🇧🇾</span><span class="country-name">Belarus</span></div>
+            <div class="country-item" data-code="BE"><span class="flag">🇧🇪</span><span class="country-name">Belgium</span></div>
+            <div class="country-item" data-code="BZ"><span class="flag">🇧🇿</span><span class="country-name">Belize</span></div>
+            <div class="country-item" data-code="BJ"><span class="flag">🇧🇯</span><span class="country-name">Benin</span></div>
+            <div class="country-item" data-code="BT"><span class="flag">🇧🇹</span><span class="country-name">Bhutan</span></div>
+            <div class="country-item" data-code="BO"><span class="flag">🇧🇴</span><span class="country-name">Bolivia</span></div>
+            <div class="country-item" data-code="BA"><span class="flag">🇧🇦</span><span class="country-name">Bosnia and Herzegovina</span></div>
+            <div class="country-item" data-code="BW"><span class="flag">🇧🇼</span><span class="country-name">Botswana</span></div>
+            <div class="country-item" data-code="BR"><span class="flag">🇧🇷</span><span class="country-name">Brazil</span></div>
+            <div class="country-item" data-code="BN"><span class="flag">🇧🇳</span><span class="country-name">Brunei</span></div>
+            <div class="country-item" data-code="BG"><span class="flag">🇧🇬</span><span class="country-name">Bulgaria</span></div>
+            <div class="country-item" data-code="BF"><span class="flag">🇧🇫</span><span class="country-name">Burkina Faso</span></div>
+            <div class="country-item" data-code="BI"><span class="flag">🇧🇮</span><span class="country-name">Burundi</span></div>
+            <div class="country-item" data-code="KH"><span class="flag">🇰🇭</span><span class="country-name">Cambodia</span></div>
+            <div class="country-item" data-code="CM"><span class="flag">🇨🇲</span><span class="country-name">Cameroon</span></div>
+            <div class="country-item" data-code="CA"><span class="flag">🇨🇦</span><span class="country-name">Canada</span></div>
+            <div class="country-item" data-code="CV"><span class="flag">🇨🇻</span><span class="country-name">Cape Verde</span></div>
+            <div class="country-item" data-code="CF"><span class="flag">🇨🇫</span><span class="country-name">Central African Republic</span></div>
+            <div class="country-item" data-code="TD"><span class="flag">🇹🇩</span><span class="country-name">Chad</span></div>
+            <div class="country-item" data-code="CL"><span class="flag">🇨🇱</span><span class="country-name">Chile</span></div>
+            <div class="country-item" data-code="CN"><span class="flag">🇨🇳</span><span class="country-name">China</span></div>
+            <div class="country-item" data-code="CO"><span class="flag">🇨🇴</span><span class="country-name">Colombia</span></div>
+            <div class="country-item" data-code="KM"><span class="flag">🇰🇲</span><span class="country-name">Comoros</span></div>
+            <div class="country-item" data-code="CG"><span class="flag">🇨🇬</span><span class="country-name">Congo</span></div>
+            <div class="country-item" data-code="CR"><span class="flag">🇨🇷</span><span class="country-name">Costa Rica</span></div>
+            <div class="country-item" data-code="HR"><span class="flag">🇭🇷</span><span class="country-name">Croatia</span></div>
+            <div class="country-item" data-code="CU"><span class="flag">🇨🇺</span><span class="country-name">Cuba</span></div>
+            <div class="country-item" data-code="CY"><span class="flag">🇨🇾</span><span class="country-name">Cyprus</span></div>
+            <div class="country-item" data-code="CZ"><span class="flag">🇨🇿</span><span class="country-name">Czech Republic</span></div>
+            <div class="country-item" data-code="DK"><span class="flag">🇩🇰</span><span class="country-name">Denmark</span></div>
+            <div class="country-item" data-code="DJ"><span class="flag">🇩🇯</span><span class="country-name">Djibouti</span></div>
+            <div class="country-item" data-code="DM"><span class="flag">🇩🇲</span><span class="country-name">Dominica</span></div>
+            <div class="country-item" data-code="DO"><span class="flag">🇩🇴</span><span class="country-name">Dominican Republic</span></div>
+            <div class="country-item" data-code="EC"><span class="flag">🇪🇨</span><span class="country-name">Ecuador</span></div>
+            <div class="country-item" data-code="EG"><span class="flag">🇪🇬</span><span class="country-name">Egypt</span></div>
+            <div class="country-item" data-code="SV"><span class="flag">🇸🇻</span><span class="country-name">El Salvador</span></div>
+            <div class="country-item" data-code="GQ"><span class="flag">🇬🇶</span><span class="country-name">Equatorial Guinea</span></div>
+            <div class="country-item" data-code="ER"><span class="flag">🇪🇷</span><span class="country-name">Eritrea</span></div>
+            <div class="country-item" data-code="EE"><span class="flag">🇪🇪</span><span class="country-name">Estonia</span></div>
+            <div class="country-item" data-code="ET"><span class="flag">🇪🇹</span><span class="country-name">Ethiopia</span></div>
+            <div class="country-item" data-code="FJ"><span class="flag">🇫🇯</span><span class="country-name">Fiji</span></div>
+            <div class="country-item" data-code="FI"><span class="flag">🇫🇮</span><span class="country-name">Finland</span></div>
+            <div class="country-item" data-code="FR"><span class="flag">🇫🇷</span><span class="country-name">France</span></div>
+            <div class="country-item" data-code="GA"><span class="flag">🇬🇦</span><span class="country-name">Gabon</span></div>
+            <div class="country-item" data-code="GM"><span class="flag">🇬🇲</span><span class="country-name">Gambia</span></div>
+            <div class="country-item" data-code="GE"><span class="flag">🇬🇪</span><span class="country-name">Georgia</span></div>
+            <div class="country-item" data-code="DE"><span class="flag">🇩🇪</span><span class="country-name">Germany</span></div>
+            <div class="country-item" data-code="GH"><span class="flag">🇬🇭</span><span class="country-name">Ghana</span></div>
+            <div class="country-item" data-code="GR"><span class="flag">🇬🇷</span><span class="country-name">Greece</span></div>
+            <div class="country-item" data-code="GD"><span class="flag">🇬🇩</span><span class="country-name">Grenada</span></div>
+            <div class="country-item" data-code="GT"><span class="flag">🇬🇹</span><span class="country-name">Guatemala</span></div>
+            <div class="country-item" data-code="GN"><span class="flag">🇬🇳</span><span class="country-name">Guinea</span></div>
+            <div class="country-item" data-code="GW"><span class="flag">🇬🇼</span><span class="country-name">Guinea-Bissau</span></div>
+            <div class="country-item" data-code="GY"><span class="flag">🇬🇾</span><span class="country-name">Guyana</span></div>
+            <div class="country-item" data-code="HT"><span class="flag">🇭🇹</span><span class="country-name">Haiti</span></div>
+            <div class="country-item" data-code="HN"><span class="flag">🇭🇳</span><span class="country-name">Honduras</span></div>
+            <div class="country-item" data-code="HK"><span class="flag">🇭🇰</span><span class="country-name">Hong Kong</span></div>
+            <div class="country-item" data-code="HU"><span class="flag">🇭🇺</span><span class="country-name">Hungary</span></div>
+            <div class="country-item" data-code="IS"><span class="flag">🇮🇸</span><span class="country-name">Iceland</span></div>
+            <div class="country-item" data-code="IN"><span class="flag">🇮🇳</span><span class="country-name">India</span></div>
+            <div class="country-item" data-code="ID"><span class="flag">🇮🇩</span><span class="country-name">Indonesia</span></div>
+            <div class="country-item" data-code="IR"><span class="flag">🇮🇷</span><span class="country-name">Iran</span></div>
+            <div class="country-item" data-code="IQ"><span class="flag">🇮🇶</span><span class="country-name">Iraq</span></div>
+            <div class="country-item" data-code="IE"><span class="flag">🇮🇪</span><span class="country-name">Ireland</span></div>
+            <div class="country-item" data-code="IL"><span class="flag">🇮🇱</span><span class="country-name">Israel</span></div>
+            <div class="country-item" data-code="IT"><span class="flag">🇮🇹</span><span class="country-name">Italy</span></div>
+            <div class="country-item" data-code="JM"><span class="flag">🇯🇲</span><span class="country-name">Jamaica</span></div>
+            <div class="country-item" data-code="JP"><span class="flag">🇯🇵</span><span class="country-name">Japan</span></div>
+            <div class="country-item" data-code="JO"><span class="flag">🇯🇴</span><span class="country-name">Jordan</span></div>
+            <div class="country-item" data-code="KZ"><span class="flag">🇰🇿</span><span class="country-name">Kazakhstan</span></div>
+            <div class="country-item" data-code="KE"><span class="flag">🇰🇪</span><span class="country-name">Kenya</span></div>
+            <div class="country-item" data-code="KI"><span class="flag">🇰🇮</span><span class="country-name">Kiribati</span></div>
+            <div class="country-item" data-code="KW"><span class="flag">🇰🇼</span><span class="country-name">Kuwait</span></div>
+            <div class="country-item" data-code="KG"><span class="flag">🇰🇬</span><span class="country-name">Kyrgyzstan</span></div>
+            <div class="country-item" data-code="LA"><span class="flag">🇱🇦</span><span class="country-name">Laos</span></div>
+            <div class="country-item" data-code="LV"><span class="flag">🇱🇻</span><span class="country-name">Latvia</span></div>
+            <div class="country-item" data-code="LB"><span class="flag">🇱🇧</span><span class="country-name">Lebanon</span></div>
+            <div class="country-item" data-code="LS"><span class="flag">🇱🇸</span><span class="country-name">Lesotho</span></div>
+            <div class="country-item" data-code="LR"><span class="flag">🇱🇷</span><span class="country-name">Liberia</span></div>
+            <div class="country-item" data-code="LY"><span class="flag">🇱🇾</span><span class="country-name">Libya</span></div>
+            <div class="country-item" data-code="LI"><span class="flag">🇱🇮</span><span class="country-name">Liechtenstein</span></div>
+            <div class="country-item" data-code="LT"><span class="flag">🇱🇹</span><span class="country-name">Lithuania</span></div>
+            <div class="country-item" data-code="LU"><span class="flag">🇱🇺</span><span class="country-name">Luxembourg</span></div>
+            <div class="country-item" data-code="MO"><span class="flag">🇲🇴</span><span class="country-name">Macao</span></div>
+            <div class="country-item" data-code="MG"><span class="flag">🇲🇬</span><span class="country-name">Madagascar</span></div>
+            <div class="country-item" data-code="MW"><span class="flag">🇲🇼</span><span class="country-name">Malawi</span></div>
+            <div class="country-item" data-code="MY"><span class="flag">🇲🇾</span><span class="country-name">Malaysia</span></div>
+            <div class="country-item" data-code="MV"><span class="flag">🇲🇻</span><span class="country-name">Maldives</span></div>
+            <div class="country-item" data-code="ML"><span class="flag">🇲🇱</span><span class="country-name">Mali</span></div>
+            <div class="country-item" data-code="MT"><span class="flag">🇲🇹</span><span class="country-name">Malta</span></div>
+            <div class="country-item" data-code="MH"><span class="flag">🇲🇭</span><span class="country-name">Marshall Islands</span></div>
+            <div class="country-item" data-code="MR"><span class="flag">🇲🇷</span><span class="country-name">Mauritania</span></div>
+            <div class="country-item" data-code="MU"><span class="flag">🇲🇺</span><span class="country-name">Mauritius</span></div>
+            <div class="country-item" data-code="MX"><span class="flag">🇲🇽</span><span class="country-name">Mexico</span></div>
+            <div class="country-item" data-code="FM"><span class="flag">🇫🇲</span><span class="country-name">Micronesia</span></div>
+            <div class="country-item" data-code="MD"><span class="flag">🇲🇩</span><span class="country-name">Moldova</span></div>
+            <div class="country-item" data-code="MC"><span class="flag">🇲🇨</span><span class="country-name">Monaco</span></div>
+            <div class="country-item" data-code="MN"><span class="flag">🇲🇳</span><span class="country-name">Mongolia</span></div>
+            <div class="country-item" data-code="ME"><span class="flag">🇲🇪</span><span class="country-name">Montenegro</span></div>
+            <div class="country-item" data-code="MA"><span class="flag">🇲🇦</span><span class="country-name">Morocco</span></div>
+            <div class="country-item" data-code="MZ"><span class="flag">🇲🇿</span><span class="country-name">Mozambique</span></div>
+            <div class="country-item" data-code="MM"><span class="flag">🇲🇲</span><span class="country-name">Myanmar</span></div>
+            <div class="country-item" data-code="NA"><span class="flag">🇳🇦</span><span class="country-name">Namibia</span></div>
+            <div class="country-item" data-code="NR"><span class="flag">🇳🇷</span><span class="country-name">Nauru</span></div>
+            <div class="country-item" data-code="NP"><span class="flag">🇳🇵</span><span class="country-name">Nepal</span></div>
+            <div class="country-item" data-code="NL"><span class="flag">🇳🇱</span><span class="country-name">Netherlands</span></div>
+            <div class="country-item" data-code="NZ"><span class="flag">🇳🇿</span><span class="country-name">New Zealand</span></div>
+            <div class="country-item" data-code="NI"><span class="flag">🇳🇮</span><span class="country-name">Nicaragua</span></div>
+            <div class="country-item" data-code="NE"><span class="flag">🇳🇪</span><span class="country-name">Niger</span></div>
+            <div class="country-item" data-code="NG"><span class="flag">🇳🇬</span><span class="country-name">Nigeria</span></div>
+            <div class="country-item" data-code="KP"><span class="flag">🇰🇵</span><span class="country-name">North Korea</span></div>
+            <div class="country-item" data-code="MK"><span class="flag">🇲🇰</span><span class="country-name">North Macedonia</span></div>
+            <div class="country-item" data-code="NO"><span class="flag">🇳🇴</span><span class="country-name">Norway</span></div>
+            <div class="country-item" data-code="OM"><span class="flag">🇴🇲</span><span class="country-name">Oman</span></div>
+            <div class="country-item" data-code="PK"><span class="flag">🇵🇰</span><span class="country-name">Pakistan</span></div>
+            <div class="country-item" data-code="PW"><span class="flag">🇵🇼</span><span class="country-name">Palau</span></div>
+            <div class="country-item" data-code="PS"><span class="flag">🇵🇸</span><span class="country-name">Palestine</span></div>
+            <div class="country-item" data-code="PA"><span class="flag">🇵🇦</span><span class="country-name">Panama</span></div>
+            <div class="country-item" data-code="PG"><span class="flag">🇵🇬</span><span class="country-name">Papua New Guinea</span></div>
+            <div class="country-item" data-code="PY"><span class="flag">🇵🇾</span><span class="country-name">Paraguay</span></div>
+            <div class="country-item" data-code="PE"><span class="flag">🇵🇪</span><span class="country-name">Peru</span></div>
+            <div class="country-item" data-code="PH"><span class="flag">🇵🇭</span><span class="country-name">Philippines</span></div>
+            <div class="country-item" data-code="PL"><span class="flag">🇵🇱</span><span class="country-name">Poland</span></div>
+            <div class="country-item" data-code="PT"><span class="flag">🇵🇹</span><span class="country-name">Portugal</span></div>
+            <div class="country-item" data-code="QA"><span class="flag">🇶🇦</span><span class="country-name">Qatar</span></div>
+            <div class="country-item" data-code="RO"><span class="flag">🇷🇴</span><span class="country-name">Romania</span></div>
+            <div class="country-item" data-code="RU"><span class="flag">🇷🇺</span><span class="country-name">Russia</span></div>
+            <div class="country-item" data-code="RW"><span class="flag">🇷🇼</span><span class="country-name">Rwanda</span></div>
+            <div class="country-item" data-code="KN"><span class="flag">🇰🇳</span><span class="country-name">Saint Kitts and Nevis</span></div>
+            <div class="country-item" data-code="LC"><span class="flag">🇱🇨</span><span class="country-name">Saint Lucia</span></div>
+            <div class="country-item" data-code="VC"><span class="flag">🇻🇨</span><span class="country-name">Saint Vincent and the Grenadines</span></div>
+            <div class="country-item" data-code="WS"><span class="flag">🇼🇸</span><span class="country-name">Samoa</span></div>
+            <div class="country-item" data-code="SM"><span class="flag">🇸🇲</span><span class="country-name">San Marino</span></div>
+            <div class="country-item" data-code="ST"><span class="flag">🇸🇹</span><span class="country-name">Sao Tome and Principe</span></div>
+            <div class="country-item" data-code="SA"><span class="flag">🇸🇦</span><span class="country-name">Saudi Arabia</span></div>
+            <div class="country-item" data-code="SN"><span class="flag">🇸🇳</span><span class="country-name">Senegal</span></div>
+            <div class="country-item" data-code="RS"><span class="flag">🇷🇸</span><span class="country-name">Serbia</span></div>
+            <div class="country-item" data-code="SC"><span class="flag">🇸🇨</span><span class="country-name">Seychelles</span></div>
+            <div class="country-item" data-code="SL"><span class="flag">🇸🇱</span><span class="country-name">Sierra Leone</span></div>
+            <div class="country-item" data-code="SG"><span class="flag">🇸🇬</span><span class="country-name">Singapore</span></div>
+            <div class="country-item" data-code="SK"><span class="flag">🇸🇰</span><span class="country-name">Slovakia</span></div>
+            <div class="country-item" data-code="SI"><span class="flag">🇸🇮</span><span class="country-name">Slovenia</span></div>
+            <div class="country-item" data-code="SB"><span class="flag">🇸🇧</span><span class="country-name">Solomon Islands</span></div>
+            <div class="country-item" data-code="SO"><span class="flag">🇸🇴</span><span class="country-name">Somalia</span></div>
+            <div class="country-item" data-code="ZA"><span class="flag">🇿🇦</span><span class="country-name">South Africa</span></div>
+            <div class="country-item" data-code="KR"><span class="flag">🇰🇷</span><span class="country-name">South Korea</span></div>
+            <div class="country-item" data-code="SS"><span class="flag">🇸🇸</span><span class="country-name">South Sudan</span></div>
+            <div class="country-item" data-code="ES"><span class="flag">🇪🇸</span><span class="country-name">Spain</span></div>
+            <div class="country-item" data-code="LK"><span class="flag">🇱🇰</span><span class="country-name">Sri Lanka</span></div>
+            <div class="country-item" data-code="SD"><span class="flag">🇸🇩</span><span class="country-name">Sudan</span></div>
+            <div class="country-item" data-code="SR"><span class="flag">🇸🇷</span><span class="country-name">Suriname</span></div>
+            <div class="country-item" data-code="SE"><span class="flag">🇸🇪</span><span class="country-name">Sweden</span></div>
+            <div class="country-item" data-code="CH"><span class="flag">🇨🇭</span><span class="country-name">Switzerland</span></div>
+            <div class="country-item" data-code="SY"><span class="flag">🇸🇾</span><span class="country-name">Syria</span></div>
+            <div class="country-item" data-code="TW"><span class="flag">🇹🇼</span><span class="country-name">Taiwan</span></div>
+            <div class="country-item" data-code="TJ"><span class="flag">🇹🇯</span><span class="country-name">Tajikistan</span></div>
+            <div class="country-item" data-code="TZ"><span class="flag">🇹🇿</span><span class="country-name">Tanzania</span></div>
+            <div class="country-item" data-code="TH"><span class="flag">🇹🇭</span><span class="country-name">Thailand</span></div>
+            <div class="country-item" data-code="TL"><span class="flag">🇹🇱</span><span class="country-name">Timor-Leste</span></div>
+            <div class="country-item" data-code="TG"><span class="flag">🇹🇬</span><span class="country-name">Togo</span></div>
+            <div class="country-item" data-code="TO"><span class="flag">🇹🇴</span><span class="country-name">Tonga</span></div>
+            <div class="country-item" data-code="TT"><span class="flag">🇹🇹</span><span class="country-name">Trinidad and Tobago</span></div>
+            <div class="country-item" data-code="TN"><span class="flag">🇹🇳</span><span class="country-name">Tunisia</span></div>
+            <div class="country-item" data-code="TR"><span class="flag">🇹🇷</span><span class="country-name">Turkey</span></div>
+            <div class="country-item" data-code="TM"><span class="flag">🇹🇲</span><span class="country-name">Turkmenistan</span></div>
+            <div class="country-item" data-code="TV"><span class="flag">🇹🇻</span><span class="country-name">Tuvalu</span></div>
+            <div class="country-item" data-code="UG"><span class="flag">🇺🇬</span><span class="country-name">Uganda</span></div>
+            <div class="country-item" data-code="UA"><span class="flag">🇺🇦</span><span class="country-name">Ukraine</span></div>
+            <div class="country-item" data-code="AE"><span class="flag">🇦🇪</span><span class="country-name">United Arab Emirates</span></div>
+            <div class="country-item" data-code="GB"><span class="flag">🇬🇧</span><span class="country-name">United Kingdom</span></div>
+            <div class="country-item" data-code="UY"><span class="flag">🇺🇾</span><span class="country-name">Uruguay</span></div>
+            <div class="country-item" data-code="UZ"><span class="flag">🇺🇿</span><span class="country-name">Uzbekistan</span></div>
+            <div class="country-item" data-code="VU"><span class="flag">🇻🇺</span><span class="country-name">Vanuatu</span></div>
+            <div class="country-item" data-code="VA"><span class="flag">🇻🇦</span><span class="country-name">Vatican City</span></div>
+            <div class="country-item" data-code="VE"><span class="flag">🇻🇪</span><span class="country-name">Venezuela</span></div>
+            <div class="country-item" data-code="VN"><span class="flag">🇻🇳</span><span class="country-name">Vietnam</span></div>
+            <div class="country-item" data-code="YE"><span class="flag">🇾🇪</span><span class="country-name">Yemen</span></div>
+            <div class="country-item" data-code="ZM"><span class="flag">🇿🇲</span><span class="country-name">Zambia</span></div>
+            <div class="country-item" data-code="ZW"><span class="flag">🇿🇼</span><span class="country-name">Zimbabwe</span></div>
+              </div>
             </div>
           </div>
 
@@ -566,15 +807,6 @@ setInterval(() => {
   switchSlide((currentSlide + 1) % slides.length);
 }, 5000);
 
-function selectCountry(countryName, countryCode) {
-  selectedCountry = { name: countryName, code: countryCode };
-  document.getElementById('selectedCountryDisplay').textContent = `Create your account for ${countryName}`;
-
-  // Move to step 2
-  document.getElementById('step1').classList.remove('active');
-  document.getElementById('step2').classList.add('active');
-}
-
 function handleGoogleSignUp() {
   alert('Google sign-up integration coming soon');
 }
@@ -601,12 +833,58 @@ function updateLayout() {
 updateLayout();
 window.addEventListener('resize', updateLayout);
 
-// Country search functionality
+// Dropdown functionality
+const dropdownTrigger = document.getElementById('dropdownTrigger');
+const dropdownMenu = document.getElementById('dropdownMenu');
 const countrySearch = document.getElementById('countrySearch');
+
+if (dropdownTrigger) {
+  dropdownTrigger.addEventListener('click', function(e) {
+    e.preventDefault();
+    dropdownTrigger.classList.toggle('open');
+    dropdownMenu.classList.toggle('open');
+    if (dropdownMenu.classList.contains('open')) {
+      countrySearch.focus();
+    }
+  });
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.country-dropdown')) {
+    dropdownTrigger.classList.remove('open');
+    dropdownMenu.classList.remove('open');
+  }
+});
+
+// Country item selection
+const countryItems = document.querySelectorAll('.country-item');
+countryItems.forEach(item => {
+  item.addEventListener('click', function() {
+    const flag = this.querySelector('.flag').textContent;
+    const name = this.querySelector('.country-name').textContent;
+    const code = this.getAttribute('data-code');
+
+    document.getElementById('selectedCountryFlag').textContent = flag;
+    document.getElementById('selectedCountryName').textContent = name;
+    document.getElementById('selectedCountryDisplay').textContent = `Create your account for ${name}`;
+
+    selectedCountry = { name: name, code: code };
+
+    // Close dropdown
+    dropdownTrigger.classList.remove('open');
+    dropdownMenu.classList.remove('open');
+
+    // Move to step 2
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+  });
+});
+
+// Country search functionality
 if (countrySearch) {
   countrySearch.addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
-    const countryItems = document.querySelectorAll('.country-item');
 
     countryItems.forEach(item => {
       const countryName = item.querySelector('.country-name').textContent.toLowerCase();
