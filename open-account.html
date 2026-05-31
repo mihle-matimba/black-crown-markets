@@ -317,15 +317,14 @@ form {
 }
 
 .form-step {
-  display: none;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: none !important;
 }
 
 .form-step.active {
-  display: flex;
+  display: flex !important;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .country-search {
