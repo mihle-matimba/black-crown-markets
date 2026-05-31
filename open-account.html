@@ -384,16 +384,6 @@ form {
   font-weight: 500;
 }
 
-.back-step-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 16px;
-  color: #1a1a1a;
-}
-
 .mobile-logo {
   display: none;
   margin-bottom: 32px;
@@ -410,38 +400,6 @@ form {
   }
 }
 
-.tabs-container {
-  margin-bottom: 32px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.tabs {
-  display: flex;
-  gap: 0;
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 16px 0;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
-  cursor: pointer;
-  transition: color 0.3s, border-color 0.3s;
-  text-align: center;
-}
-
-.tab-btn:hover {
-  color: #1a1a1a;
-}
-
-.tab-btn.active {
-  color: #6c3fd4;
-  border-bottom-color: #6c3fd4;
-}
 </style>
 </head>
 <body>
@@ -479,13 +437,6 @@ form {
       <div class="form-content">
         <div class="mobile-logo">
           <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20Colour.svg" alt="Black Crown Markets"/>
-        </div>
-
-        <div class="tabs-container">
-          <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab(1)">Region</button>
-            <button class="tab-btn" onclick="switchTab(2)">Account</button>
-          </div>
         </div>
 
         <!-- Step 1: Country Selection -->
@@ -621,27 +572,8 @@ function selectCountry(countryName, countryCode) {
   document.getElementById('selectedCountryDisplay').textContent = `Create your account for ${countryName}`;
 
   // Move to step 2
-  switchTab(2);
-}
-
-function switchTab(tabNum) {
-  // Hide all steps
   document.getElementById('step1').classList.remove('active');
-  document.getElementById('step2').classList.remove('active');
-
-  // Remove active from all tabs
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-
-  // Show selected step
-  if (tabNum === 1) {
-    document.getElementById('step1').classList.add('active');
-    document.querySelectorAll('.tab-btn')[0].classList.add('active');
-  } else {
-    document.getElementById('step2').classList.add('active');
-    document.querySelectorAll('.tab-btn')[1].classList.add('active');
-  }
+  document.getElementById('step2').classList.add('active');
 }
 
 function handleGoogleSignUp() {
