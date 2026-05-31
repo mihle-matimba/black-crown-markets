@@ -265,27 +265,38 @@ form {
 }
 
 .back-button {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 1.5px solid #e0e0e0;
   background: white;
   color: #1a1a1a;
-  font-size: 18px;
-  font-weight: 600;
   cursor: pointer;
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s, background-color 0.3s;
+  transition: all 0.3s ease;
   line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .back-button:hover {
-  border-color: #999;
-  background-color: #f5f5f5;
+  border-color: #6c3fd4;
+  background-color: #f9f7ff;
+  box-shadow: 0 2px 8px rgba(108, 63, 212, 0.15);
+  color: #6c3fd4;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(108, 63, 212, 0.1);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
 }
 
 .disclaimer {
@@ -840,7 +851,11 @@ form {
 
         <!-- Step 2: Email -->
         <div id="step2" class="form-step">
-          <button type="button" class="back-button" id="prevBtn2">←</button>
+          <button type="button" class="back-button" id="prevBtn2" title="Go back">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 16.25L5.25 9L12.5 1.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
           <div class="form-header">
             <h1>Enter Email</h1>
             <p id="selectedCountryDisplay"></p>
@@ -880,7 +895,11 @@ form {
 
         <!-- Step 3: Password -->
         <div id="step3" class="form-step">
-          <button type="button" class="back-button" id="prevBtn3">←</button>
+          <button type="button" class="back-button" id="prevBtn3" title="Go back">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 16.25L5.25 9L12.5 1.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
           <div class="form-header">
             <h1>Create Password</h1>
             <p>Secure your account</p>
