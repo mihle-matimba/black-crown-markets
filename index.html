@@ -950,9 +950,11 @@ a.button-primary:hover {
   }
 }
 
-/* Hide Derived Indices link on mobile */
+/* Hide market links on mobile */
 @media (max-width: 767px) {
-  a[href*="derived-indices"] {
+  a[href*="derived-indices"],
+  a[href*="cryptocurrencies"],
+  a[href*="stock-indices"] {
     display: none !important;
   }
 }
