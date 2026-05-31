@@ -332,19 +332,6 @@ form {
   color: #4CAF50;
 }
 
-.requirement-icon {
-  font-size: 14px;
-  min-width: 14px;
-}
-
-.requirement.met .requirement-icon::before {
-  content: '✓';
-}
-
-.requirement:not(.met) .requirement-icon::before {
-  content: '○';
-}
-
 .requirement-text {
   flex: 1;
 }
@@ -906,23 +893,18 @@ form {
 
               <div class="password-requirements">
                 <div class="requirement" id="req-length">
-                  <span class="requirement-icon">○</span>
                   <span class="requirement-text">At least 8 characters</span>
                 </div>
                 <div class="requirement" id="req-uppercase">
-                  <span class="requirement-icon">○</span>
                   <span class="requirement-text">Uppercase letter (A-Z)</span>
                 </div>
                 <div class="requirement" id="req-lowercase">
-                  <span class="requirement-icon">○</span>
                   <span class="requirement-text">Lowercase letter (a-z)</span>
                 </div>
                 <div class="requirement" id="req-number">
-                  <span class="requirement-icon">○</span>
                   <span class="requirement-text">Number (0-9)</span>
                 </div>
                 <div class="requirement" id="req-special">
-                  <span class="requirement-icon">○</span>
                   <span class="requirement-text">Special character (!@#$%)</span>
                 </div>
               </div>
