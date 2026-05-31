@@ -264,15 +264,21 @@ form {
   background: #777;
 }
 
-.step-nav-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
+.back-button {
+  background: none;
+  border: none;
+  color: #6c3fd4;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+  text-align: left;
 }
 
-.step-nav-buttons .step-nav-btn {
-  flex: 1;
-  margin-top: 0;
+.back-button:hover {
+  color: #5a2fb8;
 }
 
 .divider {
@@ -779,6 +785,7 @@ form {
 
         <!-- Step 2: Create Account -->
         <div id="step2" class="form-step">
+          <button type="button" class="back-button" id="prevBtn">← Back</button>
           <div class="form-header">
             <h1>Create Account</h1>
             <p id="selectedCountryDisplay"></p>
@@ -811,10 +818,6 @@ form {
             </svg>
             Sign up with Google
           </button>
-
-          <div class="step-nav-buttons">
-            <button type="button" class="step-nav-btn prev-btn" id="prevBtn">Previous</button>
-          </div>
 
           <div class="form-footer">
             Already have an account? <a href="index.html">Sign in</a>
