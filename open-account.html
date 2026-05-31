@@ -525,8 +525,8 @@ form {
           <div class="country-dropdown">
             <button type="button" class="dropdown-trigger" id="dropdownTrigger">
               <span class="dropdown-selected">
-                <span id="selectedCountryFlag">🌍</span>
-                <span id="selectedCountryName">Select your region</span>
+                <span id="selectedCountryFlag">🇿🇦</span>
+                <span id="selectedCountryName">South Africa</span>
               </span>
               <span class="dropdown-arrow">▼</span>
             </button>
@@ -788,7 +788,7 @@ form {
 
 <script>
 let currentSlide = 0;
-let selectedCountry = null;
+let selectedCountry = { name: 'South Africa', code: 'ZA' };
 const slides = document.querySelectorAll('.carousel-slide');
 const indicators = document.querySelectorAll('.indicator');
 
