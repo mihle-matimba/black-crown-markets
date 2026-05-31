@@ -393,6 +393,23 @@ form {
   margin-bottom: 16px;
   color: #1a1a1a;
 }
+
+.mobile-logo {
+  display: none;
+  margin-bottom: 32px;
+}
+
+.mobile-logo img {
+  height: 40px;
+  width: auto;
+  filter: invert(0.3) sepia(1) saturate(10) hue-rotate(280deg);
+}
+
+@media (max-width: 1023px) {
+  .mobile-logo {
+    display: block;
+  }
+}
 </style>
 </head>
 <body>
@@ -428,6 +445,10 @@ form {
   <div class="right-section">
     <div class="form-wrapper">
       <div class="form-content">
+        <div class="mobile-logo">
+          <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20Colour.svg" alt="Black Crown Markets"/>
+        </div>
+
         <!-- Step 1: Country Selection -->
         <div id="step1" class="form-step active">
           <div class="form-header">
