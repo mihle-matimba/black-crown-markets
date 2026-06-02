@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Black Crown Markets</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0e27;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 80px;
+      background: #0f1424;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+    }
+
+    .sidebar-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 24px;
+    }
+
+    .sidebar-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .sidebar-icon.active {
+      background: #4c63ff;
+      color: #fff;
+    }
+
+    /* Main content */
+    .main-container {
+      flex: 1;
+      margin-left: 80px;
+      padding: 40px;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    /* Top section with account card and details */
+    .top-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    /* Account card */
+    .account-card {
+      background: linear-gradient(135deg, #c2185b 0%, #7b1fa2 100%);
+      border-radius: 24px;
+      padding: 30px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .account-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(30px, -30px);
+      }
+    }
+
+    .account-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .account-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .account-name {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .account-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .account-balance {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visibility-icon {
+      font-size: 24px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .visibility-icon:hover {
+      opacity: 1;
+    }
+
+    .account-equity {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
+
+    .account-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-primary {
+      background: #4c9aff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3a7fd1;
+    }
+
+    /* Account details */
+    .account-details {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .details-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+    }
+
+    .detail-value {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Features grid */
+    .features-section {
+      margin-bottom: 50px;
+    }
+
+    .features-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .feature-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Promotional cards */
+    .promo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .promo-card {
+      background: linear-gradient(135deg, rgba(76, 175, 255, 0.2) 0%, rgba(76, 175, 255, 0.1) 100%);
+      border: 1px solid rgba(76, 175, 255, 0.3);
+      border-radius: 16px;
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .promo-card:hover {
+      border-color: rgba(76, 175, 255, 0.5);
+      background: linear-gradient(135deg, rgba(76, 175, 255, 0.3) 0%, rgba(76, 175, 255, 0.15) 100%);
+    }
+
+    .promo-content {
+      flex: 1;
+    }
+
+    .promo-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .promo-description {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .promo-image {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    /* Portfolio section */
+    .portfolio-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .empty-cta {
+      display: inline-block;
+      background: #4c9aff;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .empty-cta:hover {
+      background: #3a7fd1;
+      transform: translateY(-2px);
+    }
+
+    /* XM Traders Club section */
+    .club-section {
+      margin-bottom: 40px;
+    }
+
+    .club-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 1440px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .top-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+        padding: 15px 0;
+      }
+
+      .sidebar-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin: 8px 0;
+      }
+
+      .main-container {
+        margin-left: 60px;
+        padding: 20px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .promo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .promo-card {
+        padding: 20px;
+      }
+
+      .account-balance {
+        font-size: 36px;
+      }
+
+      .account-details {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-icon active" title="Dashboard">🏠</div>
+    <div class="sidebar-icon" title="Wallet">💳</div>
+    <div class="sidebar-icon" title="Trading">📊</div>
+    <div class="sidebar-icon" title="Cards">🎟️</div>
+    <div class="sidebar-icon" title="Settings">⚙️</div>
+    <div class="sidebar-icon" title="Settings">⚙️</div>
+    <div class="sidebar-icon" title="Help">❓</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Top Section with Account Card and Details -->
+    <div class="top-section">
+      <!-- Account Card -->
+      <div class="account-card">
+        <div class="account-card-content">
+          <div class="account-header">
+            <div class="account-name">
+              <span>Ultra Low ...</span>
+              <div style="display: flex; gap: 8px;">
+                <span class="account-badge">Real</span>
+                <span class="account-badge">MTS Ultra Low Standard</span>
+              </div>
+            </div>
+            <span style="font-size: 20px; cursor: pointer;">#6310494</span>
+          </div>
+
+          <div class="account-balance">
+            $0.00
+            <span class="visibility-icon">👁️</span>
+          </div>
+
+          <div class="account-equity">$0.00</div>
+
+          <div class="account-actions">
+            <button class="btn btn-secondary">
+              <span>⚙️</span> Manage
+            </button>
+            <button class="btn btn-primary">
+              <span>⬆️</span> Deposit
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Details -->
+      <div class="account-details">
+        <div class="details-title">Account details</div>
+
+        <div class="detail-row">
+          <span class="detail-label">Unrealized P/L</span>
+          <span class="detail-value">$0.00</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Balance</span>
+          <span class="detail-value">$0.00</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Margin</span>
+          <span class="detail-value">$0.00</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Free Margin</span>
+          <span class="detail-value">$0.00</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Margin Level</span>
+          <span class="detail-value">-</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Credit</span>
+          <span class="detail-value">$0.00</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Leverage</span>
+          <span class="detail-value">1000:1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-section">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-name">Refer a Friend</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-name">Copy Trading</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <div class="feature-name">Competitions</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💎</div>
+          <div class="feature-name">XM Traders Club</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Promotional Cards -->
+    <div class="promo-grid">
+      <div class="promo-card">
+        <div class="promo-content">
+          <div class="promo-title">XM Competitions</div>
+          <div class="promo-description">Put your skills to the test to win big withdrawable cash prizes</div>
+        </div>
+        <div class="promo-image">🏆</div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-content">
+          <div class="promo-title">Refer a Friend</div>
+          <div class="promo-description">Earn $80 for every successful referral</div>
+        </div>
+        <div class="promo-image">👥</div>
+      </div>
+    </div>
+
+    <!-- Portfolio Section -->
+    <div class="portfolio-section">
+      <div class="section-title">
+        <span>Portfolio</span>
+        <span style="font-size: 16px; margin-left: auto; opacity: 0.7;">→</span>
+      </div>
+
+      <div class="empty-state">
+        <div class="empty-icon">📊</div>
+        <div class="empty-text">No active trades at the moment. Once you<br>create a trade, it will appear here.</div>
+        <button class="empty-cta">Trade Now</button>
+      </div>
+    </div>
+
+    <!-- XM Traders Club Section -->
+    <div class="club-section">
+      <div class="club-title">
+        <span>XM Traders Club</span>
+        <span style="font-size: 16px; margin-left: auto; opacity: 0.7;">→</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
