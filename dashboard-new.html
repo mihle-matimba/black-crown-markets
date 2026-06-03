@@ -569,12 +569,54 @@
             background: #8d9194;
         }
 
+        /* Burger Menu */
+        .burger-menu {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: #141d22;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -263px;
+                top: 56px;
+                height: calc(100vh - 56px);
+                z-index: 100;
+                transition: left 0.3s ease;
+                box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="app-wrapper">
         <!-- Top Header with Logo -->
         <header class="top-header">
+            <button class="burger-menu" id="burger-menu"><i data-lucide="menu" style="width: 24px; height: 24px;"></i></button>
             <div class="header-logo">
                 <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20Colour.svg" alt="Black Crown Markets">
             </div>
@@ -794,6 +836,16 @@
                 this.classList.add('active');
             });
         });
+
+        // Burger menu toggle
+        const burgerMenu = document.getElementById('burger-menu');
+        const sidebar = document.querySelector('.sidebar');
+
+        if (burgerMenu) {
+            burgerMenu.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+            });
+        }
 
     </script>
 </body>
