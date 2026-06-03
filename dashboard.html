@@ -50,6 +50,46 @@
             letter-spacing: 0.5px;
             padding: 8px 16px;
             margin: 0 -16px 12px -16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .sidebar-section-title:hover {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar-section-title-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .sidebar-section-title-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-section-title-arrow {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .sidebar-section-title.collapsed .sidebar-section-title-arrow {
+            transform: rotate(-90deg);
         }
 
         .sidebar-item {
@@ -371,10 +411,20 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-section">
-                <div class="sidebar-item active">
-                    <div class="sidebar-icon">📊</div>
-                    <span>Trading</span>
-                </div>
+                <button class="sidebar-section-title">
+                    <div class="sidebar-section-title-content">
+                        <svg class="sidebar-section-title-icon" data-lucide="trending-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 17"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                        <span>Trading</span>
+                    </div>
+                    <div class="sidebar-section-title-arrow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </button>
                 <div class="sidebar-item" style="margin-left: 32px; font-size: 13px;">
                     <span>My accounts</span>
                 </div>
@@ -382,15 +432,24 @@
                     <span>Performance</span>
                 </div>
                 <div class="sidebar-item" style="margin-left: 32px; font-size: 13px;">
-                    <span>History of orders</span>
+                    <span>Trade history</span>
                 </div>
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">💳</div>
-                    <span>Payments & wallet</span>
-                </div>
+                <button class="sidebar-section-title">
+                    <div class="sidebar-section-title-content">
+                        <svg class="sidebar-section-title-icon" data-lucide="wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-5a2 2 0 0 0 0-4h3V7a1 1 0 0 1 1-1h10a1 1 0 0 0 1-1z"></path>
+                        </svg>
+                        <span>Payments & wallet</span>
+                    </div>
+                    <div class="sidebar-section-title-arrow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </button>
                 <div class="sidebar-item" style="margin-left: 32px; font-size: 13px;">
                     <span>Deposit</span>
                 </div>
@@ -408,12 +467,12 @@
                     <span>Analytics</span>
                 </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">🎯</div>
-                    <span>Benefits</span>
-                </div>
-                <div class="sidebar-item">
                     <div class="sidebar-icon">👥</div>
                     <span>Support</span>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-icon">⚙️</div>
+                    <span>Settings</span>
                 </div>
             </div>
         </aside>
@@ -516,5 +575,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Sidebar section toggle functionality
+        document.querySelectorAll('.sidebar-section-title').forEach(button => {
+            button.addEventListener('click', function() {
+                const section = this.closest('.sidebar-section');
+                const items = section.querySelectorAll('.sidebar-item');
+                this.classList.toggle('collapsed');
+                items.forEach(item => {
+                    item.style.display = this.classList.contains('collapsed') ? 'none' : 'flex';
+                });
+            });
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
