@@ -904,9 +904,21 @@ AF('banners', 'showBanner')
   opacity: 1 !important;
   mix-blend-mode: normal !important;
 }
+.home-hero_background-wrapper {
+  border: none !important;
+}
+.home-hero_background-wrapper::before,
+.home-hero_background-wrapper::after {
+  display: none !important;
+}
 .home-hero_text-wrapper {
   position: relative;
   z-index: 2;
+  border: none !important;
+}
+.home-hero_text-wrapper::before,
+.home-hero_text-wrapper::after {
+  display: none !important;
 }
 .home-hero_text_container {
   border: none !important;
