@@ -217,8 +217,8 @@
         }
 
         .alert-banner {
-            background: #fff9eb;
-            border: 1px solid #ffd35d;
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 32px;
@@ -232,12 +232,12 @@
             width: 24px;
             height: 24px;
             min-width: 24px;
-            background: #ffd35d;
+            background: #8b5cf6;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #705c00;
+            color: #ffffff;
             font-weight: bold;
             font-size: 14px;
             flex-shrink: 0;
@@ -284,8 +284,8 @@
         }
 
         .alert-button {
-            background: #ffc834;
-            color: #141d22;
+            background: #8b5cf6;
+            color: #ffffff;
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
@@ -296,7 +296,7 @@
         }
 
         .alert-button:hover {
-            background: #ffde85;
+            background: #7c3aed;
         }
 
         .alert-link {
@@ -664,16 +664,6 @@
             });
         });
 
-        // Alert button close functionality
-        document.querySelectorAll('.alert-banner').forEach(banner => {
-            const closeBtn = document.createElement('button');
-            closeBtn.innerHTML = '×';
-            closeBtn.style.cssText = 'position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; color: #8d9194; cursor: pointer;';
-            banner.appendChild(closeBtn);
-            closeBtn.addEventListener('click', function() {
-                banner.style.display = 'none';
-            });
-        });
     </script>
 </body>
 </html>
