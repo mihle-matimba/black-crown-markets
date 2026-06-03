@@ -56,16 +56,21 @@
             gap: 16px;
         }
 
+        .balance-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .balance {
-            font-size: 14px;
+            font-size: 12px;
             color: #8d9194;
         }
 
         .balance-amount {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 600;
             color: #141d22;
-            margin-top: 4px;
         }
 
         .header-icons {
@@ -423,9 +428,9 @@
                 <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20Colour.svg" alt="Black Crown Markets">
             </div>
             <div class="header-right">
-                <div>
-                    <div class="balance">Balance</div>
-                    <div class="balance-amount">0.00 USD</div>
+                <div class="balance-wrapper">
+                    <span class="balance">Balance</span>
+                    <span class="balance-amount">0.00 USD</span>
                 </div>
                 <div class="header-icons">
                     <button class="icon-btn" title="Theme"><i data-lucide="moon"></i></button>
