@@ -244,25 +244,34 @@
 
         .alert-content {
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .alert-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .alert-title {
             font-weight: 600;
             color: #141d22;
-            margin-bottom: 4px;
             font-size: 14px;
         }
 
         .alert-description {
             font-size: 14px;
             color: #8d9194;
-            margin-bottom: 8px;
         }
 
         .alert-action {
             display: flex;
             gap: 12px;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .alert-link {
@@ -524,8 +533,10 @@
                     <div class="alert-banner">
                         <div class="alert-icon">!</div>
                         <div class="alert-content">
-                            <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
-                            <div class="alert-description"></div>
+                            <div class="alert-text">
+                                <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
+                                <div class="alert-description"></div>
+                            </div>
                             <div class="alert-action">
                                 <a class="alert-link">Learn more</a>
                                 <button class="alert-button">Complete</button>
