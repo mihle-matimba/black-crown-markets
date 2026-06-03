@@ -139,6 +139,13 @@
         .sidebar-section {
             padding: 0 16px;
             margin-bottom: 2px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .sidebar-section:first-child {
+            border-top: none;
+            padding-top: 0;
         }
 
         .sidebar-section:last-child {
@@ -173,31 +180,26 @@
 
         .sidebar-item {
             padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 8px;
+            margin-bottom: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background-color 0.2s;
             font-size: 14px;
             color: #374151;
             font-weight: 400;
             display: flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid #e5e7eb;
-            border-left: 4px solid transparent;
         }
 
         .sidebar-item:hover {
             background-color: #f8f9fa;
-            border-color: #d1d5db;
         }
 
         .sidebar-item.active {
             background-color: #f5f3ff;
             color: #8b5cf6;
             font-weight: 400;
-            border-color: #ddd6fe;
-            border-left-color: #8b5cf6;
         }
 
         .sidebar-icon {
