@@ -452,7 +452,10 @@
             <aside class="sidebar">
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
-                        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>Trading</span>
+                        <div class="sidebar-section-toggle">
+                            <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>Trading</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
+                        </div>
                     </div>
                     <div class="sidebar-item active">
                         <span>My accounts</span>
@@ -467,7 +470,10 @@
 
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
-                        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="wallet" style="width: 16px; height: 16px;"></i>Payments & wallet</span>
+                        <div class="sidebar-section-toggle">
+                            <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="wallet" style="width: 16px; height: 16px;"></i>Payments & wallet</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
+                        </div>
                     </div>
                     <div class="sidebar-item">
                         <span>Deposit</span>
@@ -485,13 +491,19 @@
 
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
-                        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="message-square" style="width: 16px; height: 16px;"></i>Support hub</span>
+                        <div class="sidebar-section-toggle">
+                            <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="message-square" style="width: 16px; height: 16px;"></i>Need Help?</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
-                        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="settings" style="width: 16px; height: 16px;"></i>Settings</span>
+                        <div class="sidebar-section-toggle">
+                            <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="settings" style="width: 16px; height: 16px;"></i>Settings</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
+                        </div>
                     </div>
                 </div>
 
@@ -596,6 +608,24 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Sidebar section toggle functionality
+        document.querySelectorAll('.sidebar-section-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = toggle.closest('.sidebar-section');
+                const items = section.querySelectorAll('.sidebar-item:not(:first-child)');
+                const arrow = toggle.querySelector('.sidebar-toggle-arrow');
+
+                items.forEach(item => {
+                    item.style.display = item.style.display === 'none' ? 'flex' : 'none';
+                });
+
+                if (arrow) {
+                    arrow.classList.toggle('collapsed');
+                }
+            });
+        });
 
         // Sidebar item click handlers
         document.querySelectorAll('.sidebar-item').forEach(item => {
