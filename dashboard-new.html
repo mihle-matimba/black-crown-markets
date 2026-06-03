@@ -426,6 +426,41 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #8d9194;
         }
+
+        /* Toggle */
+        .toggle-group {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            width: fit-content;
+            margin: 0 auto 24px;
+        }
+
+        .toggle-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            background: transparent;
+            color: #8d9194;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            color: #5a5f62;
+        }
     </style>
 </head>
 <body>
@@ -451,6 +486,13 @@
         <div class="main-container">
             <!-- Sidebar -->
             <aside class="sidebar">
+                <div style="padding: 0 16px; margin-bottom: 24px;">
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" data-mode="trader">Trader</button>
+                        <button class="toggle-btn" data-mode="partner">Partner</button>
+                    </div>
+                </div>
+
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
                         <div class="sidebar-section-toggle">
@@ -635,6 +677,14 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Mode toggle functionality
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
         // Sidebar section toggle functionality
         document.querySelectorAll('.sidebar-section-toggle').forEach(toggle => {
