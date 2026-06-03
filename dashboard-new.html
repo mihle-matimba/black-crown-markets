@@ -33,7 +33,7 @@
             height: 56px;
             background: #ffffff;
             border-bottom: 1px solid #e3e4e5;
-            padding: 0 32px 0 16px;
+            padding: 0 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -183,17 +183,13 @@
         }
 
         .sidebar-item:hover {
-            background-color: #f0f0f0;
+            background-color: #f8f9fa;
         }
 
         .sidebar-item.active {
-            background-color: #f0f0f0;
-            color: #141d22;
+            background-color: #e8f3fe;
+            color: #1172cc;
             font-weight: 500;
-        }
-
-        .sidebar-section-title .sidebar-icon {
-            margin-right: 8px;
         }
 
         .sidebar-icon {
@@ -221,14 +217,14 @@
         }
 
         .alert-banner {
-            background: #f5f3ff;
-            border: 1px solid #ddd6fe;
+            background: #fff9eb;
+            border: 1px solid #ffd35d;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 32px;
             display: flex;
             gap: 12px;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
         }
 
@@ -236,47 +232,37 @@
             width: 24px;
             height: 24px;
             min-width: 24px;
-            background: #8b5cf6;
+            background: #ffd35d;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
+            color: #705c00;
             font-weight: bold;
             font-size: 14px;
-            flex-shrink: 0;
         }
 
         .alert-content {
             flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .alert-text {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
         }
 
         .alert-title {
             font-weight: 600;
             color: #141d22;
+            margin-bottom: 4px;
             font-size: 14px;
         }
 
         .alert-description {
             font-size: 14px;
             color: #8d9194;
+            margin-bottom: 8px;
         }
 
         .alert-action {
             display: flex;
             gap: 12px;
             align-items: center;
-            flex-shrink: 0;
         }
 
         .alert-link {
@@ -288,8 +274,8 @@
         }
 
         .alert-button {
-            background: #8b5cf6;
-            color: #ffffff;
+            background: #ffc834;
+            color: #141d22;
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
@@ -300,15 +286,7 @@
         }
 
         .alert-button:hover {
-            background: #7c3aed;
-        }
-
-        .alert-link {
-            color: #1172cc;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
+            background: #ffde85;
         }
 
         /* Section */
@@ -468,7 +446,6 @@
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
                         <div class="sidebar-section-toggle">
-                            <div class="sidebar-icon"><i data-lucide="trending-up"></i></div>
                             <span>Trading</span>
                             <span class="sidebar-toggle-arrow">▼</span>
                         </div>
@@ -487,7 +464,6 @@
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
                         <div class="sidebar-section-toggle">
-                            <div class="sidebar-icon"><i data-lucide="wallet"></i></div>
                             <span>Payments & wallet</span>
                             <span class="sidebar-toggle-arrow">▼</span>
                         </div>
@@ -501,12 +477,26 @@
                     <div class="sidebar-item">
                         <span>Transfer</span>
                     </div>
+                    <div class="sidebar-item">
+                        <span>Transaction history</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Crypto wallet</span>
+                    </div>
                 </div>
 
                 <div class="sidebar-section">
                     <div class="sidebar-item">
-                        <div class="sidebar-icon"><i data-lucide="bar-chart-3"></i></div>
+                        <div class="sidebar-icon"><i data-lucide="trending-up"></i></div>
                         <span>Analytics</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon"><i data-lucide="gift"></i></div>
+                        <span>Exness benefits</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon"><i data-lucide="handshake"></i></div>
+                        <span>Copy Trading</span>
                     </div>
                     <div class="sidebar-item">
                         <div class="sidebar-icon"><i data-lucide="message-square"></i></div>
@@ -534,10 +524,8 @@
                     <div class="alert-banner">
                         <div class="alert-icon">!</div>
                         <div class="alert-content">
-                            <div class="alert-text">
-                                <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
-                                <div class="alert-description"></div>
-                            </div>
+                            <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
+                            <div class="alert-description"></div>
                             <div class="alert-action">
                                 <a class="alert-link">Learn more</a>
                                 <button class="alert-button">Complete</button>
@@ -656,6 +644,16 @@
             });
         });
 
+        // Alert button close functionality
+        document.querySelectorAll('.alert-banner').forEach(banner => {
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.style.cssText = 'position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; color: #8d9194; cursor: pointer;';
+            banner.appendChild(closeBtn);
+            closeBtn.addEventListener('click', function() {
+                banner.style.display = 'none';
+            });
+        });
     </script>
 </body>
 </html>
