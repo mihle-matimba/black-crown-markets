@@ -89,6 +89,16 @@
 
 <!--Analytics block starts here-->
 <script>
+    // Parse cookies utility function
+    window.parseCookies = function (cookieString, value) {
+      const cookies = {};
+      cookieString.split(";").forEach((cookie) => {
+        const [key, val] = cookie.split("=").map((c) => c.trim());
+        cookies[key] = decodeURIComponent(val);
+      });
+      return cookies[value];
+    };
+
     // Version 1.0.13
     const cacheTrackEvents = {
         interval: null,
@@ -1066,15 +1076,6 @@ if (phoneImage) {
 
 
 <script>
-  window.parseCookies = function (cookieString, value) {
-    const cookies = {};
-    cookieString.split(";").forEach((cookie) => {
-      const [key, val] = cookie.split("=").map((c) => c.trim());
-      cookies[key] = decodeURIComponent(val);
-    });
-    return cookies[value];
-  };
-  // Listen for DOMContentLoaded event
 </script>
 
 <!--Intercom start-->
