@@ -126,10 +126,10 @@
             overflow-y: auto;
             padding: 24px 0;
             flex-shrink: 0;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
             display: flex;
             flex-direction: column;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .sidebar::-webkit-scrollbar {
@@ -150,6 +150,11 @@
 
         .sidebar-section:last-child {
             margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            background: #ffffff;
+            padding-bottom: 24px;
+            z-index: 10;
         }
 
         .sidebar-section-title {
