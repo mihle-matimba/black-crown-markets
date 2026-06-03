@@ -79,11 +79,12 @@
   transform: scale(0.5);
 }
 
-.navbar_component .logo_component img {
+.section_home-hero .navbar_component .logo_component img {
   filter: brightness(0) invert(1) !important;
 }
 
-.section_home-hero .navbar_component .logo_component img {
+/* Make logo white only on dark header background */
+.header_wrapper:not(.is-light) .navbar_component .logo_component img {
   filter: brightness(0) invert(1) !important;
 }
 
