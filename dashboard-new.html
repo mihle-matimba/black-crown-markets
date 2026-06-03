@@ -37,9 +37,22 @@
             flex-shrink: 0;
         }
 
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #141d22;
+            padding: 0 16px 24px 16px;
+            border-bottom: 1px solid #e3e4e5;
+            margin-bottom: 24px;
+        }
+
         .sidebar-section {
             padding: 0 16px;
             margin-bottom: 24px;
+        }
+
+        .sidebar-section:last-child {
+            margin-top: auto;
         }
 
         .sidebar-section-title {
@@ -50,6 +63,21 @@
             letter-spacing: 0.5px;
             padding: 8px 16px;
             margin: 0 -16px 12px -16px;
+        }
+
+        .sidebar-section-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-toggle-arrow {
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .sidebar-toggle-arrow.collapsed {
+            transform: rotate(-90deg);
         }
 
         .sidebar-item {
@@ -166,6 +194,189 @@
             padding: 32px;
         }
 
+        .alert-banner {
+            background: #fff9eb;
+            border: 1px solid #ffd35d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: #ffd35d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #705c00;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            color: #141d22;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            color: #8d9194;
+            margin-bottom: 8px;
+        }
+
+        .alert-action {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .alert-link {
+            color: #1172cc;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .alert-button {
+            background: #ffc834;
+            color: #141d22;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .alert-button:hover {
+            background: #ffde85;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #141d22;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background: #1172cc;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #0d5aa8;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #e3e4e5;
+            color: #141d22;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid #e3e4e5;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 12px 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #8d9194;
+            font-weight: 500;
+            position: relative;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #141d22;
+            border-bottom-color: #1172cc;
+        }
+
+        .tab:hover {
+            color: #141d22;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e3e4e5;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .card-empty {
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .card-empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #141d22;
+            margin-bottom: 8px;
+        }
+
+        .card-empty-description {
+            font-size: 14px;
+            color: #8d9194;
+            margin-bottom: 24px;
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -190,6 +401,8 @@
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
+            <div class="sidebar-logo">BCM</div>
+
             <div class="sidebar-section">
                 <div class="sidebar-item active">
                     <div class="sidebar-icon">📊</div>
@@ -198,46 +411,77 @@
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Trading</div>
+                <div class="sidebar-section-title">
+                    <div class="sidebar-section-toggle">
+                        <span>Trading</span>
+                        <span class="sidebar-toggle-arrow">▼</span>
+                    </div>
+                </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">💼</div>
                     <span>My accounts</span>
                 </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">📈</div>
                     <span>Performance</span>
                 </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">📋</div>
-                    <span>Order history</span>
+                    <span>History of orders</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>Exness Terminal</span>
                 </div>
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Wallet</div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">💰</div>
-                    <span>Balance</span>
+                <div class="sidebar-section-title">
+                    <div class="sidebar-section-toggle">
+                        <span>Payments & wallet</span>
+                        <span class="sidebar-toggle-arrow">▼</span>
+                    </div>
                 </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">💳</div>
                     <span>Deposit</span>
                 </div>
                 <div class="sidebar-item">
-                    <div class="sidebar-icon">📤</div>
                     <span>Withdrawal</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>Transfer</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>Transaction history</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>Crypto wallet</span>
                 </div>
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-section-title">Other</div>
+                <div class="sidebar-item">
+                    <div class="sidebar-icon">📈</div>
+                    <span>Analytics</span>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-icon">🎁</div>
+                    <span>Exness benefits</span>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-icon">🤝</div>
+                    <span>Copy Trading</span>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-icon">💬</div>
+                    <span>Support hub</span>
+                </div>
                 <div class="sidebar-item">
                     <div class="sidebar-icon">⚙️</div>
                     <span>Settings</span>
                 </div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">❓</div>
-                    <span>Support</span>
+            </div>
+
+            <div class="sidebar-section" style="margin-top: auto; border-top: 1px solid #e3e4e5; padding-top: 24px;">
+                <div class="sidebar-item" style="flex-direction: column; align-items: flex-start;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Refer traders, earn commission</div>
+                    <div style="font-size: 12px; color: #8d9194;">Invite friends and get rewards</div>
                 </div>
             </div>
         </aside>
@@ -261,11 +505,140 @@
 
             <!-- Content -->
             <div class="content">
-                <!-- Content goes here -->
-                <h1>Welcome to Dashboard</h1>
-                <p>Your content will go here, mate.</p>
+                <!-- Alert Banner -->
+                <div class="alert-banner">
+                    <div class="alert-icon">!</div>
+                    <div class="alert-content">
+                        <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
+                        <div class="alert-description"></div>
+                        <div class="alert-action">
+                            <a class="alert-link">Learn more</a>
+                            <button class="alert-button">Complete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Accounts Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h1 class="section-title">My accounts</h1>
+                        <button class="btn btn-primary">+ Open account</button>
+                    </div>
+
+                    <div class="tabs">
+                        <button class="tab active">Real</button>
+                        <button class="tab">Demo</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-empty">
+                            <div class="card-empty-title">No active accounts</div>
+                            <div class="card-empty-description">Create a new account or restore an archived account to get started.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archived Accounts Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Archived accounts</h2>
+                        <a class="alert-link" style="cursor: pointer;">Hide accounts →</a>
+                    </div>
+
+                    <div class="card">
+                        <div style="padding: 20px;">
+                            <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Real</span>
+                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">MT5</span>
+                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Standard</span>
+                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;"># 406175597</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600; color: #141d22; margin-bottom: 4px;">Balance unavailable</div>
+                                    <div style="font-size: 13px; color: #8d9194;">This account was archived automatically on 31 Jul 2025 at 14:25 (UTC+2)</div>
+                                </div>
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="btn btn-secondary">⟲ Restore</button>
+                                    <button class="btn btn-secondary">📄 Manage statements</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Info -->
+                <div style="margin-top: 48px; padding: 24px; background: #f8f9fa; border-radius: 8px; font-size: 12px; color: #8d9194; line-height: 1.6;">
+                    <p><strong>Black Crown Markets</strong> is a leading online trading platform offering competitive spreads, fast execution, and a wide range of tradable assets.</p>
+                    <p style="margin-top: 12px;">All trading involves risk. Only risk capital you can afford to lose.</p>
+                    <div style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Client Agreement</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">General Business Terms</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Partnership Agreement</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Terms and Conditions</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Confidentiality Policy</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Key Facts Statement</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Conflicts of Interest</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Privacy Agreement</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Risk Disclosure</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Preventing Money Laundering</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Complaints Handling Policy</a>
+                        <a href="#" style="color: #1172cc; text-decoration: none;">Contact</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Sidebar section toggle functionality
+        document.querySelectorAll('.sidebar-section-title').forEach(title => {
+            const toggle = title.querySelector('.sidebar-section-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = title.closest('.sidebar-section');
+                    const items = section.querySelectorAll('.sidebar-item:not(:first-child)');
+                    const arrow = title.querySelector('.sidebar-toggle-arrow');
+
+                    items.forEach(item => {
+                        item.style.display = item.style.display === 'none' ? 'flex' : 'none';
+                    });
+
+                    if (arrow) {
+                        arrow.classList.toggle('collapsed');
+                    }
+                });
+            }
+        });
+
+        // Sidebar item click handlers
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Tab click handlers
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Alert button close functionality
+        document.querySelectorAll('.alert-banner').forEach(banner => {
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.style.cssText = 'position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; color: #8d9194; cursor: pointer;';
+            banner.style.position = 'relative';
+            banner.appendChild(closeBtn);
+            closeBtn.addEventListener('click', function() {
+                banner.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
