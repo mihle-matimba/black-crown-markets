@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Black Crown Markets</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
             margin: 0;
@@ -45,7 +46,7 @@
         }
 
         .header-logo img {
-            height: 32px;
+            height: 48px;
             width: auto;
         }
 
@@ -85,11 +86,23 @@
             justify-content: center;
             color: #141d22;
             transition: background-color 0.2s;
-            font-size: 18px;
+            padding: 0;
         }
 
         .icon-btn:hover {
             background: #e3e4e5;
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+        }
+
+        .sidebar-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
         }
 
         /* Main Container */
@@ -415,10 +428,10 @@
                     <div class="balance-amount">0.00 USD</div>
                 </div>
                 <div class="header-icons">
-                    <button class="icon-btn" title="Theme">🌙</button>
-                    <button class="icon-btn" title="Language">🌍</button>
-                    <button class="icon-btn" title="Notifications">🔔</button>
-                    <button class="icon-btn" title="Profile">👤</button>
+                    <button class="icon-btn" title="Theme"><i data-lucide="moon"></i></button>
+                    <button class="icon-btn" title="Language"><i data-lucide="globe"></i></button>
+                    <button class="icon-btn" title="Notifications"><i data-lucide="bell"></i></button>
+                    <button class="icon-btn" title="Profile"><i data-lucide="user"></i></button>
                 </div>
             </div>
         </header>
@@ -429,7 +442,7 @@
             <aside class="sidebar">
                 <div class="sidebar-section">
                     <div class="sidebar-item active">
-                        <div class="sidebar-icon">📊</div>
+                        <div class="sidebar-icon"><i data-lucide="bar-chart-3"></i></div>
                         <span>Dashboard</span>
                     </div>
                 </div>
@@ -481,23 +494,23 @@
 
                 <div class="sidebar-section">
                     <div class="sidebar-item">
-                        <div class="sidebar-icon">📈</div>
+                        <div class="sidebar-icon"><i data-lucide="trending-up"></i></div>
                         <span>Analytics</span>
                     </div>
                     <div class="sidebar-item">
-                        <div class="sidebar-icon">🎁</div>
+                        <div class="sidebar-icon"><i data-lucide="gift"></i></div>
                         <span>Exness benefits</span>
                     </div>
                     <div class="sidebar-item">
-                        <div class="sidebar-icon">🤝</div>
+                        <div class="sidebar-icon"><i data-lucide="handshake"></i></div>
                         <span>Copy Trading</span>
                     </div>
                     <div class="sidebar-item">
-                        <div class="sidebar-icon">💬</div>
+                        <div class="sidebar-icon"><i data-lucide="message-square"></i></div>
                         <span>Support hub</span>
                     </div>
                     <div class="sidebar-item">
-                        <div class="sidebar-icon">⚙️</div>
+                        <div class="sidebar-icon"><i data-lucide="settings"></i></div>
                         <span>Settings</span>
                     </div>
                 </div>
@@ -601,6 +614,9 @@
     </div>
 
     <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
         // Sidebar section toggle functionality
         document.querySelectorAll('.sidebar-section-toggle').forEach(toggle => {
             toggle.addEventListener('click', function(e) {
