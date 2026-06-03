@@ -33,7 +33,7 @@
             height: 56px;
             background: #ffffff;
             border-bottom: 1px solid #e3e4e5;
-            padding: 0 32px;
+            padding: 0 32px 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -217,8 +217,8 @@
         }
 
         .alert-banner {
-            background: #fff9eb;
-            border: 1px solid #ffd35d;
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 32px;
@@ -232,18 +232,22 @@
             width: 24px;
             height: 24px;
             min-width: 24px;
-            background: #ffd35d;
+            background: #ddd6fe;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #705c00;
+            color: #7c3aed;
             font-weight: bold;
             font-size: 14px;
         }
 
         .alert-content {
             flex: 1;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .alert-title {
@@ -263,6 +267,7 @@
             display: flex;
             gap: 12px;
             align-items: center;
+            white-space: nowrap;
         }
 
         .alert-link {
@@ -274,8 +279,8 @@
         }
 
         .alert-button {
-            background: #ffc834;
-            color: #141d22;
+            background: #8b5cf6;
+            color: #ffffff;
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
@@ -286,7 +291,7 @@
         }
 
         .alert-button:hover {
-            background: #ffde85;
+            background: #7c3aed;
         }
 
         /* Section */
@@ -524,8 +529,10 @@
                     <div class="alert-banner">
                         <div class="alert-icon">!</div>
                         <div class="alert-content">
-                            <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
-                            <div class="alert-description"></div>
+                            <div>
+                                <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
+                                <div class="alert-description">You need to verify your identity to start trading.</div>
+                            </div>
                             <div class="alert-action">
                                 <a class="alert-link">Learn more</a>
                                 <button class="alert-button">Complete</button>
@@ -644,16 +651,6 @@
             });
         });
 
-        // Alert button close functionality
-        document.querySelectorAll('.alert-banner').forEach(banner => {
-            const closeBtn = document.createElement('button');
-            closeBtn.innerHTML = '×';
-            closeBtn.style.cssText = 'position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; color: #8d9194; cursor: pointer;';
-            banner.appendChild(closeBtn);
-            closeBtn.addEventListener('click', function() {
-                banner.style.display = 'none';
-            });
-        });
     </script>
 </body>
 </html>
