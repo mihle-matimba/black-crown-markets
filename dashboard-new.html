@@ -12,120 +12,23 @@
         }
 
         html, body {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background-color: #f8f9fa;
             color: #141d22;
         }
 
-        .container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 263px;
-            height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e3e4e5;
-            overflow-y: auto;
-            padding: 24px 0;
-            flex-shrink: 0;
-        }
-
-        .sidebar-logo {
-            padding: 12px 16px 24px 16px;
-            border-bottom: 1px solid #e3e4e5;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-        }
-
-        .sidebar-logo img {
-            height: 32px;
-            width: auto;
-        }
-
-        .sidebar-section {
-            padding: 0 16px;
-            margin-bottom: 24px;
-        }
-
-        .sidebar-section:last-child {
-            margin-top: auto;
-        }
-
-        .sidebar-section-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #8d9194;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 8px 16px;
-            margin: 0 -16px 12px -16px;
-        }
-
-        .sidebar-section-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sidebar-toggle-arrow {
-            font-size: 12px;
-            transition: transform 0.2s;
-        }
-
-        .sidebar-toggle-arrow.collapsed {
-            transform: rotate(-90deg);
-        }
-
-        .sidebar-item {
-            padding: 12px 16px;
-            margin-bottom: 4px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 14px;
-            color: #141d22;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .sidebar-item.active {
-            background-color: #e8f3fe;
-            color: #1172cc;
-            font-weight: 500;
-        }
-
-        .sidebar-icon {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            height: 100vh;
+        .app-wrapper {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            width: 100%;
+            height: 100vh;
         }
 
-        /* Header */
-        .header {
+        /* Top Header */
+        .top-header {
             height: 56px;
             background: #ffffff;
             border-bottom: 1px solid #e3e4e5;
@@ -136,16 +39,14 @@
             flex-shrink: 0;
         }
 
-        .header-left {
+        .header-logo {
             display: flex;
             align-items: center;
-            gap: 16px;
         }
 
-        .header-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #141d22;
+        .header-logo img {
+            height: 32px;
+            width: auto;
         }
 
         .header-right {
@@ -191,6 +92,99 @@
             background: #e3e4e5;
         }
 
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 263px;
+            height: 100%;
+            background: #ffffff;
+            border-right: 1px solid #e3e4e5;
+            overflow-y: auto;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-section:last-child {
+            margin-top: auto;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8d9194;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            margin: 0 -16px 12px -16px;
+        }
+
+        .sidebar-section-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .sidebar-toggle-arrow {
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .sidebar-toggle-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-item {
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            color: #141d22;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar-item.active {
+            background-color: #e8f3fe;
+            color: #1172cc;
+            font-weight: 500;
+        }
+
+        .sidebar-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
         /* Content Area */
         .content {
             flex: 1;
@@ -207,6 +201,7 @@
             display: flex;
             gap: 12px;
             align-items: flex-start;
+            position: relative;
         }
 
         .alert-icon {
@@ -402,194 +397,197 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
+    <div class="app-wrapper">
+        <!-- Top Header with Logo -->
+        <header class="top-header">
+            <div class="header-logo">
                 <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20Colour.svg" alt="Black Crown Markets">
             </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-item active">
-                    <div class="sidebar-icon">📊</div>
-                    <span>Dashboard</span>
+            <div class="header-right">
+                <div>
+                    <div class="balance">Balance</div>
+                    <div class="balance-amount">0.00 USD</div>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-btn" title="Theme">🌙</button>
+                    <button class="icon-btn" title="Language">🌍</button>
+                    <button class="icon-btn" title="Notifications">🔔</button>
+                    <button class="icon-btn" title="Profile">👤</button>
                 </div>
             </div>
+        </header>
 
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">
-                    <div class="sidebar-section-toggle">
-                        <span>Trading</span>
-                        <span class="sidebar-toggle-arrow">▼</span>
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item active">
+                        <div class="sidebar-icon">📊</div>
+                        <span>Dashboard</span>
                     </div>
                 </div>
-                <div class="sidebar-item">
-                    <span>My accounts</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Performance</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>History of orders</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Exness Terminal</span>
-                </div>
-            </div>
 
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">
-                    <div class="sidebar-section-toggle">
-                        <span>Payments & wallet</span>
-                        <span class="sidebar-toggle-arrow">▼</span>
-                    </div>
-                </div>
-                <div class="sidebar-item">
-                    <span>Deposit</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Withdrawal</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Transfer</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Transaction history</span>
-                </div>
-                <div class="sidebar-item">
-                    <span>Crypto wallet</span>
-                </div>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">📈</div>
-                    <span>Analytics</span>
-                </div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">🎁</div>
-                    <span>Exness benefits</span>
-                </div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">🤝</div>
-                    <span>Copy Trading</span>
-                </div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">💬</div>
-                    <span>Support hub</span>
-                </div>
-                <div class="sidebar-item">
-                    <div class="sidebar-icon">⚙️</div>
-                    <span>Settings</span>
-                </div>
-            </div>
-
-            <div class="sidebar-section" style="margin-top: auto; border-top: 1px solid #e3e4e5; padding-top: 24px;">
-                <div class="sidebar-item" style="flex-direction: column; align-items: flex-start;">
-                    <div style="font-weight: 600; margin-bottom: 8px;">Refer traders, earn commission</div>
-                    <div style="font-size: 12px; color: #8d9194;">Invite friends and get rewards</div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <div class="header-title">Dashboard</div>
-                </div>
-                <div class="header-right">
-                    <div class="header-icons">
-                        <button class="icon-btn" title="Theme">🌙</button>
-                        <button class="icon-btn" title="Language">🌍</button>
-                        <button class="icon-btn" title="Notifications">🔔</button>
-                        <button class="icon-btn" title="Profile">👤</button>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Content -->
-            <div class="content">
-                <!-- Alert Banner -->
-                <div class="alert-banner">
-                    <div class="alert-icon">!</div>
-                    <div class="alert-content">
-                        <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
-                        <div class="alert-description"></div>
-                        <div class="alert-action">
-                            <a class="alert-link">Learn more</a>
-                            <button class="alert-button">Complete</button>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">
+                        <div class="sidebar-section-toggle">
+                            <span>Trading</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
                         </div>
                     </div>
+                    <div class="sidebar-item">
+                        <span>My accounts</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Performance</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>History of orders</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Exness Terminal</span>
+                    </div>
                 </div>
 
-                <!-- My Accounts Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <h1 class="section-title">My accounts</h1>
-                        <button class="btn btn-primary">+ Open account</button>
-                    </div>
-
-                    <div class="tabs">
-                        <button class="tab active">Real</button>
-                        <button class="tab">Demo</button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-empty">
-                            <div class="card-empty-title">No active accounts</div>
-                            <div class="card-empty-description">Create a new account or restore an archived account to get started.</div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">
+                        <div class="sidebar-section-toggle">
+                            <span>Payments & wallet</span>
+                            <span class="sidebar-toggle-arrow">▼</span>
                         </div>
                     </div>
+                    <div class="sidebar-item">
+                        <span>Deposit</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Withdrawal</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Transfer</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Transaction history</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span>Crypto wallet</span>
+                    </div>
                 </div>
 
-                <!-- Archived Accounts Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Archived accounts</h2>
-                        <a class="alert-link" style="cursor: pointer;">Hide accounts →</a>
+                <div class="sidebar-section">
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">📈</div>
+                        <span>Analytics</span>
                     </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">🎁</div>
+                        <span>Exness benefits</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">🤝</div>
+                        <span>Copy Trading</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">💬</div>
+                        <span>Support hub</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">⚙️</div>
+                        <span>Settings</span>
+                    </div>
+                </div>
 
-                    <div class="card">
-                        <div style="padding: 20px;">
-                            <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Real</span>
-                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">MT5</span>
-                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Standard</span>
-                                <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;"># 406175597</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <div style="font-weight: 600; color: #141d22; margin-bottom: 4px;">Balance unavailable</div>
-                                    <div style="font-size: 13px; color: #8d9194;">This account was archived automatically on 31 Jul 2025 at 14:25 (UTC+2)</div>
-                                </div>
-                                <div style="display: flex; gap: 12px;">
-                                    <button class="btn btn-secondary">⟲ Restore</button>
-                                    <button class="btn btn-secondary">📄 Manage statements</button>
-                                </div>
+                <div class="sidebar-section" style="border-top: 1px solid #e3e4e5; padding-top: 24px;">
+                    <div class="sidebar-item" style="flex-direction: column; align-items: flex-start;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Refer traders, earn commission</div>
+                        <div style="font-size: 12px; color: #8d9194;">Invite friends and get rewards</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Content -->
+                <div class="content">
+                    <!-- Alert Banner -->
+                    <div class="alert-banner">
+                        <div class="alert-icon">!</div>
+                        <div class="alert-content">
+                            <div class="alert-title">BUYUSIPHE MIHLE, you need to confirm your residential address</div>
+                            <div class="alert-description"></div>
+                            <div class="alert-action">
+                                <a class="alert-link">Learn more</a>
+                                <button class="alert-button">Complete</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Footer Info -->
-                <div style="margin-top: 48px; padding: 24px; background: #f8f9fa; border-radius: 8px; font-size: 12px; color: #8d9194; line-height: 1.6;">
-                    <p><strong>Black Crown Markets</strong> is a leading online trading platform offering competitive spreads, fast execution, and a wide range of tradable assets.</p>
-                    <p style="margin-top: 12px;">All trading involves risk. Only risk capital you can afford to lose.</p>
-                    <div style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Client Agreement</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">General Business Terms</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Partnership Agreement</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Terms and Conditions</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Confidentiality Policy</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Key Facts Statement</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Conflicts of Interest</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Privacy Agreement</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Risk Disclosure</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Preventing Money Laundering</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Complaints Handling Policy</a>
-                        <a href="#" style="color: #1172cc; text-decoration: none;">Contact</a>
+                    <!-- My Accounts Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h1 class="section-title">My accounts</h1>
+                            <button class="btn btn-primary">+ Open account</button>
+                        </div>
+
+                        <div class="tabs">
+                            <button class="tab active">Real</button>
+                            <button class="tab">Demo</button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-empty">
+                                <div class="card-empty-title">No active accounts</div>
+                                <div class="card-empty-description">Create a new account or restore an archived account to get started.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Archived Accounts Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">Archived accounts</h2>
+                            <a class="alert-link" style="cursor: pointer;">Hide accounts →</a>
+                        </div>
+
+                        <div class="card">
+                            <div style="padding: 20px;">
+                                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                    <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Real</span>
+                                    <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">MT5</span>
+                                    <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;">Standard</span>
+                                    <span style="background: #f8f9fa; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500;"># 406175597</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: 600; color: #141d22; margin-bottom: 4px;">Balance unavailable</div>
+                                        <div style="font-size: 13px; color: #8d9194;">This account was archived automatically on 31 Jul 2025 at 14:25 (UTC+2)</div>
+                                    </div>
+                                    <div style="display: flex; gap: 12px;">
+                                        <button class="btn btn-secondary">⟲ Restore</button>
+                                        <button class="btn btn-secondary">📄 Manage statements</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Info -->
+                    <div style="margin-top: 48px; padding: 24px; background: #f8f9fa; border-radius: 8px; font-size: 12px; color: #8d9194; line-height: 1.6;">
+                        <p><strong>Black Crown Markets</strong> is a leading online trading platform offering competitive spreads, fast execution, and a wide range of tradable assets.</p>
+                        <p style="margin-top: 12px;">All trading involves risk. Only risk capital you can afford to lose.</p>
+                        <div style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Client Agreement</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">General Business Terms</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Partnership Agreement</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Terms and Conditions</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Confidentiality Policy</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Key Facts Statement</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Conflicts of Interest</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Privacy Agreement</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Risk Disclosure</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Preventing Money Laundering</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Complaints Handling Policy</a>
+                            <a href="#" style="color: #1172cc; text-decoration: none;">Contact</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -598,24 +596,21 @@
 
     <script>
         // Sidebar section toggle functionality
-        document.querySelectorAll('.sidebar-section-title').forEach(title => {
-            const toggle = title.querySelector('.sidebar-section-toggle');
-            if (toggle) {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const section = title.closest('.sidebar-section');
-                    const items = section.querySelectorAll('.sidebar-item:not(:first-child)');
-                    const arrow = title.querySelector('.sidebar-toggle-arrow');
+        document.querySelectorAll('.sidebar-section-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = toggle.closest('.sidebar-section');
+                const items = section.querySelectorAll('.sidebar-item:not(:first-child)');
+                const arrow = toggle.querySelector('.sidebar-toggle-arrow');
 
-                    items.forEach(item => {
-                        item.style.display = item.style.display === 'none' ? 'flex' : 'none';
-                    });
-
-                    if (arrow) {
-                        arrow.classList.toggle('collapsed');
-                    }
+                items.forEach(item => {
+                    item.style.display = item.style.display === 'none' ? 'flex' : 'none';
                 });
-            }
+
+                if (arrow) {
+                    arrow.classList.toggle('collapsed');
+                }
+            });
         });
 
         // Sidebar item click handlers
@@ -639,7 +634,6 @@
             const closeBtn = document.createElement('button');
             closeBtn.innerHTML = '×';
             closeBtn.style.cssText = 'position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; color: #8d9194; cursor: pointer;';
-            banner.style.position = 'relative';
             banner.appendChild(closeBtn);
             closeBtn.addEventListener('click', function() {
                 banner.style.display = 'none';
