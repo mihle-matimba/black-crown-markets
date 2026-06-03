@@ -218,14 +218,16 @@
 
         .alert-banner {
             background: #f5f3ff;
-            border: 1px solid #ddd6fe;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 32px;
+            border: none;
+            border-radius: 0;
+            padding: 16px 32px;
+            margin: 0 -32px 32px -32px;
             display: flex;
             gap: 12px;
-            align-items: flex-start;
-            position: relative;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .alert-icon {
@@ -240,6 +242,7 @@
             color: #ffffff;
             font-weight: bold;
             font-size: 14px;
+            flex-shrink: 0;
         }
 
         .alert-content {
