@@ -138,7 +138,7 @@
 
         .sidebar-section {
             padding: 0 16px;
-            margin-bottom: 12px;
+            margin-bottom: 4px;
         }
 
         .sidebar-section:last-child {
@@ -452,10 +452,7 @@
             <aside class="sidebar">
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">
-                        <div class="sidebar-section-toggle">
-                            <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>Trading</span>
-                            <span class="sidebar-toggle-arrow">▼</span>
-                        </div>
+                        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="bar-chart-3" style="width: 16px; height: 16px;"></i>Trading</span>
                     </div>
                     <div class="sidebar-item active">
                         <span>My accounts</span>
@@ -608,24 +605,6 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
-
-        // Sidebar section toggle functionality
-        document.querySelectorAll('.sidebar-section-toggle').forEach(toggle => {
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = toggle.closest('.sidebar-section');
-                const items = section.querySelectorAll('.sidebar-item:not(:first-child)');
-                const arrow = toggle.querySelector('.sidebar-toggle-arrow');
-
-                items.forEach(item => {
-                    item.style.display = item.style.display === 'none' ? 'flex' : 'none';
-                });
-
-                if (arrow) {
-                    arrow.classList.toggle('collapsed');
-                }
-            });
-        });
 
         // Sidebar item click handlers
         document.querySelectorAll('.sidebar-item').forEach(item => {
