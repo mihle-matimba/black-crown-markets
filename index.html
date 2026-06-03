@@ -894,21 +894,21 @@ AF('banners', 'showBanner')
 .section_home-hero,
 .home-hero_component,
 .home-hero_content {
-  background: linear-gradient(135deg, #1a0a2e 0%, #2d1060 40%, #4a1d96 70%, #1a0a2e 100%) !important;
+  background: #ffffff !important;
 }
 .home-hero_background-gradient {
-  background: linear-gradient(135deg, #1a0a2e 0%, #2d1060 50%, #4a1d96 100%) !important;
+  background: #ffffff !important;
   opacity: 1 !important;
 }
 .home-hero_background-image {
-  opacity: 0.15 !important;
-  mix-blend-mode: luminosity !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
 }
 .home-hero_text-wrapper {
   position: relative;
   z-index: 2;
 }
-/* Purple radial glow */
+/* Removed purple radial glow */
 .home-hero_content::before {
   content: '';
   position: absolute;
@@ -916,7 +916,7 @@ AF('banners', 'showBanner')
   left: 10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(120, 40, 220, 0.6) 0%, transparent 70%);
+  background: none;
   pointer-events: none;
   z-index: 0;
 }
@@ -927,7 +927,7 @@ AF('banners', 'showBanner')
   right: 5%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(160, 80, 255, 0.35) 0%, transparent 70%);
+  background: none;
   pointer-events: none;
   z-index: 0;
 }
