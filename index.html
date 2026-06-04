@@ -1888,8 +1888,8 @@ a.button-primary:hover {
 
 .features-section-new {
   width: 100%;
-  padding: 64px 20px;
-  background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+  padding: 64px 20px 80px 20px;
+  background: linear-gradient(135deg, #0a0a0f 0%, #7B2FBE 50%, #0a0a0f 100%);
   border-radius: 80px 80px 0 0;
   margin-top: 80px;
 }
@@ -1905,11 +1905,11 @@ a.button-primary:hover {
 }
 
 .features-header-wrapper h1 {
-  font-size: 32px;
+  font-size: 48px;
   font-weight: 700;
   margin: 0;
   color: #ffffff;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
@@ -1970,9 +1970,9 @@ a.button-primary:hover {
   z-index: 10;
   width: 70px;
   height: 70px;
-  color: #60a5fa;
+  color: #7B2FBE;
   padding: 16px;
-  border: 2px solid rgba(96, 165, 250, 0.3);
+  border: 2px solid rgba(123, 47, 190, 0.4);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2000,13 +2000,39 @@ a.button-primary:hover {
   z-index: 10;
 }
 
+.features-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  position: relative;
+  z-index: 10;
+}
+
+.features-open-account-btn {
+  background: #7B2FBE;
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 100px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.features-open-account-btn:hover {
+  background: #5B1F9A;
+  transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
   .features-section-new {
-    padding: 48px 16px;
+    padding: 48px 16px 60px 16px;
   }
 
   .features-header-wrapper h1 {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   .features-cards-container {
@@ -2021,7 +2047,7 @@ a.button-primary:hover {
 </style>
 
 <div class="features-header-wrapper">
-  <h1>Navigate Trading With Greater Confidence.</h1>
+  <h1>Navigate Markets With Confidence.</h1>
   <p>Everything you need to manage, track, and grow your finances, securely and efficiently.</p>
 </div>
 
@@ -2055,6 +2081,10 @@ a.button-primary:hover {
     <h3>BCM Community</h3>
     <p>Get instant insights into your finances with live dashboards.</p>
   </div>
+</div>
+
+<div class="features-button-wrapper">
+  <button class="features-open-account-btn">Open Account</button>
 </div>
 </section><div class="markets_functional-code w-embed w-script"><!-- Add eazy loading and and animation functionality for lottie -->
 <script>
