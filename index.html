@@ -607,28 +607,73 @@ section.why-trade {
   font-weight: 700;
   font-size: 11px;
   color: #ffffff;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
 .currency-logo.eur-usd {
-  background: linear-gradient(135deg, #1f70ee 0%, #4a90e2 100%);
+  background: linear-gradient(to bottom,
+    #003399 0%, #003399 33.33%,
+    #ffffff 33.33%, #ffffff 66.66%,
+    #ffcc00 66.66%);
 }
 
 .currency-logo.gbp-usd {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  background: linear-gradient(to bottom,
+    #012169 0%, #012169 25%,
+    #ffffff 25%, #ffffff 50%,
+    #c8102e 50%, #c8102e 75%,
+    #ffffff 75%);
 }
 
 .currency-logo.usd-jpy {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  background: linear-gradient(to bottom,
+    #b22234 0%, #b22234 7.7%,
+    #ffffff 7.7%, #ffffff 15.4%,
+    #b22234 15.4%, #b22234 23.1%,
+    #ffffff 23.1%, #ffffff 30.8%,
+    #b22234 30.8%, #b22234 38.5%,
+    #ffffff 38.5%, #ffffff 46.2%,
+    #b22234 46.2%, #b22234 53.8%,
+    #ffffff 53.8%, #ffffff 61.5%,
+    #b22234 61.5%, #b22234 69.2%,
+    #ffffff 69.2%, #ffffff 76.9%,
+    #b22234 76.9%, #b22234 84.6%,
+    #ffffff 84.6%);
+}
+
+.currency-logo.usd-jpy::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #bc002d;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .currency-logo.aud-usd {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  background: #00843d;
+}
+
+.currency-logo.aud-usd::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 7px solid #ffcd00;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .currency-text {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  display: none;
 }
 
 .market-name {
