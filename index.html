@@ -2440,6 +2440,28 @@ function addLottieFunctionality() {
   gap: 32px;
 }
 
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .get-started-card {
   background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
   padding: 60px;
@@ -2451,6 +2473,27 @@ function addLottieFunctionality() {
   box-shadow: 0 12px 48px rgba(123, 47, 190, 0.15);
   transition: all 0.3s ease;
   width: 100%;
+  opacity: 0;
+}
+
+.get-started-card.animate-left {
+  animation: slideInFromLeft 0.8s ease forwards;
+}
+
+.get-started-card.animate-right {
+  animation: slideInFromRight 0.8s ease forwards;
+}
+
+.get-started-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.get-started-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.get-started-card:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
 .get-started-card:hover {
@@ -2588,6 +2631,32 @@ function addLottieFunctionality() {
     </div>
   </div>
 </div>
+
+<script>
+// Scroll animation for Get Started cards
+document.addEventListener('DOMContentLoaded', function() {
+  const cards = document.querySelectorAll('.get-started-card');
+
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        const isEvenCard = entry.target.parentElement.children[index].children.length > 0;
+        entry.target.classList.add(index % 2 === 0 ? 'animate-left' : 'animate-left');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  cards.forEach(card => {
+    observer.observe(card);
+  });
+});
+</script>
 </section><section style="background: #ffffff; padding: 140px 60px 0 60px; width: 100%;">
 <style>
 .bcm-section {
