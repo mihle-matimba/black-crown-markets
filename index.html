@@ -2430,96 +2430,162 @@ function addLottieFunctionality() {
 </section>
 
 <!-- Get Started Section -->
-<section style="background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%); padding: 120px 60px; width: 100%;">
+<section style="background: #f8f9fa; padding: 80px 60px; width: 100%;">
 <style>
-.get-started-section {
-  text-align: center;
-  max-width: 900px;
+.get-started-cards-container {
+  max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.get-started-section h2 {
-  font-size: 48px;
+.get-started-card {
+  background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
+  padding: 60px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  box-shadow: 0 12px 48px rgba(123, 47, 190, 0.15);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.get-started-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 64px rgba(123, 47, 190, 0.25);
+}
+
+.get-started-card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.get-started-card-right {
+  flex-shrink: 0;
+}
+
+.get-started-card h3 {
+  font-size: 32px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   letter-spacing: -0.025em;
 }
 
-.get-started-section p {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.7;
-  margin-bottom: 48px;
-}
-
-.get-started-buttons {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.get-started-btn {
-  padding: 16px 48px;
-  border-radius: 100px;
+.get-started-card p {
   font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.get-started-card-btn {
+  padding: 14px 36px;
+  border-radius: 100px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
   border: none;
   display: inline-block;
+  background: #ffffff;
+  color: #7B2FBE;
   white-space: nowrap;
 }
 
-.get-started-btn.primary {
-  background: #ffffff;
-  color: #7B2FBE;
-}
-
-.get-started-btn.primary:hover {
+.get-started-card-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.get-started-btn.secondary {
-  background: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+.get-started-card-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
 }
 
-.get-started-btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+@media (max-width: 1024px) {
+  .get-started-card {
+    padding: 48px;
+    gap: 40px;
+  }
+
+  .get-started-card h3 {
+    font-size: 28px;
+  }
 }
 
 @media (max-width: 768px) {
   section {
     padding: 60px 32px !important;
   }
-  .get-started-section h2 {
-    font-size: 36px;
+
+  .get-started-cards-container {
+    gap: 24px;
   }
-  .get-started-section p {
-    font-size: 16px;
-  }
-  .get-started-buttons {
+
+  .get-started-card {
     flex-direction: column;
+    text-align: center;
+    padding: 40px 32px;
+    gap: 30px;
   }
-  .get-started-btn {
+
+  .get-started-card h3 {
+    font-size: 24px;
+  }
+
+  .get-started-card p {
+    font-size: 15px;
+  }
+
+  .get-started-card-right {
     width: 100%;
   }
 }
 </style>
 
-<div class="get-started-section">
-  <h2>Ready to Start Trading?</h2>
-  <p>Join thousands of traders who are already experiencing the power of Black Crown Markets. Open your account today and gain access to global markets with institutional-grade execution.</p>
-  
-  <div class="get-started-buttons">
-    <a href="open-account.html" class="get-started-btn primary">Open Account</a>
-    <a href="#" class="get-started-btn secondary">Learn More</a>
+<div class="get-started-cards-container">
+  <!-- Card 1 -->
+  <div class="get-started-card">
+    <div class="get-started-card-left">
+      <h3>Open Your Account</h3>
+      <p>Start trading in minutes with our simple account opening process. No hidden fees, no complexity—just straightforward access to global markets.</p>
+    </div>
+    <div class="get-started-card-right">
+      <button class="get-started-card-btn">Get Started</button>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="get-started-card">
+    <div class="get-started-card-left">
+      <h3>Fund Your Account</h3>
+      <p>Deposit funds easily with multiple payment methods. Quick processing, low minimums, and secure transactions for your peace of mind.</p>
+    </div>
+    <div class="get-started-card-right">
+      <button class="get-started-card-btn">Learn More</button>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="get-started-card">
+    <div class="get-started-card-left">
+      <h3>Start Trading</h3>
+      <p>Access all markets with institutional-grade execution. Trade forex, crypto, stocks, and more with tight spreads and lightning-fast execution.</p>
+    </div>
+    <div class="get-started-card-right">
+      <button class="get-started-card-btn">Begin Now</button>
+    </div>
   </div>
 </div>
 </section><section style="background: #ffffff; padding: 140px 60px 0 60px; width: 100%;">
