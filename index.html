@@ -2201,17 +2201,29 @@ function addLottieFunctionality() {
 <section style="background: #ffffff; padding: 120px 60px; width: 100%;">
 <style>
 .support-section {
-  text-align: center;
-  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
+.support-section-left {
+  flex: 0 0 45%;
+}
+
+.support-section-right {
+  flex: 0 0 55%;
+}
+
 .support-section h2 {
-  font-size: 48px;
+  font-size: 56px;
   font-weight: 800;
   color: #0a0a0f;
   margin-bottom: 24px;
   letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
 .support-section p {
@@ -2221,32 +2233,59 @@ function addLottieFunctionality() {
   margin-bottom: 40px;
 }
 
-.support-section .cta-button {
-  background: #7B2FBE;
-  color: #ffffff;
-  padding: 16px 40px;
-  border-radius: 100px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
+.support-section-image {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.12);
 }
 
-.support-section .cta-button:hover {
-  background: #5B1F9A;
-  transform: translateY(-2px);
+.support-section-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .support-section {
+    gap: 60px;
+  }
+
+  .support-section-left {
+    flex: 0 0 50%;
+  }
+
+  .support-section-right {
+    flex: 0 0 50%;
+  }
+
+  .support-section h2 {
+    font-size: 44px;
+  }
 }
 
 @media (max-width: 768px) {
   section {
     padding: 60px 32px !important;
   }
+
+  .support-section {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .support-section-left {
+    flex: 0 0 auto;
+  }
+
+  .support-section-right {
+    flex: 0 0 auto;
+  }
+
   .support-section h2 {
     font-size: 36px;
   }
+
   .support-section p {
     font-size: 16px;
   }
@@ -2254,9 +2293,15 @@ function addLottieFunctionality() {
 </style>
 
 <div class="support-section">
-  <h2>We're Here to Support You</h2>
-  <p>Our dedicated support team is available 24/7 to assist you with any questions or concerns. Whether you need help getting started, understanding markets, or managing your account, we're ready to help.</p>
-  <button class="cta-button">Contact Support</button>
+  <div class="support-section-left">
+    <h2>We're Here When You Need Us.</h2>
+    <p>Anytime, anywhere—our Support team is ready to help.</p>
+  </div>
+  <div class="support-section-right">
+    <div class="support-section-image">
+      <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80" alt="Support team representative with headset" />
+    </div>
+  </div>
 </div>
 </section>
 
