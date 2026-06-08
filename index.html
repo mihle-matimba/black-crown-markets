@@ -2657,7 +2657,191 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-</section><section style="background: #ffffff; padding: 140px 60px 0 60px; width: 100%;">
+</section>
+
+<!-- Sign Up Section -->
+<section style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 120px 60px; width: 100%; position: relative;">
+<style>
+.signup-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+}
+
+.signup-image-container {
+  flex: 0 0 40%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  height: 500px;
+}
+
+.signup-image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.signup-card-container {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.signup-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 60px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.signup-card h2 {
+  font-size: 48px;
+  font-weight: 800;
+  color: #0a0a0f;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+
+.signup-card p {
+  font-size: 16px;
+  color: #606773;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.signup-form-group {
+  margin-bottom: 24px;
+}
+
+.signup-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0a0a0f;
+  margin-bottom: 8px;
+}
+
+.signup-form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.signup-form-input:focus {
+  outline: none;
+  border-color: #7B2FBE;
+  box-shadow: 0 0 0 3px rgba(123, 47, 190, 0.1);
+}
+
+.signup-form-input::placeholder {
+  color: #9aa0a6;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.signup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(123, 47, 190, 0.3);
+}
+
+@media (max-width: 1024px) {
+  .signup-wrapper {
+    gap: 40px;
+  }
+
+  .signup-image-container {
+    flex: 0 0 35%;
+  }
+
+  .signup-card h2 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 60px 32px !important;
+  }
+
+  .signup-wrapper {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .signup-image-container {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 300px;
+  }
+
+  .signup-card-container {
+    flex: 1;
+    width: 100%;
+  }
+
+  .signup-card h2 {
+    font-size: 32px;
+  }
+
+  .signup-card p {
+    font-size: 15px;
+  }
+}
+</style>
+
+<div class="signup-wrapper">
+  <div class="signup-image-container">
+    <img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/side-view-man-using-smartphone.png" alt="Man using smartphone for trading" />
+  </div>
+
+  <div class="signup-card-container">
+    <div class="signup-card">
+      <h2>Sign Up</h2>
+      <p>Sign up in minutes. Practise with a zero-risk demo account.</p>
+
+      <form>
+        <div class="signup-form-group">
+          <label class="signup-form-label">Email</label>
+          <input type="email" class="signup-form-input" placeholder="name@example.com" required />
+        </div>
+
+        <div class="signup-form-group">
+          <label class="signup-form-label">Password</label>
+          <input type="password" class="signup-form-input" placeholder="••••••••••••••••" required />
+        </div>
+
+        <button type="submit" class="signup-btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+
+<section style="background: #ffffff; padding: 140px 60px 0 60px; width: 100%;">
 <style>
 .bcm-section {
   display: flex;
