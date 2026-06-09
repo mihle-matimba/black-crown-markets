@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Override default platform styles */
+body#Login {
+  background: #F0EEFF !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* Header */
+.x-navigation.x-navigation-horizontal.header-background {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #EDE8F8 !important;
+}
+
+.x-navigation.x-navigation-horizontal.header-background li a {
+  color: #6B7280 !important;
+}
+
+.x-navigation.x-navigation-horizontal.header-background .logo img {
+  max-width: 160px !important;
+  height: auto !important;
+}
+
+/* Language selector */
+#language-hide {
+  overflow: visible !important;
+}
+
+#language-hide a {
+  background: transparent !important;
+  padding: 8px !important;
+  width: auto !important;
+}
+
+ul.xn-drop-left.xn-drop-white {
+  background: #FFFFFF !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(123,47,190,0.15) !important;
+  overflow-y: scroll !important;
+  max-height: 367px !important;
+  min-width: 180px !important;
+  z-index: 9999 !important;
+  position: absolute !important;
+  border: 1px solid #EDE8F8 !important;
+}
+
+ul.xn-drop-left.xn-drop-white li a {
+  color: #1A1A2E !important;
+  padding: 8px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* Login Container */
+.login-container {
+  background: #F0EEFF !important;
+}
+
+.login-box {
+  background: transparent !important;
+}
+
+.login-body {
+  background: #FFFFFF !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 32px rgba(123,47,190,0.12) !important;
+  padding: 40px !important;
+}
+
+/* Login Title */
+.login-title {
+  color: #1A1A2E !important;
+  font-weight: 700 !important;
+  font-size: 24px !important;
+  margin-bottom: 24px !important;
+  -webkit-text-fill-color: #1A1A2E !important;
+}
+
+.login-title strong {
+  color: #7B2FBE !important;
+  -webkit-text-fill-color: #7B2FBE !important;
+}
+
+.login-body h3,
+.login-body h4,
+.login-body p,
+.login-body label {
+  color: #1A1A2E !important;
+}
+
+/* Form Group */
+.form-group label {
+  color: #1A1A2E !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+/* Form Control */
+#Login .form-control,
+#Login input.form-control {
+  background: #F7F4FF !important;
+  border: 1px solid #DDD6F3 !important;
+  border-radius: 10px !important;
+  color: #1A1A2E !important;
+  -webkit-text-fill-color: #1A1A2E !important;
+  -webkit-box-shadow: 0 0 0px 1000px #F7F4FF inset !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  transition: border-color 0.3s, box-shadow 0.3s !important;
+}
+
+#Login .form-control:focus,
+#Login input.form-control:focus {
+  border-color: #7B2FBE !important;
+  box-shadow: 0 0 0 2px rgba(123,47,190,0.1), 0 0 0px 1000px #F7F4FF inset !important;
+}
+
+#Login input.form-control::placeholder,
+#Login input.form-control::-webkit-input-placeholder {
+  color: #9E8EC0 !important;
+  opacity: 1 !important;
+}
+
+/* Password visibility icon */
+.show-password-login {
+  color: #9E8EC0 !important;
+}
+
+/* Buttons */
+.btn-login,
+.btn-live,
+.btn-demo {
+  border-radius: 100px !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-login {
+  background: #7B2FBE !important;
+  border-color: #7B2FBE !important;
+  color: #FFFFFF !important;
+  padding: 12px 28px !important;
+  box-shadow: 0 4px 14px rgba(123,47,190,0.3) !important;
+}
+
+.btn-login:hover,
+.btn-login:active,
+.btn-login:focus {
+  background: #5a2fb8 !important;
+  border-color: #5a2fb8 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(123,47,190,0.4) !important;
+}
+
+.btn-live {
+  background: #FFFFFF !important;
+  border-color: #DDD6F3 !important;
+  color: #1A1A2E !important;
+}
+
+.btn-live:hover,
+.btn-live:active,
+.btn-live:focus {
+  background: #F7F4FF !important;
+  border-color: #7B2FBE !important;
+  color: #7B2FBE !important;
+}
+
+.btn-demo {
+  background: #FFFFFF !important;
+  border-color: #DDD6F3 !important;
+  color: #1A1A2E !important;
+}
+
+.btn-demo:hover,
+.btn-demo:active,
+.btn-demo:focus {
+  background: #F7F4FF !important;
+  border-color: #7B2FBE !important;
+  color: #7B2FBE !important;
+}
+
+/* Links */
+.btn-link {
+  color: #7B2FBE !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.btn-link:hover {
+  text-decoration: underline !important;
+  opacity: 0.8 !important;
+}
+
+.login-container .login-box .login-body .btn-link {
+  color: #7B2FBE !important;
+  display: block !important;
+  text-align: center !important;
+  margin-top: 16px !important;
+  font-size: 13px !important;
+}
+
+/* Not registered section */
+.not-registered {
+  color: #1A1A2E !important;
+  text-align: center !important;
+  font-size: 14px !important;
+  margin-top: 16px !important;
+}
+
+.not-registered a {
+  color: #7B2FBE !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+}
+
+.not-registered a:hover {
+  text-decoration: underline !important;
+}
+
+/* Form layout adjustments */
+#Login .form-horizontal .form-group:nth-child(3) {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#Login .form-horizontal .form-group:nth-child(3) .col-md-6 {
+  width: 100% !important;
+  margin-bottom: 8px !important;
+}
+
+#Login .form-horizontal .form-group:nth-child(3) .col-md-6:nth-child(1) {
+  order: 2 !important;
+}
+
+/* Disclaimer and Footer */
+.x-navigation.disclaimer-color,
+.x-navigation.footer-color {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-body {
+    padding: 32px 24px !important;
+  }
+
+  .login-title {
+    font-size: 20px !important;
+  }
+}
