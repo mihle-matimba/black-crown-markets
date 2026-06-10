@@ -1762,6 +1762,14 @@ AF('banners', 'showBanner')
   margin: 0 !important;
   width: 100% !important;
   overflow: hidden !important;
+  min-height: 100vh !important;
+}
+@media (max-width: 768px) {
+  .section_home-hero,
+  .home-hero_component,
+  .home-hero_content {
+    min-height: 100vh !important;
+  }
 }
 .section_home-hero .section-container {
   padding: 0 !important;
