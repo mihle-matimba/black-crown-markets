@@ -30,11 +30,11 @@
 html,body{height:100%;}
 body{
   font-family:'Inter','Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--void); color:var(--text); overflow:hidden;
+  background:var(--void); color:var(--text); overflow-x:hidden;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 .scene{
-  position:fixed;inset:0;overflow:hidden;
+  position:relative;min-height:100vh;overflow:hidden;
   background:radial-gradient(120% 80% at 50% -10%, #160a2e 0%, #0a0418 32%, var(--void) 62%), var(--void);
 }
 .stars{
@@ -118,6 +118,17 @@ h1{
 .socials a:hover{color:#fff;transform:translateY(-2px);}
 .socials svg{width:20px;height:20px;display:block;}
 .copy{font-size:.74rem;letter-spacing:.04em;color:rgba(231,224,255,.35);}
+.legal{
+  position:relative;z-index:5;
+  max-width:900px;margin:0 auto;padding:32px 20px 48px;
+  border-top:1px solid var(--line);
+  font-size:.72rem;line-height:1.7;color:rgba(231,224,255,.5);
+}
+.legal p{margin-bottom:12px;}
+.legal p:last-child{margin-bottom:0;}
+.legal strong{color:rgba(231,224,255,.75);}
+.legal a{color:var(--lilac);}
+.legal .legal-contact{color:rgba(231,224,255,.7);}
 @keyframes planetIn{from{opacity:0;transform:translateY(-26px) scale(1.015);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes plasmaIn{to{opacity:1;}}
 @keyframes starsIn{to{opacity:1;}}
@@ -173,6 +184,16 @@ h1{
     <div class="copy">© <span id="yr"></span> Black Crown Markets. All rights reserved.</div>
   </footer>
 </div>
+
+<section class="legal">
+  <p>Black Crown Holdings (Pty) Ltd (registration number 2023/956545/07), trading as Black Crown Markets, is an authorised Financial Services Provider, licensed and regulated by the Financial Sector Conduct Authority (FSCA) of South Africa under FSP No. 54549. Black Crown Holdings provides the platform that Clients use to trade derivatives that are issued by JP Markets SA (Pty) Ltd (Registration Number 2016/123297/07), a company registered under the laws of South Africa. JP Markets SA (Pty) Ltd is a licensed and regulated Financial Services Provider (FSP No. 46855) and approved Over-the-Counter Derivatives Provider (ODP), with its registered office located at 4 Canal Close, 2 Century Falls Road, Century City, 7441.</p>
+  <p>JP Markets SA (Pty) Ltd is the counterparty and principal to the contract for difference purchased by you (the Client).</p>
+  <p>In using the services, you agree to be bound by the client agreement which is entered into and binding between you (the Client) and JP Markets SA (Pty) Ltd.</p>
+  <p>Black Crown Holdings does not offer services to US investors or any other jurisdiction where such distribution or use would be contrary to local law or regulation.</p>
+  <p><strong>Risk disclaimer:</strong> Participation in online trading within financial markets carries significant inherent risks, encompassing both the possibility of gains and losses. Clients bear full responsibility for any financial losses and adverse consequences that may culminate in the complete depletion of invested capital. It is imperative that Clients thoroughly assess the benefits and hazards associated with the products, evaluate their own proficiency, comprehension, and financial capacity, and refrain from risking more than they can prudently afford to lose.</p>
+  <p class="legal-contact">Registered office: 4 Canal Close, 2 Century Falls Road, Century City, 7441 &nbsp;|&nbsp; Support: <a href="mailto:support@blackcrownmarkets.com">support@blackcrownmarkets.com</a></p>
+</section>
+
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, fine=matchMedia('(pointer: fine)').matches;
