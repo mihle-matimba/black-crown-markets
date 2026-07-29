@@ -1980,9 +1980,10 @@ a.button-primary:hover {
 <style>
 .tc-hero, .tc-body-section { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif; }
 .tc-hero {
-  background: linear-gradient(135deg, #17101f 0%, #2d1b45 100%);
+  background: #ffffff;
   padding: 96px 24px 64px 24px;
-  color: #ffffff;
+  color: #0a0a0f;
+  border-bottom: 1px solid #e8eaed;
 }
 .tc-hero-inner { max-width: 900px; margin: 0 auto; text-align: center; }
 .tc-hero-eyebrow {
@@ -1991,9 +1992,9 @@ a.button-primary:hover {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #c9a6f2;
-  background: rgba(123,47,190,0.18);
-  border: 1px solid rgba(123,47,190,0.4);
+  color: #7B2FBE;
+  background: rgba(123,47,190,0.08);
+  border: 1px solid rgba(123,47,190,0.3);
   padding: 6px 16px;
   border-radius: 100px;
   margin-bottom: 20px;
@@ -2003,18 +2004,19 @@ a.button-primary:hover {
   font-weight: 800;
   letter-spacing: -0.02em;
   margin: 0 0 16px 0;
+  color: #0a0a0f;
 }
 .tc-hero p {
   font-size: 16px;
   line-height: 1.7;
-  color: rgba(255,255,255,0.72);
+  color: #5A5A72;
   max-width: 680px;
   margin: 0 auto;
 }
 .tc-hero-updated {
   margin-top: 24px;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: #9aa0a6;
 }
 
 .tc-body-section {
@@ -2106,6 +2108,52 @@ a.button-primary:hover {
   color: #5A5A72;
 }
 
+.tc-doc-download {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #faf5ff;
+  border: 1px solid rgba(123,47,190,0.2);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 20px 0 4px 0;
+}
+.tc-doc-download-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(123,47,190,0.12);
+  color: #7B2FBE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.tc-doc-download-info { flex: 1; min-width: 0; }
+.tc-doc-download-info strong { display: block; font-size: 15px; color: #0a0a0f; }
+.tc-doc-download-info span { display: block; font-size: 13px; color: #5A5A72; margin-top: 2px; }
+.tc-doc-download-btn {
+  flex-shrink: 0;
+  display: inline-block;
+  background: #7B2FBE;
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+.tc-doc-download-btn:hover { background: #5B1F9A; }
+@media (max-width: 480px) {
+  .tc-doc-download { flex-wrap: wrap; }
+  .tc-doc-download-btn { width: 100%; text-align: center; }
+}
+
 @media (max-width: 900px) {
   .tc-layout { grid-template-columns: 1fr; }
   .tc-nav {
@@ -2147,140 +2195,57 @@ a.button-primary:hover {
   <div class="tc-doc-header">
     <div class="tc-doc-eyebrow">Document 1 of 5</div>
     <h2>Client Agreement</h2>
-    <div class="tc-doc-meta">JP Markets SA (Pty) Ltd &middot; Registration No. 2016/123297/07 &middot; FSP No. 46855 &middot; Version March 2026</div>
+    <div class="tc-doc-meta">Version March 2026 (v2)</div>
   </div>
 
-  <p>This Client Agreement is entered into between <strong>JP Markets SA (Pty) Ltd</strong> ("JP Markets", "we", "us"), acting as principal and counterparty to all Contracts-for-Difference traded on the platform, and <strong>you</strong>, the Client. By opening a trading account you confirm that you have read, understood and agree to be bound by the terms below.</p>
+  <p>The Client Agreement is the legal agreement between you and Black Crown Markets governing your trading account — including your relationship with us, permitted trading conduct, fees, margin, liability and termination. By opening a trading account you confirm that you have read, understood and agree to be bound by its terms.</p>
 
-  <h3>1. Scope and nature of the relationship</h3>
-  <p>By entering into this Agreement and each Trade, you warrant that you act as principal and not as an agent. JP Markets executes Trades and provides related services strictly on the basis of your instructions and exercises no discretion over your trading decisions. JP Markets does not provide advice, recommendations or guidance in relation to any Trade, and general information provided does not create a fiduciary relationship between the parties.</p>
-
-  <h3>2. Duration</h3>
-  <p>The Agreement commences on the date JP Markets confirms that your Trading Account has been opened, and continues indefinitely unless terminated in accordance with the termination provisions below.</p>
-
-  <h3>3. Services</h3>
-  <ul>
-    <li>Provision and operation of the MT5 Trading Platform for the execution of OTC Derivative trades;</li>
-    <li>Administration of a segregated Third-Party Funds Administrator ("TPFA") account for the holding and safeguarding of Client funds;</li>
-    <li>Execution and settlement of OTC derivative transactions;</li>
-    <li>Provision of transaction records, confirmations and statements.</li>
-  </ul>
-
-  <h3>4. Application, FICA and appropriateness</h3>
-  <p>By submitting the online Application Form, you warrant that the information you submit is true and correct, and that you have read and understood the Risk Disclosure. You consent to JP Markets sharing Client data with third parties for verification purposes under FICA. Where JP Markets cannot complete customer due diligence, it may decline to open, or may terminate, the business relationship, and reserves the right to refuse an application at its sole discretion.</p>
-  <p>JP Markets will conduct an Appropriateness Assessment covering your experience, objectives, knowledge and financial position before offering OTC Derivatives, and relies on the accuracy of the information you provide.</p>
-
-  <h3>5. Trading Platform, security and communications</h3>
-  <p>You are responsible for the confidentiality and security of your login credentials and for any activity conducted using them. JP Markets may suspend, revoke or vary your security credentials without notice if it suspects a security breach, and is not obliged to provide support, maintenance or updates to the platform. All communications between you and JP Markets — including calls and electronic messages — may be recorded and used as evidence.</p>
-
-  <h3>6. Trading hours and fees</h3>
-  <p>JP Markets operates between 08:00 and 17:00 on Business Days, with support available 07:00–22:00. Your transactions are subject to spreads, swaps, and — where you were introduced by a third party — a portion of the spread may be shared as commission. JP Markets derives revenue from acting as counterparty irrespective of whether your Trades are profitable, and may change its fee structure at any time by publishing updates on its website.</p>
-
-  <h3>7. TPFA account, settlement, margin and collateral</h3>
-  <p>All Client funds are held in a segregated TPFA account subject to the Bank Mandate, used only for permitted purposes such as meeting Trade obligations, margin requirements, and fees. No interest is payable to you on TPFA balances. You must maintain sufficient Initial and Maintenance Margin; JP Markets may issue margin calls and, if unmet, may close out positions or apply collateral without prior notice.</p>
-  <p>JP Markets does not accept funds from, or make payments to, any account other than your own ("Third Party Accounts").</p>
-
-  <h3>8. Prohibited trading practices</h3>
-  <p>You may not engage in scalping, hedging for the purpose of abuse, bonus arbitrage, insider trading, price manipulation, or any strategy used in bad faith or involving fraud or dishonesty. Suspected market abuse is treated as a material breach and may result in immediate account termination, voiding of trades, or adjustment of your account terms.</p>
-
-  <h3>9. Risk, liability and indemnity</h3>
-  <p>You acknowledge that your capital is at risk, that markets can be volatile and unpredictable, and that trading may result in losses as well as profits. JP Markets excludes liability for consequential, indirect or special losses in a range of circumstances (including reliance on incorrect prices, Force Majeure, and platform deficiencies), and its liability, where it does arise, is limited to direct loss on the relevant Trade. You indemnify JP Markets against losses arising from your breach of the Agreement, third-party claims relating to your use of the platform, and JP Markets' termination of any Trade in accordance with the Agreement.</p>
-
-  <h3>10. Confidentiality and consent to data processing</h3>
-  <p>Both parties must keep the other's confidential information confidential. You consent to JP Markets processing your personal information (including for FICA/AML compliance, fraud prevention, regulatory reporting and account administration) and sharing it, where lawfully required, with attorneys, payment processors, regulators and law enforcement.</p>
-
-  <h3>11. Intellectual property</h3>
-  <p>All intellectual property in the Trading Platform and related systems remains the sole property of JP Markets. You may not copy, reverse-engineer, sub-license, or use the platform after termination of the Agreement.</p>
-
-  <h3>12. Force majeure, termination and amendments</h3>
-  <p>Neither party is liable for delay or failure caused by events beyond its reasonable control (Force Majeure). You may terminate the Agreement on 30 calendar days' written notice; JP Markets may terminate immediately for material breach, insolvency, loss of its licence, or in specified risk scenarios such as negative-equity hedged positions or suspected manipulation. JP Markets may amend the Agreement at its discretion by publishing updated terms on its website.</p>
-
-  <h3>13. Dispute resolution and governing law</h3>
-  <p>Disputes are first addressed through mutual discussion, failing which they are referred to arbitration in Cape Town under a practicing advocate appointed by the Cape Bar Council, in accordance with the Arbitration Act, 1965 (or the International Arbitration Act, 2017, for parties domiciled outside South Africa). The Agreement is governed by the laws of the Republic of South Africa, and the parties submit to the non-exclusive jurisdiction of the High Court, Western Cape Division.</p>
-
-  <div class="tc-callout"><strong>Registered office:</strong> No. 4 Canal Close, 2 Century Falls Road, Century City, 7441, South Africa &middot; <strong>Notices:</strong> admin@jpmarkets.co.za</div>
+  <div class="tc-doc-download">
+    <div class="tc-doc-download-icon">PDF</div>
+    <div class="tc-doc-download-info"><strong>Client Agreement</strong><span>Version March 2026 (v2)</span></div>
+    <a href="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/ODP-Client-Agreement-March-2026-v2.pdf" target="_blank" rel="noopener" class="tc-doc-download-btn">View document</a>
+  </div>
 </article>
 
 <article class="tc-doc" id="risk-policy">
   <div class="tc-doc-header">
     <div class="tc-doc-eyebrow">Document 2 of 5</div>
     <h2>Risk Policy</h2>
-    <div class="tc-doc-meta">Black Crown Holdings (Pty) Ltd &middot; Registration No. 2023/956545/07 &middot; FSP No. 54549 &middot; Version 07.2026</div>
+    <div class="tc-doc-meta">Black Crown Holdings (Pty) Ltd &middot; Version 07.2026</div>
   </div>
 
-  <p>This Risk Policy sets out the material risks associated with trading OTC Derivative Contracts (including contracts for difference) offered through the Black Crown Markets platform, issued by JP Markets SA (Pty) Ltd. It supplements, and does not replace, the Client Agreement.</p>
+  <p>The Risk Policy sets out the material risks associated with trading OTC Derivative Contracts (including contracts for difference) offered through the Black Crown Markets platform. It supplements, and does not replace, the Client Agreement.</p>
 
-  <div class="tc-callout"><strong>Trading is high risk.</strong> Online trading on financial markets involves substantial risk, including the potential loss of your entire invested capital. You should not trade with funds you cannot afford to lose, and no statutory compensation scheme protects you in the event of loss.</div>
+  <div class="tc-callout"><strong>Trading is high risk.</strong> Online trading on financial markets involves substantial risk, including the potential loss of your entire invested capital. You should not trade with funds you cannot afford to lose.</div>
 
-  <h3>General risk acknowledgement</h3>
-  <p>Trading OTC Derivative Contracts is highly speculative. These products are not appropriate for all clients, and you should carefully consider your objectives, financial situation, experience and risk tolerance before trading. Depending on the terms of the Client Agreement, you may lose the entire amount deposited as Margin and, in some conditions, may incur losses beyond your initial deposit.</p>
-
-  <h3>Market risk</h3>
-  <p>Prices of underlying instruments can be highly volatile. Small movements in the underlying market can have a disproportionately larger impact on the value of a leveraged position. Markets can gap suddenly due to economic, political or corporate events, and liquidity can dry up, making it difficult to close or hedge a position at the expected price.</p>
-
-  <h3>Counterparty and credit risk</h3>
-  <p>Contracts are concluded over-the-counter, principal-to-principal, with JP Markets as counterparty — they are not exchange-traded or centrally cleared. You are therefore exposed to JP Markets' own credit and performance risk, and Black Crown Holdings does not guarantee JP Markets' performance or solvency.</p>
-
-  <h3>Regulatory, legal and tax risk</h3>
-  <p>The regulatory framework governing OTC derivatives may change over time, affecting costs, product availability or your ability to trade. You are responsible for ensuring you may lawfully access the platform in your jurisdiction, and for obtaining independent tax advice — neither Black Crown Holdings nor JP Markets provides tax advice.</p>
-
-  <h3>Operational, technical and cybersecurity risk</h3>
-  <p>Trading is conducted through electronic systems that may suffer interruptions, delays, errors, or cyberattacks. Prices shown on your device may differ from those recorded on the Company's server, which is the authoritative record. You are responsible for the security of your login credentials and devices and must promptly report any suspected unauthorised access.</p>
-
-  <h3>Leverage and margin risk</h3>
-  <p>Leverage magnifies both potential profits and potential losses. A small adverse market movement can materially affect your available margin, and failure to meet a margin call within the required timeframe may result in your positions being closed automatically, without prior notice, leaving you liable for any resulting deficit.</p>
-
-  <h3>Prohibition of insider trading</h3>
-  <p>Using non-public, confidential or material information about instruments on the platform for personal gain, sharing such information with others, or engaging in manipulative practices (including spreading false information), is strictly prohibited. Any suspected insider trading may result in immediate suspension or termination of your account, and may be reported to the relevant regulatory authorities.</p>
-
-  <h3>Client responsibility</h3>
-  <p>By using the Services you confirm that you understand and accept these risks, that you have sufficient knowledge and experience to understand OTC Derivative Contracts, and that you will not trade with funds you cannot afford to lose. You remain solely responsible for your trading decisions and for monitoring your account and open positions.</p>
-
-  <div class="tc-callout">This Policy does not constitute financial, investment, tax or legal advice. If you are uncertain about any risk, seek independent, appropriately licensed professional advice before trading. Questions: <a href="mailto:support@blackcrownmarkets.com">support@blackcrownmarkets.com</a>.</div>
+  <div class="tc-doc-download">
+    <div class="tc-doc-download-icon">PDF</div>
+    <div class="tc-doc-download-info"><strong>Risk Policy</strong><span>Version 07.2026</span></div>
+    <a href="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Black%20Crown%20Holdings_Risk%20Policy_07.2026.pdf" target="_blank" rel="noopener" class="tc-doc-download-btn">View document</a>
+  </div>
 </article>
 
 <article class="tc-doc" id="privacy-policy">
   <div class="tc-doc-header">
     <div class="tc-doc-eyebrow">Document 3 of 5</div>
     <h2>Privacy Policy</h2>
-    <div class="tc-doc-meta">Black Crown Holdings (Pty) Ltd &middot; Version 07.2026 v.2 &middot; Governed by POPIA</div>
+    <div class="tc-doc-meta">Black Crown Holdings (Pty) Ltd &middot; Version 07.2026 (v2) &middot; Governed by POPIA</div>
   </div>
 
-  <p>Black Crown Holdings (Pty) Ltd ("Black Crown", "we", "our") respects your privacy and processes personal information lawfully, fairly, transparently and securely in accordance with the Protection of Personal Information Act, 4 of 2013 ("POPIA").</p>
+  <p>Black Crown Holdings (Pty) Ltd ("Black Crown", "we", "our") respects your privacy and processes personal information lawfully, fairly, transparently and securely in accordance with the Protection of Personal Information Act, 4 of 2013 ("POPIA"). The Privacy Policy explains what personal information we collect, why we collect it, how it is shared and protected, and your rights under POPIA.</p>
 
-  <h3>Information we collect</h3>
-  <ul>
-    <li><strong>Identity information</strong> — name, ID/passport number, date of birth, nationality, verification photographs;</li>
-    <li><strong>Contact information</strong> — addresses, email, telephone numbers;</li>
-    <li><strong>Financial information</strong> — bank details, payment information, trading activity, source of funds and wealth;</li>
-    <li><strong>Regulatory information</strong> — FICA documentation, sanctions screening, PEP checks, beneficial ownership;</li>
-    <li><strong>Technical information</strong> — IP address, browser/device data, cookies, login information;</li>
-    <li><strong>Communications</strong> — emails, calls, chats, complaints and correspondence.</li>
-  </ul>
-
-  <h3>Why we collect it, and our legal basis</h3>
-  <p>We process personal information to establish and administer client relationships, verify identity, provide services, process transactions, comply with legal obligations (including FICA and FAIS), improve our products, and prevent fraud, money laundering and other financial crime. Processing is carried out only where necessary to perform a contract with you, to comply with a legal obligation, to protect a legitimate interest, or where you have given consent.</p>
-
-  <h3>Sharing your information</h3>
-  <p>We may share personal information with companies in the Black Crown group, JP Markets SA (Pty) Ltd, payment and identity-verification providers, cloud and technology providers, professional advisers, and regulators or law enforcement where required by law. Some service providers may process information outside South Africa, subject to appropriate safeguards. <strong>We do not sell, rent or trade your personal information for third parties' own marketing purposes.</strong></p>
-
-  <h3>Security and retention</h3>
-  <p>We maintain technical and organisational security measures to protect personal information against loss, unauthorised access, alteration or destruction, though no electronic system can be guaranteed completely secure. Information is retained only as long as necessary to fulfil the purposes for which it was collected and to satisfy FICA and FAIS record-retention obligations, after which it is securely destroyed or de-identified.</p>
-
-  <h3>Your rights</h3>
-  <p>Subject to POPIA, you may request access to your personal information, request correction of inaccurate data, object to processing, request deletion where permitted by law, withdraw consent where processing relies on it, and lodge a complaint with the Information Regulator. Certain rights may be limited where we are required to retain information for legal, regulatory or financial-crime-prevention purposes.</p>
-
-  <h3>Cookies and marketing</h3>
-  <p>Our website uses cookies to improve functionality and understand usage; you can manage these through your browser settings. Where permitted by law we may send marketing communications, and you may opt out at any time.</p>
-
-  <div class="tc-callout"><strong>Information Officer:</strong> Black Crown Holdings (Pty) Ltd &middot; <a href="mailto:compliance@blackcrownmarkets.com">compliance@blackcrownmarkets.com</a></div>
+  <div class="tc-doc-download">
+    <div class="tc-doc-download-icon">PDF</div>
+    <div class="tc-doc-download-info"><strong>Privacy Policy</strong><span>Version 07.2026 (v2)</span></div>
+    <a href="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Black%20Crown%20Holdings_Privacy%20Policy_07.2026%20v.2.pdf" target="_blank" rel="noopener" class="tc-doc-download-btn">View document</a>
+  </div>
 </article>
 
 <article class="tc-doc" id="fais-disclosure">
   <div class="tc-doc-header">
     <div class="tc-doc-eyebrow">Document 4 of 5</div>
     <h2>FAIS Disclosure</h2>
-    <div class="tc-doc-meta">Financial Advisory and Intermediary Services Act, 37 of 2002 &middot; FSP No. 54549 &middot; Version 07.2026 V2</div>
+    <div class="tc-doc-meta">Financial Advisory and Intermediary Services Act, 37 of 2002 &middot; FSP No. 54549 &middot; Version 07.2026 (V2)</div>
   </div>
 
   <p>This disclosure is provided in accordance with the FAIS Act and the General Code of Conduct for Authorised Financial Services Providers and Representatives, to inform you of our regulatory status, the services we provide, and your rights when dealing with us.</p>
@@ -2291,68 +2256,37 @@ a.button-primary:hover {
       <tbody>
         <tr><td>Registered name</td><td>Black Crown Holdings (Pty) Ltd</td></tr>
         <tr><td>Trading name</td><td>Black Crown Markets</td></tr>
-        <tr><td>Registration number</td><td>2023/956545/07</td></tr>
         <tr><td>FSP number</td><td>54549</td></tr>
-        <tr><td>Key Individual</td><td>Johan Joosten</td></tr>
-        <tr><td>Physical address</td><td>4 Canal Close, Century Falls Road, Century City, Cape Town, 7441</td></tr>
         <tr><td>Email</td><td>compliance@blackcrownmarkets.com</td></tr>
       </tbody>
     </table>
   </div>
 
-  <h3>Regulatory authorisation and nature of services</h3>
-  <p>Black Crown Holdings (Pty) Ltd is authorised by the Financial Sector Conduct Authority ("FSCA") as a Category I Financial Services Provider, and renders intermediary services relating to over-the-counter derivative products issued by licensed product suppliers. We act only within the scope of our licence and, unless expressly agreed otherwise in writing, do not provide discretionary investment management services. Financial services are rendered only by representatives who are authorised, competent and supervised in accordance with the FAIS Act.</p>
-
-  <h3>Fees, commission and conflicts of interest</h3>
-  <p>We may receive fees, commission or other remuneration as permitted by law, and where required, the nature and amount of such remuneration will be disclosed before the relevant financial service is rendered. We maintain a Conflict of Interest Management Policy, adopted in terms of the FAIS Act, to identify, manage and, where possible, avoid conflicts of interest arising in the course of our services. A copy is available on request.</p>
-
-  <h3>Complaints</h3>
-  <p>Complaints regarding any financial service we render should be directed to our Compliance Department at <a href="mailto:compliance@blackcrownmarkets.com">compliance@blackcrownmarkets.com</a>. We aim to resolve complaints promptly, fairly and transparently under our Internal Complaints Resolution Process. If unresolved to your satisfaction, you may refer the matter to the appropriate ombud or regulatory authority.</p>
-
-  <h3>Important information</h3>
-  <p>You should fully understand the nature of any financial product or service before making an investment decision. Where no advice is provided, you remain responsible for your own investment decisions and should consider obtaining independent financial, legal or tax advice. The FSCA regulates authorised Financial Services Providers in South Africa, and licence details can be verified on the FSCA's public register.</p>
+  <div class="tc-doc-download">
+    <div class="tc-doc-download-icon">PDF</div>
+    <div class="tc-doc-download-info"><strong>FAIS Disclosure</strong><span>Version 07.2026 (V2)</span></div>
+    <a href="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Black%20Crown%20Holdings_FAIS%20Disclosure_07.2026_V2.pdf" target="_blank" rel="noopener" class="tc-doc-download-btn">View document</a>
+  </div>
 </article>
 
 <article class="tc-doc" id="aml-policy">
   <div class="tc-doc-header">
     <div class="tc-doc-eyebrow">Document 5 of 5</div>
     <h2>AML Policy</h2>
-    <div class="tc-doc-meta">Anti-Money Laundering &amp; Counter-Terrorist Financing &middot; Black Crown Holdings (Pty) Ltd &middot; Version 07.2026 v1.2</div>
+    <div class="tc-doc-meta">Anti-Money Laundering &amp; Counter-Terrorist Financing &middot; Black Crown Holdings (Pty) Ltd &middot; Version 07.2026 (v1.2)</div>
   </div>
 
-  <p>Black Crown Holdings (Pty) Ltd maintains a zero-tolerance approach to money laundering, terrorist financing, proliferation financing, fraud, corruption and other financial crime, and complies with the Financial Intelligence Centre Act, 38 of 2001 ("FICA"), the Prevention of Organised Crime Act, the Protection of Constitutional Democracy Against Terrorist and Related Activities Act, and applicable FSCA and FIC directives.</p>
+  <p>Black Crown Holdings (Pty) Ltd maintains a zero-tolerance approach to money laundering, terrorist financing and other financial crime, and complies with the Financial Intelligence Centre Act, 38 of 2001 ("FICA") and applicable FSCA and FIC directives. The AML Policy sets out how we identify and verify clients, monitor accounts, and meet our reporting obligations.</p>
 
-  <h3>Our commitment</h3>
-  <ul>
-    <li>Conducting business ethically and responsibly;</li>
-    <li>Applying a risk-based approach to financial crime prevention;</li>
-    <li>Identifying and verifying the identity of our clients;</li>
-    <li>Monitoring business relationships on an ongoing basis;</li>
-    <li>Complying with all applicable reporting obligations;</li>
-    <li>Maintaining appropriate governance and compliance arrangements;</li>
-    <li>Cooperating with regulatory and law enforcement authorities where required by law.</li>
-  </ul>
-
-  <h3>Customer due diligence (CDD) and enhanced due diligence (EDD)</h3>
-  <p>We identify and verify the identity of every client and, where applicable, their beneficial owners, and assess the nature of their activities on a risk basis. Higher-risk clients — including politically exposed persons or those in high-risk jurisdictions — are subject to Enhanced Due Diligence, comprising additional background checks, more detailed risk assessments, and requests for supplementary documentation or independent verification.</p>
-
-  <h3>Reporting obligations</h3>
-  <p>Where required by applicable legislation, we report suspicious or unusual transactions or activities to the relevant regulatory authorities, including the Financial Intelligence Centre. We are prohibited by law from disclosing to any person that such a report has been made.</p>
-
-  <h3>Record keeping</h3>
-  <p>We maintain accurate, up-to-date records of customer identification, transactional information, risk assessments and AML-related correspondence, retained for the periods required under applicable law, and protected through industry-standard security controls against unauthorised access, loss or misuse.</p>
-
-  <h3>Compliance monitoring</h3>
-  <p>We maintain an internal Risk Management and Compliance Programme ("RMCP"), an internal governance document (not published), setting out our operational controls for preventing financial crime. It is overseen by our appointed Money Laundering Reporting Officer.</p>
-
-  <h3>Client responsibilities</h3>
-  <p>You are responsible for ensuring that the information you provide us is complete, accurate and kept up to date, and for promptly notifying us of any material changes and cooperating with reasonable requests for updated documentation.</p>
-
-  <div class="tc-callout">Questions about this Policy or our financial crime compliance approach: <a href="mailto:compliance@blackcrownmarkets.com">compliance@blackcrownmarkets.com</a></div>
+  <div class="tc-doc-download">
+    <div class="tc-doc-download-icon">PDF</div>
+    <div class="tc-doc-download-info"><strong>AML Policy</strong><span>Version 07.2026 (v1.2)</span></div>
+    <a href="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Black%20Crown%20Holdings%20AML%20Policy%2007.2026%20v1.2.pdf" target="_blank" rel="noopener" class="tc-doc-download-btn">View document</a>
+  </div>
 </article>
 
 <div class="tc-acceptance">
-  By opening or continuing to use a Black Crown Markets trading account, you confirm that you have read, understood and agree to be bound by the Client Agreement, Risk Policy, Privacy Policy, FAIS Disclosure and AML Policy summarised above. These summaries are provided for convenience — the full, governing versions of each policy are available on request from <a href="mailto:compliance@blackcrownmarkets.com">compliance@blackcrownmarkets.com</a>.
+  By opening or continuing to use a Black Crown Markets trading account, you confirm that you have read, understood and agree to be bound by the Client Agreement, Risk Policy, Privacy Policy, FAIS Disclosure and AML Policy linked above. If you have any questions about these documents, contact <a href="mailto:compliance@blackcrownmarkets.com">compliance@blackcrownmarkets.com</a>.
 </div>
 
 </div>
