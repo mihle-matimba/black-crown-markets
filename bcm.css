@@ -9,7 +9,7 @@
 .widget.widget-item-icon .widget-subtitle a{color:#7B2FBE!important;font-size:13px!important;font-weight:600!important;text-decoration:none!important}
 .widget.widget-item-icon .widget-subtitle a:hover{text-decoration:underline!important}
 #scrollWidget .owl-controls{margin-top:8px!important}
-#scrollWidget .owl-pagination{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:6px!important}
+#scrollWidget .owl-pagination{display:flex!important;align-items:center!important;justify-content:center;gap:6px!important}
 #scrollWidget .owl-page{display:flex!important;align-items:center!important;justify-content:center!important}
 #scrollWidget .owl-page span{display:block!important;width:8px!important;height:8px!important;border-radius:50%!important;background:#e5e5e7!important;margin:0!important}
 #scrollWidget .owl-page.active span{background:#7B2FBE!important}
