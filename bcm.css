@@ -25,6 +25,7 @@ html body #scrollWidget .widget.widget-carousel{display:flex!important;flex-dire
 .widget.widget-padding-sm.widget-default .widget-buttons .col{flex:none!important;width:auto!important;display:flex!important;align-items:center!important;justify-content:center!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .col a{display:flex!important;align-items:center!important;justify-content:center!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .col:nth-child(1) .fa{color:#7B2FBE!important}
+.tile.tile-warning.metatrader-color{background:#fff!important;border:1px solid #8423fe!important;border-color:#8423fe!important;border-radius:5px!important;padding:10px!important;padding-top:18px!important;min-height:100px!important;text-align:center!important;color:#6c33b3!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .col:nth-child(2) .fa,.widget.widget-padding-sm.widget-default .widget-buttons .col:nth-child(3) .fa{color:#c9c9d1!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .fa{font-size:20px!important}
 html body .widget.widget-padding-sm.widget-default{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;height:auto!important}
