@@ -23,4 +23,5 @@ html.bcm-login-page,html.bcm-login-page body{background:#050008 url('https://ysc
 .login-body.bcm-login-card,.login-body.bcm-login-card *{animation:none!important;-webkit-animation:none!important;opacity:1!important}
 html.bcm-login-page .header-background{display:none!important}
 html body .login-body.bcm-login-card{position:fixed!important;top:50%!important;left:50%!important;right:auto!important;bottom:auto!important;margin:0!important;transform:translate(-50%,-50%)!important}
+.bcm-login-left [style*="color:#fff"],.bcm-login-left [style*="color: #fff"],.bcm-login-left [style*="color:#FFF"],.bcm-login-left [style*="color: #FFF"]{color:#374151!important}
 @media (max-width:860px){.login-body.bcm-login-card{flex-direction:column!important;width:95vw!important;margin:24px auto!important}.bcm-login-right{display:none!important}}
