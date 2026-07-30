@@ -33,6 +33,7 @@ html body .login-body.bcm-login-card,html body .registration-body.bcm-login-card
 .bcm-login-left ul.steps_2.anchor:before{content:''!important;position:absolute!important;top:50%!important;left:16px!important;right:16px!important;height:2px!important;background:#e5e5e7!important;transform:translateY(-50%)!important;z-index:0!important}
 .bcm-login-left ul.steps_2.anchor li{all:unset!important;box-sizing:border-box!important;display:block!important;flex:none!important;position:relative!important;z-index:1!important}
 .bcm-login-left ul.steps_2.anchor li:before,.bcm-login-left ul.steps_2.anchor li:after{content:none!important;display:none!important}
+.bcm-login-left ul.steps_2.anchor li>*:not(a){display:none!important}
 .bcm-login-left ul.steps_2.anchor li a{all:unset!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;width:32px!important;height:32px!important;border-radius:50%!important;background:#f3f0ff!important;color:#7B2FBE!important;font-weight:700!important;font-size:13px!important;cursor:pointer!important;position:relative!important;overflow:hidden!important}
 .bcm-login-left ul.steps_2.anchor li a:before,.bcm-login-left ul.steps_2.anchor li a:after{content:none!important;display:none!important}
 .bcm-login-left ul.steps_2.anchor li a.selected{background:#7B2FBE!important;color:#fff!important}
