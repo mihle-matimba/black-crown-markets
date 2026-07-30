@@ -99,3 +99,6 @@ html body .login-body.bcm-login-card,html body .registration-body.bcm-login-card
 .bcm-login-left a.btn.btn-default{background:#fff!important;border:1.5px solid #e5e5e7!important;color:#374151!important}
 .bcm-login-left .btn-register{background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%)!important;border:none!important;border-radius:10px!important;height:48px!important;font-weight:700!important;font-size:15px!important;color:#fff!important;box-shadow:none!important;width:100%!important}
 @media (max-width:860px){.login-body.bcm-login-card,.registration-body.bcm-login-card{flex-direction:column!important;width:95vw!important;margin:24px auto!important}.bcm-login-right{display:none!important}}
+a.mb-control[data-box="#mb-signout"]{transition:background .15s ease,color .15s ease!important;border-radius:8px!important}
+a.mb-control[data-box="#mb-signout"]:hover{background:#7B2FBE!important;color:#fff!important}
+a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
