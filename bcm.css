@@ -102,3 +102,8 @@ html body .login-body.bcm-login-card,html body .registration-body.bcm-login-card
 a.mb-control[data-box="#mb-signout"]{transition:background .15s ease,color .15s ease!important;border-radius:8px!important}
 a.mb-control[data-box="#mb-signout"]:hover{background:#7B2FBE!important;color:#fff!important}
 a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
+.mb-container{width:420px!important;max-width:90vw!important;position:fixed!important;top:50%!important;left:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;margin:0!important;border-radius:20px!important;overflow:hidden!important;box-shadow:0 24px 80px rgba(0,0,0,.45)!important}
+.mb-middle{background:#050008 url('https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-07-30%20at%2018.38.50.png') no-repeat center center/cover!important;padding:32px!important;color:#fff!important}
+.mb-title{color:#fff!important;font-size:20px!important}
+.mb-content p{color:rgba(255,255,255,.85)!important}
+.mb-footer{margin-top:20px!important}
