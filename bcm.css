@@ -38,6 +38,7 @@ html body #scrollWidget .widget.widget-carousel{display:flex!important;flex-dire
 #webTraderWidget a{color:#6c33b3!important;font-weight:700!important;font-size:16px!important;line-height:1.8!important;text-decoration:none!important}
 #table_my_account_bottom .label.label-warning{background:#A78BFA!important;border-color:#A78BFA!important;color:#fff!important}
 #table_my_account_bottom .label.label-success{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
+#table_my_account_bottom .btn-danger{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .col:nth-child(2) .fa,.widget.widget-padding-sm.widget-default .widget-buttons .col:nth-child(3) .fa{color:#c9c9d1!important}
 .widget.widget-padding-sm.widget-default .widget-buttons .fa{font-size:20px!important}
 html body .widget.widget-padding-sm.widget-default{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;height:auto!important}
