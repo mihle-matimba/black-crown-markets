@@ -29,8 +29,10 @@ html body .login-body.bcm-login-card,html body .registration-body.bcm-login-card
 .bcm-login-left [style*="color:#fff"],.bcm-login-left [style*="color: #fff"],.bcm-login-left [style*="color:#FFF"],.bcm-login-left [style*="color: #FFF"]{color:#374151!important}
 .bcm-login-left .stepContainer{height:auto!important}
 .bcm-login-left .stepContainer .content{position:static!important;height:auto!important;overflow:visible!important}
-.bcm-login-left ul.steps_2.anchor{all:unset!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;padding:0!important;margin:0 0 32px 0!important;position:relative!important;width:100%!important}
-.bcm-login-left ul.steps_2.anchor:before{content:''!important;position:absolute!important;top:50%!important;left:16px!important;right:16px!important;height:2px!important;background:#e5e5e7!important;transform:translateY(-50%)!important;z-index:0!important}
+.bcm-login-left .wizard{border:none!important;box-shadow:none!important;background:none!important}
+.bcm-login-left ul.steps_2.anchor{all:unset!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;padding:0!important;margin:0 0 32px 0!important;position:relative!important;width:100%!important;border:none!important;box-shadow:none!important;background:none!important}
+.bcm-login-left ul.steps_2.anchor:before,.bcm-login-left ul.steps_2.anchor:after{content:none!important;display:none!important}
+.bcm-login-left ul.steps_2.anchor:before{content:''!important;display:block!important;position:absolute!important;top:50%!important;left:16px!important;right:16px!important;height:2px!important;background:#e5e5e7!important;transform:translateY(-50%)!important;z-index:0!important}
 .bcm-login-left ul.steps_2.anchor li{all:unset!important;box-sizing:border-box!important;display:block!important;flex:none!important;position:relative!important;z-index:1!important}
 .bcm-login-left ul.steps_2.anchor li:before,.bcm-login-left ul.steps_2.anchor li:after{content:none!important;display:none!important}
 .bcm-login-left ul.steps_2.anchor li>*:not(a){display:none!important}
