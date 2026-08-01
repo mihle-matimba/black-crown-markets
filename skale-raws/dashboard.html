@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+		<!-- META SECTION -->
+	<title>blackcrown | My Account</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+	<meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+	<meta name="csrf-token" content="X9DVG5RbmYlk7WWTJTNwsZGK436L4XmAuhi5hyw3">
+
+	<link rel="icon" href="https://cdn.skaleapps.io/images/branding/f2UpYqvM5N.png" type="image/x-icon"/>
+	<!-- END META SECTION -->
+
+	<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/jquery/jquery.min.js?v=e63154d"></script>
+	<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/jquery/jquery-ui.min.js?v=e63154d"></script>
+	<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/bootstrap/bootstrap.min.js?v=e63154d"></script>
+
+	<!-- CSS INCLUDE -->
+	<link rel="stylesheet" type="text/css" id="theme" href="https://trade.blackcrownmarkets.com/css/templates.default.css?v=e63154d"/>
+	<link rel="stylesheet" type="text/css" href="https://trade.blackcrownmarkets.com/css/fontawesome/font-awesome.min.css?v=e63154d"/>
+	<!-- EOF CSS INCLUDE -->
+
+	<style>
+				.balance-color {
+					background: #b64645 !important;
+				}
+				.metatrader-color {
+					background: #fea223 !important;
+					border-color: #fea223 !important;
+				}
+				.webtrader-color {
+					background: #fea223 !important;
+					border-color: #fea223 !important;
+				}
+				.x-navigation.x-navigation-horizontal {
+					background: #33414e !important;
+				}
+				.page-container {
+					background: #33414e !important;
+				}
+				.x-navigation {
+					background: #33414e !important;
+				}
+				.page-container .page-content, .page-container .page-content .row {
+					background: #f5f5f5 !important;
+				}
+				.btn-primary {
+				  background-color: #33414e !important;
+				  border-color: #33414e !important;
+				  color: #ffffff !important;
+				}
+				.btn-primary:hover,
+				.btn-primary:focus,
+				.btn-primary:active,
+				.btn-primary.active,
+				.open > .dropdown-toggle.btn-primary {
+				  background-color: #29343f !important;
+				  border-color: #29343f !important;
+				  color: #ffffff !important;
+				}
+				.btn-default {
+				  background-color: #ffffff !important;
+				  border-color: #dddddd !important;
+				  color: #333333 !important;
+				}
+				.btn-default:hover,
+				.btn-default:focus,
+				.btn-default:active,
+				.btn-default.active,
+				.open > .dropdown-toggle.btn-default {
+				  background-color: #f5f5f5 !important;
+				  border-color: #dddddd !important;
+				  color: #333333 !important;
+				}
+				.x-navigation > li.xn-logo > a:first-child {
+					background-image: url("https://cdn.skaleapps.io/images/branding/NCrcSIgsNB.png") !important;
+					background-size: 220px auto !important;
+				}
+				.footer-color {
+					background-color: #29343f !important;
+				}
+				.disclaimer-color {
+					background-color: #29343f !important;
+				}
+				.btn-deposit {
+					background-color: #95b75d !important;
+					color: #ffffff !important;
+				}
+				.btn-deposit.active, .btn-deposit.focus, .btn-deposit:active, .btn-deposit:focus, .btn-deposit:hover, .open>.dropdown-toggle.btn-deposit {
+					background-color: #5cb85c !important;
+					color: #ffffff !important;
+				}
+				.spinner:before {
+					border: 1px solid #cccccc !important;
+					border-top-color: #000000 !important;
+					z-index: 99999999 !important;
+				}
+				.x-navigation li a:hover {
+				    background: #3d4e5d !important;
+				}
+				.profile-data-name {
+				    color: #ffffff !important;
+				}
+				.button-yes {
+				    background: #95b75d !important;
+				    border-color: #95b75d !important;
+				}
+				.button-no {
+				    background: #ffffff !important;
+				    border-color: #ffffff !important;
+				}
+			</style>
+
+	    	<script src="https://trade.blackcrownmarkets.com/js/chart.js?v=e63154d"></script>
+	<script src="https://trade.blackcrownmarkets.com/js/chartjs-plugin-annotation.js?v=e63154d"></script>
+	<style>
+		.chart-container {
+			background: white;
+			padding: 20px;
+			width: 100%;
+			height: 400px;
+		}
+		.chart-container canvas {
+			width: 100% !important;
+			height: 100% !important;
+		}
+		.chart-container #chart-loading {
+			width: 100% !important;
+			height: 100% !important;
+		}
+
+		 .copy-btn {
+			 color: #6c757d;
+			 border: none;
+			 background: transparent;
+			 cursor: pointer;
+			 transition: color 0.2s;
+		 }
+		.copy-btn:hover {
+			color: #007bff;
+		}
+	</style>
+	<script src="https://cdn.jsdelivr.net/gh/mihle-matimba/black-crown-markets@4a0f538fff59a147c489b0da937b1e3361486a28/bcm.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script></head>
+<body class="myAccount">
+
+<div class="loader"></div>
+<!-- START PAGE CONTAINER -->
+
+<div class="main-header">
+	<!-- START X-NAVIGATION VERTICAL -->
+	<ul class="x-navigation x-navigation-horizontal x-navigation-panel" >
+
+		<div id="navBar"></div>
+		<!-- Mobile Header Row -->
+<div class="mobile-header">
+            <div class="mobile-logo">
+            <div class="logo">
+                <a href="/"><img style="max-width: 150px; max-height:75px; display: block; margin: auto;" src="https://cdn.skaleapps.io/images/branding/0J7oH6XZSP.png"></a>
+            </div>
+        </div>
+        <div class="mobile-header-right">
+        <!-- Existing language selector -->
+        <li id="language-hide" class="xn-icon-button pull-right mobile-language-container" style="z-index: 100;">
+            <a href="#"><span class="flag" style="background-image: url('https://trade.blackcrownmarkets.com/img/flags/gb.png')"></span></a>
+            <ul class="xn-drop-left xn-drop-white animated zoomIn">
+                                    <li>
+                        <a href="?lang=en"><span class="flag" style="background-image: url('https://trade.blackcrownmarkets.com/img/flags/gb.png')"></span> English
+                        </a></li>
+                            </ul>
+        </li>
+
+        <!-- Hamburger Menu -->
+        <div class="mobile-menu-trigger">
+            <div id="hamburgerMenu" class="hamburger-menu" onclick="toggleMobileMenu()">
+                <span class="hamburger-line top"></span>
+                <span class="hamburger-line middle"></span>
+                <span class="hamburger-line bottom"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Welcome Row -->
+    <div class="mobile-welcome-row">
+        Welcome
+        <strong>Chris Bredell</strong>
+            </div>
+
+					<li class="desktop-logo-li">
+				<div class="logo">
+					<a href="/"><img style="max-width: 220px; display: block; margin: auto;" src="https://cdn.skaleapps.io/images/branding/0J7oH6XZSP.png"></a>
+				</div>
+			</li>
+				<li class="desktop-welcome-li" style="padding-top: 15px; padding-left: 15px; font-size: 14px; color: #FFF; font-weight: 500;">
+			<div id="titleDiv"></div>
+			<div id="welcomRow" class="profile-data">
+				<div class="profile-data-name" style="margin-bottom: 20px;">
+					Welcome
+					<strong>Chris Bredell</strong>
+														</div>
+			</div>
+		</li>
+		<!-- POWER OFF -->
+		<li class="pull-right last desktop-logout-li">
+			<a href="" class="mb-control" data-box="#mb-signout">Logout
+				<span class="fa fa-power-off"></span></a>
+		</li>
+		<!-- END POWER OFF -->
+		<!-- LANG BAR -->
+		<li id="language-hide" class="xn-icon-button pull-right desktop-language-li" style="z-index: 100;">
+			<a href="#"><span class="flag" style="background-image: url('https://trade.blackcrownmarkets.com/img/flags/gb.png')"></span></a>
+			<ul class="xn-drop-left xn-drop-white animated zoomIn">
+									<li>
+						<a href="?lang=en"><span class="flag" style="background-image: url('https://trade.blackcrownmarkets.com/img/flags/gb.png')"></span> English
+						</a></li>
+							</ul>
+		</li>
+		<!-- END LANG BAR -->
+	</ul>
+	<!-- END X-NAVIGATION VERTICAL -->
+</div>
+
+
+<div class="page-container">
+    	
+	<div id="leftSideMenu" class="left-side-menu">
+		<div class="page-sidebar" >
+    <!-- START X-NAVIGATION -->
+    <ul id="navigationBlock" class="x-navigation">
+                    <li id="myAccountMenu" class="curr_">
+                <a href="https://trade.blackcrownmarkets.com"><span
+                        class="fa fa-desktop"></span> <span
+                        class="xn-text">My Account</span></a>
+            </li>
+                        
+                                                        <li id="fundAccountMenu2" class="curr_deposit">
+                        <a href="https://trade.blackcrownmarkets.com/deposit"><span
+                                class="fa fa-dollar"></span> <span
+                                class="xn-text">Fund Account</span></a>
+                    </li>
+                                                    <li id="transactionsMenu" class="curr_transactions">
+                        <a href="https://trade.blackcrownmarkets.com/transactions"><span
+                                class="fa fa-dollar"></span> <span
+                                class="xn-text">Transactions</span></a>
+                    </li>
+                                                        <li id="tradingHistoryMenu" class="curr_trading-history">
+                <a href="https://trade.blackcrownmarkets.com/trading-history"><span
+                        class="fa fa-bar-chart-o"></span> <span
+                        class="xn-text">Trades</span></a>
+            </li>
+                            <li id="accountSettingsMenu"
+                class="xn-openable curr_accounts curr_my-profile curr_change-password curr_settings-2fa curr_bank-details curr_bank-detailscreate curr_crypto-wallet curr_upload-documents curr_delete-account">
+                <a href="#"><span class="fa fa-files-o"></span> <span
+                        class="xn-text">Account Settings</span></a>
+                <ul>
+                                                                        <li class="curr_accounts">
+                                <a href="https://trade.blackcrownmarkets.com/accounts">Trading Accounts</a>
+                            </li>
+                                                                                        <li class="curr_my-profile">
+                            <a href="https://trade.blackcrownmarkets.com/my-profile">Personal Details</a>
+                        </li>
+                                                                <li class="curr_change-password">
+                            <a href="https://trade.blackcrownmarkets.com/change-password">Change Password</a>
+                        </li>
+                                                                                    <li class="curr_bank-details curr_bank-detailscreate">
+                            <a href="https://trade.blackcrownmarkets.com/bank-details">Bank Details</a>
+                        </li>
+                                                                                    <li class="curr_upload-documents">
+                            <a href="https://trade.blackcrownmarkets.com/upload-documents">Upload Documents</a>
+                        </li>
+                                                        </ul>
+            </li>
+                                        <li id="requestsSettingsMenu"
+                class="xn-openable curr_request-status curr_withdraw curr_internal-transfers curr_change-leverage">
+                <a href="#"><span class="glyphicon glyphicon-transfer"></span> <span
+                        class="xn-text">Requests</span></a>
+                <ul>
+                                            <li class="curr_request-status">
+                            <a href="https://trade.blackcrownmarkets.com/request-status">Request status</a>
+                        </li>
+                                                                <li class="curr_withdraw">
+                            <a href="https://trade.blackcrownmarkets.com/withdraw">Withdrawal</a>
+                        </li>
+                                                                <li class="curr_internal-transfers">
+                            <a href="https://trade.blackcrownmarkets.com/internal-transfers">Internal Transfer</a>
+                        </li>
+                                                                <li class="curr_change-leverage">
+                            <a href="https://trade.blackcrownmarkets.com/change-leverage">Change Leverage</a>
+                        </li>
+                                    </ul>
+            </li>
+                            
+        
+                    
+            
+            
+                    
+                            
+                            
+        
+        
+        
+        
+        
+                            
+                                                <li id="tradingPlatformsMenu" class="xn-openable curr_downloads">
+                <a href="#"><span class="glyphicon glyphicon-download-alt"></span> <span
+                        class="xn-text">Trading Platforms</span></a>
+                <ul>
+                    <li class="curr_downloads">
+                        <a href="https://trade.blackcrownmarkets.com/downloads">Platforms</a>
+                    </li>
+                </ul>
+            </li>
+                                    
+                            
+                    <li id="webTraderMenu" class="curr_webtrader">
+                <a href="https://trade.blackcrownmarkets.com/web-trader">
+                    <span class="fa fa-globe"></span>
+                    <span class="xn-text">Web Trader</span></a>
+            </li>
+                    <!-- Mobile Logout Row -->
+            <div class="mobile-logout-row">
+                <a href="" class="mb-control" data-box="#mb-signout">
+                    <span class="fa fa-power-off"></span>
+                    <span class="xn-text">Logout</span>
+                </a>
+            </div>
+    </ul>
+    <!-- END X-NAVIGATION -->
+</div>
+<!-- END PAGE SIDEBAR -->
+	</div>
+
+	<!-- PAGE CONTENT -->
+	<div class="page-content">
+		<div style="margin:0 10px;" id="messages"></div>
+
+		
+		<!-- PAGE CONTENT WRAPPER -->
+		<div class="page-content-wrap">
+			
+                                                <div id="yourAccount"
+             data-ftd-amount="&quot;0.00&quot;"
+             data-ftd-status="0">
+        </div>
+        <div class="row" style="padding-top: 18px;">
+            <div class="profile-data col-md-4" style="margin-top: 5px; ">
+                <h2 id="selectAccount" style="">Select Your Trading Account</h2>
+            </div>
+            <div class="form-group col-md-3">
+                <form id="accounts" action="https://trade.blackcrownmarkets.com/api/refresh-widgets" method="post"
+                      class="form-horizontal">
+                    <div id="accountsSelect" class="col-md-12">
+                        <select class="form-control select account-select" id="selectAccounts">
+                                                                                                <option selected value="2000002"
+                                            data-provides-balance-history="0">
+                                                                                    2000002
+                                            (Live)
+                                                                            </option>
+                                                                                                                                <option value="2000003"
+                                            data-provides-balance-history="0">
+                                                                                    2000003
+                                            (Demo)
+                                                                            </option>
+                                                                                                                                <option value="3000001"
+                                            data-provides-balance-history="0">
+                                                                                    3000001
+                                            (Demo)
+                                                                            </option>
+                                                                                                                                <option value="2000016"
+                                            data-provides-balance-history="0">
+                                                                                    2000016
+                                            (Live)
+                                                                            </option>
+                                                                                                                                <option value="2000017"
+                                            data-provides-balance-history="0">
+                                                                                    2000017
+                                            (Live)
+                                                                            </option>
+                                                                                    </select>
+                    </div>
+                </form>
+            </div>
+            <div id="refreshButton" class="col-md-5">
+                <ul class="panel-controls">
+                    <li><a href="#" class="refreshWidgets"><span class="fa fa-refresh"></span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="widgets" class="col-md-12" style="padding: 0px">
+            <div class="row">
+			<div id="leftWidget" class="col-md-3">
+			<div class="widget widget-danger widget-padding-sm balance-color">
+									<div class="widget-title">&nbsp;</div>
+					<div class="widget-int">&nbsp;</div>
+							</div>
+		</div>
+		<div id="middleWidget" class="col-md-3">
+			<div class="widget widget-default widget-item-icon">
+									<div class="widget-title">&nbsp;</div>
+					<div class="widget-int num-count">&nbsp;</div>
+							</div>
+		</div>
+		<div id="scrollWidget" class="col-md-3" dir="ltr">
+			<div class="widget widget-default widget-carousel">
+				<div class="owl-carousel" id="owl-example">
+									</div>
+			</div>
+		</div>
+							<div id="accountStatusWidget" class="col-md-3">
+				<div class="widget widget-padding-sm widget-default ">
+					<div class="widget-title">Account Status</div>
+										<div class="widget-subtitle"
+						  style="width: 75%; margin-left: 50px;" >
+						<div class="progress progress-small"
+							 style="margin-left: 15px; margin-right: 15px; margin-bottom: 0px; margin-top:10px;">
+							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+								 aria-valuemin="0" aria-valuemax="100" style="width: 33.333333333333%">
+
+							</div>
+						</div>
+					</div>
+					<div class="widget-buttons widget-c4"
+						 style="border-top: 0px solid rgba(0, 0, 0, 0.1);  margin-left: 50px; ">
+													<div class="col">
+																			<a href="#">
+																								<span data-toggle="tooltip" data-placement="bottom"
+													  data-original-title="Legal Not Accepted"
+													  class="fa fa-legal  text-danger"></span></a>
+									</a>
+							</div>
+																									<div class="col">
+								<a href="#"><span data-toggle="tooltip" data-placement="bottom"
+												  data-original-title="Documentation Verified"
+												  class="fa fa-files-o text-success"></span></a>
+							</div>
+																			<div class="col">
+								<a href="#"><span data-toggle="tooltip" data-placement="bottom"
+												  data-original-title="Trading Enabled"
+												  class="fa fa-user text-success"></span></a>
+							</div>
+											</div>
+				</div>
+			</div>
+			</div>
+
+<script>
+	var account = '2,000,002.00';
+	var balance = 'N/A';
+	var equity = 'N/A';
+	var balanceValue = 'N/A';
+
+	// Check if balance and equity are not empty before updating the DOM
+	if (balance !== '' && equity !== '') {
+		$('.' + account + '-balance').text(balance);
+		$('.' + account + '-equity').text(equity);
+	}
+	//
+	function number_format(number, dec_point, thousands_point) {
+		if (number == null || number === '' || !isFinite(number)) {
+			return 'N/A';
+		}
+		if (!dec_point) {
+			dec_point = '.';
+		}
+		if (!thousands_point) {
+			thousands_point = ',';
+		}
+		number = parseFloat(number);
+		if (isNaN(number)) {
+			return 'N/A';
+		}
+		if (Number.isInteger(number)) {
+			number = number.toFixed(2);
+		} else {
+			number = number.toString();
+		}
+		number = number.replace(".", dec_point);
+		var splitNum = number.split(dec_point);
+		splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+		number = splitNum.join(dec_point);
+		return number;
+	}
+
+	try {
+		var accountNumber = '2000002';
+
+		$('#table_my_account_bottom tbody tr').each(function () {
+			var accId = $(this).attr('id');
+			if (accId == accountNumber) {
+				var equityFloat = parseFloat(equity);
+				var balanceFloat = parseFloat(balanceValue);
+
+				var valueText = number_format(equityFloat, '.', ',');
+				$(this).find('td.' + accId + '-equity').text(valueText);
+				var valueTextBalance = number_format(balanceFloat, '.', ',');
+				$(this).find('td.' + accId + '-balance').text(valueTextBalance);
+			}
+		});
+	} catch (e) {
+		console.log('failing in parsing numbers in widget table')
+	}
+</script>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                                    <div id="platformWidget" class="tile tile-warning metatrader-color" style="padding-top: 18px;">
+                        <p style="font-size: 20px; font-weight: bold;">Trading Platform</p>
+                                                                            <a target="_blank" href="https://download.terminal.free/cdn/web/black.crown.holdings/mt5/blackcrownholdings5setup.exe"><img style="width: 80px; margin: 5px;" src="https://trade.blackcrownmarkets.com/img/buttons/metatrader-5-logo.png?v="></a>
+                                                                                                                                                                            <a target="_blank" href="https://download.terminal.free/cdn/mobile/mt5/android?server=BlackCrownHoldings-Live"><img style="width: 80px; margin: 5px;" src="https://trade.blackcrownmarkets.com/img/buttons/android.png?v="></a>
+                                                                            <a target="_blank" href="https://download.terminal.free/cdn/mobile/mt5/ios?server=BlackCrownHoldings-Live"><img style="width: 80px; margin: 5px;" src="https://trade.blackcrownmarkets.com/img/buttons/ios.png?v=e63154d"></a>
+                                                                                                
+                                                                        
+                                                                        
+                                                                                                                                                                    </div>
+                                                    <div id="webTraderWidget" class="tile tile-warning webtrader-color" style="font-size: 18px; font-weight: bold; padding-top: 18px;">
+                                                    <a href="https://webtrader.blackcrownmarkets.com" style="color: #ffffff">Access Live WebTrader</a>
+                                                                            <br><a target="_blank" href="https://webtrader.blackcrownmarkets.com" style="color: #ffffff">Access Demo WebTrader</a>
+                                            </div>
+                
+                                </div>
+
+                        <div id="exposure">
+                <div id="currentExposureTable" class="col-md-6" style="">
+                    <div id="exposureTableTitleBody" class="panel panel-default">
+                        <div id="exposureTableTitle" class="panel-heading" >
+                            <h3 id="exposureTableTitleH3"  class="panel-title"><strong>Current Exposure</strong></h3>
+                        </div>
+                        <div id="exposureTable" class="panel-body panel-body-table">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-actions">
+                                    <thead>
+                                    <tr>
+                                        <th >Symbol</th>
+                                        <th >Net exposure</th>
+                                        <th >Buy trades</th>
+                                        <th >Sell trades</th>
+                                        <th >Buy volume</th>
+                                        <th >Sell volume</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="exposure_table">
+                                    <tr id="loader">
+                                        <td colspan="6" width="100%" height="100%" align="center">
+                                            <img src="/img/loaders/default.gif" >
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="currentExposureWidgetBeforeLoading" class="col-md-3">
+                    <div id="exposureTitleBodyBeforeLoading" class="panel panel-default">
+                        <div id="exposureTitleBeforeLoading" class="panel-heading" >
+                            <h3>&nbsp;</h3>
+                        </div>
+                        <div id="exposureBodyBeforeLoading" class="panel-body">
+                            <div id="exposure_pieBeforeLoading" style="height: 255px;">
+                                <img id="pie_loaderBeforeLoading" src="/img/loaders/default.gif" style="position: absolute;margin: auto;top: 0;left: 0;right: 0;bottom: 0;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="html">
+            <div id="tradingAccountsTable" class="col-md-12">
+	<div class="panel panel-default">
+
+		<div class="panel-heading" >
+			<h3 id="tradingAccountsTableTitle" class="panel-title"><strong>Your Trading Accounts</strong></h3>
+		</div>
+		<div class="panel-body panel-body-table">
+
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-actions" id="table_my_account_bottom">
+					<thead>
+					<tr>
+						<th >Account Number</th>
+						<th id="trading-platform-header">Trading Platform</th>
+						<th >Type</th>
+						<th >Base Currency</th>
+						<th >Leverage</th>
+						<th >Account Type</th>						<th >Created</th>
+						<th  class="last-login">Last Logged In</th>
+						<th >Balance</th>
+						<th >Equity</th>
+						<th >Action</th>
+					</tr>
+					</thead>
+					<tbody>
+											<tr id="2000002">
+							<td class="account-number" >
+								<strong>2000002</strong>							</td>
+							<td class="platform-name" >
+								<strong>
+									MT5
+																	</strong>
+							</td>
+							<td class="account-type">
+
+															<span class="label label-success">
+																Live
+								</span>
+								</span>
+							</td>
+							<td class="currency">USD</td>
+							<td class="leverage">100</td>
+							<td class="account-type-requested"></td>							<td class="created-time">28/07/2026 13:23:33</td>
+															<td class="last-login">28/07/2026</td>
+							
+
+
+							<td class="2000002-balance">Loading...</td>
+							<td class="2000002-equity">Loading...</td>
+							<td class="actions">
+																																																		<a href="https://trade.blackcrownmarkets.com/deposit" class="btn btn-danger btn-rounded btn-condensed btn-sm">Deposit</a>
+																																													</td>
+						</tr>
+											<tr id="2000003">
+							<td class="account-number" >
+								<strong>2000003</strong>							</td>
+							<td class="platform-name" >
+								<strong>
+									MT5
+																	</strong>
+							</td>
+							<td class="account-type">
+
+															<span class="label label-warning">
+																Demo
+								</span>
+								</span>
+							</td>
+							<td class="currency">USD</td>
+							<td class="leverage">100</td>
+							<td class="account-type-requested"></td>							<td class="created-time">28/07/2026 13:33:49</td>
+															<td class="last-login">31/07/2026</td>
+							
+
+
+							<td class="2000003-balance">Loading...</td>
+							<td class="2000003-equity">Loading...</td>
+							<td class="actions">
+																																																																								</td>
+						</tr>
+											<tr id="3000001">
+							<td class="account-number" >
+								<strong>3000001</strong>							</td>
+							<td class="platform-name" >
+								<strong>
+									MT5
+																	</strong>
+							</td>
+							<td class="account-type">
+
+															<span class="label label-warning">
+																Demo
+								</span>
+								</span>
+							</td>
+							<td class="currency">USD</td>
+							<td class="leverage">100</td>
+							<td class="account-type-requested"></td>							<td class="created-time">28/07/2026 13:46:06</td>
+															<td class="last-login">-</td>
+							
+
+
+							<td class="3000001-balance">Loading...</td>
+							<td class="3000001-equity">Loading...</td>
+							<td class="actions">
+																																																																								</td>
+						</tr>
+											<tr id="2000016">
+							<td class="account-number" >
+								<strong>2000016</strong>							</td>
+							<td class="platform-name" >
+								<strong>
+									MT5
+																	</strong>
+							</td>
+							<td class="account-type">
+
+															<span class="label label-success">
+																Live
+								</span>
+								</span>
+							</td>
+							<td class="currency">USD</td>
+							<td class="leverage">100</td>
+							<td class="account-type-requested">Standard Account</td>							<td class="created-time">30/07/2026 20:05:45</td>
+															<td class="last-login">30/07/2026</td>
+							
+
+
+							<td class="2000016-balance">Loading...</td>
+							<td class="2000016-equity">Loading...</td>
+							<td class="actions">
+																																																		<a href="https://trade.blackcrownmarkets.com/deposit" class="btn btn-danger btn-rounded btn-condensed btn-sm">Deposit</a>
+																																													</td>
+						</tr>
+											<tr id="2000017">
+							<td class="account-number" >
+								<strong>2000017</strong>							</td>
+							<td class="platform-name" >
+								<strong>
+									MT5
+																	</strong>
+							</td>
+							<td class="account-type">
+
+															<span class="label label-success">
+																Live
+								</span>
+								</span>
+							</td>
+							<td class="currency">ZAR</td>
+							<td class="leverage">100</td>
+							<td class="account-type-requested">Standard Account</td>							<td class="created-time">30/07/2026 20:06:30</td>
+															<td class="last-login">-</td>
+							
+
+
+							<td class="2000017-balance">Loading...</td>
+							<td class="2000017-equity">Loading...</td>
+							<td class="actions">
+																																																		<a href="https://trade.blackcrownmarkets.com/deposit" class="btn btn-danger btn-rounded btn-condensed btn-sm">Deposit</a>
+																																													</td>
+						</tr>
+										</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+        </div>
+    		</div>
+		<!-- END PAGE CONTENT WRAPPER -->
+	</div>
+	<!-- END PAGE CONTENT -->
+</div>
+<!-- END PAGE CONTAINER -->
+
+<!-- MESSAGE BOX-->
+<div class="message-box animated fadeIn" id="mb-signout">
+	<div class="mb-container" dir="ltr">
+		<div class="mb-middle">
+			<div class="mb-title" ><span class="fa fa-sign-out" ></span> <strong>Logout</strong> ?
+			</div>
+			<div class="mb-content" >
+				<p>Are you sure you want to log out?</p><p>Press No if you want to continue work. Press Yes to logout current user.</p>
+			</div>
+			<div class="mb-footer" >
+				<div class="pull-right">
+					<a href="https://trade.blackcrownmarkets.com/logout" class="btn btn-success btn-lg button-yes" >Yes</a>
+					<button class="btn btn-default btn-lg mb-control-close button-no">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END MESSAGE BOX-->
+
+<!-- START SCRIPTS -->
+
+<!-- THIS PAGE PLUGINS -->
+<script type="text/javascript" src="//trade.blackcrownmarkets.com/js/parsley.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/owl/owl.carousel.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/icheck/icheck.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/datatables/jquery.dataTables.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/fileinput/fileinput.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/jquery.form.min.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/script.js?v=e63154d"></script>
+        <script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/morris/raphael-min.js?v=e63154d"></script>
+    <script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins/morris/morris.min.js?v=e63154d"></script>
+
+    <script>
+
+        $('document').ready(function() {
+            $('.refreshWidgets').click();
+            var accountTypes= [];
+            $("#selectAccounts option").each(function()
+            {
+                accountTypes.push($(this).val())
+            });
+
+            function refreshExposureData(selectedValue, showExposureTable) {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        _token: token,
+                        exposure_acc: selectedValue
+                    },
+                    cache: false,
+                    url: `https://trade.blackcrownmarkets.com/api/refresh-exposure?show-exposure-table=${showExposureTable}`,
+                    success: function (data) {
+                        var responseData = JSON.parse(data);
+                        $("#table_loader").remove();
+                        $("#pie_loader").remove();
+                        if (responseData.type == 1) {
+                            $("#exposure").html(responseData.msg);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX request failed: ", textStatus, errorThrown);
+                    }
+                });
+            }
+
+            function refreshEquityGraph() {
+                const selectedAccountId = $('#selectAccounts').find(":selected").val();
+                const selectedTimePeriod = $('#timePeriodSelect').val();
+
+                const url = `https://trade.blackcrownmarkets.com/widget/equity-graph/get?tp-account=${selectedAccountId}&time-period=${selectedTimePeriod}`;
+
+                removeExistingGraph();
+                $("#chart-loading").show();
+
+                $.getJSON(url)
+                    .done(function (data) {
+                        updateEquityChart(data.data.steps, data.data.equity, data.labels, data.thresholds);
+                        $("#chart-loading").hide();
+                        $("#graph-equity").fadeIn(300);
+                    })
+                    .fail(function () {
+                        removeExistingGraph();
+                    });
+            }
+
+            function removeExistingGraph() {
+                var ctx = $("#tradeGrowthChart")[0].getContext('2d');
+
+                var existingChart = Chart.getChart(ctx);
+
+                if (existingChart) {
+                    existingChart.destroy();
+                }
+            }
+
+            function getTranslatedTitle(key) {
+                return window.translations[key] || key;
+            }
+
+            function formatTitle(labelObj) {
+                const translatedValue = getTranslatedTitle(labelObj.value);
+
+                return labelObj.variable && labelObj.variable.trim() !== ""
+                    ? `${translatedValue} (${labelObj.variable})`
+                    : translatedValue;
+            }
+
+            function updateEquityChart(labels, dataset, titles, thresholds) {
+                var ctx = $("#tradeGrowthChart")[0].getContext('2d');
+
+                const annotations = thresholds.map(threshold => ({
+                    type: 'line',
+                    mode: 'horizontal',
+                    scaleID: 'y',
+                    value: threshold.value,
+                    borderColor: threshold.colour,
+                    borderWidth: 2,
+                    borderDash: [8],
+                    label: {
+                        display: true,
+                        content: getTranslatedTitle(threshold.label),
+                        position: "end",
+                    }
+                }));
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Equity",
+                            data: dataset,
+                            borderColor: "#6366F1",
+                            backgroundColor: "rgba(99, 102, 241, 0.2)",
+                            borderWidth: 2,
+                            pointBackgroundColor: "#6366F1",
+                            pointRadius: 5,
+                            fill: false,
+                            tension: 0.1,
+                            pointStyle: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                            annotation: {
+                                annotations: annotations
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: formatTitle(titles.x)
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: formatTitle(titles.y)
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function refreshAllGraphs() {
+                var showExposureTable = 1;
+
+                var selectedAccount = $('#selectAccounts').find(":selected");
+
+                if (selectedAccount.data('provides-balance-history')) {
+                    $('#currentExposureTable').hide();
+                    $('#graph-equity').show();
+                    showExposureTable = 0;
+
+                    refreshEquityGraph();
+                } else {
+                    $('#currentExposureTable').show();
+                    $('#graph-equity').hide();
+                }
+
+                refreshExposureData(selectedAccount.val(), showExposureTable);
+            }
+
+            $('#timePeriodSelect').on('change', function () {
+                refreshEquityGraph();
+            });
+
+            $('#selectAccounts').change(function (event) {
+                var selectedValue = $('#selectAccounts').find(":selected").val();
+
+                if (!accountTypes.includes(selectedValue) && selectedValue) {
+                    console.log("Invalid account type selected, preventing default action.");
+                    event.preventDefault();
+                    return false;
+                }
+
+                refreshAllGraphs();
+            });
+
+            refreshAllGraphs();
+        });
+
+    </script>
+
+    <script>
+        $('document').ready(function() {
+            var showAccTypeInTr = '1';
+            showAccTypeInTr = showAccTypeInTr == 'true' ? true : false;
+            var LiveText = 'Live';
+            var DemoText = 'Demo';
+            //
+            var accountsIdList = [];
+                        accountsIdList.push('2000002');
+                        accountsIdList.push('2000003');
+                        accountsIdList.push('3000001');
+                        accountsIdList.push('2000016');
+                        accountsIdList.push('2000017');
+                        var accountListIndex = 0;
+
+            function number_format(number, dec_point, thousands_point) {
+                if (number == null || number === '' || !isFinite(number)) {
+                    return 'N/A';
+                }
+                if (!dec_point) {
+                    dec_point = '.';
+                }
+                if (!thousands_point) {
+                    thousands_point = ',';
+                }
+                number = parseFloat(number);
+                if (isNaN(number)) {
+                    return 'N/A';
+                }
+                if (Number.isInteger(number)){
+                    number = number.toFixed(2);
+                } else {
+                    number = number.toString();
+                }
+                number = number.replace(".", dec_point);
+                var splitNum = number.split(dec_point);
+                splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+                number = splitNum.join(dec_point);
+                return number;
+            }
+
+            function loadAccount(index, list){
+                if (index >= list.length) {
+                    $('#table_my_account_bottom tbody tr').each(function() {
+                        var accId = $(this).attr('id');
+                        if ($(this).find('td.' + accId + '-balance').text() == 'Loading...'){
+                            $(this).find('td.' + accId + '-equity').text("N/A");
+                            $(this).find('td.' + accId + '-balance').text("N/A");
+                        }
+                    });
+                    return;
+                }
+                if (list[index] == '0' || list[index] == 0){
+                    loadAccount(index+1, list);
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        trading_account_id: list[index]
+                    },
+                    cache: false,
+                    url: "https://trade.blackcrownmarkets.com/ajax/get-account/execute",
+                    dataType: "json",
+                    success: function (data) {
+                        var balanceValue = data.balance;
+                        var equityValue = data.equity;
+                        var accountNumber = data.trading_account_id;
+                        $('#table_my_account_bottom tbody tr').each(function() {
+                            var accId = $(this).attr('id');
+                            if (accId === accountNumber){
+                                var valueText = number_format(parseFloat(equityValue), '.', ',');
+                                $(this).find('td.' + accId + '-equity').text(valueText);
+                                var valueTextBalance = number_format(parseFloat(balanceValue), '.', ',');
+                                $(this).find('td.' + accId + '-balance').text(valueTextBalance);
+                            }
+                        });
+                        loadAccount(index+1, list);
+                    },
+                    error: function (err) {
+                        loadAccount(index+1, list);
+                    }
+                });
+            }
+            //$('#table_my_account_bottom tbody').empty();
+            loadAccount(accountListIndex, accountsIdList);
+        });
+    </script>
+<!-- END THIS PAGE PLUGINS -->
+<script>
+	$.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
+		var token = $('meta[name="csrf-token"]').attr('content'); // or _token, whichever you are using
+
+		if (token) {
+			return xhr.setRequestHeader('X-CSRF-TOKEN', token); // adds directly to the XmlHttpRequest Object
+		}
+	});
+</script>
+<script>
+    var token = 'X9DVG5RbmYlk7WWTJTNwsZGK436L4XmAuhi5hyw3';
+    
+$(document).ready(function(){
+
+    $('.curr_').addClass('active');
+    $('.curr_ ul').show();
+    });
+	if(document.getElementById('changeDirectionLanguages')) {
+		let allSelects = document.getElementsByClassName('select');
+		let allSelectsSmall = document.getElementsByClassName('small-select');
+		for (let i=0; i < allSelects.length; i++ ) {
+			allSelects[i].classList.add('arrowDirection')
+		}
+		for (let i=0; i < allSelectsSmall.length; i++ ) {
+			allSelectsSmall[i].classList.add('arrowDirectionSmall')
+		}
+	}
+</script>
+<!-- CPATTERN -->
+
+<!-- START TEMPLATE -->
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/plugins.js?v=e63154d"></script>
+<script type="text/javascript" src="https://trade.blackcrownmarkets.com/js/actions.js?v=e63154d"></script>
+<!-- END TEMPLATE -->
+<!-- END SCRIPTS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mihle-matimba/black-crown-markets@4a0f538fff59a147c489b0da937b1e3361486a28/bcm.css">
+
+<script>
+	// Translation system with Promise-based coordination
+	let language = 'en';
+
+	// Expose a promise that resolves when translations are ready
+	window.translationsReady = new Promise(function(resolve, reject) {
+		function loadTranslations(lang) {
+			const url = `/translations/${lang}.json`;
+
+			return $.getJSON(url)
+					.done(function (translations) {
+						window.translations = translations;
+						resolve(translations);
+					})
+					.fail(function () {
+						console.error("Failed to load translations.");
+						reject(new Error('Failed to load translations'));
+					});
+		}
+
+		loadTranslations(language);
+	});
+
+	function applyTranslation(translations) {
+		if (!translations) return;
+
+		$('[data-trans]').each(function () {
+			const key = $(this).data('trans');
+			if (translations[key]) {
+				if ($(this).is('a') && key.startsWith('href')) {
+					$(this).attr('href', translations[key]);
+				} else {
+					if(key === "browse"){
+						const textNode = $(this).contents().filter(function() {
+							return this.nodeType === 3; // Text node
+						}).first();
+						if (textNode.length) {
+							textNode[0].textContent = translations[key];
+						}
+					}else {
+						$(this).text(translations[key]);
+					}
+				}
+			} else {
+				console.warn(`Translation missing for key: "${key}"`);
+			}
+		});
+	}
+
+	$(document).ready(function() {
+		window.translationsReady.then(function() {
+			applyTranslation(window.translations);
+		}).catch(function(error) {
+			console.error('Translation system failed:', error);
+		});
+	});
+</script>
+
+
+<script>
+	function toggleMobileMenu() {
+		const menu = document.getElementById('leftSideMenu');
+		const hamburgerMenu = document.getElementById('hamburgerMenu');
+
+		// Toggle menu open/closed
+		menu.classList.toggle('mobile-menu-open');
+		hamburgerMenu.classList.toggle('is-active');
+
+		// Hide hamburger when menu is open
+		if (menu.classList.contains('mobile-menu-open')) {
+			hamburgerMenu.classList.add('hamburger-hidden');
+		} else {
+			hamburgerMenu.classList.remove('hamburger-hidden');
+		}
+	}
+
+	// Close mobile menu when clicking outside
+	document.addEventListener('click', function(event) {
+		const menu = document.getElementById('leftSideMenu');
+		const hamburgerMenu = document.getElementById('hamburgerMenu');
+
+		if (menu.classList.contains('mobile-menu-open') &&
+				!menu.contains(event.target) &&
+				!hamburgerMenu.contains(event.target)) {
+			menu.classList.remove('mobile-menu-open');
+			hamburgerMenu.classList.remove('is-active');
+			hamburgerMenu.classList.remove('hamburger-hidden');
+		}
+	});
+</script>
+<script>
+	document.querySelector('.mobile-language-container > a').addEventListener('click', function(e) {
+		e.preventDefault();
+		const dropdown = this.nextElementSibling;
+		dropdown.style.opacity = dropdown.style.opacity === '1' ? '0' : '1';
+		dropdown.style.visibility = dropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
+	});
+
+	// Optional: Close when clicking outside
+	document.addEventListener('click', function(e) {
+		const container = document.querySelector('.mobile-language-container');
+		const dropdown = container.querySelector('ul');
+		if (!container.contains(e.target)) {
+			dropdown.style.opacity = '0';
+			dropdown.style.visibility = 'hidden';
+		}
+	});
+</script>
+
+</body>
+</html>
