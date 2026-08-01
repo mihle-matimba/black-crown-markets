@@ -111,3 +111,7 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 .mb-footer .pull-right{float:none!important;display:flex!important;justify-content:center!important;gap:12px!important}
 .mb-title,.mb-content,.mb-footer{background:transparent!important}
 .mb-footer .btn-success.button-yes{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
+.panel.panel-default{background:#fff!important;border:1px solid #f0f0f0!important;border-top:1px solid #f0f0f0!important;border-radius:16px!important;box-shadow:none!important;margin-bottom:24px!important}
+.panel-default>.panel-heading,.panel-default .panel-heading{background:#fff!important;border-color:#f0f0f0!important;border-bottom:1px solid #f0f0f0!important;border-top-left-radius:16px!important;border-top-right-radius:16px!important;padding:20px 24px!important}
+.panel-heading .panel-title,.panel-heading h3,.panel-heading h4{margin:0!important;font-size:18px!important;font-weight:700!important;color:#1a1a1a!important}
+.panel .panel-body,.panel-body{padding:24px!important}
