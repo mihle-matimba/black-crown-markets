@@ -127,3 +127,4 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 #platformWidget,#webTraderWidget{display:none!important}
 .col-md-3:has(#platformWidget){display:none!important}
 #currentExposureWidget{display:none!important}
+#currentExposureTable{width:100%!important;float:none!important;padding-left:0!important;padding-right:0!important}
