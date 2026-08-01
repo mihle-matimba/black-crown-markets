@@ -111,24 +111,3 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 .mb-footer .pull-right{float:none!important;display:flex!important;justify-content:center!important;gap:12px!important}
 .mb-title,.mb-content,.mb-footer{background:transparent!important}
 .mb-footer .btn-success.button-yes{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
-#leftSideMenu.left-side-menu{position:fixed!important;top:0!important;left:0!important;height:100vh!important;overflow-y:auto!important;overflow-x:hidden!important;z-index:1000!important;background:linear-gradient(180deg,#1c0e33 0%,#0a0712 100%)!important;box-shadow:2px 0 24px rgba(0,0,0,.35)!important}
-.page-sidebar{background:transparent!important;padding:20px 16px 24px!important;display:flex!important;flex-direction:column!important;min-height:100%!important;box-sizing:border-box!important}
-.page-sidebar .x-navigation{background:transparent!important}
-.bcm-sidebar-logo{display:block!important;padding:4px 8px 24px!important;text-align:left!important}
-.bcm-sidebar-logo img{max-width:170px!important;width:100%!important;height:auto!important;display:block!important}
-.bcm-sidebar-label{font-size:11px!important;font-weight:600!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:rgba(255,255,255,.35)!important;padding:18px 12px 8px!important}
-.page-sidebar .bcm-divider{height:1px!important;background:rgba(255,255,255,.08)!important;margin:4px 0!important}
-.page-sidebar .x-navigation li{border:none!important;float:none!important;width:100%!important;position:relative!important;margin-bottom:2px!important}
-.page-sidebar .x-navigation li>a{display:flex!important;align-items:center!important;gap:10px!important;padding:10px 12px!important;border-radius:10px!important;font-size:14px!important;font-weight:500!important;color:rgba(255,255,255,.72)!important;background:transparent!important;border:none!important;transition:background .15s ease,color .15s ease!important;line-height:1.4!important}
-.page-sidebar .x-navigation li>a .bcm-nav-icon{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:16px!important;font-size:14px!important;color:inherit!important}
-.page-sidebar .x-navigation li>a:hover{background:rgba(255,255,255,.06)!important;color:#fff!important}
-.page-sidebar .x-navigation li.active>a{background:linear-gradient(135deg,#9B4DDB 0%,#6D28D9 100%)!important;color:#fff!important;font-weight:600!important;box-shadow:0 0 0 1px rgba(255,255,255,.08)!important}
-.page-sidebar .x-navigation li.xn-openable:before{display:none!important}
-.bcm-sidebar-footer{margin-top:auto!important;padding-top:16px!important;border-top:1px solid rgba(255,255,255,.08)!important}
-.bcm-sidebar-profile{display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;padding:10px 12px!important;border-radius:12px!important;background:rgba(255,255,255,.05)!important;margin:12px 0 6px!important;box-sizing:border-box!important}
-.bcm-sidebar-avatar{flex:none!important;width:32px!important;height:32px!important;border-radius:50%!important;background:linear-gradient(135deg,#9B4DDB 0%,#6D28D9 100%)!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:13px!important;font-weight:700!important}
-.bcm-sidebar-profile-name{flex:1!important;color:#fff!important;font-size:13px!important;font-weight:600!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
-.bcm-sidebar-profile-chevron{color:rgba(255,255,255,.4)!important;font-size:11px!important}
-.bcm-sidebar-logout.bcm-sidebar-logout{display:flex!important;align-items:center!important;gap:10px!important;padding:10px 12px!important;border-radius:10px!important;color:rgba(255,255,255,.55)!important;font-size:13px!important;font-weight:500!important;text-decoration:none!important;background:transparent!important;border:none!important}
-.bcm-sidebar-logout.bcm-sidebar-logout:hover{background:rgba(255,255,255,.06)!important;color:#fff!important}
-.desktop-logo-li,.desktop-welcome-li{display:none!important}
