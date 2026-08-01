@@ -111,4 +111,4 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 .mb-footer .pull-right{float:none!important;display:flex!important;justify-content:center!important;gap:12px!important}
 .mb-title,.mb-content,.mb-footer{background:transparent!important}
 .mb-footer .btn-success.button-yes{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
-#leftSideMenu.left-side-menu{height:100vh!important;min-height:100vh!important;max-height:100vh!important;position:sticky!important;top:0!important;align-self:flex-start!important;overflow-y:auto!important;box-sizing:border-box!important}
+#leftSideMenu.left-side-menu{height:100vh!important;min-height:100vh!important;max-height:100vh!important;position:fixed!important;top:0!important;left:0!important;overflow-y:auto!important;box-sizing:border-box!important;z-index:1000!important}
