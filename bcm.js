@@ -1,7 +1,32 @@
-(function(){function buildSidebar(){var sidebar=document.querySelector('.page-sidebar');if(!sidebar)return;var nav=document.querySelector('#navigationBlock');if(!nav)return;var upgrade=document.querySelector('#upgradeMenu');var trades=document.querySelector('#tradingHistoryMenu');var settings=document.querySelector('#accountSettingsMenu');var platforms=document.querySelector('#tradingPlatformsMenu');if(trades){var tradeText=trades.querySelector('.xn-text');if(tradeText)tradeText.textContent='Trade History';}
-if(settings){var settingsLink=settings.querySelector(':scope > a');if(settingsLink)settingsLink.remove();}
-if(settings){var subItems=settings.querySelectorAll('ul li a');subItems.forEach(function(link){if(link.textContent.trim().toLowerCase().includes('trading account')){link.closest('li').remove();}});}
-var selectAccount=document.querySelector('#selectAccount');if(selectAccount)selectAccount.remove();var newNav=document.createElement('div');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-bar-chart"></span>TRADING<span class="fa fa-chevron-down bcm-chevron"></span></div>');var tradingGroup=document.createElement('ul');tradingGroup.className='x-navigation';tradingGroup.style.cssText='list-style:none;padding:0;margin:0;';var dashboardItem=document.createElement('li');dashboardItem.innerHTML='<a href="/"><span class="xn-text">Dashboard</span></a>';tradingGroup.appendChild(dashboardItem);var accountsItem=document.createElement('li');accountsItem.innerHTML='<a href="/accounts"><span class="xn-text">Accounts</span></a>';tradingGroup.appendChild(accountsItem);if(trades)tradingGroup.appendChild(trades);newNav.appendChild(tradingGroup);newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-files-o"></span>ACCOUNT<span class="fa fa-chevron-down bcm-chevron"></span></div>');var accountGroup=document.createElement('ul');accountGroup.className='x-navigation';accountGroup.style.cssText='list-style:none;padding:0;margin:0;';if(settings)accountGroup.appendChild(settings);if(upgrade)accountGroup.appendChild(upgrade);newNav.appendChild(accountGroup);newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-download"></span>PLATFORMS<span class="fa fa-chevron-right bcm-chevron"></span></div>');var platformGroup=document.createElement('ul');platformGroup.className='x-navigation';platformGroup.style.cssText='list-style:none;padding:0;margin:0;';if(platforms)platformGroup.appendChild(platforms);newNav.appendChild(platformGroup);nav.parentNode.replaceChild(newNav,nav);var welcomeLi=document.querySelector('.desktop-welcome-li');var mainContent=document.querySelector('.page-content-wrap');if(welcomeLi&&mainContent){var welcomeBlock=document.createElement('div');welcomeBlock.className='bcm-welcome-block';var nameEl=welcomeLi.querySelector('.profile-data-name');var nameHTML=nameEl?nameEl.innerHTML:'Welcome';welcomeBlock.innerHTML='<div class="bcm-welcome-text">'+nameHTML+'</div>';mainContent.insertBefore(welcomeBlock,mainContent.firstChild);welcomeLi.style.display='none';}
+(function(){function buildSidebar(){var sidebar=document.querySelector('.page-sidebar');if(!sidebar)return;var nav=document.querySelector('#navigationBlock');if(!nav)return;
+
+function flattenGroup(id){var wrapper=document.getElementById(id);if(!wrapper)return[];var childUl=wrapper.querySelector(':scope > ul');var items=childUl?Array.prototype.slice.call(childUl.children):[];wrapper.remove();return items;}
+
+function makeList(items){var ul=document.createElement('ul');ul.className='x-navigation';ul.style.cssText='list-style:none;padding:0;margin:0;';items.forEach(function(li){ul.appendChild(li);});return ul;}
+
+var myAccount=document.getElementById('myAccountMenu');
+var fundAccount=document.getElementById('fundAccountMenu2');
+var transactions=document.getElementById('transactionsMenu');
+var trades=document.getElementById('tradingHistoryMenu');
+var webTrader=document.getElementById('webTraderMenu');
+
+var accountItems=flattenGroup('accountSettingsMenu');
+var requestItems=flattenGroup('requestsSettingsMenu');
+var platformItems=flattenGroup('tradingPlatformsMenu');
+if(webTrader)platformItems.push(webTrader);
+
+var mainItems=[myAccount,fundAccount,transactions,trades].filter(Boolean);
+
+var selectAccount=document.querySelector('#selectAccount');if(selectAccount)selectAccount.remove();
+
+var newNav=document.createElement('div');
+newNav.appendChild(makeList(mainItems));
+
+if(accountItems.length){newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-files-o"></span>ACCOUNT SETTINGS<span class="fa fa-chevron-down bcm-chevron"></span></div>');newNav.appendChild(makeList(accountItems));}
+if(requestItems.length){newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="glyphicon glyphicon-transfer"></span>REQUESTS<span class="fa fa-chevron-down bcm-chevron"></span></div>');newNav.appendChild(makeList(requestItems));}
+if(platformItems.length){newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-download"></span>TRADING PLATFORMS<span class="fa fa-chevron-right bcm-chevron"></span></div>');newNav.appendChild(makeList(platformItems));}
+
+nav.parentNode.replaceChild(newNav,nav);var welcomeLi=document.querySelector('.desktop-welcome-li');var mainContent=document.querySelector('.page-content-wrap');if(welcomeLi&&mainContent){var welcomeBlock=document.createElement('div');welcomeBlock.className='bcm-welcome-block';var nameEl=welcomeLi.querySelector('.profile-data-name');var nameHTML=nameEl?nameEl.innerHTML:'Welcome';welcomeBlock.innerHTML='<div class="bcm-welcome-text">'+nameHTML+'</div>';mainContent.insertBefore(welcomeBlock,mainContent.firstChild);welcomeLi.style.display='none';}
 buildDashboardHeader();}
 function buildDashboardHeader(){var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var selectEl=document.querySelector('#selectAccounts');var refreshEl=document.querySelector('.refreshWidgets')||document.querySelector('#refreshButton .fa-refresh');var refreshBtn=document.querySelector('#refreshButton');var header=document.createElement('div');header.className='bcm-dash-header';var selectorRow=document.createElement('div');selectorRow.className='bcm-selector-row';if(selectEl){var clonedSelect=selectEl.cloneNode(true);clonedSelect.removeAttribute('id');var selectWrap=document.createElement('div');selectWrap.className='bcm-select-wrap';selectWrap.appendChild(clonedSelect);selectorRow.appendChild(selectWrap);selectEl.closest('form')?selectEl.closest('form').style.display='none':selectEl.parentNode.style.display='none';}
 if(refreshBtn){var refreshClone=refreshBtn.cloneNode(true);selectorRow.appendChild(refreshClone);refreshBtn.style.display='none';}
