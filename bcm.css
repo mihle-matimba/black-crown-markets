@@ -124,3 +124,5 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 .mb-footer .pull-right{float:none!important;display:flex!important;justify-content:center!important;gap:12px!important}
 .mb-title,.mb-content,.mb-footer{background:transparent!important}
 .mb-footer .btn-success.button-yes{background:#7B2FBE!important;border-color:#7B2FBE!important;color:#fff!important}
+#platformWidget,#webTraderWidget{display:none!important}
+.col-md-3:has(#platformWidget){display:none!important}
