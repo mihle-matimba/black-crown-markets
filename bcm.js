@@ -1,7 +1,60 @@
-(function(){function buildSidebar(){var sidebar=document.querySelector('.page-sidebar');if(!sidebar)return;var nav=document.querySelector('#navigationBlock');if(!nav)return;var upgrade=document.querySelector('#upgradeMenu');var trades=document.querySelector('#tradingHistoryMenu');var settings=document.querySelector('#accountSettingsMenu');var platforms=document.querySelector('#tradingPlatformsMenu');if(trades){var tradeText=trades.querySelector('.xn-text');if(tradeText)tradeText.textContent='Trade History';}
-if(settings){var settingsLink=settings.querySelector(':scope > a');if(settingsLink)settingsLink.remove();}
-if(settings){var subItems=settings.querySelectorAll('ul li a');subItems.forEach(function(link){if(link.textContent.trim().toLowerCase().includes('trading account')){link.closest('li').remove();}});}
-var selectAccount=document.querySelector('#selectAccount');if(selectAccount)selectAccount.remove();var newNav=document.createElement('div');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-bar-chart"></span>TRADING<span class="fa fa-chevron-down bcm-chevron"></span></div>');var tradingGroup=document.createElement('ul');tradingGroup.className='x-navigation';tradingGroup.style.cssText='list-style:none;padding:0;margin:0;';var dashboardItem=document.createElement('li');dashboardItem.innerHTML='<a href="/"><span class="xn-text">Dashboard</span></a>';tradingGroup.appendChild(dashboardItem);var accountsItem=document.createElement('li');accountsItem.innerHTML='<a href="/accounts"><span class="xn-text">Accounts</span></a>';tradingGroup.appendChild(accountsItem);if(trades)tradingGroup.appendChild(trades);newNav.appendChild(tradingGroup);newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-files-o"></span>ACCOUNT<span class="fa fa-chevron-down bcm-chevron"></span></div>');var accountGroup=document.createElement('ul');accountGroup.className='x-navigation';accountGroup.style.cssText='list-style:none;padding:0;margin:0;';if(settings)accountGroup.appendChild(settings);if(upgrade)accountGroup.appendChild(upgrade);newNav.appendChild(accountGroup);newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');newNav.insertAdjacentHTML('beforeend','<div class="bcm-group-label"><span class="fa fa-download"></span>PLATFORMS<span class="fa fa-chevron-right bcm-chevron"></span></div>');var platformGroup=document.createElement('ul');platformGroup.className='x-navigation';platformGroup.style.cssText='list-style:none;padding:0;margin:0;';if(platforms)platformGroup.appendChild(platforms);newNav.appendChild(platformGroup);nav.parentNode.replaceChild(newNav,nav);var welcomeLi=document.querySelector('.desktop-welcome-li');var mainContent=document.querySelector('.page-content-wrap');if(welcomeLi&&mainContent){var welcomeBlock=document.createElement('div');welcomeBlock.className='bcm-welcome-block';var nameEl=welcomeLi.querySelector('.profile-data-name');var nameHTML=nameEl?nameEl.innerHTML:'Welcome';welcomeBlock.innerHTML='<div class="bcm-welcome-text">'+nameHTML+'</div>';mainContent.insertBefore(welcomeBlock,mainContent.firstChild);welcomeLi.style.display='none';}
+(function(){function buildSidebar(){var sidebar=document.querySelector('.page-sidebar');if(!sidebar)return;var nav=document.querySelector('#navigationBlock');if(!nav)return;
+
+var ICONS={myAccountMenu:'fa-th-large',fundAccountMenu2:'fa-credit-card',transactionsMenu:'fa-exchange',tradingHistoryMenu:'fa-line-chart',webTraderMenu:'fa-globe','curr_accounts':'fa-list-alt','curr_my-profile':'fa-user-o','curr_change-password':'fa-lock','curr_bank-details':'fa-university','curr_upload-documents':'fa-upload','curr_request-status':'fa-refresh','curr_withdraw':'fa-power-off','curr_internal-transfers':'fa-exchange','curr_change-leverage':'fa-sliders','curr_downloads':'fa-cube'};
+
+function setIcon(li,iconClass){if(!li)return;var a=li.querySelector(':scope > a');if(!a)return;var icon=a.querySelector('.fa,.glyphicon');if(icon){icon.className='fa '+iconClass+' bcm-nav-icon';}else{a.insertAdjacentHTML('afterbegin','<span class="fa '+iconClass+' bcm-nav-icon"></span>');}}
+
+function iconForItem(li){for(var cls in ICONS){if(li.className&&(' '+li.className+' ').indexOf(' '+cls+' ')!==-1)return ICONS[cls];}return 'fa-circle-o';}
+
+function flattenGroup(id){var wrapper=document.getElementById(id);if(!wrapper)return[];var childUl=wrapper.querySelector(':scope > ul');var items=childUl?Array.prototype.slice.call(childUl.children):[];wrapper.remove();return items;}
+
+function makeList(items){var ul=document.createElement('ul');ul.className='x-navigation';ul.style.cssText='list-style:none;padding:0;margin:0;';items.forEach(function(li){ul.appendChild(li);});return ul;}
+
+var myAccount=document.getElementById('myAccountMenu');
+var fundAccount=document.getElementById('fundAccountMenu2');
+var transactions=document.getElementById('transactionsMenu');
+var trades=document.getElementById('tradingHistoryMenu');
+var webTrader=document.getElementById('webTraderMenu');
+
+[['myAccountMenu',myAccount],['fundAccountMenu2',fundAccount],['transactionsMenu',transactions],['tradingHistoryMenu',trades],['webTraderMenu',webTrader]].forEach(function(pair){setIcon(pair[1],ICONS[pair[0]]);});
+
+var accountItems=flattenGroup('accountSettingsMenu');
+var requestItems=flattenGroup('requestsSettingsMenu');
+var platformItems=flattenGroup('tradingPlatformsMenu');
+accountItems.concat(requestItems).concat(platformItems).forEach(function(li){setIcon(li,iconForItem(li));});
+if(webTrader)platformItems.push(webTrader);
+
+var mainItems=[myAccount,fundAccount,transactions,trades].filter(Boolean);
+
+var newNav=document.createElement('div');
+
+var logoImg=document.querySelector('.desktop-logo-li .logo img');
+if(logoImg){var logoWrap=document.createElement('div');logoWrap.className='bcm-sidebar-logo';var clonedLogo=logoImg.cloneNode(true);clonedLogo.removeAttribute('style');logoWrap.appendChild(clonedLogo);newNav.appendChild(logoWrap);}
+
+function addGroup(label,items){if(!items.length)return;var labelEl=document.createElement('div');labelEl.className='bcm-sidebar-label';labelEl.textContent=label;newNav.appendChild(labelEl);newNav.appendChild(makeList(items));newNav.insertAdjacentHTML('beforeend','<div class="bcm-divider"></div>');}
+
+addGroup('MAIN',mainItems);
+addGroup('ACCOUNT SETTINGS',accountItems);
+addGroup('REQUESTS',requestItems);
+addGroup('TRADING PLATFORMS',platformItems);
+
+var trailingDivider=newNav.querySelector('.bcm-divider:last-child');
+if(trailingDivider)trailingDivider.remove();
+
+nav.parentNode.replaceChild(newNav,nav);
+
+var welcomeLi=document.querySelector('.desktop-welcome-li');
+var footer=document.createElement('div');footer.className='bcm-sidebar-footer';
+var nameEl=welcomeLi?welcomeLi.querySelector('.profile-data-name'):null;
+var nameText=nameEl?nameEl.textContent.replace(/welcome/i,'').trim():'';
+var initial=nameText?nameText.charAt(0).toUpperCase():'?';
+var profileRow=document.createElement('div');profileRow.className='bcm-sidebar-profile';profileRow.innerHTML='<span class="bcm-sidebar-avatar">'+initial+'</span><span class="bcm-sidebar-profile-name">'+nameText+'</span><span class="fa fa-chevron-down bcm-sidebar-profile-chevron"></span>';footer.appendChild(profileRow);
+
+var logoutSrc=document.querySelector('.desktop-logout-li a.mb-control');
+if(logoutSrc){logoutSrc.classList.add('bcm-sidebar-logout');logoutSrc.innerHTML='<span class="fa fa-power-off"></span> Logout';footer.appendChild(logoutSrc);}
+
+sidebar.appendChild(footer);
+
 buildDashboardHeader();}
 function buildDashboardHeader(){var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var selectEl=document.querySelector('#selectAccounts');var refreshEl=document.querySelector('.refreshWidgets')||document.querySelector('#refreshButton .fa-refresh');var refreshBtn=document.querySelector('#refreshButton');var header=document.createElement('div');header.className='bcm-dash-header';var selectorRow=document.createElement('div');selectorRow.className='bcm-selector-row';if(selectEl){var clonedSelect=selectEl.cloneNode(true);clonedSelect.removeAttribute('id');var selectWrap=document.createElement('div');selectWrap.className='bcm-select-wrap';selectWrap.appendChild(clonedSelect);selectorRow.appendChild(selectWrap);selectEl.closest('form')?selectEl.closest('form').style.display='none':selectEl.parentNode.style.display='none';}
 if(refreshBtn){var refreshClone=refreshBtn.cloneNode(true);selectorRow.appendChild(refreshClone);refreshBtn.style.display='none';}
