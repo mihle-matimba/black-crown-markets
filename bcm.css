@@ -128,4 +128,4 @@ a.mb-control[data-box="#mb-signout"]:hover .fa{color:#fff!important}
 .col-md-3:has(#platformWidget){display:none!important}
 #currentExposureWidget{display:none!important}
 #currentExposureTable{width:100%!important;float:none!important;padding-left:15px!important;padding-right:15px!important;box-sizing:border-box!important}
-.panel-heading{border-bottom-left-radius:16px!important;border-bottom-right-radius:16px!important}
+.panel-heading{border-bottom-left-radius:0px!important;border-bottom-right-radius:0px!important}
