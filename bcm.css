@@ -130,3 +130,4 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #currentExposureWidget{display:none!important}
 #currentExposureTable{width:100%!important;float:none!important;padding-left:15px!important;padding-right:15px!important;box-sizing:border-box!important}
 .panel-heading{border-bottom-left-radius:0px!important;border-bottom-right-radius:0px!important}
+.btn.btn-primary{background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%)!important;border-color:#6d28d9!important;color:#fff!important}
