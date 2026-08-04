@@ -131,8 +131,8 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #currentExposureTable{width:100%!important;float:none!important;padding-left:15px!important;padding-right:15px!important;box-sizing:border-box!important}
 .panel-heading{border-bottom-left-radius:0px!important;border-bottom-right-radius:0px!important}
 .btn.btn-primary{background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%)!important;border-color:#6d28d9!important;color:#fff!important}
-#instances .panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:none!important}
-#instances .panel-body{padding:16px!important}
+#instances .panel,#client-fields .panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:none!important}
+#instances .panel-body,#client-fields .panel-body{padding:16px!important}
 .bcm-payment-list{display:flex;flex-direction:column;gap:10px}
 .bcm-payment-option{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid #e5e5e7;border-radius:12px;cursor:pointer;transition:border-color .15s ease,background .15s ease}
 .bcm-payment-option:hover{border-color:#c9b8ea;background:#faf8ff}
