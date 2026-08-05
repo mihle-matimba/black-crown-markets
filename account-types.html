@@ -2044,108 +2044,83 @@ a.button-primary:hover {
   line-height: 1.7;
 }
 .acct-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
   align-items: stretch;
 }
 .acct-card {
   display: flex;
   flex-direction: column;
+  flex: 1 1 320px;
+  max-width: 380px;
   background: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e5e5e8;
   border-radius: 20px;
-  padding: 32px 24px;
+  padding: 44px 36px;
   transition: all 0.3s ease;
 }
 .acct-card:hover {
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
   transform: translateY(-4px);
-}
-.acct-card.is-featured {
-  border-color: #7B2FBE;
-  box-shadow: 0 12px 48px rgba(123, 47, 190, 0.14);
-}
-.acct-card-badge {
-  align-self: flex-start;
-  padding: 5px 12px;
-  border-radius: 100px;
-  background: rgba(123, 47, 190, 0.1);
-  color: #7B2FBE;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.acct-card-badge.is-empty {
-  visibility: hidden;
+  border-color: #d8d8dc;
 }
 .acct-card h3 {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
   color: #0a0a0f;
   letter-spacing: -0.02em;
-  margin: 0 0 10px 0;
+  margin: 0 0 14px 0;
 }
 .acct-card-desc {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: #606773;
-  margin: 0 0 24px 0;
-  min-height: 92px;
+  margin: 0 0 32px 0;
 }
 .acct-card-rule {
   border: 0;
   border-top: 1px solid #e8e8ea;
-  margin: 0 0 24px 0;
+  margin: 0 0 32px 0;
 }
 .acct-fields {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  margin-bottom: 28px;
+  gap: 28px;
+  margin-bottom: 36px;
   flex: 1 1 auto;
 }
 .acct-field-title {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: #9aa0a6;
-  letter-spacing: 0.03em;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .acct-field-value {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 19px;
+  font-weight: 700;
   color: #0a0a0f;
-  line-height: 1.45;
+  line-height: 1.4;
   margin: 0;
 }
 .acct-card-cta {
   display: block;
+  align-self: center;
   text-align: center;
-  padding: 14px 24px;
+  padding: 15px 40px;
   border-radius: 100px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  background: #0a0a0f;
+  background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
   color: #ffffff;
   transition: all 0.3s ease;
 }
 .acct-card-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-  color: #ffffff;
-}
-.acct-card.is-featured .acct-card-cta {
-  background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
-}
-.acct-card.is-featured .acct-card-cta:hover {
   box-shadow: 0 8px 20px rgba(123, 47, 190, 0.35);
-}
-@media (max-width: 1280px) {
-  .acct-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  color: #ffffff;
 }
 @media (max-width: 1024px) {
   .acct-cards-section { padding: 90px 40px; }
@@ -2156,8 +2131,8 @@ a.button-primary:hover {
   .acct-section-heading { margin-bottom: 48px; }
   .acct-section-heading h2 { font-size: 32px; }
   .acct-section-heading p { font-size: 16px; }
-  .acct-cards-grid { grid-template-columns: 1fr; gap: 20px; }
-  .acct-card-desc { min-height: 0; }
+  .acct-cards-grid { gap: 20px; }
+  .acct-card { flex-basis: 100%; max-width: 440px; padding: 36px 28px; }
 }
 </style>
 
@@ -2170,8 +2145,7 @@ a.button-primary:hover {
   <div class="acct-cards-grid">
 
     <!-- Standard -->
-    <div class="acct-card is-featured">
-      <div class="acct-card-badge">Most popular</div>
+    <div class="acct-card">
       <h3>Standard</h3>
       <p class="acct-card-desc">Our everyday account. Commission-free pricing that works for almost every type of trader.</p>
       <hr class="acct-card-rule"/>
@@ -2202,7 +2176,6 @@ a.button-primary:hover {
 
     <!-- Standard Cent -->
     <div class="acct-card">
-      <div class="acct-card-badge">For new traders</div>
       <h3>Standard Cent</h3>
       <p class="acct-card-desc">Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.</p>
       <hr class="acct-card-rule"/>
@@ -2233,7 +2206,6 @@ a.button-primary:hover {
 
     <!-- Pro -->
     <div class="acct-card">
-      <div class="acct-card-badge">For serious traders</div>
       <h3>Pro</h3>
       <p class="acct-card-desc">For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.</p>
       <hr class="acct-card-rule"/>
@@ -2264,7 +2236,6 @@ a.button-primary:hover {
 
     <!-- Raw ECN -->
     <div class="acct-card">
-      <div class="acct-card-badge">Scalpers &amp; algos</div>
       <h3>Raw ECN</h3>
       <p class="acct-card-desc">Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.</p>
       <hr class="acct-card-rule"/>
@@ -2295,7 +2266,6 @@ a.button-primary:hover {
 
     <!-- Bonus Account -->
     <div class="acct-card">
-      <div class="acct-card-badge">Bonus offer</div>
       <h3>Bonus Account</h3>
       <p class="acct-card-desc">Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.</p>
       <hr class="acct-card-rule"/>
