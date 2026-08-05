@@ -2043,6 +2043,39 @@ a.button-primary:hover {
   max-width: 68ch;
   line-height: 1.7;
 }
+.acct-group {
+  margin-bottom: 88px;
+}
+.acct-group:last-child {
+  margin-bottom: 0;
+}
+.acct-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+  padding-left: 4px;
+}
+.acct-group-heading::before {
+  content: "";
+  width: 4px;
+  height: 28px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #7B2FBE 0%, #5B1F9A 100%);
+  flex-shrink: 0;
+}
+.acct-group-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0a0a0f;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.acct-group-desc {
+  font-size: 15px;
+  color: #9aa0a6;
+  margin: 0;
+}
 .acct-cards-grid {
   display: flex;
   flex-wrap: wrap;
@@ -2133,6 +2166,8 @@ a.button-primary:hover {
   .acct-section-heading p { font-size: 16px; }
   .acct-cards-grid { gap: 20px; }
   .acct-card { flex-basis: 100%; max-width: 440px; padding: 36px 28px; }
+  .acct-group { margin-bottom: 56px; }
+  .acct-group-heading { flex-wrap: wrap; row-gap: 6px; margin-bottom: 24px; }
 }
 </style>
 
@@ -2142,6 +2177,11 @@ a.button-primary:hover {
     <p>Every account gives you the same markets, the same execution and the same platform. What changes is the pricing model — pick the one that matches your size and style.</p>
   </div>
 
+  <div class="acct-group">
+  <div class="acct-group-heading">
+    <h3 class="acct-group-title">Standard accounts</h3>
+    <p class="acct-group-desc">Commission-free pricing for everyday trading.</p>
+  </div>
   <div class="acct-cards-grid">
 
     <!-- Standard -->
@@ -2204,6 +2244,16 @@ a.button-primary:hover {
       <a href="https://trade.blackcrownmarkets.com/register" class="acct-card-cta">Open account</a>
     </div>
 
+  </div>
+  </div>
+
+  <div class="acct-group">
+  <div class="acct-group-heading">
+    <h3 class="acct-group-title">Professional accounts</h3>
+    <p class="acct-group-desc">Tighter pricing for serious traders, scalpers and algos.</p>
+  </div>
+  <div class="acct-cards-grid">
+
     <!-- Pro -->
     <div class="acct-card">
       <h3>Pro</h3>
@@ -2264,6 +2314,16 @@ a.button-primary:hover {
       <a href="https://trade.blackcrownmarkets.com/register" class="acct-card-cta">Open account</a>
     </div>
 
+  </div>
+  </div>
+
+  <div class="acct-group">
+  <div class="acct-group-heading">
+    <h3 class="acct-group-title">Bonus accounts</h3>
+    <p class="acct-group-desc">Extra trading power on top of your deposit.</p>
+  </div>
+  <div class="acct-cards-grid">
+
     <!-- Bonus Account -->
     <div class="acct-card">
       <h3>Bonus Account</h3>
@@ -2299,6 +2359,8 @@ a.button-primary:hover {
     </div>
 
   </div>
+  </div>
+
 </div>
 </section>
 
