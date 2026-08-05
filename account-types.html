@@ -2005,7 +2005,7 @@ a.button-primary:hover {
 <div class="acct-hero-inner">
   <div class="acct-hero-eyebrow">Account types</div>
   <h1>Find the account that fits how you trade</h1>
-  <p>From your first micro lot to raw institutional pricing — four account types, one platform. Commission-free spreads for everyday traders, tighter pricing for professionals, and direct ECN routing for scalpers and algos.</p>
+  <p>From your first micro lot to raw institutional pricing — five account types, one platform. Commission-free spreads for everyday traders, tighter pricing for professionals, direct ECN routing for scalpers and algos, and a bonus account for extra trading power.</p>
   <div class="acct-hero-actions">
     <a data-dwp-button="" data-attributes="btn-primary-hero" data-wf--button--variant="coral-solid" href="https://trade.blackcrownmarkets.com/register" class="button-primary w-inline-block"><div class="button_text">Open account</div></a>
     <a href="#compare" class="acct-hero-ghost">Compare all accounts</a>
@@ -2045,8 +2045,8 @@ a.button-primary:hover {
 }
 .acct-cards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
   align-items: stretch;
 }
 .acct-card {
@@ -2055,7 +2055,7 @@ a.button-primary:hover {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 20px;
-  padding: 36px 32px;
+  padding: 32px 24px;
   transition: all 0.3s ease;
 }
 .acct-card:hover {
@@ -2293,6 +2293,41 @@ a.button-primary:hover {
       <a href="https://trade.blackcrownmarkets.com/register" class="acct-card-cta">Open account</a>
     </div>
 
+    <!-- Bonus Account -->
+    <div class="acct-card">
+      <div class="acct-card-badge">Bonus offer</div>
+      <h3>Bonus Account</h3>
+      <p class="acct-card-desc">Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.</p>
+      <hr class="acct-card-rule"/>
+      <div class="acct-fields">
+        <div>
+          <div class="acct-field-title">Minimum deposit</div>
+          <p class="acct-field-value">Up to management</p>
+        </div>
+        <div>
+          <div class="acct-field-title">Spread<sup>1</sup></div>
+          <p class="acct-field-value">From 1.8 pips</p>
+        </div>
+        <div>
+          <div class="acct-field-title">Commission</div>
+          <p class="acct-field-value">No commission</p>
+        </div>
+        <div>
+          <div class="acct-field-title">Maximum leverage</div>
+          <p class="acct-field-value">Up to 1:500</p>
+        </div>
+        <div>
+          <div class="acct-field-title">Contract size</div>
+          <p class="acct-field-value">1 lot = 100,000 units</p>
+        </div>
+        <div>
+          <div class="acct-field-title">Bonus</div>
+          <p class="acct-field-value">150% up to 150,000 ZAR</p>
+        </div>
+      </div>
+      <a href="https://trade.blackcrownmarkets.com/register" class="acct-card-cta">Open account</a>
+    </div>
+
   </div>
 </div>
 </section>
@@ -2317,7 +2352,7 @@ a.button-primary:hover {
 }
 .acct-table {
   width: 100%;
-  min-width: 900px;
+  min-width: 1080px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -2386,6 +2421,7 @@ a.button-primary:hover {
           <th scope="col">Standard Cent</th>
           <th scope="col">Pro</th>
           <th scope="col">Raw ECN</th>
+          <th scope="col">Bonus Account</th>
         </tr>
       </thead>
       <tbody>
@@ -2395,6 +2431,7 @@ a.button-primary:hover {
           <td>New traders</td>
           <td>Serious &amp; professional traders</td>
           <td>Scalpers &amp; algo traders</td>
+          <td>Traders wanting extra trading power</td>
         </tr>
         <tr>
           <td>Minimum deposit</td>
@@ -2402,6 +2439,7 @@ a.button-primary:hover {
           <td>$10</td>
           <td>$100</td>
           <td>$100</td>
+          <td>Up to management</td>
         </tr>
         <tr>
           <td>Spread<sup>1</sup></td>
@@ -2409,6 +2447,7 @@ a.button-primary:hover {
           <td>From 1.8 pips</td>
           <td>Pro spreads from 0.9 pips</td>
           <td>From 0.0 pips</td>
+          <td>From 1.8 pips</td>
         </tr>
         <tr>
           <td>Commission</td>
@@ -2416,9 +2455,11 @@ a.button-primary:hover {
           <td>No commission</td>
           <td>No commission</td>
           <td>$3.50&ndash;$4.00 per lot, per side</td>
+          <td>No commission</td>
         </tr>
         <tr>
           <td>Maximum leverage</td>
+          <td>Up to 1:500</td>
           <td>Up to 1:500</td>
           <td>Up to 1:500</td>
           <td>Up to 1:500</td>
@@ -2430,6 +2471,7 @@ a.button-primary:hover {
           <td>1 lot = 1,000 units (cent lot)</td>
           <td>1 lot = 100,000 units</td>
           <td>1 lot = 100,000 units</td>
+          <td>1 lot = 100,000 units</td>
         </tr>
         <tr>
           <td>Order routing</td>
@@ -2437,6 +2479,7 @@ a.button-primary:hover {
           <td>Market execution</td>
           <td>Market execution</td>
           <td>Raw ECN routing</td>
+          <td>Market execution</td>
         </tr>
         <tr>
           <td>Scalping &amp; algo trading</td>
@@ -2444,6 +2487,15 @@ a.button-primary:hover {
           <td>Allowed</td>
           <td>Allowed</td>
           <td>Allowed &mdash; optimised</td>
+          <td>Allowed</td>
+        </tr>
+        <tr>
+          <td>Bonus</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+          <td>&mdash;</td>
+          <td>150% up to 150,000 ZAR</td>
         </tr>
       </tbody>
     </table>
