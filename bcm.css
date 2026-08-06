@@ -152,8 +152,8 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-payment-option:hover{border-color:#c9b8ea;background:#faf8ff}
 .bcm-payment-option.active{border-color:#7B2FBE;background:#f3f0ff;box-shadow:0 4px 16px rgba(123,47,190,.08)}
 .bcm-payment-head{display:flex;align-items:center;gap:14px}
-.bcm-payment-icon{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;color:#fff;font-size:20px;font-weight:700}
-.bcm-payment-icon img{max-width:28px;max-height:28px}
+.bcm-payment-icon{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;color:#fff;font-size:20px;font-weight:700;border:1px solid #eee;box-sizing:border-box}
+.bcm-payment-icon img{width:28px;height:28px;object-fit:contain}
 .bcm-payment-icon svg{width:22px;height:22px}
 .bcm-payment-name{flex:1;min-width:0;font-size:16px;font-weight:700;color:#1a1a1a}
 .bcm-payment-meta{display:flex;flex-direction:column;gap:6px}
