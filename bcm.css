@@ -135,7 +135,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #instances .panel-body,#client-fields .panel-body{padding:16px!important}
 #client-fields{display:none!important}
 #client-fields.bcm-fields-visible{display:block!important}
-#client-fields .panel-heading{background:#fff!important;border:none!important;padding:28px 28px 4px!important}
+#client-fields .panel-heading{background:#fff!important;border:none!important;padding:28px 28px 4px!important;display:block!important}
 #client-fields .panel-heading .panel-title,#client-fields .panel-heading h1,#client-fields .panel-heading h2,#client-fields .panel-heading h3,#client-fields .panel-heading h4{font-size:28px!important;font-weight:800!important;color:#1a1a1a!important;margin:0!important;line-height:1.2!important}
 #client-fields .panel-body{padding:12px 28px 28px!important}
 #client-fields .panel-body>p:first-of-type{color:#9aa0a6!important;font-size:14px!important;margin:0 0 24px 0!important}
@@ -145,7 +145,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #client-fields .form-control{width:100%!important;height:52px!important;border-radius:12px!important;border:1.5px solid #e5e5e7!important;padding:0 16px!important;font-size:15px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 #client-fields .btn.btn-primary{border-radius:12px!important;padding:14px 32px!important;height:auto!important;font-size:15px!important;width:auto!important;display:inline-block!important;margin-top:4px!important}
 #instances.bcm-instances-hidden{display:none!important}
-.bcm-payment-back{display:block;margin:8px 0 0;padding:0;border:none;background:none;color:#7B2FBE;font-size:14px;font-weight:600;text-decoration:underline;cursor:pointer}
+.bcm-payment-back{display:block;width:100%;clear:both;float:none;margin:8px 0 0;padding:0;border:none;background:none;color:#7B2FBE;font-size:14px;font-weight:600;text-decoration:underline;cursor:pointer;text-align:left}
 .bcm-payment-back:hover{color:#5B21B6}
 .bcm-payment-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .bcm-payment-option{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:20px;border:1.5px solid #e5e5e7;border-radius:16px;cursor:pointer;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease}
