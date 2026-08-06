@@ -135,6 +135,10 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #instances .panel-body,#client-fields .panel-body{padding:16px!important}
 #client-fields{display:none!important}
 #client-fields.bcm-fields-visible{display:block!important}
+#instances.bcm-instances-hidden{display:none!important}
+.bcm-payment-back{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;padding:10px 16px;border-radius:10px;border:1.5px solid #7B2FBE;background:#fff;color:#7B2FBE;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s ease,color .15s ease}
+.bcm-payment-back svg{flex:none;width:14px;height:14px}
+.bcm-payment-back:hover{background:#7B2FBE;color:#fff}
 .bcm-payment-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .bcm-payment-option{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:20px;border:1.5px solid #e5e5e7;border-radius:16px;cursor:pointer;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease}
 .bcm-payment-option:hover{border-color:#c9b8ea;background:#faf8ff}

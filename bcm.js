@@ -18,7 +18,7 @@ if(refreshBtn){var refreshClone=refreshBtn.cloneNode(true);selectorRow.appendChi
 header.appendChild(selectorRow);mainContent.insertBefore(header,mainContent.firstChild);}
 function buildDepositPage(){var panel=document.querySelector('#instances .panel');if(!panel||panel.dataset.bcmPayments)return;var body=panel.querySelector('.panel-body');var table=body?body.querySelector('table'):null;var rows=table?table.querySelectorAll('tbody tr'):[];if(!rows.length)return;panel.dataset.bcmPayments='1';
 var methods=[];rows.forEach(function(row){var radio=row.querySelector('input[type=radio]');if(!radio)return;var infoDiv=row.querySelector('label > div');var nameEl=infoDiv?infoDiv.querySelector('b'):null;methods.push({radio:radio,name:nameEl?nameEl.textContent.trim():''});});
-methods.forEach(function(m){m.radio.checked=false;});var fieldsPanel=document.querySelector('#client-fields');
+methods.forEach(function(m){m.radio.checked=false;});var fieldsPanel=document.querySelector('#client-fields');var instancesEl=document.querySelector('#instances');
 var icons={crypto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"></circle><circle cx="15" cy="15" r="6"></circle></svg>',other:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>'};
 var groups=[{label:'Crypto',desc:'Minimum deposit: $20 (USD Accounts only)',match:/letknow/i,icon:icons.crypto},{label:'EFT, Card & Other',desc:'Card and other payment methods',match:/paymid/i,icon:icons.other}];
 var list=document.createElement('div');list.className='bcm-payment-list';var cards=[];
@@ -26,9 +26,10 @@ groups.forEach(function(group){var method=methods.filter(function(m){return grou
 var option=document.createElement('div');option.className='bcm-payment-option';
 option.innerHTML='<span class="bcm-payment-icon">'+group.icon+'</span><span class="bcm-payment-info"><span class="bcm-payment-name">'+group.label+'</span><span class="bcm-payment-desc">'+group.desc+'</span></span><span class="bcm-payment-radio"></span>';
 option.addEventListener('click',function(){if(!method.radio.checked)method.radio.click();});
-method.radio.addEventListener('change',function(){if(method.radio.checked){cards.forEach(function(c){c.el.classList.toggle('active',c.radio===method.radio);});if(fieldsPanel)fieldsPanel.classList.add('bcm-fields-visible');}});
+method.radio.addEventListener('change',function(){if(method.radio.checked){cards.forEach(function(c){c.el.classList.toggle('active',c.radio===method.radio);});if(fieldsPanel)fieldsPanel.classList.add('bcm-fields-visible');if(instancesEl)instancesEl.classList.add('bcm-instances-hidden');}});
 cards.push({el:option,radio:method.radio});list.appendChild(option);});
-table.style.display='none';body.appendChild(list);}
+table.style.display='none';body.appendChild(list);
+if(fieldsPanel&&!fieldsPanel.querySelector('.bcm-payment-back')){var backBtn=document.createElement('button');backBtn.type='button';backBtn.className='bcm-payment-back';backBtn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg><span>Select Another Payment Method</span>';backBtn.addEventListener('click',function(){methods.forEach(function(m){m.radio.checked=false;});cards.forEach(function(c){c.el.classList.remove('active');});fieldsPanel.classList.remove('bcm-fields-visible');if(instancesEl)instancesEl.classList.remove('bcm-instances-hidden');});fieldsPanel.insertBefore(backBtn,fieldsPanel.firstChild);}}
 function buildDepositSummaryPage(){var container=document.querySelector('#depositpage');if(!container||container.dataset.bcmStyled)return;var html=container.innerHTML;if(!/deposit summary/i.test(html))return;
 var qrImg=container.querySelector('img');var addressLink=container.querySelector('a[href^="bitcoin:"]')||container.querySelector('a[href^="ethereum:"]')||container.querySelector('a[href^="litecoin:"]')||container.querySelector('a[href^="tron:"]')||container.querySelector('a[href^="usdt:"]')||container.querySelector('a');
 if(!qrImg||!addressLink)return;container.dataset.bcmStyled='1';
