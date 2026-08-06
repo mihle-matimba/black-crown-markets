@@ -158,8 +158,6 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-payment-name{flex:1;min-width:0;font-size:18px;font-weight:700;color:#1a1a1a}
 .bcm-payment-meta{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid #f0f0f0}
 .bcm-payment-meta-row{display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.4}
-.bcm-payment-meta-icon{flex:none;width:16px;height:16px;color:#9aa0a6;display:flex;align-items:center;justify-content:center}
-.bcm-payment-meta-icon svg{width:16px;height:16px}
 .bcm-payment-meta-label{flex:none;width:110px;color:#6b7280}
 .bcm-payment-meta-value{color:#1a1a1a;font-weight:600}
 .bcm-payment-meta-value.bcm-payment-pill{display:inline-block;padding:3px 10px;border-radius:100px;background:#f3f0ff;color:#5B21B6;font-weight:700;font-size:12px}
