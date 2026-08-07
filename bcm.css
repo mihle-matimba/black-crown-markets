@@ -8,7 +8,6 @@
 .bcm-sidebar-profile{display:flex;align-items:center;gap:10px;padding:4px;cursor:pointer}
 .bcm-sidebar-profile-icon{flex:none;width:36px;height:36px;border-radius:50%;background-color:#ede9ff;background-repeat:no-repeat;background-position:center;background-size:18px 18px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237B2FBE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E")}
 .bcm-sidebar-profile-name{flex:1;font-size:14px;font-weight:600;color:#2d2d2d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.bcm-sidebar-profile-chevron{flex:none;width:14px;height:14px;background-repeat:no-repeat;background-position:center;background-size:14px 14px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237B2FBE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")}
 .bcm-sidebar-footer .bcm-divider{margin:10px 4px}
 .bcm-sidebar-logout{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:6px 4px!important;color:#7B2FBE!important;font-size:14px!important;font-weight:500!important;text-decoration:none!important}
 .bcm-sidebar-logout:hover{color:#5B21B6!important;background:transparent!important}
