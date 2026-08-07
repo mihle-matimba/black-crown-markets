@@ -195,6 +195,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-modal-overlay{position:fixed;inset:0;background:rgba(10,10,15,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;box-sizing:border-box}
 .bcm-modal{background:#fff;border-radius:20px;padding:36px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.35)}
 .bcm-modal-text{font-size:16px;color:#1a1a1a;font-weight:600;line-height:1.5;margin:0 0 28px 0}
+.bcm-modal-line2{display:block;margin-top:12px}
 .bcm-modal-link{color:#7B2FBE;text-decoration:underline}
 .bcm-modal-link:hover{color:#5B21B6}
 .bcm-modal-btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);color:#fff;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none}
