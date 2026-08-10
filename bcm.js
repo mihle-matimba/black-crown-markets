@@ -66,17 +66,15 @@ function buildRegistrationPage(){var body=document.querySelector('.registration-
 function buildAddAccountPage(){
 var form=document.querySelector('#myForm');
 if(!form||form.dataset.bcmWizard)return;
-var accTypeSelect=document.querySelector('#accTypeField');
 var platformSelect=document.querySelector('#add_platform');
 var accountSelect=document.querySelector('#add_account_type');
-var currencySelect=document.querySelector('#currencyField');
 var passwordGroup=document.querySelector('#password_input_main_container');
 var confirmGroup=document.querySelector('#password_confirm_input_main_container');
 var passwordInput=document.querySelector('#password-input');
 var confirmInput=document.querySelector('#password-confirm-input');
 var submitBtn=document.querySelector('#buttonSubmit');
 var panelDefault=form.querySelector('.panel.panel-default');
-if(!accTypeSelect||!platformSelect||!accountSelect||!currencySelect||!passwordGroup||!confirmGroup||!passwordInput||!confirmInput||!submitBtn||!panelDefault)return;
+if(!platformSelect||!accountSelect||!passwordGroup||!confirmGroup||!passwordInput||!confirmInput||!submitBtn||!panelDefault)return;
 form.dataset.bcmWizard='1';
 
 var titleEl=panelDefault.querySelector('.panel-title');
@@ -93,10 +91,7 @@ globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="
 layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
 shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.35 8.95a1 1 0 0 1-1.3 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
 plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
-msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
-eyeOff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
-check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
 };
 
 var TYPE_DEFS=[
@@ -109,18 +104,15 @@ var TYPE_DEFS=[
 function findDef(text){for(var i=0;i<TYPE_DEFS.length;i++){if(TYPE_DEFS[i].match.test(text))return TYPE_DEFS[i];}return null;}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-var typeOptions=Array.prototype.filter.call(accTypeSelect.options,function(o){return o.value;});
-var types=typeOptions.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
-var currencyOptions=Array.prototype.filter.call(currencySelect.options,function(o){return o.value;});
 var platformOptions=Array.prototype.filter.call(platformSelect.options,function(o){return o.value;});
-if(!types.length)return;
+if(!accountOptions.length)return;
 
-function toggleGroupHtml(id,opts){
+function toggleGroupHtml(opts){
 return opts.map(function(o){return '<button type="button" class="bcm-wiz-toggle-btn'+(o.selected?' active':'')+'" data-value="'+esc(o.value)+'">'+esc(o.textContent.trim())+'</button>';}).join('');
 }
 
-var typeCardsHtml=types.map(function(t){
+function typeCardHtml(t){
 var metaRows=''
 +(t.min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(t.min)+'</strong></div>':'')
 +(t.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(t.spread)+'</strong></div>':'')
@@ -135,10 +127,10 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 +'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
 +(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
 +'</div>';
-}).join('');
+}
 
 var platformFieldHtml=platformOptions.length>1
-?'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml('platform',platformOptions)+'</div></div>'
+?'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml(platformOptions)+'</div></div>'
 :'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-static-value">'+(platformOptions[0]?esc(platformOptions[0].textContent.trim()):'')+'</div></div>';
 
 var wizardHtml=''
@@ -157,15 +149,16 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane active" data-pane="1">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
-+'<div class="bcm-wiz-type-grid">'+typeCardsHtml+'</div>'
++'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+toggleGroupHtml(accountOptions)+'</div></div>'
++'<div class="bcm-wiz-type-grid" id="bcmTypeGrid"></div>'
++'<p class="bcm-wiz-hint" id="bcmTypeHint">Loading available account types…</p>'
 +'<p class="bcm-wiz-error" id="bcmStep1Error">Please select an account type to continue.</p>'
 +'</div>'
 +'<div class="bcm-wizard-pane" data-pane="2">'
 +'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Set the account and login details for this trading account.</p>'
 +platformFieldHtml
-+'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+toggleGroupHtml('account',accountOptions)+'</div></div>'
-+'<div class="bcm-wiz-field"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle">'+toggleGroupHtml('currency',currencyOptions)+'</div></div>'
++'<div class="bcm-wiz-field"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle"></div><p class="bcm-wiz-hint" id="bcmCurrencyHint">Loading…</p></div>'
 +'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
 +'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
 +'<p class="bcm-wiz-error" id="bcmStep2Error">Enter a password and confirm it to continue.</p>'
@@ -236,25 +229,39 @@ bindPasswordToggle(confirmInput,document.querySelector('#icon-confirm-show'),doc
 
 var currentStep=1;
 var selectedType=null;
+var types=[];
 
 function setActiveCard(value){
-var cards=wizard.querySelectorAll('.bcm-wiz-type-card');
-cards.forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
+wizard.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
 }
-wizard.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
+
+function renderTypeCards(select){
+var grid=wizard.querySelector('#bcmTypeGrid');
+var hint=wizard.querySelector('#bcmTypeHint');
+if(!select){grid.innerHTML='';types=[];selectedType=null;if(hint){hint.textContent='No account type selection is required for this account.';hint.style.display='block';}return;}
+var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
+if(!opts.length){grid.innerHTML='';types=[];selectedType=null;if(hint){hint.textContent='No account type selection is required for this account.';hint.style.display='block';}return;}
+if(hint)hint.style.display='none';
+types=opts.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
+grid.innerHTML=types.map(typeCardHtml).join('');
+if(!types.some(function(t){return t.value===selectedType;})){selectedType=select.value||null;}
+if(selectedType)select.value=selectedType;
+setActiveCard(selectedType);
+grid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
-accTypeSelect.value=selectedType;
-accTypeSelect.dispatchEvent(new Event('change',{bubbles:true}));
+select.value=selectedType;
+select.dispatchEvent(new Event('change',{bubbles:true}));
 setActiveCard(selectedType);
-wizard.querySelector('#bcmStep1Error').classList.remove('bcm-wiz-error-visible');
+var err=wizard.querySelector('#bcmStep1Error');
+if(err)err.classList.remove('bcm-wiz-error-visible');
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
-if(accTypeSelect.value){selectedType=accTypeSelect.value;setActiveCard(selectedType);}
+}
 
-function bindToggleGroup(containerId,select){
+function bindToggleGroup(containerId,select,onChange){
 var container=wizard.querySelector(containerId);
 if(!container)return;
 container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
@@ -262,12 +269,52 @@ btn.addEventListener('click',function(){
 select.value=btn.getAttribute('data-value');
 select.dispatchEvent(new Event('change',{bubbles:true}));
 container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+if(onChange)onChange();
 });
 });
 }
+
+function renderCurrencyToggle(select){
+var container=wizard.querySelector('#bcmCurrencyToggle');
+var hint=wizard.querySelector('#bcmCurrencyHint');
+if(!select){container.innerHTML='';if(hint)hint.style.display='none';return;}
+var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
+if(!opts.length){container.innerHTML='';if(hint)hint.style.display='none';return;}
+if(hint)hint.style.display='none';
+container.innerHTML=toggleGroupHtml(opts);
+bindToggleGroup('#bcmCurrencyToggle',select);
+}
+
+function refreshDynamicFields(){
+var at=document.querySelector('#accTypeField');
+var cur=document.querySelector('#currencyField');
+if(at||cur){renderTypeCards(at);renderCurrencyToggle(cur);return;}
+var typeHint=wizard.querySelector('#bcmTypeHint');
+if(typeHint){typeHint.textContent='Loading available account types…';typeHint.style.display='block';}
+wizard.querySelector('#bcmTypeGrid').innerHTML='';
+wizard.querySelector('#bcmCurrencyToggle').innerHTML='';
+var attempts=0;
+var timer=setInterval(function(){
+attempts++;
+var at2=document.querySelector('#accTypeField');
+var cur2=document.querySelector('#currencyField');
+if(at2||cur2||attempts>=30){
+clearInterval(timer);
+renderTypeCards(at2);
+renderCurrencyToggle(cur2);
+}
+},150);
+}
+
 bindToggleGroup('#bcmPlatformToggle',platformSelect);
-bindToggleGroup('#bcmAccountToggle',accountSelect);
-bindToggleGroup('#bcmCurrencyToggle',currencySelect);
+bindToggleGroup('#bcmAccountToggle',accountSelect,refreshDynamicFields);
+
+if(!accountSelect.value&&accountOptions.length){
+accountSelect.value=accountOptions[0].value;
+accountSelect.dispatchEvent(new Event('change',{bubbles:true}));
+}
+wizard.querySelectorAll('#bcmAccountToggle .bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===accountSelect.value);});
+refreshDynamicFields();
 
 function goToStep(step){
 currentStep=step;
@@ -292,10 +339,10 @@ var currencyBtn=wizard.querySelector('#bcmCurrencyToggle .active');
 var platformBtn=wizard.querySelector('#bcmPlatformToggle .active');
 var platformLabel=platformBtn?platformBtn.textContent.trim():(platformOptions[0]?platformOptions[0].textContent.trim():'');
 var review=''
-+'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+(typeDef?esc(typeDef.label):'')+'</strong></div>'
++(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
 +'<div class="bcm-wiz-review-row"><span>Platform</span><strong>'+esc(platformLabel)+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
-+'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+(currencyBtn?esc(currencyBtn.textContent.trim()):'')+'</strong></div>';
++(currencyBtn?'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(currencyBtn.textContent.trim())+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
@@ -307,7 +354,8 @@ goToStep(currentStep-1);
 });
 wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
 if(currentStep===1){
-if(!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
+var hasTypeCards=wizard.querySelectorAll('#bcmTypeGrid .bcm-wiz-type-card').length>0;
+if(hasTypeCards&&!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
 goToStep(2);
 return;
 }

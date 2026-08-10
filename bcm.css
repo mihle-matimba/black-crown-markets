@@ -246,6 +246,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wiz-type-badge{display:inline-block;padding:5px 12px;border-radius:100px;background:#f3f0ff;color:#5B21B6;font-weight:700;font-size:12px}
 .bcm-wiz-error{display:none;color:#dc2626;font-size:13px;font-weight:600;margin:16px 0 0 0}
 .bcm-wiz-error.bcm-wiz-error-visible{display:block}
+.bcm-wiz-hint{display:none;color:#9aa0a6;font-size:13px;margin:4px 0 0 0}
 .bcm-wiz-field{margin-bottom:22px}
 .bcm-wiz-field label{display:block;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:8px}
 .bcm-wiz-toggle{display:flex;flex-wrap:wrap;gap:10px}
