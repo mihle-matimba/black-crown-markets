@@ -17,7 +17,7 @@ function buildDashboardHeader(){var mainContent=document.querySelector('.page-co
 if(refreshBtn){var refreshClone=refreshBtn.cloneNode(true);selectorRow.appendChild(refreshClone);refreshBtn.style.display='none';}
 header.appendChild(selectorRow);mainContent.insertBefore(header,mainContent.firstChild);}
 var BCM_RAW_PAYMENT_SELECTOR=false;
-var BCM_RAW_ADD_ACCOUNT=true;
+var BCM_RAW_ADD_ACCOUNT=false;
 function buildDepositPage(){if(BCM_RAW_PAYMENT_SELECTOR)return;var panel=document.querySelector('#instances .panel');if(!panel||panel.dataset.bcmPayments)return;var body=panel.querySelector('.panel-body');var table=body?body.querySelector('table'):null;var rows=table?table.querySelectorAll('tbody tr'):[];if(!rows.length)return;panel.dataset.bcmPayments='1';
 var methods=[];rows.forEach(function(row){var radio=row.querySelector('input[type=radio]');if(!radio)return;var infoDiv=row.querySelector('label > div');var nameEl=infoDiv?infoDiv.querySelector('b'):null;methods.push({radio:radio,name:nameEl?nameEl.textContent.trim():''});});
 methods.forEach(function(m){m.radio.checked=false;});var fieldsPanel=document.querySelector('#client-fields');var instancesEl=document.querySelector('#instances');
