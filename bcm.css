@@ -211,10 +211,9 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-ds-notes-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;color:#1a1a1a;font-size:15px;font-weight:600}
 @media (max-width:760px){.bcm-ds-card{flex-direction:column;align-items:stretch;padding:24px}.bcm-ds-qr-wrap{align-self:center}.bcm-ds-row-label{min-width:0}.bcm-ds-notes{flex-direction:column;padding:22px}}
 .page-content-wrap .row:has(#myForm)>.col-md-6{flex:0 0 100%!important;max-width:100%!important;width:100%!important}
-.page-content-wrap .row:has(#myForm)>.col-md-6+.col-md-6{margin-top:40px}
+.page-content-wrap .row:has(#myForm)>.col-md-6+.col-md-6{display:none!important}
 .bcm-wizard{display:flex;gap:32px;align-items:flex-start}
 .bcm-wizard-main{flex:1;min-width:0}
-.bcm-wizard-aside{flex:0 0 300px;display:flex;flex-direction:column;gap:20px}
 .bcm-wizard-title{font-size:26px;font-weight:800;color:#1a1a1a;margin:0 0 6px 0}
 .bcm-wizard-subtitle{font-size:14px;color:#9aa0a6;margin:0 0 28px 0}
 .bcm-wizard-steps{display:flex;align-items:center;margin-bottom:32px}
@@ -270,16 +269,4 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wiz-btn-secondary:hover{border-color:#c9c9d1}
 .bcm-wiz-btn-primary{background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);border:none;color:#fff;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:700;cursor:pointer}
 .bcm-wiz-btn-primary:hover{opacity:.9}
-.bcm-wiz-card{background:#fff;border:1px solid #f0f0f0;border-radius:16px;padding:24px}
-.bcm-wiz-card h3{font-size:15px;font-weight:800;color:#1a1a1a;margin:0 0 18px 0}
-.bcm-wiz-benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
-.bcm-wiz-benefits li{display:flex;align-items:flex-start;gap:12px}
-.bcm-wiz-benefit-icon{flex:none;width:34px;height:34px;border-radius:10px;background:#f3f0ff;color:#7B2FBE;display:flex;align-items:center;justify-content:center}
-.bcm-wiz-benefit-icon svg{width:16px;height:16px}
-.bcm-wiz-benefits li strong{display:block;font-size:13.5px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
-.bcm-wiz-benefits li span{font-size:12.5px;color:#6b7280;line-height:1.5}
-.bcm-wiz-help-text{font-size:13px;color:#6b7280;line-height:1.5;margin:0 0 16px 0}
-.bcm-wiz-help-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#f3f0ff;color:#5B21B6;border-radius:10px;padding:12px;font-size:13.5px;font-weight:700;text-decoration:none}
-.bcm-wiz-help-btn:hover{background:#ece5fb}
-.bcm-wiz-help-btn svg{width:16px;height:16px}
-@media (max-width:900px){.bcm-wizard{flex-direction:column}.bcm-wizard-aside{flex:none;width:100%;flex-direction:row;flex-wrap:wrap}.bcm-wiz-card{flex:1;min-width:240px}.bcm-wiz-type-grid{grid-template-columns:1fr}}
+@media (max-width:900px){.bcm-wiz-type-grid{grid-template-columns:1fr}}

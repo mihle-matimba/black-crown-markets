@@ -86,12 +86,7 @@ var ICON={
 trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>',
 star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
 bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
-globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
-layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
-shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.35 8.95a1 1 0 0 1-1.3 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
-plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
-msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>'
 };
 
 var TYPE_DEFS=[
@@ -178,23 +173,6 @@ var wizardHtml=''
 +'<button type="button" class="bcm-wiz-btn-secondary" id="bcmWizBack">Cancel</button>'
 +'<button type="button" class="bcm-wiz-btn-primary" id="bcmWizNext">Next: Account Details</button>'
 +'</div>'
-+'</div>'
-+'<aside class="bcm-wizard-aside">'
-+'<div class="bcm-wiz-card">'
-+'<h3>Why open a trading account?</h3>'
-+'<ul class="bcm-wiz-benefits">'
-+'<li><span class="bcm-wiz-benefit-icon">'+ICON.globe+'</span><div><strong>Access global markets</strong><span>Trade forex, indices, commodities and more.</span></div></li>'
-+'<li><span class="bcm-wiz-benefit-icon">'+ICON.layers+'</span><div><strong>Multiple platforms</strong><span>Choose from MT5 and other leading platforms.</span></div></li>'
-+'<li><span class="bcm-wiz-benefit-icon">'+ICON.shield+'</span><div><strong>Secure &amp; regulated</strong><span>Your funds are protected with top-tier security.</span></div></li>'
-+'<li><span class="bcm-wiz-benefit-icon">'+ICON.plus+'</span><div><strong>Fast &amp; simple</strong><span>Open your account in minutes.</span></div></li>'
-+'</ul>'
-+'</div>'
-+'<div class="bcm-wiz-card">'
-+'<h3>Need help?</h3>'
-+'<p class="bcm-wiz-help-text">Our support team is here to help you 24/5.</p>'
-+'<a href="mailto:support@blackcrownmarkets.com" class="bcm-wiz-help-btn">'+ICON.msg+'<span>Contact Support</span></a>'
-+'</div>'
-+'</aside>'
 +'</div>';
 
 panelDefault.style.display='none';
