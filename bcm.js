@@ -92,14 +92,14 @@ gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2
 };
 
 var TYPE_DEFS=[
-{match:/^Standard Account/i,value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
-{match:/^Standard Cent/i,value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
-{match:/^Pro Account/i,value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
-{match:/^ECN Account/i,value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
-{match:/Bonus Account/i,value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
 ];
-var FALLBACK_CURRENCIES=[{value:'ZAR',label:'ZAR',selected:true},{value:'USD',label:'USD',selected:false}];
-function findDef(text){for(var i=0;i<TYPE_DEFS.length;i++){if(TYPE_DEFS[i].match.test(text))return TYPE_DEFS[i];}return null;}
+var CURRENCIES=[{value:'ZAR',label:'ZAR'},{value:'USD',label:'USD'}];
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
 el.dispatchEvent(new Event('input',{bubbles:true}));
@@ -118,11 +118,10 @@ form.appendChild(input);
 }
 
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
-var platformOptions=Array.prototype.filter.call(platformSelect.options,function(o){return o.value;});
 if(!accountOptions.length)return;
 
-function toggleGroupHtml(opts){
-return opts.map(function(o){return '<button type="button" class="bcm-wiz-toggle-btn'+(o.selected?' active':'')+'" data-value="'+esc(o.value)+'">'+esc(o.textContent.trim())+'</button>';}).join('');
+function toggleBtnHtml(value,label,active){
+return '<button type="button" class="bcm-wiz-toggle-btn'+(active?' active':'')+'" data-value="'+esc(value)+'">'+esc(label)+'</button>';
 }
 
 function typeCardHtml(t){
@@ -142,7 +141,9 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 +'</div>';
 }
 
-var platformFieldHtml='<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml(platformOptions)+'</div></div>';
+var accountToggleHtml=accountOptions.map(function(o){return toggleBtnHtml(o.value,o.textContent.trim(),false);}).join('');
+var currencyToggleHtml=CURRENCIES.map(function(c,i){return toggleBtnHtml(c.value,c.label,i===0);}).join('');
+var typeCardsHtml=TYPE_DEFS.map(typeCardHtml).join('');
 
 var wizardHtml=''
 +'<div class="bcm-wizard">'
@@ -160,16 +161,14 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane active" data-pane="1">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
-+platformFieldHtml
-+'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+toggleGroupHtml(accountOptions)+'</div></div>'
-+'<div class="bcm-wiz-type-grid" id="bcmTypeGrid"></div>'
-+'<p class="bcm-wiz-hint" id="bcmTypeHint">Loading available account types…</p>'
-+'<p class="bcm-wiz-error" id="bcmStep1Error">Please select an account type to continue.</p>'
++'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+accountToggleHtml+'</div></div>'
++'<div class="bcm-wiz-field" id="bcmCurrencyWrap" style="display:none"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle">'+currencyToggleHtml+'</div></div>'
++'<div class="bcm-wiz-type-grid" id="bcmTypeGrid" style="display:none">'+typeCardsHtml+'</div>'
++'<p class="bcm-wiz-error" id="bcmStep1Error">Please choose an account, currency and account type to continue.</p>'
 +'</div>'
 +'<div class="bcm-wizard-pane" data-pane="2">'
 +'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
-+'<p class="bcm-wiz-pane-subtitle">Set the account and login details for this trading account.</p>'
-+'<div class="bcm-wiz-field"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle"></div><p class="bcm-wiz-hint" id="bcmCurrencyHint">Loading…</p></div>'
++'<p class="bcm-wiz-pane-subtitle">Set the login password for this trading account.</p>'
 +'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
 +'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
 +'<p class="bcm-wiz-error" id="bcmStep2Error">Enter a password and confirm it to continue.</p>'
@@ -183,6 +182,7 @@ var wizardHtml=''
 +'<div class="bcm-wizard-actions">'
 +'<button type="button" class="bcm-wiz-btn-secondary" id="bcmWizBack">Cancel</button>'
 +'<button type="button" class="bcm-wiz-btn-primary" id="bcmWizNext">Next: Account Details</button>'
++'</div>'
 +'</div>'
 +'</div>';
 
@@ -222,102 +222,55 @@ bindPasswordToggle(passwordInput,document.querySelector('#icon-show'),document.q
 bindPasswordToggle(confirmInput,document.querySelector('#icon-confirm-show'),document.querySelector('#icon-confirm-hide'),document.querySelector('#password-confirm-field'));
 
 var currentStep=1;
+var selectedAccount=null;
+var selectedCurrency='ZAR';
 var selectedType=null;
-var types=[];
 
+var accountToggle=wizard.querySelector('#bcmAccountToggle');
+var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
+var currencyWrap=wizard.querySelector('#bcmCurrencyWrap');
+var typeGrid=wizard.querySelector('#bcmTypeGrid');
+
+function setActiveButton(container,value){
+container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===value);});
+}
 function setActiveCard(value){
-wizard.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
+typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
 }
-
-function renderTypeCards(select){
-var grid=wizard.querySelector('#bcmTypeGrid');
-var hint=wizard.querySelector('#bcmTypeHint');
-if(hint)hint.style.display='none';
-var opts=select?Array.prototype.filter.call(select.options,function(o){return o.value;}):[];
-var usingReal=opts.length>0;
-if(usingReal){
-types=opts.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
-}else{
-types=TYPE_DEFS.map(function(d){return{value:d.value,label:d.label,icon:d.icon,desc:d.desc,min:d.min,spread:d.spread,commission:d.commission,leverage:d.leverage,contract:d.contract,bonus:d.bonus||'',badge:d.badge};});
-}
-grid.innerHTML=types.map(typeCardHtml).join('');
-if(!types.some(function(t){return t.value===selectedType;})){selectedType=(usingReal&&select.value)?select.value:null;}
-if(usingReal&&selectedType)select.value=selectedType;
-setActiveCard(selectedType);
-grid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
-function pick(){
-selectedType=card.getAttribute('data-value');
-if(usingReal){select.value=selectedType;fireChange(select);}
-setActiveCard(selectedType);
+function clearStep1Error(){
 var err=wizard.querySelector('#bcmStep1Error');
 if(err)err.classList.remove('bcm-wiz-error-visible');
+}
+
+accountToggle.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+selectedAccount=btn.getAttribute('data-value');
+accountSelect.value=selectedAccount;
+fireChange(accountSelect);
+setActiveButton(accountToggle,selectedAccount);
+currencyWrap.style.display='';
+clearStep1Error();
+});
+});
+
+currencyToggle.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+selectedCurrency=btn.getAttribute('data-value');
+setActiveButton(currencyToggle,selectedCurrency);
+typeGrid.style.display='';
+clearStep1Error();
+});
+});
+
+typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
+function pick(){
+selectedType=card.getAttribute('data-value');
+setActiveCard(selectedType);
+clearStep1Error();
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
-}
-
-function bindToggleGroup(containerId,select,onChange){
-var container=wizard.querySelector(containerId);
-if(!container)return;
-container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
-btn.addEventListener('click',function(){
-select.value=btn.getAttribute('data-value');
-fireChange(select);
-container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
-if(onChange)onChange();
-});
-});
-}
-
-function renderCurrencyToggle(select){
-var container=wizard.querySelector('#bcmCurrencyToggle');
-var hint=wizard.querySelector('#bcmCurrencyHint');
-if(hint)hint.style.display='none';
-var opts=select?Array.prototype.filter.call(select.options,function(o){return o.value;}):[];
-if(opts.length){
-container.innerHTML=toggleGroupHtml(opts);
-bindToggleGroup('#bcmCurrencyToggle',select);
-}else{
-container.innerHTML=FALLBACK_CURRENCIES.map(function(o){return '<button type="button" class="bcm-wiz-toggle-btn'+(o.selected?' active':'')+'" data-value="'+esc(o.value)+'">'+esc(o.label)+'</button>';}).join('');
-container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
-btn.addEventListener('click',function(){
-container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
-});
-});
-}
-}
-
-function refreshDynamicFields(){
-var at=document.querySelector('#accTypeField');
-var cur=document.querySelector('#currencyField');
-renderTypeCards(at);
-renderCurrencyToggle(cur);
-if(at&&cur)return;
-var attempts=0;
-var timer=setInterval(function(){
-attempts++;
-var at2=document.querySelector('#accTypeField');
-var cur2=document.querySelector('#currencyField');
-if(at2||cur2){
-clearInterval(timer);
-renderTypeCards(at2);
-renderCurrencyToggle(cur2);
-}else if(attempts>=15){
-clearInterval(timer);
-}
-},200);
-}
-
-bindToggleGroup('#bcmPlatformToggle',platformSelect);
-bindToggleGroup('#bcmAccountToggle',accountSelect,refreshDynamicFields);
-
-if(!accountSelect.value&&accountOptions.length){
-accountSelect.value=accountOptions[0].value;
-fireChange(accountSelect);
-}
-wizard.querySelectorAll('#bcmAccountToggle .bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===accountSelect.value);});
-refreshDynamicFields();
 
 function goToStep(step){
 currentStep=step;
@@ -336,16 +289,12 @@ if(step===2){backBtn.textContent='Back';nextBtn.textContent='Next: Review & Crea
 if(step===3){
 backBtn.textContent='Back';
 nextBtn.textContent='Create Account';
-var typeDef=types.filter(function(t){return t.value===selectedType;})[0];
-var accountBtn=wizard.querySelector('#bcmAccountToggle .active');
-var currencyBtn=wizard.querySelector('#bcmCurrencyToggle .active');
-var platformBtn=wizard.querySelector('#bcmPlatformToggle .active');
-var platformLabel=platformBtn?platformBtn.textContent.trim():(platformOptions[0]?platformOptions[0].textContent.trim():'');
+var typeDef=TYPE_DEFS.filter(function(t){return t.value===selectedType;})[0];
+var accountBtn=accountToggle.querySelector('.active');
 var review=''
-+(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
-+'<div class="bcm-wiz-review-row"><span>Platform</span><strong>'+esc(platformLabel)+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
-+(currencyBtn?'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(currencyBtn.textContent.trim())+'</strong></div>':'');
++'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency)+'</strong></div>'
++(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
@@ -357,7 +306,7 @@ goToStep(currentStep-1);
 });
 wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
 if(currentStep===1){
-if(!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
+if(!selectedAccount||!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
 goToStep(2);
 return;
 }
@@ -371,8 +320,7 @@ goToStep(3);
 return;
 }
 ensureHiddenField('acc_type',selectedType);
-var currencyBtn=wizard.querySelector('#bcmCurrencyToggle .active');
-ensureHiddenField('currency',currencyBtn?currencyBtn.getAttribute('data-value'):null);
+ensureHiddenField('currency',selectedCurrency);
 submitBtn.click();
 });
 }
