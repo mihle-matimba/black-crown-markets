@@ -92,13 +92,22 @@ gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2
 flask:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 9.5V3"/><path d="M7 15h10"/></svg>'
 };
 
-var TYPE_DEFS=[
-{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
-{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
-{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
-{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
-{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
-];
+var TYPE_DEFS_BY_CURRENCY={
+ZAR:[
+{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'R1,700',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'R1,700',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+],
+USD:[
+{value:'Standard Account ($10 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent ($10 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account ($100 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account ($100. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account ($10. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% of your deposit',badge:'Up to 150% bonus'}
+]
+};
 var ACCOUNT_DEFS=[
 {match:/^live$/i,icon:ICON.trend,desc:'Trade with real funds in live market conditions.'},
 {match:/^demo$/i,icon:ICON.flask,desc:'Practice risk-free with virtual funds.'}
@@ -165,7 +174,6 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
-var typeCardsHtml=TYPE_DEFS.map(typeCardHtml).join('');
 
 var TOTAL_STEPS=5;
 
@@ -191,7 +199,7 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane" data-pane="3">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
-+'<div class="bcm-wiz-type-grid" id="bcmTypeGrid">'+typeCardsHtml+'</div>'
++'<div class="bcm-wiz-type-grid" id="bcmTypeGrid"></div>'
 +'<p class="bcm-wiz-error" id="bcmStep3Error">Please select an account type to continue.</p>'
 +'</div>'
 +'<div class="bcm-wizard-pane" data-pane="4">'
@@ -281,21 +289,28 @@ card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
-currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
-function pick(){
-selectedCurrency=card.getAttribute('data-value');
-setActiveButton(currencyToggle,selectedCurrency);
-clearError('bcmStep2Error');
-}
-card.addEventListener('click',pick);
-card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
-});
-
+function renderTypeCards(){
+var defs=TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[];
+if(!defs.some(function(d){return d.value===selectedType;}))selectedType=null;
+typeGrid.innerHTML=defs.map(typeCardHtml).join('');
+setActiveCard(selectedType);
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
 setActiveCard(selectedType);
 clearError('bcmStep3Error');
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+}
+
+currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
+function pick(){
+selectedCurrency=card.getAttribute('data-value');
+setActiveButton(currencyToggle,selectedCurrency);
+clearError('bcmStep2Error');
+renderTypeCards();
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
@@ -315,7 +330,7 @@ if(step===3)nextBtn.textContent='Next: Account Details';
 if(step===4)nextBtn.textContent='Next: Review & Create';
 if(step===5){
 nextBtn.textContent='Create Account';
-var typeDef=TYPE_DEFS.filter(function(t){return t.value===selectedType;})[0];
+var typeDef=(TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[]).filter(function(t){return t.value===selectedType;})[0];
 var accountBtn=accountToggle.querySelector('.active .bcm-payment-name');
 var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
