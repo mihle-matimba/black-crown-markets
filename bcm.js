@@ -172,13 +172,7 @@ var wizardHtml=''
 +'<div class="bcm-wizard-main">'
 +'<h1 class="bcm-wizard-title">'+esc(wizTitle)+'</h1>'
 +'<p class="bcm-wizard-subtitle">'+esc(wizSubtitle)+'</p>'
-+'<div class="bcm-wizard-steps" id="bcmWizardSteps">'
-+'<div class="bcm-wizard-step active" data-step="1"><span class="bcm-wizard-step-num">1</span><span class="bcm-wizard-step-label">Account Type</span></div>'
-+'<div class="bcm-wizard-step-line"></div>'
-+'<div class="bcm-wizard-step" data-step="2"><span class="bcm-wizard-step-num">2</span><span class="bcm-wizard-step-label">Account Details</span></div>'
-+'<div class="bcm-wizard-step-line"></div>'
-+'<div class="bcm-wizard-step" data-step="3"><span class="bcm-wizard-step-num">3</span><span class="bcm-wizard-step-label">Review &amp; Create</span></div>'
-+'</div>'
++'<p class="bcm-wizard-step-text" id="bcmStepText">Step 1 of 3</p>'
 +'<div class="bcm-wizard-panel">'
 +'<div class="bcm-wizard-pane active" data-pane="1">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
@@ -301,13 +295,8 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 function goToStep(step){
 currentStep=step;
 wizard.querySelectorAll('.bcm-wizard-pane').forEach(function(p){p.classList.toggle('active',Number(p.getAttribute('data-pane'))===step);});
-wizard.querySelectorAll('.bcm-wizard-step').forEach(function(s){
-var n=Number(s.getAttribute('data-step'));
-s.classList.toggle('active',n===step);
-s.classList.toggle('done',n<step);
-});
-var lines=wizard.querySelectorAll('.bcm-wizard-step-line');
-lines.forEach(function(line,i){line.classList.toggle('done',i<step-1);});
+var stepText=wizard.querySelector('#bcmStepText');
+if(stepText)stepText.textContent='Step '+step+' of 3';
 var backBtn=wizard.querySelector('#bcmWizBack');
 var nextBtn=wizard.querySelector('#bcmWizNext');
 if(step===1){backBtn.textContent='Cancel';nextBtn.textContent='Next: Account Details';}

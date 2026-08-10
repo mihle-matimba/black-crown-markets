@@ -217,14 +217,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 @media (max-width:600px){.bcm-wizard-main{padding:24px}}
 .bcm-wizard-title{font-size:26px;font-weight:800;color:#1a1a1a;margin:0 0 6px 0}
 .bcm-wizard-subtitle{font-size:14px;color:#9aa0a6;margin:0 0 28px 0}
-.bcm-wizard-steps{display:flex;align-items:center;margin-bottom:32px}
-.bcm-wizard-step{display:flex;align-items:center;gap:10px;flex:none}
-.bcm-wizard-step-num{width:32px;height:32px;border-radius:50%;background:#f3f0ff;color:#9aa0a6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
-.bcm-wizard-step.active .bcm-wizard-step-num,.bcm-wizard-step.done .bcm-wizard-step-num{background:#7B2FBE;color:#fff}
-.bcm-wizard-step-label{font-size:14px;color:#9aa0a6;font-weight:600;white-space:nowrap}
-.bcm-wizard-step.active .bcm-wizard-step-label,.bcm-wizard-step.done .bcm-wizard-step-label{color:#1a1a1a}
-.bcm-wizard-step-line{flex:1;height:2px;background:#e5e5e7;margin:0 16px;min-width:24px}
-.bcm-wizard-step-line.done{background:#7B2FBE}
+.bcm-wizard-step-text{display:inline-block;font-size:13px;font-weight:700;color:#5B21B6;background:#f3f0ff;padding:6px 14px;border-radius:100px;margin:0 0 24px 0}
 .bcm-wizard-pane{display:none}
 .bcm-wizard-pane.active{display:block}
 .bcm-wiz-pane-title{font-size:18px;font-weight:800;color:#1a1a1a;margin:0 0 4px 0}
