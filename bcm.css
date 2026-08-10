@@ -225,6 +225,15 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wizard-panel::-webkit-scrollbar-thumb:hover{background:#7B2FBE}
 .bcm-wizard-panel{scrollbar-width:thin;scrollbar-color:#c9b8ea transparent}
 .bcm-wizard-actions{flex:none}
+html,body{overflow:hidden!important;height:100%!important}
+.page-content{display:flex!important;flex-direction:column!important;box-sizing:border-box!important;overflow:hidden!important}
+.page-content-wrap{flex:1!important;overflow-y:auto!important;overflow-x:hidden!important;min-height:0!important}
+.page-sidebar{overflow-y:auto!important}
+.page-content-wrap::-webkit-scrollbar,.page-sidebar::-webkit-scrollbar{width:8px}
+.page-content-wrap::-webkit-scrollbar-track,.page-sidebar::-webkit-scrollbar-track{background:transparent}
+.page-content-wrap::-webkit-scrollbar-thumb,.page-sidebar::-webkit-scrollbar-thumb{background:#c9b8ea;border-radius:100px}
+.page-content-wrap::-webkit-scrollbar-thumb:hover,.page-sidebar::-webkit-scrollbar-thumb:hover{background:#7B2FBE}
+.page-content-wrap,.page-sidebar{scrollbar-width:thin;scrollbar-color:#c9b8ea transparent}
 .bcm-wizard-title{font-size:26px;font-weight:800;color:#1a1a1a;margin:0 0 6px 0}
 .bcm-wizard-subtitle{font-size:14px;color:#9aa0a6;margin:0 0 28px 0}
 .bcm-wizard-step-text{display:inline-block;font-size:13px;font-weight:700;color:#5B21B6;background:#f3f0ff;padding:6px 14px;border-radius:100px;margin:0 0 24px 0}
