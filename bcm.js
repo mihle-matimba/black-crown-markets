@@ -233,20 +233,21 @@ function renderTypeCards(select){
 var grid=wizard.querySelector('#bcmTypeGrid');
 var hint=wizard.querySelector('#bcmTypeHint');
 if(hint)hint.style.display='none';
-if(select){
-var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
+var opts=select?Array.prototype.filter.call(select.options,function(o){return o.value;}):[];
+var usingReal=opts.length>0;
+if(usingReal){
 types=opts.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
 }else{
 types=TYPE_DEFS.map(function(d){return{value:d.value,label:d.label,icon:d.icon,desc:d.desc,min:d.min,spread:d.spread,commission:d.commission,leverage:d.leverage,contract:d.contract,bonus:d.bonus||'',badge:d.badge};});
 }
 grid.innerHTML=types.map(typeCardHtml).join('');
-if(!types.some(function(t){return t.value===selectedType;})){selectedType=select?(select.value||null):null;}
-if(select&&selectedType)select.value=selectedType;
+if(!types.some(function(t){return t.value===selectedType;})){selectedType=(usingReal&&select.value)?select.value:null;}
+if(usingReal&&selectedType)select.value=selectedType;
 setActiveCard(selectedType);
 grid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
-if(select){select.value=selectedType;fireChange(select);}
+if(usingReal){select.value=selectedType;fireChange(select);}
 setActiveCard(selectedType);
 var err=wizard.querySelector('#bcmStep1Error');
 if(err)err.classList.remove('bcm-wiz-error-visible');
@@ -273,8 +274,8 @@ function renderCurrencyToggle(select){
 var container=wizard.querySelector('#bcmCurrencyToggle');
 var hint=wizard.querySelector('#bcmCurrencyHint');
 if(hint)hint.style.display='none';
-if(select){
-var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
+var opts=select?Array.prototype.filter.call(select.options,function(o){return o.value;}):[];
+if(opts.length){
 container.innerHTML=toggleGroupHtml(opts);
 bindToggleGroup('#bcmCurrencyToggle',select);
 }else{
