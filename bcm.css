@@ -248,11 +248,8 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wiz-hint{display:none;color:#9aa0a6;font-size:13px;margin:4px 0 0 0}
 .bcm-wiz-field{margin-bottom:22px}
 .bcm-wiz-field label{display:block;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:8px}
-.bcm-wiz-toggle{display:flex;flex-wrap:wrap;gap:10px}
-.bcm-wiz-toggle-btn{border:1.5px solid #e5e5e7;background:#fff;color:#2d2d2d;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s ease,color .15s ease,background .15s ease}
-.bcm-wiz-toggle-btn:hover{border-color:#c9b8ea}
-.bcm-wiz-toggle-btn.active{border-color:#7B2FBE;background:#f3f0ff;color:#5B21B6}
-.bcm-wiz-static-value{border:1.5px solid #e5e5e7;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:#2d2d2d;background:#f8f9fb;display:inline-block}
+.bcm-wiz-small-cards .bcm-payment-option{padding:20px;gap:12px}
+.bcm-wiz-card-desc{margin:0;font-size:13px;color:#6b7280;line-height:1.5}
 .bcm-wiz-password-group{margin:0!important}
 .bcm-wiz-password-group .input-group{display:flex!important;align-items:stretch}
 .bcm-wiz-password-group .input-group-addon{display:none!important}

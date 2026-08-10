@@ -88,7 +88,8 @@ var ICON={
 trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>',
 star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
 bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>'
+gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
+flask:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 9.5V3"/><path d="M7 15h10"/></svg>'
 };
 
 var TYPE_DEFS=[
@@ -98,7 +99,15 @@ var TYPE_DEFS=[
 {value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
 {value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
 ];
-var CURRENCIES=[{value:'ZAR',label:'ZAR'},{value:'USD',label:'USD'}];
+var ACCOUNT_DEFS=[
+{match:/^live$/i,icon:ICON.trend,desc:'Trade with real funds in live market conditions.'},
+{match:/^demo$/i,icon:ICON.flask,desc:'Practice risk-free with virtual funds.'}
+];
+function findAccountDef(text){for(var i=0;i<ACCOUNT_DEFS.length;i++){if(ACCOUNT_DEFS[i].match.test(text))return ACCOUNT_DEFS[i];}return null;}
+var CURRENCY_DEFS=[
+{value:'ZAR',symbol:'R',name:'South African Rand'},
+{value:'USD',symbol:'$',name:'US Dollar'}
+];
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
@@ -120,8 +129,21 @@ form.appendChild(input);
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
 if(!accountOptions.length)return;
 
-function toggleBtnHtml(value,label,active){
-return '<button type="button" class="bcm-wiz-toggle-btn'+(active?' active':'')+'" data-value="'+esc(value)+'">'+esc(label)+'</button>';
+function accountCardHtml(o){
+var def=findAccountDef(o.textContent.trim())||{};
+return '<div class="bcm-payment-option" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
++'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+(def.icon||ICON.trend)+'</span><span class="bcm-payment-name">'+esc(o.textContent.trim())+'</span></div>'
++(def.desc?'<p class="bcm-wiz-card-desc">'+esc(def.desc)+'</p>':'')
++'<span class="bcm-payment-radio"></span>'
++'</div>';
+}
+
+function currencyCardHtml(c){
+return '<div class="bcm-payment-option" data-value="'+esc(c.value)+'" role="button" tabindex="0">'
++'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(c.symbol)+'</span><span class="bcm-payment-name">'+esc(c.value)+'</span></div>'
++'<p class="bcm-wiz-card-desc">'+esc(c.name)+'</p>'
++'<span class="bcm-payment-radio"></span>'
++'</div>';
 }
 
 function typeCardHtml(t){
@@ -141,8 +163,8 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 +'</div>';
 }
 
-var accountToggleHtml=accountOptions.map(function(o){return toggleBtnHtml(o.value,o.textContent.trim(),false);}).join('');
-var currencyToggleHtml=CURRENCIES.map(function(c,i){return toggleBtnHtml(c.value,c.label,i===0);}).join('');
+var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
+var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 var typeCardsHtml=TYPE_DEFS.map(typeCardHtml).join('');
 
 var wizardHtml=''
@@ -161,8 +183,8 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane active" data-pane="1">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
-+'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+accountToggleHtml+'</div></div>'
-+'<div class="bcm-wiz-field" id="bcmCurrencyWrap" style="display:none"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle">'+currencyToggleHtml+'</div></div>'
++'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-payment-list bcm-wiz-small-cards" id="bcmAccountToggle">'+accountCardsHtml+'</div></div>'
++'<div class="bcm-wiz-field" id="bcmCurrencyWrap" style="display:none"><label>Currency</label><div class="bcm-payment-list bcm-wiz-small-cards" id="bcmCurrencyToggle">'+currencyCardsHtml+'</div></div>'
 +'<div class="bcm-wiz-type-grid" id="bcmTypeGrid" style="display:none">'+typeCardsHtml+'</div>'
 +'<p class="bcm-wiz-error" id="bcmStep1Error">Please choose an account, currency and account type to continue.</p>'
 +'</div>'
@@ -232,7 +254,7 @@ var currencyWrap=wizard.querySelector('#bcmCurrencyWrap');
 var typeGrid=wizard.querySelector('#bcmTypeGrid');
 
 function setActiveButton(container,value){
-container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===value);});
+container.querySelectorAll('.bcm-payment-option').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===value);});
 }
 function setActiveCard(value){
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
@@ -242,24 +264,28 @@ var err=wizard.querySelector('#bcmStep1Error');
 if(err)err.classList.remove('bcm-wiz-error-visible');
 }
 
-accountToggle.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
-btn.addEventListener('click',function(){
-selectedAccount=btn.getAttribute('data-value');
+accountToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
+function pick(){
+selectedAccount=card.getAttribute('data-value');
 accountSelect.value=selectedAccount;
 fireChange(accountSelect);
 setActiveButton(accountToggle,selectedAccount);
 currencyWrap.style.display='';
 clearStep1Error();
-});
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
-currencyToggle.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
-btn.addEventListener('click',function(){
-selectedCurrency=btn.getAttribute('data-value');
+currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
+function pick(){
+selectedCurrency=card.getAttribute('data-value');
 setActiveButton(currencyToggle,selectedCurrency);
 typeGrid.style.display='';
 clearStep1Error();
-});
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
@@ -290,7 +316,7 @@ if(step===3){
 backBtn.textContent='Back';
 nextBtn.textContent='Create Account';
 var typeDef=TYPE_DEFS.filter(function(t){return t.value===selectedType;})[0];
-var accountBtn=accountToggle.querySelector('.active');
+var accountBtn=accountToggle.querySelector('.active .bcm-payment-name');
 var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency)+'</strong></div>'
