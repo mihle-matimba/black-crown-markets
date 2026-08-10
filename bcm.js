@@ -63,7 +63,153 @@ var confirmBtn=document.createElement('button');confirmBtn.type='button';confirm
 var copyBtn=container.querySelector('.bcm-ds-copy');if(copyBtn){copyBtn.addEventListener('click',function(){var value=copyBtn.getAttribute('data-address');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(value);}else{var ta=document.createElement('textarea');ta.value=value;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}copyBtn.classList.add('bcm-ds-copied');setTimeout(function(){copyBtn.classList.remove('bcm-ds-copied');},1500);});}}
 function relocateDisclaimers(){var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var disclaimer=document.querySelector('.disclaimer-color');var footer=document.querySelector('.footer-color');if(disclaimer)mainContent.appendChild(disclaimer);if(footer)mainContent.appendChild(footer);}
 function buildLoginPage(){var body=document.querySelector('.login-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var titleEl=left.querySelector('.login-title');if(titleEl){var subtitle=document.createElement('div');subtitle.className='bcm-login-subtitle';subtitle.textContent='Access your Black Crown Markets account to manage your trading with ease.';titleEl.insertAdjacentElement('afterend',subtitle);}var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
-function buildRegistrationPage(){var body=document.querySelector('.registration-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var stepNumbers=left.querySelectorAll('.steps_2 .stepNumber');stepNumbers.forEach(function(el,i){el.textContent=String(i+1);});var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
+function buildRegistrationPage(){var body=document.querySelector('.registration-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var stepNumbers=left.querySelectorAll('.steps_2 .stepNumber');stepNumbers.forEach(function(el,i){el.textContent=String(i+1);});
+buildRegistrationAccountFields(left);
+var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
+
+function buildRegistrationAccountFields(scope){
+var form=scope.querySelector('form.register')||scope.querySelector('form');
+var currencySelect=scope.querySelector('select[name=currency]');
+var typeSelect=scope.querySelector('select[name=acc_type]');
+var platformSelect=scope.querySelector('select[name=platform]');
+if(!form||!currencySelect||!typeSelect)return;
+
+if(platformSelect){var platformGroup=platformSelect.closest('.form-group');if(platformGroup)platformGroup.style.display='none';}
+
+var ICON={
+trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>',
+star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>'
+};
+
+var TYPE_DEFS_BY_CURRENCY={
+ZAR:[
+{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'R1,700',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'R1,700',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+],
+USD:[
+{value:'Standard Account ($10 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent ($10 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account ($100 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account ($100. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account ($10. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% of your deposit',badge:'Up to 150% bonus'}
+]
+};
+var CURRENCY_DEFS=[
+{value:'ZAR',symbol:'R',name:'South African Rand'},
+{value:'USD',symbol:'$',name:'US Dollar'}
+];
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function fireChange(el){
+el.dispatchEvent(new Event('input',{bubbles:true}));
+el.dispatchEvent(new Event('change',{bubbles:true}));
+if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}
+}
+function ensureHiddenField(name,value){
+if(!value)return;
+var existing=form.querySelector('[name="'+name+'"]');
+if(existing){
+if(existing.tagName==='SELECT'){
+var hasOption=Array.prototype.some.call(existing.options,function(o){return o.value===value;});
+if(hasOption){existing.value=value;return;}
+existing.disabled=true;
+}else{existing.value=value;return;}
+}
+var input=document.createElement('input');
+input.type='hidden';
+input.name=name;
+input.value=value;
+form.appendChild(input);
+}
+
+function currencyCardHtml(c,active){
+return '<div class="bcm-payment-option'+(active?' active':'')+'" data-value="'+esc(c.value)+'" role="button" tabindex="0">'
++'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(c.symbol)+'</span><span class="bcm-payment-name">'+esc(c.value)+'</span></div>'
++'<p class="bcm-wiz-card-desc">'+esc(c.name)+'</p>'
++'<span class="bcm-payment-radio"></span>'
++'</div>';
+}
+function typeCardHtml(t,active){
+var metaRows=''
++(t.min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(t.min)+'</strong></div>':'')
++(t.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(t.spread)+'</strong></div>':'')
++(t.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(t.commission)+'</strong></div>':'')
++(t.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(t.leverage)+'</strong></div>':'')
++(t.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(t.contract)+'</strong></div>':'')
++(t.bonus?'<div class="bcm-wiz-meta-row"><span>Bonus</span><strong>'+esc(t.bonus)+'</strong></div>':'');
+return '<div class="bcm-wiz-type-card'+(active?' active':'')+'" data-value="'+esc(t.value)+'" role="button" tabindex="0">'
++'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+t.icon+'</span><span class="bcm-wiz-type-radio"></span></div>'
++'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
++'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
++'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
++(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
++'</div>';
+}
+
+var selectedCurrency=currencySelect.value||(CURRENCY_DEFS[0]?CURRENCY_DEFS[0].value:null);
+var selectedType=typeSelect.value||null;
+
+var currencyGroup=currencySelect.closest('.form-group');
+currencySelect.style.display='none';
+var currencyLabel=document.createElement('label');
+currencyLabel.className='bcm-wiz-field-label';
+currencyLabel.textContent='Currency';
+var currencyWrap=document.createElement('div');
+currencyWrap.className='bcm-payment-list bcm-wiz-small-cards';
+currencyWrap.innerHTML=CURRENCY_DEFS.map(function(c){return currencyCardHtml(c,c.value===selectedCurrency);}).join('');
+currencyGroup.appendChild(currencyLabel);
+currencyGroup.appendChild(currencyWrap);
+
+var typeGroup=typeSelect.closest('.form-group');
+typeSelect.style.display='none';
+var typeLabel=document.createElement('label');
+typeLabel.className='bcm-wiz-field-label';
+typeLabel.textContent='Account Type';
+var typeGrid=document.createElement('div');
+typeGrid.className='bcm-wiz-type-grid';
+typeGroup.appendChild(typeLabel);
+typeGroup.appendChild(typeGrid);
+
+function bindTypeCards(){
+typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
+function pick(){
+selectedType=card.getAttribute('data-value');
+typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c===card);});
+if(Array.prototype.some.call(typeSelect.options,function(o){return o.value===selectedType;})){typeSelect.value=selectedType;fireChange(typeSelect);}
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+}
+function renderTypeCards(){
+var defs=TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[];
+if(!defs.some(function(d){return d.value===selectedType;}))selectedType=defs[0]?defs[0].value:null;
+typeGrid.innerHTML=defs.map(function(t){return typeCardHtml(t,t.value===selectedType);}).join('');
+bindTypeCards();
+}
+renderTypeCards();
+
+currencyWrap.querySelectorAll('.bcm-payment-option').forEach(function(card){
+function pick(){
+selectedCurrency=card.getAttribute('data-value');
+currencyWrap.querySelectorAll('.bcm-payment-option').forEach(function(c){c.classList.toggle('active',c===card);});
+if(Array.prototype.some.call(currencySelect.options,function(o){return o.value===selectedCurrency;})){currencySelect.value=selectedCurrency;fireChange(currencySelect);}
+renderTypeCards();
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+
+form.addEventListener('submit',function(){
+ensureHiddenField('currency',selectedCurrency);
+ensureHiddenField('acc_type',selectedType);
+});
+}
 function buildAddAccountPage(){
 if(BCM_RAW_ADD_ACCOUNT)return;
 var form=document.querySelector('#myForm');
