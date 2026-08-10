@@ -347,10 +347,7 @@ var review=''
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
-var pageWrap=document.querySelector('.page-content-wrap');
-if(pageWrap)pageWrap.scrollTo({top:0,behavior:'smooth'});
-var panel=wizard.querySelector('.bcm-wizard-panel');
-if(panel)panel.scrollTop=0;
+window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
 }
 
 wizard.querySelector('#bcmWizBack').addEventListener('click',function(){
@@ -387,7 +384,7 @@ ensureHiddenField('currency',selectedCurrency);
 submitBtn.click();
 });
 }
-function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!header)return;var headerHeight=header.getBoundingClientRect().height;if(sidebar)sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');var pageContent=document.querySelector('.page-content');if(pageContent)pageContent.style.setProperty('height','calc(100vh - '+headerHeight+'px)','important');}
+function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
 function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();});observer.observe(target,{childList:true,subtree:true});}
