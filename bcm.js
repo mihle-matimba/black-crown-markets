@@ -142,9 +142,7 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 +'</div>';
 }
 
-var platformFieldHtml=platformOptions.length>1
-?'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml(platformOptions)+'</div></div>'
-:'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-static-value">'+(platformOptions[0]?esc(platformOptions[0].textContent.trim()):'')+'</div></div>';
+var platformFieldHtml='<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml(platformOptions)+'</div></div>';
 
 var wizardHtml=''
 +'<div class="bcm-wizard">'
@@ -162,6 +160,7 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane active" data-pane="1">'
 +'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
++platformFieldHtml
 +'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+toggleGroupHtml(accountOptions)+'</div></div>'
 +'<div class="bcm-wiz-type-grid" id="bcmTypeGrid"></div>'
 +'<p class="bcm-wiz-hint" id="bcmTypeHint">Loading available account types…</p>'
@@ -170,7 +169,6 @@ var wizardHtml=''
 +'<div class="bcm-wizard-pane" data-pane="2">'
 +'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Set the account and login details for this trading account.</p>'
-+platformFieldHtml
 +'<div class="bcm-wiz-field"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle"></div><p class="bcm-wiz-hint" id="bcmCurrencyHint">Loading…</p></div>'
 +'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
 +'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
