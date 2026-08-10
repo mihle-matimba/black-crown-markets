@@ -127,7 +127,16 @@ if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select
 function ensureHiddenField(name,value){
 if(value===null||value===undefined||value==='')return;
 var existing=form.querySelector('[name="'+name+'"]');
-if(existing){existing.value=value;return;}
+if(existing){
+if(existing.tagName==='SELECT'){
+var hasOption=Array.prototype.some.call(existing.options,function(o){return o.value===value;});
+if(hasOption){existing.value=value;return;}
+existing.disabled=true;
+}else{
+existing.value=value;
+return;
+}
+}
 var input=document.createElement('input');
 input.type='hidden';
 input.name=name;
