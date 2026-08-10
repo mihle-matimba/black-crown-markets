@@ -167,29 +167,41 @@ var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 var typeCardsHtml=TYPE_DEFS.map(typeCardHtml).join('');
 
+var TOTAL_STEPS=5;
+
 var wizardHtml=''
 +'<div class="bcm-wizard">'
 +'<div class="bcm-wizard-main">'
 +'<h1 class="bcm-wizard-title">'+esc(wizTitle)+'</h1>'
 +'<p class="bcm-wizard-subtitle">'+esc(wizSubtitle)+'</p>'
-+'<p class="bcm-wizard-step-text" id="bcmStepText">Step 1 of 3</p>'
++'<p class="bcm-wizard-step-text" id="bcmStepText">Step 1 of '+TOTAL_STEPS+'</p>'
 +'<div class="bcm-wizard-panel">'
 +'<div class="bcm-wizard-pane active" data-pane="1">'
-+'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
-+'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
-+'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-payment-list bcm-wiz-small-cards" id="bcmAccountToggle">'+accountCardsHtml+'</div></div>'
-+'<div class="bcm-wiz-field" id="bcmCurrencyWrap" style="display:none"><label>Currency</label><div class="bcm-payment-list bcm-wiz-small-cards" id="bcmCurrencyToggle">'+currencyCardsHtml+'</div></div>'
-+'<div class="bcm-wiz-type-grid" id="bcmTypeGrid" style="display:none">'+typeCardsHtml+'</div>'
-+'<p class="bcm-wiz-error" id="bcmStep1Error">Please choose an account, currency and account type to continue.</p>'
++'<h3 class="bcm-wiz-pane-title">Select Account</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose whether this is a live or demo trading account.</p>'
++'<div class="bcm-payment-list bcm-wiz-small-cards" id="bcmAccountToggle">'+accountCardsHtml+'</div>'
++'<p class="bcm-wiz-error" id="bcmStep1Error">Please choose an account to continue.</p>'
 +'</div>'
 +'<div class="bcm-wizard-pane" data-pane="2">'
++'<h3 class="bcm-wiz-pane-title">Select Currency</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose the base currency for this trading account.</p>'
++'<div class="bcm-payment-list bcm-wiz-small-cards" id="bcmCurrencyToggle">'+currencyCardsHtml+'</div>'
++'<p class="bcm-wiz-error" id="bcmStep2Error">Please choose a currency to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="3">'
++'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
++'<div class="bcm-wiz-type-grid" id="bcmTypeGrid">'+typeCardsHtml+'</div>'
++'<p class="bcm-wiz-error" id="bcmStep3Error">Please select an account type to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="4">'
 +'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Set the login password for this trading account.</p>'
 +'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
 +'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
-+'<p class="bcm-wiz-error" id="bcmStep2Error">Enter a password and confirm it to continue.</p>'
++'<p class="bcm-wiz-error" id="bcmStep4Error">Enter a password and confirm it to continue.</p>'
 +'</div>'
-+'<div class="bcm-wizard-pane" data-pane="3">'
++'<div class="bcm-wizard-pane" data-pane="5">'
 +'<h3 class="bcm-wiz-pane-title">Review &amp; Create</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Check your selections before creating the account.</p>'
 +'<div class="bcm-wiz-review" id="bcmWizardReview"></div>'
@@ -197,7 +209,7 @@ var wizardHtml=''
 +'</div>'
 +'<div class="bcm-wizard-actions">'
 +'<button type="button" class="bcm-wiz-btn-secondary" id="bcmWizBack">Cancel</button>'
-+'<button type="button" class="bcm-wiz-btn-primary" id="bcmWizNext">Next: Account Details</button>'
++'<button type="button" class="bcm-wiz-btn-primary" id="bcmWizNext">Next: Currency</button>'
 +'</div>'
 +'</div>'
 +'</div>';
@@ -239,12 +251,11 @@ bindPasswordToggle(confirmInput,document.querySelector('#icon-confirm-show'),doc
 
 var currentStep=1;
 var selectedAccount=null;
-var selectedCurrency='ZAR';
+var selectedCurrency=null;
 var selectedType=null;
 
 var accountToggle=wizard.querySelector('#bcmAccountToggle');
 var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
-var currencyWrap=wizard.querySelector('#bcmCurrencyWrap');
 var typeGrid=wizard.querySelector('#bcmTypeGrid');
 
 function setActiveButton(container,value){
@@ -253,8 +264,8 @@ container.querySelectorAll('.bcm-payment-option').forEach(function(b){b.classLis
 function setActiveCard(value){
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
 }
-function clearStep1Error(){
-var err=wizard.querySelector('#bcmStep1Error');
+function clearError(id){
+var err=wizard.querySelector('#'+id);
 if(err)err.classList.remove('bcm-wiz-error-visible');
 }
 
@@ -264,8 +275,7 @@ selectedAccount=card.getAttribute('data-value');
 accountSelect.value=selectedAccount;
 fireChange(accountSelect);
 setActiveButton(accountToggle,selectedAccount);
-currencyWrap.style.display='';
-clearStep1Error();
+clearError('bcmStep1Error');
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
@@ -275,8 +285,7 @@ currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
 function pick(){
 selectedCurrency=card.getAttribute('data-value');
 setActiveButton(currencyToggle,selectedCurrency);
-typeGrid.style.display='';
-clearStep1Error();
+clearError('bcmStep2Error');
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
@@ -286,7 +295,7 @@ typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
 setActiveCard(selectedType);
-clearStep1Error();
+clearError('bcmStep3Error');
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
@@ -296,19 +305,21 @@ function goToStep(step){
 currentStep=step;
 wizard.querySelectorAll('.bcm-wizard-pane').forEach(function(p){p.classList.toggle('active',Number(p.getAttribute('data-pane'))===step);});
 var stepText=wizard.querySelector('#bcmStepText');
-if(stepText)stepText.textContent='Step '+step+' of 3';
+if(stepText)stepText.textContent='Step '+step+' of '+TOTAL_STEPS;
 var backBtn=wizard.querySelector('#bcmWizBack');
 var nextBtn=wizard.querySelector('#bcmWizNext');
-if(step===1){backBtn.textContent='Cancel';nextBtn.textContent='Next: Account Details';}
-if(step===2){backBtn.textContent='Back';nextBtn.textContent='Next: Review & Create';}
-if(step===3){
-backBtn.textContent='Back';
+backBtn.textContent=step===1?'Cancel':'Back';
+if(step===1)nextBtn.textContent='Next: Currency';
+if(step===2)nextBtn.textContent='Next: Account Type';
+if(step===3)nextBtn.textContent='Next: Account Details';
+if(step===4)nextBtn.textContent='Next: Review & Create';
+if(step===5){
 nextBtn.textContent='Create Account';
 var typeDef=TYPE_DEFS.filter(function(t){return t.value===selectedType;})[0];
 var accountBtn=accountToggle.querySelector('.active .bcm-payment-name');
 var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
-+'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency)+'</strong></div>'
++'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
@@ -321,17 +332,27 @@ goToStep(currentStep-1);
 });
 wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
 if(currentStep===1){
-if(!selectedAccount||!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
+if(!selectedAccount){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
 goToStep(2);
 return;
 }
 if(currentStep===2){
-if(!passwordInput.value||!confirmInput.value||passwordInput.value!==confirmInput.value){
-wizard.querySelector('#bcmStep2Error').classList.add('bcm-wiz-error-visible');
+if(!selectedCurrency){wizard.querySelector('#bcmStep2Error').classList.add('bcm-wiz-error-visible');return;}
+goToStep(3);
 return;
 }
-wizard.querySelector('#bcmStep2Error').classList.remove('bcm-wiz-error-visible');
-goToStep(3);
+if(currentStep===3){
+if(!selectedType){wizard.querySelector('#bcmStep3Error').classList.add('bcm-wiz-error-visible');return;}
+goToStep(4);
+return;
+}
+if(currentStep===4){
+if(!passwordInput.value||!confirmInput.value||passwordInput.value!==confirmInput.value){
+wizard.querySelector('#bcmStep4Error').classList.add('bcm-wiz-error-visible');
+return;
+}
+wizard.querySelector('#bcmStep4Error').classList.remove('bcm-wiz-error-visible');
+goToStep(5);
 return;
 }
 ensureHiddenField('acc_type',selectedType);
