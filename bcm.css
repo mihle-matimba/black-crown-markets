@@ -192,7 +192,9 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-ds-confirm-btn{display:block;width:100%;box-sizing:border-box;margin-top:16px;padding:12px 20px;border:none;border-radius:12px;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);color:#fff;font-weight:700;font-size:14px;cursor:pointer;text-align:center}
 .bcm-ds-confirm-btn:hover{opacity:.9}
 .bcm-modal-overlay{position:fixed;inset:0;background:rgba(10,10,15,.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;box-sizing:border-box}
-.bcm-modal{background:#fff;border-radius:20px;padding:36px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.35)}
+.bcm-modal{position:relative;background:#fff;border-radius:20px;padding:36px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.35)}
+.bcm-modal-close{position:absolute;top:14px;right:14px;width:28px;height:28px;border:none;border-radius:50%;background:#f3f0ff;color:#7B2FBE;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.bcm-modal-close:hover{background:#ece5fb}
 .bcm-modal-text{font-size:16px;color:#1a1a1a;font-weight:600;line-height:1.5;margin:0 0 28px 0}
 .bcm-modal-line2{display:block;margin-top:12px}
 .bcm-modal-link{color:#7B2FBE;text-decoration:underline}
