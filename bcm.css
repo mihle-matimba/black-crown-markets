@@ -201,10 +201,13 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-modal-link:hover{color:#5B21B6}
 .bcm-modal-btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);color:#fff;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none}
 .bcm-modal-btn:hover{opacity:.9}
-.bcm-support-fab{position:fixed;bottom:24px;right:24px;z-index:998;display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:100px;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);color:#fff;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 12px 32px rgba(123,47,190,.35);transition:transform .15s ease,box-shadow .15s ease}
+.bcm-support-fab{position:fixed;bottom:24px;right:24px;z-index:998;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);color:#fff;text-decoration:none;box-shadow:0 12px 32px rgba(123,47,190,.35);transition:transform .15s ease,box-shadow .15s ease}
 .bcm-support-fab:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(123,47,190,.45);color:#fff}
-.bcm-support-fab svg{width:18px;height:18px;flex:none}
-@media (max-width:480px){.bcm-support-fab span{display:none}.bcm-support-fab{padding:14px;bottom:16px;right:16px}}
+.bcm-support-fab svg{width:20px;height:20px;flex:none}
+.bcm-support-fab-tooltip{position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);background:#0a0a0f;color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease}
+.bcm-support-fab-tooltip:after{content:"";position:absolute;left:100%;top:50%;transform:translateY(-50%);border:5px solid transparent;border-left-color:#0a0a0f}
+.bcm-support-fab:hover .bcm-support-fab-tooltip{opacity:1;visibility:visible}
+@media (max-width:480px){.bcm-support-fab{bottom:16px;right:16px}}
 .bcm-ds-notes{display:flex;align-items:flex-start;gap:20px;background:#f8f6fe;border:1px solid #ece5fb;border-radius:18px;padding:26px 30px}
 .bcm-ds-notes-icon{flex:none;width:52px;height:52px;border-radius:14px;background:#ece5fb;display:flex;align-items:center;justify-content:center;color:#7B2FBE}
 .bcm-ds-notes-icon svg{width:24px;height:24px}
