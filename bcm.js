@@ -90,18 +90,29 @@ gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2
 };
 
 var TYPE_DEFS=[
-{match:/^Standard Account/i,label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
-{match:/^Standard Cent/i,label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
-{match:/^Pro Account/i,label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
-{match:/^ECN Account/i,label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
-{match:/Bonus Account/i,label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+{match:/^Standard Account/i,value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{match:/^Standard Cent/i,value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{match:/^Pro Account/i,value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{match:/^ECN Account/i,value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{match:/Bonus Account/i,value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
 ];
+var FALLBACK_CURRENCIES=[{value:'ZAR',label:'ZAR',selected:true},{value:'USD',label:'USD',selected:false}];
 function findDef(text){for(var i=0;i<TYPE_DEFS.length;i++){if(TYPE_DEFS[i].match.test(text))return TYPE_DEFS[i];}return null;}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
 el.dispatchEvent(new Event('input',{bubbles:true}));
 el.dispatchEvent(new Event('change',{bubbles:true}));
 if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}
+}
+function ensureHiddenField(name,value){
+if(value===null||value===undefined||value==='')return;
+var existing=form.querySelector('[name="'+name+'"]');
+if(existing){existing.value=value;return;}
+var input=document.createElement('input');
+input.type='hidden';
+input.name=name;
+input.value=value;
+form.appendChild(input);
 }
 
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
@@ -221,20 +232,21 @@ wizard.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.to
 function renderTypeCards(select){
 var grid=wizard.querySelector('#bcmTypeGrid');
 var hint=wizard.querySelector('#bcmTypeHint');
-if(!select){grid.innerHTML='';types=[];selectedType=null;if(hint){hint.textContent='No account type selection is required for this account.';hint.style.display='block';}return;}
-var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
-if(!opts.length){grid.innerHTML='';types=[];selectedType=null;if(hint){hint.textContent='No account type selection is required for this account.';hint.style.display='block';}return;}
 if(hint)hint.style.display='none';
+if(select){
+var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
 types=opts.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
+}else{
+types=TYPE_DEFS.map(function(d){return{value:d.value,label:d.label,icon:d.icon,desc:d.desc,min:d.min,spread:d.spread,commission:d.commission,leverage:d.leverage,contract:d.contract,bonus:d.bonus||'',badge:d.badge};});
+}
 grid.innerHTML=types.map(typeCardHtml).join('');
-if(!types.some(function(t){return t.value===selectedType;})){selectedType=select.value||null;}
-if(selectedType)select.value=selectedType;
+if(!types.some(function(t){return t.value===selectedType;})){selectedType=select?(select.value||null):null;}
+if(select&&selectedType)select.value=selectedType;
 setActiveCard(selectedType);
 grid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
-select.value=selectedType;
-fireChange(select);
+if(select){select.value=selectedType;fireChange(select);}
 setActiveCard(selectedType);
 var err=wizard.querySelector('#bcmStep1Error');
 if(err)err.classList.remove('bcm-wiz-error-visible');
@@ -260,33 +272,40 @@ if(onChange)onChange();
 function renderCurrencyToggle(select){
 var container=wizard.querySelector('#bcmCurrencyToggle');
 var hint=wizard.querySelector('#bcmCurrencyHint');
-if(!select){container.innerHTML='';if(hint)hint.style.display='none';return;}
-var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
-if(!opts.length){container.innerHTML='';if(hint)hint.style.display='none';return;}
 if(hint)hint.style.display='none';
+if(select){
+var opts=Array.prototype.filter.call(select.options,function(o){return o.value;});
 container.innerHTML=toggleGroupHtml(opts);
 bindToggleGroup('#bcmCurrencyToggle',select);
+}else{
+container.innerHTML=FALLBACK_CURRENCIES.map(function(o){return '<button type="button" class="bcm-wiz-toggle-btn'+(o.selected?' active':'')+'" data-value="'+esc(o.value)+'">'+esc(o.label)+'</button>';}).join('');
+container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+});
+});
+}
 }
 
 function refreshDynamicFields(){
 var at=document.querySelector('#accTypeField');
 var cur=document.querySelector('#currencyField');
-if(at||cur){renderTypeCards(at);renderCurrencyToggle(cur);return;}
-var typeHint=wizard.querySelector('#bcmTypeHint');
-if(typeHint){typeHint.textContent='Loading available account types…';typeHint.style.display='block';}
-wizard.querySelector('#bcmTypeGrid').innerHTML='';
-wizard.querySelector('#bcmCurrencyToggle').innerHTML='';
+renderTypeCards(at);
+renderCurrencyToggle(cur);
+if(at&&cur)return;
 var attempts=0;
 var timer=setInterval(function(){
 attempts++;
 var at2=document.querySelector('#accTypeField');
 var cur2=document.querySelector('#currencyField');
-if(at2||cur2||attempts>=30){
+if(at2||cur2){
 clearInterval(timer);
 renderTypeCards(at2);
 renderCurrencyToggle(cur2);
+}else if(attempts>=15){
+clearInterval(timer);
 }
-},150);
+},200);
 }
 
 bindToggleGroup('#bcmPlatformToggle',platformSelect);
@@ -337,8 +356,7 @@ goToStep(currentStep-1);
 });
 wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
 if(currentStep===1){
-var hasTypeCards=wizard.querySelectorAll('#bcmTypeGrid .bcm-wiz-type-card').length>0;
-if(hasTypeCards&&!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
+if(!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
 goToStep(2);
 return;
 }
@@ -351,6 +369,9 @@ wizard.querySelector('#bcmStep2Error').classList.remove('bcm-wiz-error-visible')
 goToStep(3);
 return;
 }
+ensureHiddenField('acc_type',selectedType);
+var currencyBtn=wizard.querySelector('#bcmCurrencyToggle .active');
+ensureHiddenField('currency',currencyBtn?currencyBtn.getAttribute('data-value'):null);
 submitBtn.click();
 });
 }
