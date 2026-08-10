@@ -210,3 +210,75 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-ds-notes-icon svg{width:24px;height:24px}
 .bcm-ds-notes-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;color:#1a1a1a;font-size:15px;font-weight:600}
 @media (max-width:760px){.bcm-ds-card{flex-direction:column;align-items:stretch;padding:24px}.bcm-ds-qr-wrap{align-self:center}.bcm-ds-row-label{min-width:0}.bcm-ds-notes{flex-direction:column;padding:22px}}
+.page-content-wrap .row:has(#myForm)>.col-md-6{flex:0 0 100%!important;max-width:100%!important;width:100%!important}
+.page-content-wrap .row:has(#myForm)>.col-md-6+.col-md-6{margin-top:40px}
+.bcm-wizard{display:flex;gap:32px;align-items:flex-start}
+.bcm-wizard-main{flex:1;min-width:0}
+.bcm-wizard-aside{flex:0 0 300px;display:flex;flex-direction:column;gap:20px}
+.bcm-wizard-title{font-size:26px;font-weight:800;color:#1a1a1a;margin:0 0 6px 0}
+.bcm-wizard-subtitle{font-size:14px;color:#9aa0a6;margin:0 0 28px 0}
+.bcm-wizard-steps{display:flex;align-items:center;margin-bottom:32px}
+.bcm-wizard-step{display:flex;align-items:center;gap:10px;flex:none}
+.bcm-wizard-step-num{width:32px;height:32px;border-radius:50%;background:#f3f0ff;color:#9aa0a6;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.bcm-wizard-step.active .bcm-wizard-step-num,.bcm-wizard-step.done .bcm-wizard-step-num{background:#7B2FBE;color:#fff}
+.bcm-wizard-step-label{font-size:14px;color:#9aa0a6;font-weight:600;white-space:nowrap}
+.bcm-wizard-step.active .bcm-wizard-step-label,.bcm-wizard-step.done .bcm-wizard-step-label{color:#1a1a1a}
+.bcm-wizard-step-line{flex:1;height:2px;background:#e5e5e7;margin:0 16px;min-width:24px}
+.bcm-wizard-step-line.done{background:#7B2FBE}
+.bcm-wizard-pane{display:none}
+.bcm-wizard-pane.active{display:block}
+.bcm-wiz-pane-title{font-size:18px;font-weight:800;color:#1a1a1a;margin:0 0 4px 0}
+.bcm-wiz-pane-subtitle{font-size:13px;color:#9aa0a6;margin:0 0 24px 0}
+.bcm-wiz-type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.bcm-wiz-type-card{position:relative;border:1.5px solid #e5e5e7;border-radius:16px;padding:24px;cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.bcm-wiz-type-card:hover{border-color:#c9b8ea;background:#faf8ff}
+.bcm-wiz-type-card.active{border-color:#7B2FBE;background:#f8f6fe}
+.bcm-wiz-type-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.bcm-wiz-type-icon{width:44px;height:44px;border-radius:12px;background:#f3f0ff;color:#7B2FBE;display:flex;align-items:center;justify-content:center;flex:none}
+.bcm-wiz-type-icon svg{width:20px;height:20px}
+.bcm-wiz-type-radio{width:18px;height:18px;border-radius:50%;border:2px solid #d5d5d7;box-sizing:border-box;flex:none}
+.bcm-wiz-type-card.active .bcm-wiz-type-radio{border-color:#7B2FBE;background:#7B2FBE;box-shadow:inset 0 0 0 3px #fff}
+.bcm-wiz-type-label{font-size:16px;font-weight:800;color:#1a1a1a;margin:0 0 8px 0}
+.bcm-wiz-type-desc{font-size:13px;color:#6b7280;line-height:1.5;margin:0 0 16px 0;min-height:56px}
+.bcm-wiz-type-meta{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid #f0f0f0;margin-bottom:16px}
+.bcm-wiz-meta-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:#6b7280}
+.bcm-wiz-meta-row strong{color:#1a1a1a;font-weight:700}
+.bcm-wiz-type-badge{display:inline-block;padding:5px 12px;border-radius:100px;background:#f3f0ff;color:#5B21B6;font-weight:700;font-size:12px}
+.bcm-wiz-error{display:none;color:#dc2626;font-size:13px;font-weight:600;margin:16px 0 0 0}
+.bcm-wiz-error.bcm-wiz-error-visible{display:block}
+.bcm-wiz-field{margin-bottom:22px}
+.bcm-wiz-field label{display:block;font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:8px}
+.bcm-wiz-toggle{display:flex;flex-wrap:wrap;gap:10px}
+.bcm-wiz-toggle-btn{border:1.5px solid #e5e5e7;background:#fff;color:#2d2d2d;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s ease,color .15s ease,background .15s ease}
+.bcm-wiz-toggle-btn:hover{border-color:#c9b8ea}
+.bcm-wiz-toggle-btn.active{border-color:#7B2FBE;background:#f3f0ff;color:#5B21B6}
+.bcm-wiz-static-value{border:1.5px solid #e5e5e7;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;color:#2d2d2d;background:#f8f9fb;display:inline-block}
+.bcm-wiz-password-group{margin:0!important}
+.bcm-wiz-password-group .input-group{display:flex!important;align-items:stretch}
+.bcm-wiz-password-group .input-group-addon{display:none!important}
+.bcm-wiz-password-group .form-control{width:100%!important;height:48px!important;border-radius:10px!important;border:1.5px solid #e5e5e7!important;padding:0 44px 0 16px!important;font-size:14px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
+.bcm-wiz-password-group .col-md-6{float:none!important;width:100%!important;max-width:none!important;padding:0!important}
+.bcm-wiz-password-group #password-field,.bcm-wiz-password-group #password-confirm-field{top:50%!important;right:16px!important;transform:translateY(-50%)!important}
+.bcm-wiz-review{display:flex;flex-direction:column;border:1px solid #f0f0f0;border-radius:16px;overflow:hidden}
+.bcm-wiz-review-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f0f0f0;font-size:14px}
+.bcm-wiz-review-row:last-child{border-bottom:none}
+.bcm-wiz-review-row span{color:#6b7280}
+.bcm-wiz-review-row strong{color:#1a1a1a;font-weight:700}
+.bcm-wizard-actions{display:flex;align-items:center;justify-content:space-between;margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0}
+.bcm-wiz-btn-secondary{background:#fff;border:1.5px solid #e5e5e7;color:#2d2d2d;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer}
+.bcm-wiz-btn-secondary:hover{border-color:#c9c9d1}
+.bcm-wiz-btn-primary{background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);border:none;color:#fff;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:700;cursor:pointer}
+.bcm-wiz-btn-primary:hover{opacity:.9}
+.bcm-wiz-card{background:#fff;border:1px solid #f0f0f0;border-radius:16px;padding:24px}
+.bcm-wiz-card h3{font-size:15px;font-weight:800;color:#1a1a1a;margin:0 0 18px 0}
+.bcm-wiz-benefits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.bcm-wiz-benefits li{display:flex;align-items:flex-start;gap:12px}
+.bcm-wiz-benefit-icon{flex:none;width:34px;height:34px;border-radius:10px;background:#f3f0ff;color:#7B2FBE;display:flex;align-items:center;justify-content:center}
+.bcm-wiz-benefit-icon svg{width:16px;height:16px}
+.bcm-wiz-benefits li strong{display:block;font-size:13.5px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.bcm-wiz-benefits li span{font-size:12.5px;color:#6b7280;line-height:1.5}
+.bcm-wiz-help-text{font-size:13px;color:#6b7280;line-height:1.5;margin:0 0 16px 0}
+.bcm-wiz-help-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#f3f0ff;color:#5B21B6;border-radius:10px;padding:12px;font-size:13.5px;font-weight:700;text-decoration:none}
+.bcm-wiz-help-btn:hover{background:#ece5fb}
+.bcm-wiz-help-btn svg{width:16px;height:16px}
+@media (max-width:900px){.bcm-wizard{flex-direction:column}.bcm-wizard-aside{flex:none;width:100%;flex-direction:row;flex-wrap:wrap}.bcm-wiz-card{flex:1;min-width:240px}.bcm-wiz-type-grid{grid-template-columns:1fr}}

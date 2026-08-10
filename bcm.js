@@ -63,10 +63,270 @@ var copyBtn=container.querySelector('.bcm-ds-copy');if(copyBtn){copyBtn.addEvent
 function relocateDisclaimers(){var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var disclaimer=document.querySelector('.disclaimer-color');var footer=document.querySelector('.footer-color');if(disclaimer)mainContent.appendChild(disclaimer);if(footer)mainContent.appendChild(footer);}
 function buildLoginPage(){var body=document.querySelector('.login-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var titleEl=left.querySelector('.login-title');if(titleEl){var subtitle=document.createElement('div');subtitle.className='bcm-login-subtitle';subtitle.textContent='Access your Black Crown Markets account to manage your trading with ease.';titleEl.insertAdjacentElement('afterend',subtitle);}var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
 function buildRegistrationPage(){var body=document.querySelector('.registration-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var stepNumbers=left.querySelectorAll('.steps_2 .stepNumber');stepNumbers.forEach(function(el,i){el.textContent=String(i+1);});var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
+function buildAddAccountPage(){
+var form=document.querySelector('#myForm');
+if(!form||form.dataset.bcmWizard)return;
+var accTypeSelect=document.querySelector('#accTypeField');
+var platformSelect=document.querySelector('#add_platform');
+var accountSelect=document.querySelector('#add_account_type');
+var currencySelect=document.querySelector('#currencyField');
+var passwordGroup=document.querySelector('#password_input_main_container');
+var confirmGroup=document.querySelector('#password_confirm_input_main_container');
+var passwordInput=document.querySelector('#password-input');
+var confirmInput=document.querySelector('#password-confirm-input');
+var submitBtn=document.querySelector('#buttonSubmit');
+var panelDefault=form.querySelector('.panel.panel-default');
+if(!accTypeSelect||!platformSelect||!accountSelect||!currencySelect||!passwordGroup||!confirmGroup||!passwordInput||!confirmInput||!submitBtn||!panelDefault)return;
+form.dataset.bcmWizard='1';
+
+var titleEl=panelDefault.querySelector('.panel-title');
+var wizTitle=titleEl?titleEl.textContent.trim():'Add a New Account';
+var subtitleEl=panelDefault.querySelector('.panel-body p');
+var wizSubtitle=subtitleEl?subtitleEl.textContent.trim():'All fields below are mandatory';
+
+var ICON={
+trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>',
+star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
+globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
+shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.35 8.95a1 1 0 0 1-1.3 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+eyeOff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
+check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+};
+
+var TYPE_DEFS=[
+{match:/^Standard Account/i,label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{match:/^Standard Cent/i,label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{match:/^Pro Account/i,label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{match:/^ECN Account/i,label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{match:/Bonus Account/i,label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+];
+function findDef(text){for(var i=0;i<TYPE_DEFS.length;i++){if(TYPE_DEFS[i].match.test(text))return TYPE_DEFS[i];}return null;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+var typeOptions=Array.prototype.filter.call(accTypeSelect.options,function(o){return o.value;});
+var types=typeOptions.map(function(o){var def=findDef(o.textContent.trim())||{};return{value:o.value,label:def.label||o.textContent.trim(),icon:def.icon||ICON.trend,desc:def.desc||'',min:def.min||'',spread:def.spread||'',commission:def.commission||'',leverage:def.leverage||'',contract:def.contract||'',bonus:def.bonus||'',badge:def.badge||''};});
+var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
+var currencyOptions=Array.prototype.filter.call(currencySelect.options,function(o){return o.value;});
+var platformOptions=Array.prototype.filter.call(platformSelect.options,function(o){return o.value;});
+if(!types.length)return;
+
+function toggleGroupHtml(id,opts){
+return opts.map(function(o){return '<button type="button" class="bcm-wiz-toggle-btn'+(o.selected?' active':'')+'" data-value="'+esc(o.value)+'">'+esc(o.textContent.trim())+'</button>';}).join('');
+}
+
+var typeCardsHtml=types.map(function(t){
+var metaRows=''
++(t.min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(t.min)+'</strong></div>':'')
++(t.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(t.spread)+'</strong></div>':'')
++(t.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(t.commission)+'</strong></div>':'')
++(t.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(t.leverage)+'</strong></div>':'')
++(t.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(t.contract)+'</strong></div>':'')
++(t.bonus?'<div class="bcm-wiz-meta-row"><span>Bonus</span><strong>'+esc(t.bonus)+'</strong></div>':'');
+return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="button" tabindex="0">'
++'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+t.icon+'</span><span class="bcm-wiz-type-radio"></span></div>'
++'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
++'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
++'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
++(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
++'</div>';
+}).join('');
+
+var platformFieldHtml=platformOptions.length>1
+?'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-toggle" id="bcmPlatformToggle">'+toggleGroupHtml('platform',platformOptions)+'</div></div>'
+:'<div class="bcm-wiz-field"><label>Platform</label><div class="bcm-wiz-static-value">'+(platformOptions[0]?esc(platformOptions[0].textContent.trim()):'')+'</div></div>';
+
+var wizardHtml=''
++'<div class="bcm-wizard">'
++'<div class="bcm-wizard-main">'
++'<h1 class="bcm-wizard-title">'+esc(wizTitle)+'</h1>'
++'<p class="bcm-wizard-subtitle">'+esc(wizSubtitle)+'</p>'
++'<div class="bcm-wizard-steps" id="bcmWizardSteps">'
++'<div class="bcm-wizard-step active" data-step="1"><span class="bcm-wizard-step-num">1</span><span class="bcm-wizard-step-label">Account Type</span></div>'
++'<div class="bcm-wizard-step-line"></div>'
++'<div class="bcm-wizard-step" data-step="2"><span class="bcm-wizard-step-num">2</span><span class="bcm-wizard-step-label">Account Details</span></div>'
++'<div class="bcm-wizard-step-line"></div>'
++'<div class="bcm-wizard-step" data-step="3"><span class="bcm-wizard-step-num">3</span><span class="bcm-wizard-step-label">Review &amp; Create</span></div>'
++'</div>'
++'<div class="bcm-wizard-panel">'
++'<div class="bcm-wizard-pane active" data-pane="1">'
++'<h3 class="bcm-wiz-pane-title">Select Account Type</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose the type of trading account you want to create.</p>'
++'<div class="bcm-wiz-type-grid">'+typeCardsHtml+'</div>'
++'<p class="bcm-wiz-error" id="bcmStep1Error">Please select an account type to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="2">'
++'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
++'<p class="bcm-wiz-pane-subtitle">Set the account and login details for this trading account.</p>'
++platformFieldHtml
++'<div class="bcm-wiz-field"><label>Account</label><div class="bcm-wiz-toggle" id="bcmAccountToggle">'+toggleGroupHtml('account',accountOptions)+'</div></div>'
++'<div class="bcm-wiz-field"><label>Currency</label><div class="bcm-wiz-toggle" id="bcmCurrencyToggle">'+toggleGroupHtml('currency',currencyOptions)+'</div></div>'
++'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
++'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
++'<p class="bcm-wiz-error" id="bcmStep2Error">Enter a password and confirm it to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="3">'
++'<h3 class="bcm-wiz-pane-title">Review &amp; Create</h3>'
++'<p class="bcm-wiz-pane-subtitle">Check your selections before creating the account.</p>'
++'<div class="bcm-wiz-review" id="bcmWizardReview"></div>'
++'</div>'
++'</div>'
++'<div class="bcm-wizard-actions">'
++'<button type="button" class="bcm-wiz-btn-secondary" id="bcmWizBack">Cancel</button>'
++'<button type="button" class="bcm-wiz-btn-primary" id="bcmWizNext">Next: Account Details</button>'
++'</div>'
++'</div>'
++'<aside class="bcm-wizard-aside">'
++'<div class="bcm-wiz-card">'
++'<h3>Why open a trading account?</h3>'
++'<ul class="bcm-wiz-benefits">'
++'<li><span class="bcm-wiz-benefit-icon">'+ICON.globe+'</span><div><strong>Access global markets</strong><span>Trade forex, indices, commodities and more.</span></div></li>'
++'<li><span class="bcm-wiz-benefit-icon">'+ICON.layers+'</span><div><strong>Multiple platforms</strong><span>Choose from MT5 and other leading platforms.</span></div></li>'
++'<li><span class="bcm-wiz-benefit-icon">'+ICON.shield+'</span><div><strong>Secure &amp; regulated</strong><span>Your funds are protected with top-tier security.</span></div></li>'
++'<li><span class="bcm-wiz-benefit-icon">'+ICON.plus+'</span><div><strong>Fast &amp; simple</strong><span>Open your account in minutes.</span></div></li>'
++'</ul>'
++'</div>'
++'<div class="bcm-wiz-card">'
++'<h3>Need help?</h3>'
++'<p class="bcm-wiz-help-text">Our support team is here to help you 24/5.</p>'
++'<a href="mailto:support@blackcrownmarkets.com" class="bcm-wiz-help-btn">'+ICON.msg+'<span>Contact Support</span></a>'
++'</div>'
++'</aside>'
++'</div>';
+
+panelDefault.style.display='none';
+panelDefault.insertAdjacentHTML('beforebegin',wizardHtml);
+var wizard=form.querySelector('.bcm-wizard');
+
+var pwWrap=wizard.querySelector('#bcmPasswordFieldWrap');
+var pwOldLabel=passwordGroup.querySelector('label');
+if(pwOldLabel)pwOldLabel.remove();
+var pwLabel=document.createElement('label');
+pwLabel.textContent='Password';
+pwWrap.appendChild(pwLabel);
+passwordGroup.classList.add('bcm-wiz-password-group');
+pwWrap.appendChild(passwordGroup);
+
+var confirmWrap=wizard.querySelector('#bcmConfirmFieldWrap');
+var confirmOldLabel=confirmGroup.querySelector('label');
+if(confirmOldLabel)confirmOldLabel.remove();
+var confirmLabel=document.createElement('label');
+confirmLabel.textContent='Confirm Password';
+confirmWrap.appendChild(confirmLabel);
+confirmGroup.classList.add('bcm-wiz-password-group');
+confirmWrap.appendChild(confirmGroup);
+
+function bindPasswordToggle(input,showIcon,hideIcon,toggleZone){
+if(!toggleZone||toggleZone.dataset.bcmBound)return;
+toggleZone.dataset.bcmBound='1';
+toggleZone.addEventListener('click',function(){
+var isPassword=input.type==='password';
+input.type=isPassword?'text':'password';
+if(showIcon)showIcon.style.display=isPassword?'none':'';
+if(hideIcon)hideIcon.style.display=isPassword?'':'none';
+});
+}
+bindPasswordToggle(passwordInput,document.querySelector('#icon-show'),document.querySelector('#icon-hide'),document.querySelector('#password-field'));
+bindPasswordToggle(confirmInput,document.querySelector('#icon-confirm-show'),document.querySelector('#icon-confirm-hide'),document.querySelector('#password-confirm-field'));
+
+var currentStep=1;
+var selectedType=null;
+
+function setActiveCard(value){
+var cards=wizard.querySelectorAll('.bcm-wiz-type-card');
+cards.forEach(function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});
+}
+wizard.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
+function pick(){
+selectedType=card.getAttribute('data-value');
+accTypeSelect.value=selectedType;
+accTypeSelect.dispatchEvent(new Event('change',{bubbles:true}));
+setActiveCard(selectedType);
+wizard.querySelector('#bcmStep1Error').classList.remove('bcm-wiz-error-visible');
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+if(accTypeSelect.value){selectedType=accTypeSelect.value;setActiveCard(selectedType);}
+
+function bindToggleGroup(containerId,select){
+var container=wizard.querySelector(containerId);
+if(!container)return;
+container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+select.value=btn.getAttribute('data-value');
+select.dispatchEvent(new Event('change',{bubbles:true}));
+container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
+});
+});
+}
+bindToggleGroup('#bcmPlatformToggle',platformSelect);
+bindToggleGroup('#bcmAccountToggle',accountSelect);
+bindToggleGroup('#bcmCurrencyToggle',currencySelect);
+
+function goToStep(step){
+currentStep=step;
+wizard.querySelectorAll('.bcm-wizard-pane').forEach(function(p){p.classList.toggle('active',Number(p.getAttribute('data-pane'))===step);});
+wizard.querySelectorAll('.bcm-wizard-step').forEach(function(s){
+var n=Number(s.getAttribute('data-step'));
+s.classList.toggle('active',n===step);
+s.classList.toggle('done',n<step);
+});
+var lines=wizard.querySelectorAll('.bcm-wizard-step-line');
+lines.forEach(function(line,i){line.classList.toggle('done',i<step-1);});
+var backBtn=wizard.querySelector('#bcmWizBack');
+var nextBtn=wizard.querySelector('#bcmWizNext');
+if(step===1){backBtn.textContent='Cancel';nextBtn.textContent='Next: Account Details';}
+if(step===2){backBtn.textContent='Back';nextBtn.textContent='Next: Review & Create';}
+if(step===3){
+backBtn.textContent='Back';
+nextBtn.textContent='Create Account';
+var typeDef=types.filter(function(t){return t.value===selectedType;})[0];
+var accountBtn=wizard.querySelector('#bcmAccountToggle .active');
+var currencyBtn=wizard.querySelector('#bcmCurrencyToggle .active');
+var platformBtn=wizard.querySelector('#bcmPlatformToggle .active');
+var platformLabel=platformBtn?platformBtn.textContent.trim():(platformOptions[0]?platformOptions[0].textContent.trim():'');
+var review=''
++'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+(typeDef?esc(typeDef.label):'')+'</strong></div>'
++'<div class="bcm-wiz-review-row"><span>Platform</span><strong>'+esc(platformLabel)+'</strong></div>'
++'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
++'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+(currencyBtn?esc(currencyBtn.textContent.trim()):'')+'</strong></div>';
+wizard.querySelector('#bcmWizardReview').innerHTML=review;
+}
+window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
+}
+
+wizard.querySelector('#bcmWizBack').addEventListener('click',function(){
+if(currentStep===1){window.location.href='https://trade.blackcrownmarkets.com/';return;}
+goToStep(currentStep-1);
+});
+wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
+if(currentStep===1){
+if(!selectedType){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
+goToStep(2);
+return;
+}
+if(currentStep===2){
+if(!passwordInput.value||!confirmInput.value||passwordInput.value!==confirmInput.value){
+wizard.querySelector('#bcmStep2Error').classList.add('bcm-wiz-error-visible');
+return;
+}
+wizard.querySelector('#bcmStep2Error').classList.remove('bcm-wiz-error-visible');
+goToStep(3);
+return;
+}
+submitBtn.click();
+});
+}
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();});observer.observe(target,{childList:true,subtree:true});}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Contact Support</span>';document.body.appendChild(fab);}
-function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();}
+function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
