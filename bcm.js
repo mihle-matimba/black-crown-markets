@@ -103,6 +103,11 @@ var TYPE_DEFS=[
 ];
 function findDef(text){for(var i=0;i<TYPE_DEFS.length;i++){if(TYPE_DEFS[i].match.test(text))return TYPE_DEFS[i];}return null;}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function fireChange(el){
+el.dispatchEvent(new Event('input',{bubbles:true}));
+el.dispatchEvent(new Event('change',{bubbles:true}));
+if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}
+}
 
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
 var platformOptions=Array.prototype.filter.call(platformSelect.options,function(o){return o.value;});
@@ -251,7 +256,7 @@ grid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
 select.value=selectedType;
-select.dispatchEvent(new Event('change',{bubbles:true}));
+fireChange(select);
 setActiveCard(selectedType);
 var err=wizard.querySelector('#bcmStep1Error');
 if(err)err.classList.remove('bcm-wiz-error-visible');
@@ -267,7 +272,7 @@ if(!container)return;
 container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(btn){
 btn.addEventListener('click',function(){
 select.value=btn.getAttribute('data-value');
-select.dispatchEvent(new Event('change',{bubbles:true}));
+fireChange(select);
 container.querySelectorAll('.bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b===btn);});
 if(onChange)onChange();
 });
@@ -311,7 +316,7 @@ bindToggleGroup('#bcmAccountToggle',accountSelect,refreshDynamicFields);
 
 if(!accountSelect.value&&accountOptions.length){
 accountSelect.value=accountOptions[0].value;
-accountSelect.dispatchEvent(new Event('change',{bubbles:true}));
+fireChange(accountSelect);
 }
 wizard.querySelectorAll('#bcmAccountToggle .bcm-wiz-toggle-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===accountSelect.value);});
 refreshDynamicFields();
