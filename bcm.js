@@ -390,6 +390,28 @@ pwWrap.appendChild(pwLabel);
 passwordGroup.classList.add('bcm-wiz-password-group');
 pwWrap.appendChild(passwordGroup);
 
+var PW_RULES=[
+{key:'length',label:'At least 8 characters',test:function(pw){return pw.length>=8;}},
+{key:'upper',label:'An uppercase letter',test:function(pw){return /[A-Z]/.test(pw);}},
+{key:'lower',label:'A lowercase letter',test:function(pw){return /[a-z]/.test(pw);}},
+{key:'digit',label:'A number',test:function(pw){return /[0-9]/.test(pw);}},
+{key:'symbol',label:'A symbol',test:function(pw){return /[^A-Za-z0-9]/.test(pw);}}
+];
+var pwRulesList=document.createElement('ul');
+pwRulesList.className='bcm-pw-rules';
+pwRulesList.innerHTML=PW_RULES.map(function(r){return '<li data-rule="'+r.key+'"><span class="bcm-pw-rule-icon"></span>'+esc(r.label)+'</li>';}).join('');
+pwWrap.appendChild(pwRulesList);
+function checkPwStrength(pw){return PW_RULES.every(function(r){return r.test(pw);});}
+function updatePwRules(){
+var pw=passwordInput.value;
+PW_RULES.forEach(function(r){
+var li=pwRulesList.querySelector('[data-rule="'+r.key+'"]');
+if(li)li.classList.toggle('bcm-pw-rule-met',r.test(pw));
+});
+}
+updatePwRules();
+passwordInput.addEventListener('input',updatePwRules);
+
 var confirmWrap=wizard.querySelector('#bcmConfirmFieldWrap');
 var confirmOldLabel=confirmGroup.querySelector('label');
 if(confirmOldLabel)confirmOldLabel.remove();
@@ -517,11 +539,18 @@ goToStep(4);
 return;
 }
 if(currentStep===4){
-if(!passwordInput.value||!confirmInput.value||passwordInput.value!==confirmInput.value){
-wizard.querySelector('#bcmStep4Error').classList.add('bcm-wiz-error-visible');
+var step4Error=wizard.querySelector('#bcmStep4Error');
+if(!checkPwStrength(passwordInput.value)){
+step4Error.textContent='Password must meet all the requirements listed above.';
+step4Error.classList.add('bcm-wiz-error-visible');
 return;
 }
-wizard.querySelector('#bcmStep4Error').classList.remove('bcm-wiz-error-visible');
+if(!confirmInput.value||passwordInput.value!==confirmInput.value){
+step4Error.textContent='Enter a password and confirm it — passwords must match.';
+step4Error.classList.add('bcm-wiz-error-visible');
+return;
+}
+step4Error.classList.remove('bcm-wiz-error-visible');
 goToStep(5);
 return;
 }

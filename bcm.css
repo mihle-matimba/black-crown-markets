@@ -270,6 +270,13 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wiz-password-group .form-control{width:100%!important;height:48px!important;border-radius:10px!important;border:1.5px solid #e5e5e7!important;padding:0 44px 0 16px!important;font-size:14px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 .bcm-wiz-password-group .col-md-6{float:none!important;width:100%!important;max-width:none!important;padding:0!important}
 .bcm-wiz-password-group #password-field,.bcm-wiz-password-group #password-confirm-field{top:50%!important;right:16px!important;transform:translateY(-50%)!important}
+.bcm-pw-rules{list-style:none;margin:12px 0 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.bcm-pw-rules li{display:flex;align-items:center;gap:8px;font-size:13px;color:#9aa0a6;transition:color .15s ease}
+.bcm-pw-rule-icon{flex:none;width:16px;height:16px;border-radius:50%;border:1.5px solid #d1d5db;position:relative;transition:background .15s ease,border-color .15s ease}
+.bcm-pw-rule-icon:after{content:"";position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);opacity:0}
+.bcm-pw-rules li.bcm-pw-rule-met{color:#16a34a}
+.bcm-pw-rules li.bcm-pw-rule-met .bcm-pw-rule-icon{background:#16a34a;border-color:#16a34a}
+.bcm-pw-rules li.bcm-pw-rule-met .bcm-pw-rule-icon:after{opacity:1}
 .bcm-wiz-review{display:flex;flex-direction:column;border:1px solid #f0f0f0;border-radius:16px;overflow:hidden}
 .bcm-wiz-review-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f0f0f0;font-size:14px}
 .bcm-wiz-review-row:last-child{border-bottom:none}
