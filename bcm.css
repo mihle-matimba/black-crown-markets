@@ -174,6 +174,22 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-payment-option.active .bcm-payment-radio{border-color:#7B2FBE}
 .bcm-payment-option.active .bcm-payment-radio:after{content:"";position:absolute;top:3px;left:3px;width:10px;height:10px;border-radius:50%;background:#7B2FBE}
 @media (max-width:600px){.bcm-payment-list{grid-template-columns:1fr}}
+.bcm-payment-option.bcm-payment-disabled{cursor:not-allowed;opacity:.55}
+.bcm-payment-option.bcm-payment-disabled:hover{border-color:#e5e5e7;background:#fff}
+.bcm-wiz-type-badge.bcm-badge-warning{background:#fef2f2;color:#dc2626}
+#withdrawalpage .panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:none!important;overflow:hidden!important}
+#withdrawalpage .panel-heading{background:#fff!important;border:none!important;padding:28px 28px 4px!important}
+#withdrawalpage .panel-heading .panel-title{font-size:22px!important;font-weight:800!important;color:#1a1a1a!important;margin:0!important;line-height:1.2!important}
+#withdrawalpage .panel-body{padding:20px 28px 28px!important}
+#withdrawalpage .panel-body>p:first-of-type{color:#9aa0a6!important;font-size:14px!important;margin:0 0 20px 0!important}
+#withdrawalpage .form-group{margin:0 0 24px 0!important}
+#withdrawalpage .form-group>label,#withdrawalpage .control-label{float:none!important;display:block!important;width:100%!important;max-width:none!important;text-align:left!important;padding:0 0 10px 0!important;font-size:14px!important;font-weight:600!important;color:#1a1a1a!important}
+#withdrawalpage .form-group>div,#withdrawalpage .col-md-9{float:none!important;width:100%!important;max-width:none!important;padding-left:0!important;padding-right:0!important}
+#withdrawalpage .form-control{height:52px!important;border-radius:12px!important;border:1.5px solid #e5e5e7!important;padding:0 16px!important;font-size:15px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
+#withdrawalpage .help-block{font-size:12px!important;color:#9aa0a6!important;margin-top:8px!important}
+#withdrawalpage .btn.btn-primary{border-radius:12px!important;padding:14px 32px!important;height:auto!important;font-size:15px!important}
+#withdrawalpage .panel-footer{background:#fff!important;border-top:1px solid #f0f0f0!important;padding:20px 28px!important}
+#withdrawalpage .alert-ajax,#withdrawalpage .alert-danger{border-radius:12px!important;border:1px solid #fecaca!important;background:#fef2f2!important;color:#dc2626!important;font-size:13px!important;padding:14px 16px!important}
 #depositpage{padding:0!important;margin:0!important;float:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:calc(100vh - 220px)!important;box-sizing:border-box!important}
 .bcm-deposit-summary{width:100%;max-width:960px;margin:8px auto;display:flex;flex-direction:column;gap:24px}
 .bcm-ds-card{position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:36px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
