@@ -614,6 +614,10 @@ accountGroup.appendChild(warn);
 }
 var selectedAccount=null;
 var currencyLabel=form.querySelector('#currency');
+if(typeof MutationObserver!=='undefined'){
+var amountEnableObserver=new MutationObserver(function(){if(selectedAccount&&amountInput.disabled)amountInput.disabled=false;});
+amountEnableObserver.observe(amountInput,{attributes:true,attributeFilter:['disabled']});
+}
 accountList.querySelectorAll('.bcm-payment-option').forEach(function(card){
 if(card.classList.contains('bcm-payment-disabled'))return;
 function pick(){
@@ -711,11 +715,12 @@ goToStep(2);
 return;
 }
 var step2Error=wizard.querySelector('#bcmWDStep2Error');
-if(amountInput.disabled||!amountInput.value||parseFloat(amountInput.value)<=0){
+if(!amountInput.value||parseFloat(amountInput.value)<=0){
 step2Error.classList.add('bcm-wiz-error-visible');
 return;
 }
 step2Error.classList.remove('bcm-wiz-error-visible');
+amountInput.disabled=false;
 submitBtn.click();
 });
 }
