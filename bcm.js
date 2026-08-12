@@ -399,20 +399,6 @@ confirmWrap.appendChild(confirmLabel);
 confirmGroup.classList.add('bcm-wiz-password-group');
 confirmWrap.appendChild(confirmGroup);
 
-var pwHint=document.createElement('p');
-pwHint.className='bcm-wiz-pane-subtitle';
-pwHint.style.cssText='margin:8px 0 0 0;font-size:12px';
-pwHint.textContent='Min 8 characters, including uppercase, lowercase, a number and a symbol.';
-confirmWrap.appendChild(pwHint);
-
-function checkPwStrength(pw){
-var hasLower=/[a-z]/.test(pw);
-var hasUpper=/[A-Z]/.test(pw);
-var hasDigit=/[0-9]/.test(pw);
-var hasSymbol=/[^A-Za-z0-9]/.test(pw);
-return hasLower&&hasUpper&&hasDigit&&hasSymbol&&pw.length>=8;
-}
-
 function bindPasswordToggle(input,showIcon,hideIcon,toggleZone){
 if(!toggleZone||toggleZone.dataset.bcmBound)return;
 toggleZone.dataset.bcmBound='1';
@@ -531,18 +517,11 @@ goToStep(4);
 return;
 }
 if(currentStep===4){
-var step4Error=wizard.querySelector('#bcmStep4Error');
 if(!passwordInput.value||!confirmInput.value||passwordInput.value!==confirmInput.value){
-step4Error.textContent='Enter a password and confirm it — passwords must match.';
-step4Error.classList.add('bcm-wiz-error-visible');
+wizard.querySelector('#bcmStep4Error').classList.add('bcm-wiz-error-visible');
 return;
 }
-if(!checkPwStrength(passwordInput.value)){
-step4Error.textContent='Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a symbol.';
-step4Error.classList.add('bcm-wiz-error-visible');
-return;
-}
-step4Error.classList.remove('bcm-wiz-error-visible');
+wizard.querySelector('#bcmStep4Error').classList.remove('bcm-wiz-error-visible');
 goToStep(5);
 return;
 }
