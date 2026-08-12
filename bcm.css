@@ -178,7 +178,7 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-payment-option.bcm-payment-disabled:hover{border-color:#e5e5e7;background:#fff}
 .bcm-wiz-type-badge.bcm-badge-warning{background:#fef2f2;color:#dc2626}
 #withdrawalpage{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;margin:0!important}
-#withdrawalpage>.col-md-6{float:none!important;width:100%!important;max-width:640px!important;margin:0 auto!important}
+#withdrawalpage>.col-md-6{float:none!important;width:100%!important;max-width:880px!important;margin:0 auto!important}
 #withdrawalpage .panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:none!important;overflow:hidden!important}
 #withdrawalpage .panel-heading{background:#fff!important;border:none!important;padding:28px 28px 4px!important}
 #withdrawalpage .panel-heading .panel-title{font-size:22px!important;font-weight:800!important;color:#1a1a1a!important;margin:0!important;line-height:1.2!important}

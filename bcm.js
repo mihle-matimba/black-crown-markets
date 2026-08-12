@@ -566,7 +566,14 @@ var form=document.querySelector('#withdrawForm');
 if(!page||!form||form.dataset.bcmWithdraw)return;
 var accountSelect=form.querySelector('select[name=account_id]');
 var methodSelect=form.querySelector('#method');
-if(!accountSelect||!methodSelect)return;
+var panelDefault=form.querySelector('.panel.panel-default');
+var submitBtn=form.querySelector('#withdrawButton');
+var amountInput=form.querySelector('#withdrawAmount');
+var amountGroup=amountInput?amountInput.closest('.form-group'):null;
+var fieldsToHide=form.querySelector('#fields_to_hide');
+var noMoneyAlert=form.querySelector('#noMoney');
+var errAlert=form.querySelector('#errMessage');
+if(!accountSelect||!methodSelect||!panelDefault||!submitBtn||!amountInput||!amountGroup||!fieldsToHide)return;
 form.dataset.bcmWithdraw='1';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}}
@@ -605,13 +612,20 @@ warn.style.cssText='margin:16px 0 0 0';
 warn.textContent="You don't currently have a balance on any trading account, so there's nothing available to withdraw.";
 accountGroup.appendChild(warn);
 }
+var selectedAccount=null;
+var currencyLabel=form.querySelector('#currency');
 accountList.querySelectorAll('.bcm-payment-option').forEach(function(card){
 if(card.classList.contains('bcm-payment-disabled'))return;
 function pick(){
-var value=card.getAttribute('data-value');
-accountSelect.value=value;
+selectedAccount=card.getAttribute('data-value');
+accountSelect.value=selectedAccount;
 fireChange(accountSelect);
 accountList.querySelectorAll('.bcm-payment-option').forEach(function(c){c.classList.toggle('active',c===card);});
+amountInput.disabled=false;
+var d=findAccount(selectedAccount);
+if(currencyLabel&&d)currencyLabel.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
+var step1Error=wizard.querySelector('#bcmWDStep1Error');
+if(step1Error)step1Error.classList.remove('bcm-wiz-error-visible');
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
@@ -635,6 +649,75 @@ if(creditCardFields)creditCardFields.style.display='none';
 if(wireFields)wireFields.style.display='block';
 var infoTitles=page.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+var wizTitleEl=panelDefault.querySelector('.panel-title');
+var wizTitle=wizTitleEl?wizTitleEl.textContent.trim():'Withdraw Request Form';
+var TOTAL_STEPS=2;
+var wizardHtml=''
++'<div class="bcm-wizard">'
++'<div class="bcm-wizard-main">'
++'<h1 class="bcm-wizard-title">'+esc(wizTitle)+'</h1>'
++'<p class="bcm-wizard-subtitle">All fields below are mandatory</p>'
++'<p class="bcm-wizard-step-text" id="bcmWDStepText">Step 1 of '+TOTAL_STEPS+'</p>'
++'<div class="bcm-wizard-panel">'
++'<div class="bcm-wizard-pane active" data-pane="1">'
++'<h3 class="bcm-wiz-pane-title">Select Account</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose the trading account you want to withdraw from.</p>'
++'<div id="bcmWDAccountSlot"></div>'
++'<p class="bcm-wiz-error" id="bcmWDStep1Error">Please choose an account to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="2">'
++'<h3 class="bcm-wiz-pane-title">Type of Withdrawal</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose your withdrawal method and enter an amount.</p>'
++'<div id="bcmWDAlertSlot"></div>'
++'<div id="bcmWDFieldsSlot"></div>'
++'<p class="bcm-wiz-error" id="bcmWDStep2Error">Please enter a valid amount to continue.</p>'
++'</div>'
++'</div>'
++'<div class="bcm-wizard-actions">'
++'<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack">Cancel</button>'
++'<button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>'
++'</div>'
++'</div>'
++'</div>';
+panelDefault.style.display='none';
+panelDefault.insertAdjacentHTML('beforebegin',wizardHtml);
+var wizard=form.querySelector('.bcm-wizard');
+wizard.querySelector('#bcmWDAccountSlot').appendChild(accountGroup);
+var alertSlot=wizard.querySelector('#bcmWDAlertSlot');
+if(noMoneyAlert)alertSlot.appendChild(noMoneyAlert);
+if(errAlert)alertSlot.appendChild(errAlert);
+var fieldsSlot=wizard.querySelector('#bcmWDFieldsSlot');
+fieldsSlot.appendChild(fieldsToHide);
+fieldsSlot.appendChild(amountGroup);
+var currentStep=1;
+function goToStep(step){
+currentStep=step;
+wizard.querySelectorAll('.bcm-wizard-pane').forEach(function(p){p.classList.toggle('active',Number(p.getAttribute('data-pane'))===step);});
+wizard.querySelector('#bcmWDStepText').textContent='Step '+step+' of '+TOTAL_STEPS;
+var backBtn=wizard.querySelector('#bcmWDBack');
+var nextBtn=wizard.querySelector('#bcmWDNext');
+backBtn.textContent=step===1?'Cancel':'Back';
+nextBtn.textContent=step===1?'Next: Type of Withdrawal':'Submit';
+window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
+}
+wizard.querySelector('#bcmWDBack').addEventListener('click',function(){
+if(currentStep===1){window.location.href='https://trade.blackcrownmarkets.com/';return;}
+goToStep(1);
+});
+wizard.querySelector('#bcmWDNext').addEventListener('click',function(){
+if(currentStep===1){
+if(!selectedAccount){wizard.querySelector('#bcmWDStep1Error').classList.add('bcm-wiz-error-visible');return;}
+goToStep(2);
+return;
+}
+var step2Error=wizard.querySelector('#bcmWDStep2Error');
+if(amountInput.disabled||!amountInput.value||parseFloat(amountInput.value)<=0){
+step2Error.classList.add('bcm-wiz-error-visible');
+return;
+}
+step2Error.classList.remove('bcm-wiz-error-visible');
+submitBtn.click();
+});
 }
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
