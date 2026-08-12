@@ -193,6 +193,8 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #withdrawalpage .btn.btn-primary{border-radius:12px!important;padding:14px 32px!important;height:auto!important;font-size:15px!important}
 #withdrawalpage .panel-footer{background:#fff!important;border-top:1px solid #f0f0f0!important;padding:20px 28px!important}
 #withdrawalpage .alert-ajax,#withdrawalpage .alert-danger{border-radius:12px!important;border:1px solid #fecaca!important;background:#fef2f2!important;color:#dc2626!important;font-size:13px!important;padding:14px 16px!important}
+#withdrawalpage input[type=file]{display:block!important;width:100%!important;padding:12px 16px!important;border:1.5px dashed #d5d5d7!important;border-radius:12px!important;background:#fafafa!important;font-size:13px!important;color:#6b7280!important;box-sizing:border-box!important;cursor:pointer!important}
+#withdrawalpage input[type=file]:hover{border-color:#7B2FBE!important;background:#faf8ff!important}
 #depositpage{padding:0!important;margin:0!important;float:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:calc(100vh - 220px)!important;box-sizing:border-box!important}
 .bcm-deposit-summary{width:100%;max-width:960px;margin:8px auto;display:flex;flex-direction:column;gap:24px}
 .bcm-ds-card{position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:36px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
