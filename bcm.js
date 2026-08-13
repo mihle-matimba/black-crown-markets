@@ -798,15 +798,10 @@ document.body.classList.add('bcm-accounts-page');
 var infoTitles=document.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
-function buildChangeLeveragePage(){
-var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
-if(!form||form.dataset.bcmLeverageStyled)return;
+function styleLeverageFormFields(form){
 var accountSelect=form.querySelector('#account_selected_for_changing_leverage');
 var leverageSelect=form.querySelector('#leverage_select');
-var panelDefault=form.closest('.panel.panel-default');
-if(!accountSelect||!leverageSelect||!panelDefault)return;
-form.dataset.bcmLeverageStyled='1';
-panelDefault.classList.add('bcm-leverage-panel');
+if(!accountSelect||!leverageSelect)return null;
 var formGroup=accountSelect.closest('.form-group');
 var children=Array.prototype.slice.call(formGroup.children);
 if(children.length===4){
@@ -817,13 +812,53 @@ wrapB.appendChild(children[2]);wrapB.appendChild(children[3]);
 formGroup.appendChild(wrapA);formGroup.appendChild(wrapB);
 formGroup.classList.add('bcm-lev-row');
 }
+return{accountSelect:accountSelect,leverageSelect:leverageSelect};
+}
+function buildChangeLeveragePage(){
+var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
+if(!form||form.dataset.bcmLeverageStyled)return;
+var panelDefault=form.closest('.panel.panel-default');
+if(!panelDefault)return;
+var fields=styleLeverageFormFields(form);
+if(!fields)return;
+form.dataset.bcmLeverageStyled='1';
+panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+}
+function openLeverageModal(){
+if(document.querySelector('.bcm-lev-modal-overlay'))return;
+var overlay=document.createElement('div');
+overlay.className='bcm-modal-overlay bcm-lev-modal-overlay';
+overlay.innerHTML='<div class="bcm-modal bcm-lev-modal"><button type="button" class="bcm-modal-close" aria-label="Close">&times;</button><h3 class="bcm-lev-modal-title">Change Leverage</h3><div class="bcm-lev-modal-body"><p class="bcm-lev-modal-status">Loading…</p></div></div>';
+document.body.appendChild(overlay);
+function close(){overlay.remove();}
+overlay.querySelector('.bcm-modal-close').addEventListener('click',close);
+overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
+function fail(){var body=overlay.querySelector('.bcm-lev-modal-body');if(body)body.innerHTML='<p class="bcm-lev-modal-status">Couldn\'t load this form. <a class="bcm-modal-link" href="https://trade.blackcrownmarkets.com/change-leverage">Open it as a page instead</a>.</p>';}
+fetch('https://trade.blackcrownmarkets.com/change-leverage',{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(html){
+var doc=new DOMParser().parseFromString(html,'text/html');
+var loadedForm=doc.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
+if(!loadedForm){fail();return;}
+var fields=styleLeverageFormFields(loadedForm);
+if(!fields){fail();return;}
+var body=overlay.querySelector('.bcm-lev-modal-body');
+body.innerHTML='';
+loadedForm.classList.add('bcm-lev-modal-form');
+body.appendChild(loadedForm);
+}).catch(fail);
+}
+function bindLeverageModalTriggers(){
+document.querySelectorAll('a[href="https://trade.blackcrownmarkets.com/change-leverage"]').forEach(function(link){
+if(link.dataset.bcmLevModal)return;
+link.dataset.bcmLevModal='1';
+link.addEventListener('click',function(e){e.preventDefault();openLeverageModal();});
+});
 }
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();});observer.observe(target,{childList:true,subtree:true});}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.setAttribute('aria-label','Contact Support');fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="bcm-support-fab-tooltip">Contact Support</span>';document.body.appendChild(fab);}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}
-function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
+function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();

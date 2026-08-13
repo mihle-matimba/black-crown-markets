@@ -394,3 +394,15 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-leverage-panel .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 .bcm-leverage-panel .panel-footer{background:transparent!important;border-top:none!important;padding:14px 22px 20px!important}
 .bcm-leverage-panel .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:100%!important;box-sizing:border-box!important}
+.bcm-lev-modal{max-width:460px!important;text-align:left!important}
+.bcm-lev-modal-title{font-size:20px;font-weight:800;color:#1a1a1a;margin:0 0 16px 0}
+.bcm-lev-modal-body{min-height:60px}
+.bcm-lev-modal-status{font-size:14px;color:#6b7280;margin:0}
+.bcm-lev-modal-form{margin-top:0!important}
+.bcm-lev-modal-form .bcm-lev-row{display:flex!important;gap:12px!important;margin:0!important}
+.bcm-lev-modal-form .bcm-lev-field{flex:1!important;min-width:0!important}
+.bcm-lev-modal-form .bcm-lev-field label{float:none!important;display:block!important;width:100%!important;max-width:none!important;text-align:left!important;padding:0 0 5px 0!important;font-size:12px!important;font-weight:600!important;color:#1a1a1a!important}
+.bcm-lev-modal-form .bcm-lev-field>div{float:none!important;width:100%!important;max-width:none!important;padding:0!important}
+.bcm-lev-modal-form .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
+.bcm-lev-modal-form .panel-footer{background:transparent!important;border-top:none!important;padding:14px 0 0!important}
+.bcm-lev-modal-form .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:100%!important;box-sizing:border-box!important}
