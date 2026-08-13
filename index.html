@@ -3272,30 +3272,4 @@ document.querySelectorAll('.pill').forEach(p => {
   (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/szd3fim3';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 </script>
 <!-- End of Intercom Messenger -->
-<div id="maintenance-notice-modal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;">
-  <div id="maintenance-notice-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.6);"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="maintenance-notice-title" style="position:relative;background:#fff;color:#111;max-width:440px;width:calc(100% - 40px);margin:20px;border-radius:12px;padding:32px 28px;font-family:'Inter',sans-serif;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">
-    <button id="maintenance-notice-close" aria-label="Close" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;line-height:1;cursor:pointer;color:#666;padding:4px;">&times;</button>
-    <div style="font-size:32px;margin-bottom:12px;">&#9888;&#65039;</div>
-    <h2 id="maintenance-notice-title" style="font-size:18px;font-weight:600;margin:0 0 12px;">Scheduled maintenance</h2>
-    <p style="font-size:14px;line-height:1.6;margin:0 0 20px;color:#333;">We are currently maintaining the sign-in process and account creation process. If you experience any issues, please contact <a href="mailto:support@blackcrownmarkets.com" style="color:#B45309;text-decoration:underline;">support@blackcrownmarkets.com</a>.</p>
-    <button id="maintenance-notice-dismiss" style="background:#B45309;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Got it</button>
-  </div>
-</div>
-<script>
-(function () {
-  var modal = document.getElementById('maintenance-notice-modal');
-  if (!modal) return;
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-  modal.style.display = 'flex';
-  document.getElementById('maintenance-notice-close').addEventListener('click', closeModal);
-  document.getElementById('maintenance-notice-dismiss').addEventListener('click', closeModal);
-  document.getElementById('maintenance-notice-backdrop').addEventListener('click', closeModal);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeModal();
-  });
-})();
-</script>
 </body></html>
