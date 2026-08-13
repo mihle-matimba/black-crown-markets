@@ -960,6 +960,19 @@ var text=label.textContent.trim();
 if(text==='Choose the Document'||text==='Document Name')label.remove();
 });
 }
+function buildSumSubEmptyState(){
+var wrap=document.createElement('div');
+wrap.className='bcm-docs-empty';
+wrap.innerHTML='<div class="bcm-docs-empty-illustration"><svg viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="100" cy="85" r="70" fill="#7B2FBE" opacity="0.07"/><rect x="46" y="70" width="72" height="18" rx="6" fill="#fff" stroke="#E4D6F7" stroke-width="1.5" transform="rotate(-6 82 79)"/><rect x="70" y="58" width="72" height="18" rx="6" fill="#fff" stroke="#E4D6F7" stroke-width="1.5" transform="rotate(4 106 67)"/><path d="M40 92c0-6.6 5.4-12 12-12h96c6.6 0 12 5.4 12 12v46c0 8.8-7.2 16-16 16H56c-8.8 0-16-7.2-16-16V92z" fill="#EDE1FB"/><path d="M40 92c0-6.6 5.4-12 12-12h30l10 12h60c6.6 0 12 5.4 12 12v4H40v-16z" fill="#DCC7F5"/><circle cx="100" cy="128" r="22" fill="#6D28D9"/><path d="M100 118v20M92 126l8-8 8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><g fill="#B98CE0"><path d="M34 58l2.4 5.6L42 66l-5.6 2.4L34 74l-2.4-5.6L26 66l5.6-2.4z"/><path d="M158 96l1.8 4.2L164 102l-4.2 1.8L158 108l-1.8-4.2L152 102l4.2-1.8z"/><path d="M150 46l1.4 3.2L154.6 50.6l-3.2 1.4L150 55.2l-1.4-3.2L145.4 50.6l3.2-1.4z"/></g></svg></div><h2 class="bcm-docs-empty-title">No Documents to upload</h2><div class="bcm-docs-empty-divider"><span></span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg><span></span></div><p class="bcm-docs-empty-text">If you would like to attach additional documents, please press the button below.</p><button type="button" class="bcm-docs-empty-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6"/><path d="M5 21h14"/></svg>Upload Documents</button>';
+wrap.querySelector('.bcm-docs-empty-btn').addEventListener('click',function(){window.location.reload();});
+return wrap;
+}
+function buildSumSubEmptyFooter(){
+var footer=document.createElement('div');
+footer.className='bcm-docs-empty-footer';
+footer.innerHTML='<div class="bcm-docs-empty-footer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><strong>Your documents are safe and encrypted</strong><p>We use industry-leading encryption to keep your data secure.</p></div>';
+return footer;
+}
 function isolateSumSubWidget(){
 if(window.location.pathname.indexOf('/upload-documents')===-1)return;
 var sumsubContainer=document.querySelector('#SumSub');
@@ -983,14 +996,16 @@ verificationPanel.classList.add('bcm-sumsub-panel');
 }
 function hasWidget(){return !!sumsubContainer.querySelector('iframe');}
 function updateEmptyState(){
-var msg=sumsubContainer.querySelector('.bcm-sumsub-empty');
-if(hasWidget()){if(msg)msg.remove();return;}
-if(!msg){
-msg=document.createElement('p');
-msg.className='bcm-sumsub-empty';
-msg.textContent='No Documents, to upload';
-sumsubContainer.appendChild(msg);
+var msg=sumsubContainer.querySelector('.bcm-docs-empty');
+var col=verificationPanel.parentElement;
+var footer=col?col.querySelector('.bcm-docs-empty-footer'):null;
+if(hasWidget()){
+if(msg)msg.remove();
+if(footer)footer.remove();
+return;
 }
+if(!msg)sumsubContainer.appendChild(buildSumSubEmptyState());
+if(col&&!footer)col.appendChild(buildSumSubEmptyFooter());
 }
 if(!sumsubContainer.dataset.bcmEmptyWatch){
 sumsubContainer.dataset.bcmEmptyWatch='1';
@@ -1010,8 +1025,12 @@ var fbCol=document.createElement('div');
 fbCol.className='col-md-6';
 var fbPanel=document.createElement('div');
 fbPanel.className='panel panel-default bcm-sumsub-panel bcm-sumsub-fallback-panel';
-fbPanel.innerHTML='<div class="panel-body"><p class="bcm-sumsub-empty">No Documents, to upload</p></div>';
+var fbBody=document.createElement('div');
+fbBody.className='panel-body';
+fbBody.appendChild(buildSumSubEmptyState());
+fbPanel.appendChild(fbBody);
 fbCol.appendChild(fbPanel);
+fbCol.appendChild(buildSumSubEmptyFooter());
 fbRow.appendChild(fbCol);
 wrap.appendChild(fbRow);
 }
