@@ -825,7 +825,7 @@ form.dataset.bcmLeverageStyled='1';
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
-function openLeverageModal(){
+function openLeverageModal(accountNumber){
 if(document.querySelector('.bcm-lev-modal-overlay'))return;
 var overlay=document.createElement('div');
 overlay.className='bcm-modal-overlay bcm-lev-modal-overlay';
@@ -845,6 +845,10 @@ var body=overlay.querySelector('.bcm-lev-modal-body');
 body.innerHTML='';
 loadedForm.classList.add('bcm-lev-modal-form');
 body.appendChild(loadedForm);
+if(accountNumber){
+var opt=Array.prototype.filter.call(fields.accountSelect.options,function(o){return o.value===String(accountNumber);})[0];
+if(opt){fields.accountSelect.value=String(accountNumber);fields.accountSelect.dispatchEvent(new Event('change',{bubbles:true}));}
+}
 }).catch(fail);
 }
 function bindLeverageModalTriggers(){
@@ -854,11 +858,37 @@ link.dataset.bcmLevModal='1';
 link.addEventListener('click',function(e){e.preventDefault();openLeverageModal();});
 });
 }
+function closeRowMenus(){document.querySelectorAll('.bcm-row-menu.open').forEach(function(m){m.classList.remove('open');});}
+function buildAccountsTableMenus(){
+var table=document.querySelector('#table_my_account_bottom');
+if(!table)return;
+if(!table.dataset.bcmRowMenuDoc){table.dataset.bcmRowMenuDoc='1';document.addEventListener('click',closeRowMenus);}
+Array.prototype.forEach.call(table.querySelectorAll('tbody tr'),function(row){
+var actionsCell=row.querySelector('td.actions');
+if(!actionsCell||actionsCell.querySelector('.bcm-row-menu'))return;
+var accountNumber=row.id;
+var menu=document.createElement('div');
+menu.className='bcm-row-menu';
+menu.innerHTML='<button type="button" class="bcm-row-menu-btn" aria-label="More actions">⋮</button><div class="bcm-row-menu-list"><button type="button" class="bcm-row-menu-item">Change Leverage</button></div>';
+actionsCell.appendChild(menu);
+menu.querySelector('.bcm-row-menu-btn').addEventListener('click',function(e){
+e.stopPropagation();
+var wasOpen=menu.classList.contains('open');
+closeRowMenus();
+if(!wasOpen)menu.classList.add('open');
+});
+menu.querySelector('.bcm-row-menu-item').addEventListener('click',function(e){
+e.stopPropagation();
+closeRowMenus();
+openLeverageModal(accountNumber);
+});
+});
+}
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();});observer.observe(target,{childList:true,subtree:true});}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.setAttribute('aria-label','Contact Support');fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="bcm-support-fab-tooltip">Contact Support</span>';document.body.appendChild(fab);}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}
-function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
+function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
