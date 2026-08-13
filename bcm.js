@@ -779,48 +779,11 @@ bankSelect.innerHTML='<option value="">Select your bank</option>'
 bankNameInput.parentNode.replaceChild(bankSelect,bankNameInput);
 }
 }
-function buildChangeLeveragePage(){
-var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
-if(!form||form.dataset.bcmLeverage)return;
-var accountSelect=form.querySelector('#account_selected_for_changing_leverage');
-var leverageSelect=form.querySelector('#leverage_select');
-if(!accountSelect||!leverageSelect)return;
-form.dataset.bcmLeverage='1';
-var CENT_BONUS_MAX=500;
-var accountsByNumber={};
-function isCentOrBonus(acc){
-var data=accountsByNumber[String(acc)];
-if(!data)return false;
-var label=(data.account_type_requested||data.account_type||'').toLowerCase();
-return label.indexOf('cent')!==-1||label.indexOf('bonus')!==-1;
-}
-function applyLeverageCap(){
-var cap=isCentOrBonus(accountSelect.value)?CENT_BONUS_MAX:2000;
-var firstAllowed=null;
-Array.prototype.forEach.call(leverageSelect.options,function(o){
-var val=parseInt(o.value,10);
-var allowed=val<=cap;
-o.disabled=!allowed;
-o.hidden=!allowed;
-if(allowed&&firstAllowed===null)firstAllowed=o.value;
-});
-if(parseInt(leverageSelect.value,10)>cap&&firstAllowed!==null)leverageSelect.value=firstAllowed;
-}
-accountSelect.addEventListener('change',applyLeverageCap);
-fetch('https://trade.blackcrownmarkets.com/withdraw',{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(html){
-var m=html.match(/data-accounts=(['"])([\s\S]*?)\1/);
-if(!m)return;
-var raw=m[2].replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&amp;/g,'&');
-var accounts=JSON.parse(raw);
-accounts.forEach(function(a){accountsByNumber[String(a.acc)]=a;});
-applyLeverageCap();
-}).catch(function(){});
-}
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildChangeLeveragePage();});observer.observe(target,{childList:true,subtree:true});}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.setAttribute('aria-label','Contact Support');fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="bcm-support-fab-tooltip">Contact Support</span>';document.body.appendChild(fab);}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}
-function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildChangeLeveragePage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
+function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
