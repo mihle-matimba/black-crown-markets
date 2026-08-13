@@ -679,14 +679,21 @@ navBar.id='bcmWDNav';
 navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>';
 fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
 var step2Elements=[step2Heading,fieldsToHide,amountGroup,panelFooter];
-step2Elements.forEach(function(el){el.style.display='none';});
+var step1Elements=[step1Heading,accountGroup];
 var currentStep=1;
+function enforceStepVisibility(){
+step1Elements.forEach(function(el){var show=currentStep===1;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+step2Elements.forEach(function(el){var show=currentStep===2;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+}
+enforceStepVisibility();
+if(typeof MutationObserver!=='undefined'){
+var stepVisibilityObserver=new MutationObserver(enforceStepVisibility);
+step1Elements.concat(step2Elements).forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
+}
 function goToStep(step){
 currentStep=step;
 stepBadge.textContent='Step '+step+' of '+TOTAL_STEPS;
-step1Heading.style.display=step===1?'':'none';
-accountGroup.style.display=step===1?'':'none';
-step2Elements.forEach(function(el){el.style.display=step===2?'':'none';});
+enforceStepVisibility();
 document.getElementById('bcmWDBack').style.display=step===1?'none':'';
 document.getElementById('bcmWDNext').style.display=step===1?'':'none';
 window.scrollTo({top:panelDefault.offsetTop-24,behavior:'smooth'});
