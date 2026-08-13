@@ -709,7 +709,16 @@ navBar.className='bcm-wizard-actions';
 navBar.id='bcmWDNav';
 navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>';
 fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
-var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup,panelFooter];
+var clearButton=form.querySelector('#clearButton');
+if(clearButton)clearButton.style.display='none';
+panelFooter.style.display='none';
+function updateFooterVisibility(){
+var ready=currentStep===2&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
+if(ready&&panelFooter.style.display==='none')panelFooter.style.display='';
+if(!ready&&panelFooter.style.display!=='none')panelFooter.style.display='none';
+}
+amountInput.addEventListener('input',updateFooterVisibility);
+var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup];
 var step1Elements=[step1Heading,accountGroup];
 var currentStep=1;
 function enforceStepVisibility(){
@@ -725,6 +734,7 @@ function goToStep(step){
 currentStep=step;
 stepBadge.textContent='Step '+step+' of '+TOTAL_STEPS;
 enforceStepVisibility();
+updateFooterVisibility();
 document.getElementById('bcmWDBack').style.display=step===1?'none':'';
 document.getElementById('bcmWDNext').style.display=step===1?'':'none';
 window.scrollTo({top:panelDefault.offsetTop-24,behavior:'smooth'});
