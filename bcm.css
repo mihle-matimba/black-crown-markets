@@ -191,7 +191,8 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 #withdrawalpage .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 #withdrawalpage .help-block{font-size:11px!important;color:#9aa0a6!important;margin-top:4px!important}
 #withdrawalpage .btn.btn-primary{border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:100%!important;box-sizing:border-box!important}
-#withdrawalpage .panel-footer{background:transparent!important;border-top:none!important;padding:4px 0 0!important;display:flex!important;flex-direction:column-reverse!important;gap:8px!important}
+#withdrawalpage .panel-footer{background:transparent!important;border-top:none!important;padding:4px 0 0!important;display:none!important;flex-direction:column-reverse!important;gap:8px!important}
+#withdrawalpage.bcm-wd-footer-ready .panel-footer{display:flex!important}
 #withdrawalpage #change_buttons{width:100%!important;float:none!important}
 #withdrawalpage .panel-footer .btn.btn-default{width:100%!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;box-sizing:border-box!important}
 #withdrawalpage .alert-ajax,#withdrawalpage .alert-danger{border-radius:12px!important;border:1px solid #fecaca!important;background:#fef2f2!important;color:#dc2626!important;font-size:13px!important;padding:14px 16px!important}

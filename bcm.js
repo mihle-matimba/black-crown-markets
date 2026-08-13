@@ -711,11 +711,10 @@ navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDB
 fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
 var clearButton=form.querySelector('#clearButton');
 if(clearButton)clearButton.style.display='none';
-panelFooter.style.display='none';
+page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
 var ready=currentStep===2&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
-if(ready&&panelFooter.style.display==='none')panelFooter.style.display='';
-if(!ready&&panelFooter.style.display!=='none')panelFooter.style.display='none';
+page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
 var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup];
