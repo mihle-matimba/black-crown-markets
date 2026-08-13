@@ -761,6 +761,9 @@ var methodRow=document.createElement('div');
 methodRow.className='bcm-wd-method-row';
 methodRow.innerHTML='<span class="bcm-wd-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-wd-method-name">Wire Transfer</span>';
 methodGroup.appendChild(methodRow);
+methodGroup.classList.add('bcm-bd-span2');
+var bankDetailNameInput=form.querySelector('input[name=saved_bank_name]');
+if(bankDetailNameInput){var bankDetailNameGroup=bankDetailNameInput.closest('.form-group');if(bankDetailNameGroup)bankDetailNameGroup.classList.add('bcm-bd-span2');}
 var BANK_GROUPS_ZA=[
 {label:'Major Banks',banks:['Standard Bank','FNB (First National Bank)','Absa Bank','Nedbank','Capitec Bank','African Bank']},
 {label:'Digital-First Banks',banks:['TymeBank','Discovery Bank','Bank Zero','Old Mutual Bank (OM Bank)']},
