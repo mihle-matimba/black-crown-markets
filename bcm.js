@@ -928,11 +928,49 @@ openLeverageModal(accountNumber);
 });
 });
 }
+function buildUploadDocumentsPage(){
+var sumsubContainer=document.querySelector('#SumSub');
+if(!sumsubContainer||sumsubContainer.dataset.bcmProcessed)return;
+sumsubContainer.dataset.bcmProcessed='1';
+var verificationPanel=sumsubContainer.closest('.panel.panel-default');
+if(!verificationPanel)return;
+var outerRow=verificationPanel.closest('.row');
+document.querySelectorAll('.panel-title').forEach(function(titleEl){
+var text=titleEl.textContent.trim();
+if(text==='Upload a Document'||text==='Important information'||text==='Upload History'){
+var panel=titleEl.closest('.panel');
+if(!panel)return;
+var col=panel.closest('[class*=col-md-]');
+var row=panel.closest('.row');
+panel.remove();
+if(col&&!col.children.length)col.remove();
+if(row&&row!==outerRow&&!row.children.length)row.remove();
+}
+});
+var heading=verificationPanel.querySelector('.panel-heading');
+if(heading)heading.remove();
+verificationPanel.classList.add('bcm-sumsub-panel');
+var verificationCol=verificationPanel.closest('[class*=col-md-]');
+if(verificationCol)verificationCol.classList.add('bcm-sumsub-col');
+if(outerRow)outerRow.classList.add('bcm-sumsub-row');
+function hasWidget(){return !!sumsubContainer.querySelector('iframe');}
+function showAllDone(){
+if(sumsubContainer.dataset.bcmAllDone)return;
+sumsubContainer.dataset.bcmAllDone='1';
+sumsubContainer.innerHTML='<div class="bcm-alldone"><div class="bcm-alldone-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></div><p class="bcm-alldone-text">All Done</p></div>';
+}
+if(!hasWidget()){
+var settled=false;
+var sumsubObserver=new MutationObserver(function(){if(hasWidget()){settled=true;sumsubObserver.disconnect();}});
+sumsubObserver.observe(sumsubContainer,{childList:true,subtree:true});
+setTimeout(function(){sumsubObserver.disconnect();if(!settled&&!hasWidget())showAllDone();},3000);
+}
+}
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();});observer.observe(target,{childList:true,subtree:true});}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();buildUploadDocumentsPage();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.setAttribute('aria-label','Contact Support');fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="bcm-support-fab-tooltip">Contact Support</span>';document.body.appendChild(fab);}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}
-function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
+function init(){buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();buildUploadDocumentsPage();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
