@@ -1062,12 +1062,35 @@ wrap.appendChild(fbRow);
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
-function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();separateSumSubFromUpload();isolateSumSubWidget();stripUploadDocumentLabels();});observer.observe(target,{childList:true,subtree:true});}
+function buildDepositCurrencyLock(){
+var accountSelect=document.querySelector('#mt_account_id');
+var currencySelect=document.querySelector('#deposit_currency');
+if(!accountSelect||!currencySelect||currencySelect.dataset.bcmCurrencyLock)return;
+currencySelect.dataset.bcmCurrencyLock='1';
+function fireChange(el){el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}}
+function applyLock(){
+var selectedOption=accountSelect.options[accountSelect.selectedIndex];
+var accountCurrency=selectedOption?selectedOption.getAttribute('currency'):null;
+if(accountCurrency==='ZAR'){
+Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=o.value!=='ZAR';});
+if(currencySelect.value!=='ZAR'){currencySelect.value='ZAR';fireChange(currencySelect);}
+currencySelect.disabled=true;
+currencySelect.classList.add('bcm-currency-locked');
+}else{
+Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;});
+currencySelect.disabled=false;
+currencySelect.classList.remove('bcm-currency-locked');
+}
+}
+applyLock();
+accountSelect.addEventListener('change',applyLock);
+}
+function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();separateSumSubFromUpload();isolateSumSubWidget();stripUploadDocumentLabels();buildDepositCurrencyLock();});observer.observe(target,{childList:true,subtree:true});}
 function buildSupportFab(){if(document.querySelector('.bcm-support-fab'))return;var fab=document.createElement('a');fab.className='bcm-support-fab';fab.href='mailto:support@blackcrownmarkets.com';fab.setAttribute('aria-label','Contact Support');fab.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="bcm-support-fab-tooltip">Contact Support</span>';document.body.appendChild(fab);}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}
 function applyEmbedMode(){
 if(window.location.search.indexOf('bcmEmbed=1')===-1)return;
 document.documentElement.classList.add('bcm-embedded');
 }
-function init(){applyEmbedMode();buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();separateSumSubFromUpload();isolateSumSubWidget();stripUploadDocumentLabels();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
+function init(){applyEmbedMode();buildSidebar();buildDepositPage();buildDepositSummaryPage();relocateDisclaimers();buildLoginPage();buildRegistrationPage();buildAddAccountPage();buildWithdrawPage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();bindLeverageModalTriggers();buildAccountsTableMenus();separateSumSubFromUpload();isolateSumSubWidget();stripUploadDocumentLabels();buildDepositCurrencyLock();adjustSidebarHeight();window.addEventListener('resize',adjustSidebarHeight);markActiveNavItem();initGroupToggles();observeContentChanges();buildSupportFab();buildNoAccountModal();bindLogoutRedirect();}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();

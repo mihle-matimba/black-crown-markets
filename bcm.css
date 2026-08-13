@@ -457,3 +457,4 @@ html.bcm-embedded body{background:#fff!important}
 .bcm-upload-modal-form .panel-footer{background:transparent!important;border-top:none!important;padding:14px 0 0!important;display:flex!important;gap:10px!important;justify-content:flex-end!important}
 .bcm-upload-modal-form .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:auto!important;box-sizing:border-box!important}
 .bcm-upload-modal-form .btn.btn-default{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;box-sizing:border-box!important}
+.bcm-currency-locked{cursor:not-allowed!important;background:#f5f4f7!important;color:#6b7280!important;opacity:1!important}
