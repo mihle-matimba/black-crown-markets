@@ -524,6 +524,7 @@ if(currentStep===1){window.location.href='https://trade.blackcrownmarkets.com/';
 goToStep(currentStep-1);
 });
 wizard.querySelector('#bcmWizNext').addEventListener('click',function(){
+if(this.disabled)return;
 if(currentStep===1){
 if(!selectedAccount){wizard.querySelector('#bcmStep1Error').classList.add('bcm-wiz-error-visible');return;}
 goToStep(2);
@@ -557,6 +558,8 @@ return;
 }
 ensureHiddenField('acc_type',selectedType);
 ensureHiddenField('currency',selectedCurrency);
+this.disabled=true;
+this.textContent='Creating Account…';
 submitBtn.click();
 });
 }
