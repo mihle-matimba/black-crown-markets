@@ -428,8 +428,9 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-file-modal-selected{font-size:12px;font-weight:600;color:#5B21B6;margin:12px 0 0 0;text-align:center}
 .page-content-wrap .row:has(.bcm-sumsub-panel){display:flex!important;justify-content:center!important;align-items:center!important;min-height:calc(100vh - 200px)!important}
 .page-content-wrap .row:has(.bcm-sumsub-panel) [class*=col-md-]:not(:has(.bcm-sumsub-panel)){display:none!important}
-.page-content-wrap .row:has(.bcm-sumsub-panel) [class*=col-md-]{float:none!important;width:100%!important;max-width:520px!important;margin:0 auto!important}
-.page-content-wrap .row:has(.bcm-docs-empty) [class*=col-md-]{max-width:560px!important}
+.page-content-wrap .row:has(.bcm-sumsub-panel) [class*=col-md-],.page-content-wrap .row:has(.bcm-sumsub-panel) .bcm-sumsub-wrap{float:none!important;width:100%!important;max-width:520px!important;margin:0 auto!important}
+.page-content-wrap .row:has(.bcm-docs-empty) [class*=col-md-],.page-content-wrap .row:has(.bcm-docs-empty) .bcm-sumsub-wrap{max-width:560px!important}
+.bcm-sumsub-wrap{display:block}
 .bcm-sumsub-panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:0 2px 12px rgba(0,0,0,.04)!important;overflow:hidden!important}
 html.bcm-embedded #leftSideMenu,html.bcm-embedded .page-sidebar,html.bcm-embedded .main-header,html.bcm-embedded .x-navigation.x-navigation-horizontal,html.bcm-embedded .bcm-support-fab,html.bcm-embedded .bcm-dash-header{display:none!important}
 html.bcm-embedded .page-content,html.bcm-embedded .page-content-wrap,html.bcm-embedded .page-container{margin-left:0!important;padding:16px!important}
@@ -450,3 +451,14 @@ html.bcm-embedded body{background:#fff!important}
 .bcm-docs-empty-footer-icon svg{width:20px;height:20px;color:#7B2FBE}
 .bcm-docs-empty-footer strong{display:block;font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
 .bcm-docs-empty-footer p{font-size:13px;color:#6b7280;margin:0;line-height:1.5}
+.bcm-upload-modal{max-width:440px!important;text-align:left!important}
+.bcm-upload-modal-title{font-size:20px;font-weight:800;color:#1a1a1a;margin:0 0 16px 0}
+.bcm-upload-modal-body{min-height:60px}
+.bcm-upload-modal-form{margin-top:0!important}
+.bcm-upload-modal-form .control-label{float:none!important;display:block!important;width:100%!important;max-width:none!important;text-align:left!important;padding:0 0 6px 0!important;font-size:12px!important;font-weight:600!important;color:#1a1a1a!important}
+.bcm-upload-modal-form .form-group{margin:0 0 16px!important}
+.bcm-upload-modal-form [class*=col-md-]{float:none!important;width:100%!important;max-width:none!important;padding:0!important}
+.bcm-upload-modal-form .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
+.bcm-upload-modal-form .panel-footer{background:transparent!important;border-top:none!important;padding:14px 0 0!important;display:flex!important;gap:10px!important;justify-content:flex-end!important}
+.bcm-upload-modal-form .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:auto!important;box-sizing:border-box!important}
+.bcm-upload-modal-form .btn.btn-default{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;box-sizing:border-box!important}
