@@ -987,12 +987,6 @@ if(bcmUploadForm)openUploadDocumentsModal();else window.location.reload();
 });
 return wrap;
 }
-function buildSumSubEmptyFooter(){
-var footer=document.createElement('div');
-footer.className='bcm-docs-empty-footer';
-footer.innerHTML='<div class="bcm-docs-empty-footer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><strong>Your documents are safe and encrypted</strong><p>We use industry-leading encryption to keep your data secure.</p></div>';
-return footer;
-}
 function ensureSumSubWrapper(panel){
 if(panel.parentElement&&panel.parentElement.classList.contains('bcm-sumsub-wrap'))return panel.parentElement;
 var wrapper=document.createElement('div');
@@ -1026,18 +1020,15 @@ if(!sumsubContainer.dataset.bcmIsolated){
 sumsubContainer.dataset.bcmIsolated='1';
 verificationPanel.classList.add('bcm-sumsub-panel');
 }
-var wrapEl=ensureSumSubWrapper(verificationPanel);
+ensureSumSubWrapper(verificationPanel);
 function hasWidget(){return !!sumsubContainer.querySelector('iframe');}
 function updateEmptyState(){
 var msg=sumsubContainer.querySelector('.bcm-docs-empty');
-var footer=wrapEl.querySelector('.bcm-docs-empty-footer');
 if(hasWidget()){
 if(msg)msg.remove();
-if(footer)footer.remove();
 return;
 }
 if(!msg)sumsubContainer.appendChild(buildSumSubEmptyState());
-if(!footer)wrapEl.appendChild(buildSumSubEmptyFooter());
 }
 if(!sumsubContainer.dataset.bcmEmptyWatch){
 sumsubContainer.dataset.bcmEmptyWatch='1';
@@ -1062,7 +1053,6 @@ fbBody.className='panel-body';
 fbBody.appendChild(buildSumSubEmptyState());
 fbPanel.appendChild(fbBody);
 fbCol.appendChild(fbPanel);
-fbCol.appendChild(buildSumSubEmptyFooter());
 fbRow.appendChild(fbCol);
 wrap.appendChild(fbRow);
 }

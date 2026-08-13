@@ -446,11 +446,6 @@ html.bcm-embedded body{background:#fff!important}
 .bcm-docs-empty-btn{display:inline-flex;align-items:center;gap:10px;background:#5B21B6;color:#fff;border:none;border-radius:10px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s ease}
 .bcm-docs-empty-btn:hover{background:#4c1d95}
 .bcm-docs-empty-btn svg{width:18px;height:18px;flex-shrink:0}
-.bcm-docs-empty-footer{display:flex;align-items:flex-start;gap:14px;margin:24px 8px 0}
-.bcm-docs-empty-footer-icon{width:44px;height:44px;border-radius:50%;background:#f2ebfc;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.bcm-docs-empty-footer-icon svg{width:20px;height:20px;color:#7B2FBE}
-.bcm-docs-empty-footer strong{display:block;font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
-.bcm-docs-empty-footer p{font-size:13px;color:#6b7280;margin:0;line-height:1.5}
 .bcm-upload-modal{max-width:440px!important;text-align:left!important}
 .bcm-upload-modal-title{font-size:20px;font-weight:800;color:#1a1a1a;margin:0 0 16px 0}
 .bcm-upload-modal-body{min-height:60px}
