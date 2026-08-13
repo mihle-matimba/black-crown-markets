@@ -651,16 +651,17 @@ var creditCardFields=form.querySelector('#CreditCard');
 var wireFields=form.querySelector('#WireTransfer');
 if(creditCardFields)creditCardFields.style.display='none';
 if(wireFields)wireFields.style.display='block';
+var BENEFICIARY_FIELD_LABELS=['beneficiary details','name','address','country','bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name'];
 function hideBeneficiaryDetails(){
 if(!wireFields)return;
-var candidates=wireFields.querySelectorAll('h1,h2,h3,h4,h5,h6,legend,label,strong,b,div,span,p');
-for(var i=0;i<candidates.length;i++){
-var el=candidates[i];
-if(el.children.length===0&&el.textContent.trim().toLowerCase()==='beneficiary details'&&el.style.display!=='none'){
-el.style.display='none';
-var sib=el.nextElementSibling;
-while(sib){sib.style.display='none';sib=sib.nextElementSibling;}
-}
+var all=wireFields.querySelectorAll('*');
+for(var i=0;i<all.length;i++){
+var el=all[i];
+if(el.children.length>0)continue;
+var text=el.textContent.trim().toLowerCase();
+if(BENEFICIARY_FIELD_LABELS.indexOf(text)===-1)continue;
+var row=el.closest('.form-group')||el.parentElement;
+if(row&&row.style.display!=='none')row.style.display='none';
 }
 }
 hideBeneficiaryDetails();
