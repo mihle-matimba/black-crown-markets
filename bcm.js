@@ -724,17 +724,19 @@ var currentStep=1;
 function enforceStepVisibility(){
 step1Elements.forEach(function(el){var show=currentStep===1;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
 step2Elements.forEach(function(el){var show=currentStep===2;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+updateFooterVisibility();
 }
 enforceStepVisibility();
 if(typeof MutationObserver!=='undefined'){
 var stepVisibilityObserver=new MutationObserver(enforceStepVisibility);
 step1Elements.concat(step2Elements).forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
+var footerObserver=new MutationObserver(updateFooterVisibility);
+footerObserver.observe(panelFooter,{attributes:true,attributeFilter:['style']});
 }
 function goToStep(step){
 currentStep=step;
 stepBadge.textContent='Step '+step+' of '+TOTAL_STEPS;
 enforceStepVisibility();
-updateFooterVisibility();
 document.getElementById('bcmWDBack').style.display=step===1?'none':'';
 document.getElementById('bcmWDNext').style.display=step===1?'':'none';
 window.scrollTo({top:panelDefault.offsetTop-24,behavior:'smooth'});
