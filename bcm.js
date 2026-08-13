@@ -778,6 +778,13 @@ bankSelect.innerHTML='<option value="">Select your bank</option>'
 +'<option value="Other">Other</option>';
 bankNameInput.parentNode.replaceChild(bankSelect,bankNameInput);
 }
+var panelBody=form.querySelector('.panel-body');
+if(panelBody){
+Array.prototype.forEach.call(panelBody.querySelectorAll('.control-header'),function(h){var fg=h.closest('.form-group');if(fg)fg.classList.add('bcm-bd-span2');});
+var leafGroups=Array.prototype.filter.call(panelBody.querySelectorAll('.form-group'),function(fg){return !fg.querySelector(':scope>.form-group');});
+leafGroups.forEach(function(fg){panelBody.appendChild(fg);});
+Array.prototype.slice.call(panelBody.children).forEach(function(child){if(child.id!=='upload-documents-section'&&child.children.length===0)child.remove();});
+}
 }
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
