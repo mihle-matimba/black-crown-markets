@@ -979,11 +979,6 @@ if(col&&!col.children.length)col.remove();
 if(row&&row!==outerRow&&!row.children.length)row.remove();
 });
 verificationPanel.classList.add('bcm-sumsub-panel');
-var verificationCol=verificationPanel.closest('[class*=col-md-]');
-if(verificationCol){
-verificationCol.classList.add('bcm-sumsub-col');
-if(verificationCol.parentElement)verificationCol.parentElement.classList.add('bcm-sumsub-row');
-}
 }
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
