@@ -651,7 +651,7 @@ var creditCardFields=form.querySelector('#CreditCard');
 var wireFields=form.querySelector('#WireTransfer');
 if(creditCardFields)creditCardFields.style.display='none';
 if(wireFields)wireFields.style.display='block';
-var BENEFICIARY_FIELD_LABELS=['beneficiary details','name','address','country','bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name'];
+var BENEFICIARY_FIELD_LABELS=['beneficiary details','name','address','country','bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name','branch code'];
 function hideBeneficiaryDetails(){
 if(!wireFields)return;
 var all=wireFields.querySelectorAll('*');
