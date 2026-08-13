@@ -1071,13 +1071,21 @@ function fireChange(el){el.dispatchEvent(new Event('input',{bubbles:true}));el.d
 function applyLock(){
 var selectedOption=accountSelect.options[accountSelect.selectedIndex];
 var accountCurrency=selectedOption?selectedOption.getAttribute('currency'):null;
+var zarOption=null;
+Array.prototype.forEach.call(currencySelect.options,function(o){if(o.value==='ZAR')zarOption=o;});
 if(accountCurrency==='ZAR'){
-Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=o.value!=='ZAR';});
+Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=o.value!=='ZAR';o.hidden=false;});
 if(currencySelect.value!=='ZAR'){currencySelect.value='ZAR';fireChange(currencySelect);}
 currencySelect.disabled=true;
 currencySelect.classList.add('bcm-currency-locked');
+}else if(accountCurrency==='USD'){
+Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
+if(zarOption){zarOption.disabled=true;zarOption.hidden=true;}
+if(currencySelect.value==='ZAR'){currencySelect.value='USD';fireChange(currencySelect);}
+currencySelect.disabled=false;
+currencySelect.classList.remove('bcm-currency-locked');
 }else{
-Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;});
+Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
 }
