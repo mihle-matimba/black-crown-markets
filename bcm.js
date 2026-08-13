@@ -651,6 +651,28 @@ var creditCardFields=form.querySelector('#CreditCard');
 var wireFields=form.querySelector('#WireTransfer');
 if(creditCardFields)creditCardFields.style.display='none';
 if(wireFields)wireFields.style.display='block';
+function hideBeneficiaryDetails(){
+if(!wireFields)return;
+var candidates=wireFields.querySelectorAll('h1,h2,h3,h4,h5,h6,legend,label,strong,b,div,span,p');
+for(var i=0;i<candidates.length;i++){
+var el=candidates[i];
+if(el.children.length===0&&el.textContent.trim().toLowerCase()==='beneficiary details'&&el.style.display!=='none'){
+el.style.display='none';
+var sib=el.nextElementSibling;
+while(sib){sib.style.display='none';sib=sib.nextElementSibling;}
+}
+}
+}
+hideBeneficiaryDetails();
+if(wireFields&&typeof MutationObserver!=='undefined'){
+var beneficiaryObserver=new MutationObserver(hideBeneficiaryDetails);
+beneficiaryObserver.observe(wireFields,{childList:true,subtree:true});
+}
+var amountValueWrap=amountGroup.querySelector('.col-md-9')||amountGroup;
+var minAmountNote=document.createElement('p');
+minAmountNote.className='help-block';
+minAmountNote.textContent='Minimum withdrawal amount: $1 USD';
+amountValueWrap.appendChild(minAmountNote);
 var infoTitles=page.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 var TOTAL_STEPS=2;
