@@ -1068,6 +1068,10 @@ var currencySelect=document.querySelector('#deposit_currency');
 if(!accountSelect||!currencySelect||currencySelect.dataset.bcmCurrencyLock)return;
 currencySelect.dataset.bcmCurrencyLock='1';
 function fireChange(el){el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}}
+var note=document.createElement('p');
+note.className='bcm-currency-note';
+note.style.display='none';
+currencySelect.parentElement.appendChild(note);
 function applyLock(){
 var selectedOption=accountSelect.options[accountSelect.selectedIndex];
 var accountCurrency=selectedOption?selectedOption.getAttribute('currency'):null;
@@ -1078,16 +1082,21 @@ Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=o.val
 if(currencySelect.value!=='ZAR'){currencySelect.value='ZAR';fireChange(currencySelect);}
 currencySelect.disabled=true;
 currencySelect.classList.add('bcm-currency-locked');
+note.textContent='ZAR accounts only accept ZAR as your chosen currency.';
+note.style.display='';
 }else if(accountCurrency==='USD'){
 Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 if(zarOption){zarOption.disabled=true;zarOption.hidden=true;}
 if(currencySelect.value==='ZAR'){currencySelect.value='USD';fireChange(currencySelect);}
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
+note.textContent='USD accounts cannot accept ZAR as your chosen currency.';
+note.style.display='';
 }else{
 Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
+note.style.display='none';
 }
 }
 applyLock();

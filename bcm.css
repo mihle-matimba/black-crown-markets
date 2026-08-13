@@ -458,3 +458,4 @@ html.bcm-embedded body{background:#fff!important}
 .bcm-upload-modal-form .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:auto!important;box-sizing:border-box!important}
 .bcm-upload-modal-form .btn.btn-default{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;box-sizing:border-box!important}
 .bcm-currency-locked{cursor:not-allowed!important;background:#f5f4f7!important;color:#6b7280!important;opacity:1!important}
+.bcm-currency-note{font-size:12px;color:#9aa0a6;margin:8px 0 0;line-height:1.5}
