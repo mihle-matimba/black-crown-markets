@@ -587,21 +587,19 @@ var accountGroup=accountSelect.closest('.form-group');
 accountSelect.style.display='none';
 var allZeroBalance=accountOptions.every(function(o){var d=findAccount(o.value);return !d||parseFloat(d.balance)<=0;});
 var accountList=document.createElement('div');
-accountList.className='bcm-payment-list bcm-wiz-small-cards';
+accountList.className='bcm-wd-account-list';
 accountList.innerHTML=accountOptions.map(function(o){
 var d=findAccount(o.value);
 var balance=d?parseFloat(d.balance):0;
 var currency=d?d.currency:'';
 var symbol=CURRENCY_SYMBOLS[currency]||'';
 var noBalance=!(balance>0);
-return '<div class="bcm-payment-option'+(noBalance?' bcm-payment-disabled':'')+'" data-value="'+esc(o.value)+'"'+(noBalance?'':' role="button" tabindex="0"')+'>'
-+'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(symbol||'#')+'</span><span class="bcm-payment-name">'+esc(o.value)+'</span></div>'
-+'<div class="bcm-payment-meta">'
-+'<div class="bcm-payment-meta-row"><span class="bcm-payment-meta-label">Balance</span><span class="bcm-payment-meta-value">'+esc(symbol+balance.toFixed(2))+' '+esc(currency)+'</span></div>'
-+(d&&(d.account_type_requested||d.account_type)?'<div class="bcm-payment-meta-row"><span class="bcm-payment-meta-label">Account type</span><span class="bcm-payment-meta-value">'+esc(d.account_type_requested||d.account_type)+'</span></div>':'')
+return '<div class="bcm-wd-account-row'+(noBalance?' bcm-wd-row-disabled':'')+'" data-value="'+esc(o.value)+'"'+(noBalance?'':' role="button" tabindex="0"')+'>'
++'<div class="bcm-wd-account-left"><span class="bcm-wd-account-badge">'+esc((d&&d.platformname)||'MT5')+'</span><span class="bcm-wd-account-number">'+esc(o.value)+'</span></div>'
++'<div class="bcm-wd-account-right">'
++(noBalance?'<span class="bcm-wd-badge-warning">No balance available</span>':'<span class="bcm-wd-account-balance">'+esc(symbol+balance.toFixed(2))+' '+esc(currency)+'</span>')
++'<span class="bcm-wd-chevron">›</span>'
 +'</div>'
-+(noBalance?'<span class="bcm-wiz-type-badge bcm-badge-warning">No balance available</span>':'')
-+'<span class="bcm-payment-radio"></span>'
 +'</div>';
 }).join('');
 accountGroup.appendChild(accountList);
@@ -618,16 +616,17 @@ if(typeof MutationObserver!=='undefined'){
 var amountEnableObserver=new MutationObserver(function(){if(selectedAccount&&amountInput.disabled)amountInput.disabled=false;});
 amountEnableObserver.observe(amountInput,{attributes:true,attributeFilter:['disabled']});
 }
-accountList.querySelectorAll('.bcm-payment-option').forEach(function(card){
-if(card.classList.contains('bcm-payment-disabled'))return;
+accountList.querySelectorAll('.bcm-wd-account-row').forEach(function(card){
+if(card.classList.contains('bcm-wd-row-disabled'))return;
 function pick(){
 selectedAccount=card.getAttribute('data-value');
 accountSelect.value=selectedAccount;
 fireChange(accountSelect);
-accountList.querySelectorAll('.bcm-payment-option').forEach(function(c){c.classList.toggle('active',c===card);});
+accountList.querySelectorAll('.bcm-wd-account-row').forEach(function(c){c.classList.toggle('active',c===card);});
 amountInput.disabled=false;
 var d=findAccount(selectedAccount);
 if(currencyLabel&&d)currencyLabel.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
+if(wdCurrencyValue&&d)wdCurrencyValue.textContent=d.currency;
 var step1Error=document.getElementById('bcmWDStep1Error');
 if(step1Error)step1Error.classList.remove('bcm-wiz-error-visible');
 }
@@ -636,13 +635,12 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 });
 var methodGroup=methodSelect.closest('.form-group');
 methodSelect.style.display='none';
-var methodCard=document.createElement('div');
-methodCard.className='bcm-payment-list bcm-wiz-small-cards';
-methodCard.innerHTML='<div class="bcm-payment-option active" aria-disabled="true">'
-+'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-payment-name">Wire Transfer</span></div>'
-+'<span class="bcm-payment-radio"></span>'
-+'</div>';
-methodGroup.appendChild(methodCard);
+var methodRowWrap=document.createElement('div');
+methodRowWrap.className='bcm-wd-method-currency-row';
+methodRowWrap.innerHTML='<div class="bcm-wd-method-row"><span class="bcm-wd-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-wd-method-name">Wire Transfer</span></div>'
++'<div class="bcm-wd-currency-box"><span class="bcm-wd-currency-label">Currency</span><span class="bcm-wd-currency-value" id="bcmWDCurrencyValue">—</span></div>';
+methodGroup.appendChild(methodRowWrap);
+var wdCurrencyValue=methodRowWrap.querySelector('#bcmWDCurrencyValue');
 var creditCardOption=Array.prototype.filter.call(methodSelect.options,function(o){return o.value==='CreditCard';})[0];
 if(creditCardOption)creditCardOption.disabled=true;
 methodSelect.value='WireTransfer';
@@ -671,11 +669,21 @@ beneficiaryObserver.observe(wireFields,{childList:true,subtree:true});
 }
 var amountValueWrap=amountGroup.querySelector('.col-md-9')||amountGroup;
 var minAmountNote=document.createElement('p');
-minAmountNote.className='help-block';
-minAmountNote.textContent='Minimum withdrawal amount: $1 USD';
+minAmountNote.className='bcm-wd-amount-hint';
+minAmountNote.innerHTML='Minimum <a href="#" id="bcmWDMinFill">1.00</a> USD';
 amountValueWrap.appendChild(minAmountNote);
+minAmountNote.querySelector('#bcmWDMinFill').addEventListener('click',function(e){
+e.preventDefault();
+amountInput.disabled=false;
+amountInput.value='1.00';
+fireChange(amountInput);
+});
+var infoBanner=document.createElement('div');
+infoBanner.className='bcm-wd-banner';
+infoBanner.innerHTML='<strong>Processing time</strong><p>Your request will generally be processed within two business days of receipt.</p>';
+fieldsToHide.parentNode.insertBefore(infoBanner,fieldsToHide);
 var infoTitles=page.querySelectorAll('.panel-title');
-infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}else if(titleEl.textContent.trim()==='Withdraw Request Form'){titleEl.textContent='Withdrawal';}});
 var TOTAL_STEPS=2;
 var stepBadge=document.createElement('p');
 stepBadge.className='bcm-wizard-step-text';
@@ -701,7 +709,7 @@ navBar.className='bcm-wizard-actions';
 navBar.id='bcmWDNav';
 navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>';
 fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
-var step2Elements=[step2Heading,fieldsToHide,amountGroup,panelFooter];
+var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup,panelFooter];
 var step1Elements=[step1Heading,accountGroup];
 var currentStep=1;
 function enforceStepVisibility(){
