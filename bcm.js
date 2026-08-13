@@ -961,12 +961,10 @@ if(text==='Choose the Document'||text==='Document Name')label.remove();
 });
 }
 function isolateSumSubWidget(){
+if(window.location.pathname.indexOf('/upload-documents')===-1)return;
 var sumsubContainer=document.querySelector('#SumSub');
-if(!sumsubContainer||sumsubContainer.dataset.bcmIsolated)return;
-var verificationPanel=sumsubContainer.closest('.panel.panel-default');
-if(!verificationPanel)return;
-sumsubContainer.dataset.bcmIsolated='1';
-var outerRow=verificationPanel.closest('.row');
+var verificationPanel=sumsubContainer?sumsubContainer.closest('.panel.panel-default'):null;
+var outerRow=verificationPanel?verificationPanel.closest('.row'):null;
 document.querySelectorAll('.panel-title').forEach(function(titleEl){
 var text=titleEl.textContent.trim();
 if(text!=='Upload a Document'&&text!=='Important information'&&text!=='Upload History')return;
@@ -978,7 +976,11 @@ panel.remove();
 if(col&&!col.children.length)col.remove();
 if(row&&row!==outerRow&&!row.children.length)row.remove();
 });
+if(verificationPanel){
+if(!sumsubContainer.dataset.bcmIsolated){
+sumsubContainer.dataset.bcmIsolated='1';
 verificationPanel.classList.add('bcm-sumsub-panel');
+}
 function hasWidget(){return !!sumsubContainer.querySelector('iframe');}
 function updateEmptyState(){
 var msg=sumsubContainer.querySelector('.bcm-sumsub-empty');
@@ -990,11 +992,28 @@ msg.textContent='No Documents, to upload';
 sumsubContainer.appendChild(msg);
 }
 }
+if(!sumsubContainer.dataset.bcmEmptyWatch){
+sumsubContainer.dataset.bcmEmptyWatch='1';
 if(typeof MutationObserver!=='undefined'){
 var sumsubEmptyObserver=new MutationObserver(updateEmptyState);
 sumsubEmptyObserver.observe(sumsubContainer,{childList:true,subtree:true});
 }
 setTimeout(updateEmptyState,6000);
+}
+return;
+}
+var wrap=document.querySelector('.page-content-wrap');
+if(!wrap||wrap.querySelector('.bcm-sumsub-fallback-panel'))return;
+var fbRow=document.createElement('div');
+fbRow.className='row';
+var fbCol=document.createElement('div');
+fbCol.className='col-md-6';
+var fbPanel=document.createElement('div');
+fbPanel.className='panel panel-default bcm-sumsub-panel bcm-sumsub-fallback-panel';
+fbPanel.innerHTML='<div class="panel-body"><p class="bcm-sumsub-empty">No Documents, to upload</p></div>';
+fbCol.appendChild(fbPanel);
+fbRow.appendChild(fbCol);
+wrap.appendChild(fbRow);
 }
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
