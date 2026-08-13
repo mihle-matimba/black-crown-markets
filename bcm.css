@@ -426,11 +426,3 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-file-dropzone-icon{font-size:28px}
 .bcm-file-dropzone-text{font-size:13px;font-weight:600;color:#6b7280}
 .bcm-file-modal-selected{font-size:12px;font-weight:600;color:#5B21B6;margin:12px 0 0 0;text-align:center}
-.bcm-sumsub-row{display:flex!important;justify-content:center!important}
-.bcm-sumsub-col{float:none!important;width:100%!important;max-width:520px!important;margin:0 auto!important}
-.bcm-sumsub-panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:0 2px 12px rgba(0,0,0,.04)!important;background:#fff!important;overflow:hidden!important}
-.bcm-sumsub-panel .panel-body{padding:20px!important}
-.bcm-alldone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:48px 20px}
-.bcm-alldone-icon{width:56px;height:56px;border-radius:50%;background:#ecfdf5;color:#16a34a;display:flex;align-items:center;justify-content:center}
-.bcm-alldone-icon svg{width:30px;height:30px}
-.bcm-alldone-text{font-size:18px;font-weight:800;color:#1a1a1a;margin:0}
