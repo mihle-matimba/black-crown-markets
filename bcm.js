@@ -761,6 +761,23 @@ var methodRow=document.createElement('div');
 methodRow.className='bcm-wd-method-row';
 methodRow.innerHTML='<span class="bcm-wd-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-wd-method-name">Wire Transfer</span>';
 methodGroup.appendChild(methodRow);
+var BANK_GROUPS_ZA=[
+{label:'Major Banks',banks:['Standard Bank','FNB (First National Bank)','Absa Bank','Nedbank','Capitec Bank','African Bank']},
+{label:'Digital-First Banks',banks:['TymeBank','Discovery Bank','Bank Zero','Old Mutual Bank (OM Bank)']},
+{label:'Specialized, Mutual & Regional Banks',banks:['Investec Bank','Bidvest Bank','Sasfin Bank','Albaraka Bank','Finbond Mutual Bank','GBS Mutual Bank','Postbank']},
+{label:'International Bank Branches',banks:['Citibank','Bank of China','Bank of Baroda','Standard Chartered','JPMorgan Chase','Deutsche Bank']}
+];
+function escBank(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+var bankNameInput=form.querySelector('input[name=beneficiarybankname]');
+if(bankNameInput&&bankNameInput.tagName==='INPUT'){
+var bankSelect=document.createElement('select');
+bankSelect.name='beneficiarybankname';
+bankSelect.className=bankNameInput.className;
+bankSelect.innerHTML='<option value="">Select your bank</option>'
++BANK_GROUPS_ZA.map(function(g){return '<optgroup label="'+escBank(g.label)+'">'+g.banks.map(function(b){return '<option value="'+escBank(b)+'">'+escBank(b)+'</option>';}).join('')+'</optgroup>';}).join('')
++'<option value="Other">Other</option>';
+bankNameInput.parentNode.replaceChild(bankSelect,bankNameInput);
+}
 }
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
