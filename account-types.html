@@ -2104,6 +2104,23 @@ a.button-primary:hover {
   line-height: 1.4;
   margin: 0;
 }
+.acct-field-list {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0a0a0f;
+  line-height: 1.4;
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+.acct-field-list li + li { margin-top: 8px; }
+.acct-table-list {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+.acct-table-list li + li { margin-top: 6px; }
 .acct-card-cta {
   display: block;
   align-self: center;
@@ -2250,7 +2267,10 @@ a.button-primary:hover {
         </div>
         <div>
           <div class="acct-field-title">Commission<sup>2</sup></div>
-          <p class="acct-field-value">FX &amp; metals: $3 per lot, per side ($6 round-turn)<br/>Indices: $300 per lot, per side ($600 round-turn)</p>
+          <ul class="acct-field-list">
+            <li>FX &amp; metals: $3 per lot, per side</li>
+            <li>Indices: $300 per lot, per side</li>
+          </ul>
         </div>
         <div>
           <div class="acct-field-title">Maximum leverage</div>
@@ -2424,7 +2444,10 @@ a.button-primary:hover {
           <td>No commission</td>
           <td>No commission</td>
           <td>No commission</td>
-          <td>FX &amp; metals: $3 per lot, per side ($6 round-turn)<br/>Indices: $300 per lot, per side ($600 round-turn)<sup>2</sup></td>
+          <td><ul class="acct-field-list acct-table-list">
+            <li>FX &amp; metals: $3 per lot, per side</li>
+            <li>Indices: $300 per lot, per side<sup>2</sup></li>
+          </ul></td>
           <td>No commission</td>
         </tr>
         <tr>
@@ -2472,7 +2495,7 @@ a.button-primary:hover {
   </div>
 
   <p class="acct-footnote"><sup>1</sup> Spreads are variable and shown from their typical minimum. They may fluctuate and widen due to factors including market volatility and liquidity, news releases, economic events, market open and close, and the instrument being traded.</p>
-  <p class="acct-footnote"><sup>2</sup> Raw ECN commission is charged per side, so a round-turn lot is double the per-side rate. The higher commission on indices reflects our contract size, which is 100&times; larger than that offered by brokers such as HFM and Exness.</p>
+  <p class="acct-footnote"><sup>2</sup> The higher commission on indices reflects our contract size, which is 100&times; larger than that offered by brokers such as HFM and Exness.</p>
 </div>
 </section>
 
