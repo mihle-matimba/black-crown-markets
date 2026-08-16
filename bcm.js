@@ -845,6 +845,57 @@ document.body.classList.add('bcm-accounts-page');
 var infoTitles=document.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
+var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
+function leverageCapFor(planText){
+if(!planText)return null;
+for(var i=0;i<LEVERAGE_CAPS.length;i++){if(LEVERAGE_CAPS[i].match.test(planText))return LEVERAGE_CAPS[i];}
+return null;
+}
+function accountPlanName(accountNumber,accountSelect){
+var plan='';
+if(accountNumber){var row=document.querySelector('#table_my_account_bottom tbody tr[id="'+accountNumber+'"]');if(row){var cell=row.querySelector('td.account-type-requested');if(cell)plan=cell.textContent.trim();}}
+if(!plan&&accountSelect){var opt=accountSelect.options[accountSelect.selectedIndex];if(opt)plan=(opt.textContent||'').trim();}
+return plan;
+}
+function leverageOptionValue(opt){
+var text=(opt.textContent||'').replace(/,/g,'');
+var match=text.match(/\d{2,6}/g);
+if(!match){match=String(opt.value||'').replace(/,/g,'').match(/\d{2,6}/g);}
+if(!match)return null;
+return Math.max.apply(null,match.map(Number));
+}
+function applyLeverageCap(fields){
+var leverageSelect=fields.leverageSelect,accountSelect=fields.accountSelect;
+if(!leverageSelect._bcmLevOptions)leverageSelect._bcmLevOptions=Array.prototype.slice.call(leverageSelect.options);
+var all=leverageSelect._bcmLevOptions;
+var cap=leverageCapFor(accountPlanName(accountSelect.value,accountSelect));
+var previous=leverageSelect.value;
+leverageSelect.innerHTML='';
+var kept=[];
+all.forEach(function(opt){
+var value=leverageOptionValue(opt);
+if(cap&&value!==null&&value>cap.max)return;
+leverageSelect.appendChild(opt);
+kept.push(opt);
+});
+var stillThere=kept.filter(function(o){return o.value===previous;}).length>0;
+leverageSelect.value=stillThere?previous:(kept.length?kept[kept.length-1].value:'');
+var note=fields.capNote;
+if(note)note.textContent=cap?(cap.label+' accounts are limited to a maximum leverage of 1:'+cap.max+'.'):'';
+if(note)note.style.display=cap?'':'none';
+}
+function bindLeverageCap(fields){
+if(fields.leverageSelect.dataset.bcmLevCapped)return;
+fields.leverageSelect.dataset.bcmLevCapped='1';
+var note=document.createElement('p');
+note.className='bcm-lev-cap-note';
+note.style.display='none';
+var host=fields.leverageSelect.closest('.bcm-lev-field')||fields.leverageSelect.parentNode;
+if(host&&host.parentNode)host.parentNode.appendChild(note);
+fields.capNote=note;
+fields.accountSelect.addEventListener('change',function(){applyLeverageCap(fields);});
+applyLeverageCap(fields);
+}
 function styleLeverageFormFields(form){
 var accountSelect=form.querySelector('#account_selected_for_changing_leverage');
 var leverageSelect=form.querySelector('#leverage_select');
@@ -869,6 +920,7 @@ if(!panelDefault)return;
 var fields=styleLeverageFormFields(form);
 if(!fields)return;
 form.dataset.bcmLeverageStyled='1';
+bindLeverageCap(fields);
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
@@ -896,6 +948,7 @@ if(accountNumber){
 var opt=Array.prototype.filter.call(fields.accountSelect.options,function(o){return o.value===String(accountNumber);})[0];
 if(opt){fields.accountSelect.value=String(accountNumber);fields.accountSelect.dispatchEvent(new Event('change',{bubbles:true}));}
 }
+bindLeverageCap(fields);
 }).catch(fail);
 }
 function bindLeverageModalTriggers(){

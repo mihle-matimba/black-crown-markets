@@ -394,6 +394,7 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-leverage-panel .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 .bcm-leverage-panel .panel-footer{background:transparent!important;border-top:none!important;padding:14px 22px 20px!important}
 .bcm-leverage-panel .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:100%!important;box-sizing:border-box!important}
+.bcm-lev-cap-note{clear:both!important;margin:10px 0 0!important;padding:8px 10px!important;border-radius:8px!important;background:#f6f1fd!important;border:1px solid #e4d6f7!important;font-size:12px!important;line-height:1.45!important;color:#5B21B6!important}
 .bcm-lev-modal{max-width:460px!important;text-align:left!important}
 .bcm-lev-modal-title{font-size:20px;font-weight:800;color:#1a1a1a;margin:0 0 16px 0}
 .bcm-lev-modal-body{min-height:60px}
