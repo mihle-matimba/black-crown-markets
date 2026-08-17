@@ -937,23 +937,21 @@ bindLeverageCap(fields);
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
-function closeRowMenus(){document.querySelectorAll('.bcm-row-menu.open').forEach(function(m){m.classList.remove('open');});}
+function openRowMenu(){var overlay=document.createElement('div');overlay.className='bcm-row-menu-overlay';overlay.innerHTML='<div class="bcm-row-menu-modal"><div class="bcm-row-menu-modal-header"><h3 class="bcm-row-menu-modal-title">Account Actions</h3><button type="button" class="bcm-row-menu-modal-close" aria-label="Close">&times;</button></div><div class="bcm-row-menu-modal-body"><button type="button" class="bcm-row-menu-modal-item" data-action="change-leverage">Change Leverage</button></div></div>';document.body.appendChild(overlay);var closeBtn=overlay.querySelector('.bcm-row-menu-modal-close');var changeLevBtn=overlay.querySelector('[data-action="change-leverage"]');function close(){overlay.remove();}closeBtn.addEventListener('click',close);overlay.addEventListener('click',function(e){if(e.target===overlay)close();});changeLevBtn.addEventListener('click',function(){window.location.href='https://trade.blackcrownmarkets.com/change-leverage';});}
 function buildAccountsTableMenus(){
 var table=document.querySelector('#table_my_account_bottom');
 if(!table)return;
-if(!table.dataset.bcmRowMenuDoc){table.dataset.bcmRowMenuDoc='1';document.addEventListener('click',closeRowMenus);}
 Array.prototype.forEach.call(table.querySelectorAll('tbody tr'),function(row){
 var actionsCell=row.querySelector('td.actions');
 if(!actionsCell||actionsCell.querySelector('.bcm-row-menu'))return;
 var menu=document.createElement('div');
 menu.className='bcm-row-menu';
-menu.innerHTML='<button type="button" class="bcm-row-menu-btn" aria-label="More actions">⋮</button><div class="bcm-row-menu-list"><a href="https://trade.blackcrownmarkets.com/change-leverage" class="bcm-row-menu-item">Change Leverage</a></div>';
+menu.innerHTML='<button type="button" class="bcm-row-menu-btn" aria-label="More actions">⋮</button>';
 actionsCell.appendChild(menu);
 menu.querySelector('.bcm-row-menu-btn').addEventListener('click',function(e){
+e.preventDefault();
 e.stopPropagation();
-var wasOpen=menu.classList.contains('open');
-closeRowMenus();
-if(!wasOpen)menu.classList.add('open');
+openRowMenu();
 });
 });
 }

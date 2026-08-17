@@ -403,6 +403,15 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-row-menu.open .bcm-row-menu-list{display:block}
 .bcm-row-menu-item{display:block;width:100%;text-align:left;background:none;border:none;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:600;color:#1a1a1a;cursor:pointer;text-decoration:none}
 .bcm-row-menu-item:hover{background:#f3f0ff;color:#5B21B6}
+.bcm-row-menu-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:999}
+.bcm-row-menu-modal{background:#fff;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.15);max-width:360px;width:95vw;overflow:hidden}
+.bcm-row-menu-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.bcm-row-menu-modal-title{font-size:16px;font-weight:700;color:#1a1a1a;margin:0}
+.bcm-row-menu-modal-close{width:28px;height:28px;border:none;background:none;font-size:24px;color:#6b7280;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.bcm-row-menu-modal-close:hover{color:#1a1a1a}
+.bcm-row-menu-modal-body{padding:12px 6px}
+.bcm-row-menu-modal-item{display:block;width:100%;text-align:left;background:none;border:none;padding:10px 14px;border-radius:8px;font-size:14px;font-weight:600;color:#1a1a1a;cursor:pointer;transition:background .15s ease;box-sizing:border-box}
+.bcm-row-menu-modal-item:hover{background:#f3f0ff;color:#5B21B6}
 .bcm-file-trigger{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border:1.5px dashed #d5d5d7;border-radius:8px;background:#fafafa;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;text-align:left;box-sizing:border-box}
 .bcm-file-trigger:hover{border-color:#7B2FBE;background:#faf8ff;color:#5B21B6}
 .bcm-file-trigger-icon{font-size:16px;flex:none}
