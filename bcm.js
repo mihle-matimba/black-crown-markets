@@ -795,7 +795,9 @@ var fileInput=form.querySelector('input[type=file][name=filename]');
 if(fileInput){fileInput.parentElement.remove();}
 var panelFooter=form.querySelector('.panel-footer');
 if(panelFooter){var helpText=document.createElement('p');helpText.style.cssText='margin-top:12px;font-size:13px;color:#666;text-align:center;';helpText.textContent='After saving, you will be directed to upload your bank confirmation letter.';panelFooter.appendChild(helpText);}
-form.addEventListener('submit',function(e){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1000);});
+var submitBtn=form.querySelector('button[type=submit]');
+if(submitBtn){submitBtn.addEventListener('click',function(){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});}
+form.addEventListener('submit',function(e){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});
 }
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
