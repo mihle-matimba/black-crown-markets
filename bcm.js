@@ -793,7 +793,7 @@ Array.prototype.slice.call(panelBody.children).forEach(function(child){if(child.
 }
 var fileInput=form.querySelector('input[type=file][name=filename]');
 if(fileInput){fileInput.parentElement.remove();}
-form.addEventListener('submit',function(e){var formData=new FormData(form);setTimeout(function(){var overlay=document.querySelector('.bcm-modal-overlay.bcm-bank-details-success');if(!overlay){overlay=document.createElement('div');overlay.className='bcm-modal-overlay bcm-bank-details-success';overlay.innerHTML='<div class="bcm-modal"><h3 class="bcm-modal-text">Bank Details Saved</h3><p style="margin-top:10px;text-align:center;">Please upload a bank statement to verify your account.</p><a href="https://trade.blackcrownmarkets.com/upload-documents" class="bcm-modal-btn" style="display:inline-block;margin-top:15px;">Upload Bank Statement</a><button type="button" class="bcm-modal-close-btn" style="display:block;margin-top:10px;background:transparent;border:1px solid #ccc;padding:8px 16px;border-radius:4px;cursor:pointer;">Maybe Later</button></div>';document.body.appendChild(overlay);overlay.querySelector('.bcm-modal-close-btn').addEventListener('click',function(){overlay.remove();});overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});}overlay.style.display='flex';},500);});
+form.addEventListener('submit',function(e){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1000);});
 }
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
