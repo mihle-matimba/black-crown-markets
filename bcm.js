@@ -792,49 +792,8 @@ leafGroups.forEach(function(fg){panelBody.appendChild(fg);});
 Array.prototype.slice.call(panelBody.children).forEach(function(child){if(child.id!=='upload-documents-section'&&child.children.length===0)child.remove();});
 }
 var fileInput=form.querySelector('input[type=file][name=filename]');
-if(fileInput){
-fileInput.disabled=false;
-var fileGroup=fileInput.closest('.form-group');
-var fileValueWrap=fileInput.parentElement;
-var helpBlock=fileValueWrap.querySelector('.help-block');
-var helpText=helpBlock?helpBlock.textContent.trim():'Bank statement or Account Confirmation letter, no older than 3 months.';
-if(fileGroup)fileGroup.classList.add('bcm-bd-span2');
-var triggerBtn=document.createElement('button');
-triggerBtn.type='button';
-triggerBtn.className='bcm-file-trigger';
-triggerBtn.innerHTML='<span class="bcm-file-trigger-icon">📄</span><span class="bcm-file-trigger-label">Upload bank statement</span>';
-fileValueWrap.insertBefore(triggerBtn,fileInput);
-if(helpBlock)helpBlock.remove();
-var overlay=document.createElement('div');
-overlay.className='bcm-modal-overlay bcm-file-modal-overlay';
-overlay.style.display='none';
-overlay.innerHTML='<div class="bcm-modal bcm-file-modal"><button type="button" class="bcm-modal-close" aria-label="Close">&times;</button><h3 class="bcm-file-modal-title">Upload Proof of Account</h3><p class="bcm-file-modal-subtitle"></p><div class="bcm-file-dropzone"><span class="bcm-file-dropzone-icon">📄</span><span class="bcm-file-dropzone-text">Click to choose a file</span></div><p class="bcm-file-modal-selected"></p></div>';
-overlay.querySelector('.bcm-file-modal-subtitle').textContent=helpText;
-form.appendChild(overlay);
-var dropzone=overlay.querySelector('.bcm-file-dropzone');
-var selectedText=overlay.querySelector('.bcm-file-modal-selected');
-fileInput.className='bcm-file-input-native';
-dropzone.appendChild(fileInput);
-function updateFileLabel(){
-if(fileInput.files&&fileInput.files.length){
-var name=fileInput.files[0].name;
-triggerBtn.querySelector('.bcm-file-trigger-label').textContent=name;
-triggerBtn.classList.add('bcm-file-trigger-has-file');
-selectedText.textContent='Selected: '+name;
-}else{
-triggerBtn.querySelector('.bcm-file-trigger-label').textContent='Upload bank statement';
-triggerBtn.classList.remove('bcm-file-trigger-has-file');
-selectedText.textContent='';
-}
-}
-function openFileModal(){overlay.style.display='flex';}
-function closeFileModal(){overlay.style.display='none';}
-fileInput.addEventListener('change',function(){updateFileLabel();closeFileModal();});
-triggerBtn.addEventListener('click',openFileModal);
-dropzone.addEventListener('click',function(e){if(e.target!==fileInput)fileInput.click();});
-overlay.querySelector('.bcm-modal-close').addEventListener('click',closeFileModal);
-overlay.addEventListener('click',function(e){if(e.target===overlay)closeFileModal();});
-}
+if(fileInput){fileInput.parentElement.remove();}
+form.addEventListener('submit',function(e){var formData=new FormData(form);setTimeout(function(){var overlay=document.querySelector('.bcm-modal-overlay.bcm-bank-details-success');if(!overlay){overlay=document.createElement('div');overlay.className='bcm-modal-overlay bcm-bank-details-success';overlay.innerHTML='<div class="bcm-modal"><h3 class="bcm-modal-text">Bank Details Saved</h3><p style="margin-top:10px;text-align:center;">Please upload a bank statement to verify your account.</p><a href="https://trade.blackcrownmarkets.com/upload-documents" class="bcm-modal-btn" style="display:inline-block;margin-top:15px;">Upload Bank Statement</a><button type="button" class="bcm-modal-close-btn" style="display:block;margin-top:10px;background:transparent;border:1px solid #ccc;padding:8px 16px;border-radius:4px;cursor:pointer;">Maybe Later</button></div>';document.body.appendChild(overlay);overlay.querySelector('.bcm-modal-close-btn').addEventListener('click',function(){overlay.remove();});overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove();});}overlay.style.display='flex';},500);});
 }
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
