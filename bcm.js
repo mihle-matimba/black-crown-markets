@@ -675,6 +675,7 @@ amountInput.disabled=false;
 var d=findAccount(selectedAccount);
 if(currencyLabel&&d)currencyLabel.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
 if(wdCurrencyValue&&d)wdCurrencyValue.textContent=d.currency;
+if(wdMinCurrency&&d)wdMinCurrency.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
 var step1Error=document.getElementById('bcmWDStep1Error');
 if(step1Error)step1Error.classList.remove('bcm-wiz-error-visible');
 }
@@ -718,7 +719,8 @@ beneficiaryObserver.observe(wireFields,{childList:true,subtree:true});
 var amountValueWrap=amountGroup.querySelector('.col-md-9')||amountGroup;
 var minAmountNote=document.createElement('p');
 minAmountNote.className='bcm-wd-amount-hint';
-minAmountNote.innerHTML='Minimum <a href="#" id="bcmWDMinFill">1.00</a> USD';
+minAmountNote.innerHTML='Minimum <a href="#" id="bcmWDMinFill">1.00</a> <span id="bcmWDMinCurrency">USD</span>';
+var wdMinCurrency=minAmountNote.querySelector('#bcmWDMinCurrency');
 amountValueWrap.appendChild(minAmountNote);
 minAmountNote.querySelector('#bcmWDMinFill').addEventListener('click',function(e){
 e.preventDefault();
