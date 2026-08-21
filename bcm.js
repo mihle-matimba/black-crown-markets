@@ -602,6 +602,7 @@ return;
 ensureHiddenField('acc_type',selectedType);
 ensureHiddenField('currency',selectedCurrency);
 ensureHiddenField('leverage',selectedLeverage);
+if(selectedLeverage){try{sessionStorage.setItem('bcmPendingLeverageRequest',JSON.stringify({leverage:selectedLeverage,ts:Date.now()}));}catch(e){}}
 this.disabled=true;
 this.textContent='Creating Account…';
 submitBtn.click();
@@ -843,6 +844,26 @@ var submitBtn=form.querySelector('button[type=submit]');
 if(submitBtn){submitBtn.addEventListener('click',function(){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});}
 form.addEventListener('submit',function(e){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});
 }
+function showPendingLeverageBanner(){
+var raw=null;
+try{raw=sessionStorage.getItem('bcmPendingLeverageRequest');}catch(e){}
+if(!raw)return;
+try{sessionStorage.removeItem('bcmPendingLeverageRequest');}catch(e){}
+var data;
+try{data=JSON.parse(raw);}catch(e){return;}
+if(!data||!data.leverage||!data.ts||(Date.now()-data.ts)>5*60*1000)return;
+var rows=Array.prototype.slice.call(document.querySelectorAll('#table_my_account_bottom tbody tr'));
+var newest=null;
+rows.forEach(function(row){var n=Number(row.id);if(!isNaN(n)&&(newest===null||n>newest))newest=n;});
+if(newest===null)return;
+var mainContent=document.querySelector('.page-content-wrap');
+if(!mainContent)return;
+var banner=document.createElement('div');
+banner.className='bcm-lev-request-banner';
+var url='https://trade.blackcrownmarkets.com/change-leverage?bcmAccount='+encodeURIComponent(newest)+'&bcmLeverage='+encodeURIComponent(data.leverage);
+banner.innerHTML='New account <strong>#'+newest+'</strong> was created at the platform default leverage. <a href="'+url+'">Request 1:'+data.leverage+' leverage for it now &rarr;</a>';
+mainContent.insertBefore(banner,mainContent.firstChild);
+}
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
 if(path!=='/accounts')return;
@@ -851,6 +872,7 @@ document.body.dataset.bcmAccountsPage='1';
 document.body.classList.add('bcm-accounts-page');
 var infoTitles=document.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+showPendingLeverageBanner();
 }
 var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
 function leverageCapFor(planText){
@@ -940,6 +962,27 @@ function close(){overlay.remove();}
 overlay.querySelector('.bcm-modal-btn').addEventListener('click',close);
 overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
 }
+function applyPendingLeverageFromQuery(fields){
+var params;
+try{params=new URLSearchParams(window.location.search);}catch(e){return;}
+var acc=params.get('bcmAccount');
+var lev=params.get('bcmLeverage');
+if(!acc||!lev)return;
+var accountSelect=fields.accountSelect,leverageSelect=fields.leverageSelect;
+var hasAccOption=Array.prototype.some.call(accountSelect.options,function(o){return o.value===acc;});
+if(hasAccOption){
+accountSelect.value=acc;
+accountSelect.dispatchEvent(new Event('change',{bubbles:true}));
+if(window.jQuery){try{window.jQuery(accountSelect).trigger('change').trigger('change.select2');}catch(e){}}
+applyLeverageCap(fields);
+}
+var target=Array.prototype.filter.call(leverageSelect.options,function(o){return leverageOptionValue(o)===Number(lev);})[0];
+if(target){
+leverageSelect.value=target.value;
+leverageSelect.dispatchEvent(new Event('change',{bubbles:true}));
+if(window.jQuery){try{window.jQuery(leverageSelect).trigger('change').trigger('change.select2');}catch(e){}}
+}
+}
 function buildChangeLeveragePage(){
 var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
 if(!form||form.dataset.bcmLeverageStyled)return;
@@ -949,6 +992,7 @@ var fields=styleLeverageFormFields(form);
 if(!fields)return;
 form.dataset.bcmLeverageStyled='1';
 bindLeverageCap(fields);
+applyPendingLeverageFromQuery(fields);
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 var footer=panelDefault.querySelector('.panel-footer');
