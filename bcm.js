@@ -732,7 +732,7 @@ infoBanner.innerHTML='<strong>Processing time</strong><p>Your request will gener
 fieldsToHide.parentNode.insertBefore(infoBanner,fieldsToHide);
 var infoTitles=page.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}else if(titleEl.textContent.trim()==='Withdraw Request Form'){titleEl.textContent='Withdrawal';}});
-var TOTAL_STEPS=2;
+var TOTAL_STEPS=3;
 var stepBadge=document.createElement('p');
 stepBadge.className='bcm-wizard-step-text';
 stepBadge.id='bcmWDStepText';
@@ -752,31 +752,54 @@ step2Heading.id='bcmWDStep2Heading';
 step2Heading.style.display='none';
 step2Heading.innerHTML='<h3 class="bcm-wiz-pane-title">Type of Withdrawal</h3><p class="bcm-wiz-pane-subtitle">Choose your withdrawal method and enter an amount.</p>';
 fieldsToHide.parentNode.insertBefore(step2Heading,fieldsToHide);
+var step2MethodHeading=document.createElement('div');
+step2MethodHeading.id='bcmWDStep2MethodHeading';
+step2MethodHeading.style.display='none';
+step2MethodHeading.innerHTML='<h3 class="bcm-wiz-pane-title">Select Withdrawal Method</h3><p class="bcm-wiz-pane-subtitle">Choose how you\'d like to receive your withdrawal.</p>';
+fieldsToHide.parentNode.insertBefore(step2MethodHeading,step2Heading);
+var methodCardList=document.createElement('div');
+methodCardList.className='bcm-wd-method-list';
+methodCardList.id='bcmWDMethodList';
+methodCardList.style.display='none';
+methodCardList.innerHTML='<div class="bcm-payment-option" data-value="WireTransfer" role="button" tabindex="0"><div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-payment-name">Bank Transfer</span></div><p class="bcm-wiz-card-desc">Requires verified bank details</p><span class="bcm-payment-radio"></span></div>';
+fieldsToHide.parentNode.insertBefore(methodCardList,step2Heading);
+methodCardList.querySelectorAll('.bcm-payment-option').forEach(function(card){
+function pick(){
+methodSelect.value=card.getAttribute('data-value');
+fireChange(methodSelect);
+methodCardList.querySelectorAll('.bcm-payment-option').forEach(function(c){c.classList.toggle('active',c===card);});
+goToStep(3);
+}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
 var navBar=document.createElement('div');
 navBar.className='bcm-wizard-actions';
 navBar.id='bcmWDNav';
-navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>';
-fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
+navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Withdrawal Method</button>';
+fieldsToHide.parentNode.insertBefore(navBar,step2MethodHeading);
 var clearButton=form.querySelector('#clearButton');
 if(clearButton)clearButton.style.display='none';
 page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
-var ready=currentStep===2&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
+var ready=currentStep===3&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
-var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup];
+var step3Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup];
+var step2MethodElements=[step2MethodHeading,methodCardList];
 var step1Elements=[step1Heading,accountGroup];
 var currentStep=1;
 function enforceStepVisibility(){
 step1Elements.forEach(function(el){var show=currentStep===1;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
-step2Elements.forEach(function(el){var show=currentStep===2;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+step2MethodElements.forEach(function(el){var show=currentStep===2;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+step3Elements.forEach(function(el){var show=currentStep===3;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
 updateFooterVisibility();
 }
 enforceStepVisibility();
 if(typeof MutationObserver!=='undefined'){
 var stepVisibilityObserver=new MutationObserver(enforceStepVisibility);
-step1Elements.concat(step2Elements).forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
+step1Elements.concat(step2MethodElements).concat(step3Elements).forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
 var footerObserver=new MutationObserver(updateFooterVisibility);
 footerObserver.observe(panelFooter,{attributes:true,attributeFilter:['style']});
 }
@@ -788,7 +811,7 @@ document.getElementById('bcmWDBack').style.display=step===1?'none':'';
 document.getElementById('bcmWDNext').style.display=step===1?'':'none';
 window.scrollTo({top:panelDefault.offsetTop-24,behavior:'smooth'});
 }
-navBar.querySelector('#bcmWDBack').addEventListener('click',function(){goToStep(1);});
+navBar.querySelector('#bcmWDBack').addEventListener('click',function(){goToStep(currentStep-1);});
 navBar.querySelector('#bcmWDNext').addEventListener('click',function(){
 if(!selectedAccount){step1ErrorEl.classList.add('bcm-wiz-error-visible');return;}
 step1ErrorEl.classList.remove('bcm-wiz-error-visible');
