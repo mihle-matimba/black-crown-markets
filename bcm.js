@@ -808,9 +808,7 @@ document.body.classList.add('bcm-accounts-page');
 var infoTitles=document.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
-// TEMP: leverage cap disabled for testing. Restore with:
-// var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
-var LEVERAGE_CAPS=[];
+var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
 function leverageCapFor(planText){
 if(!planText)return null;
 for(var i=0;i<LEVERAGE_CAPS.length;i++){if(LEVERAGE_CAPS[i].match.test(planText))return LEVERAGE_CAPS[i];}
@@ -846,7 +844,7 @@ kept.push(opt);
 var stillThere=kept.filter(function(o){return o.value===previous;}).length>0;
 leverageSelect.value=stillThere?previous:(kept.length?kept[kept.length-1].value:'');
 var note=fields.capNote;
-if(note)note.textContent=cap?(cap.label+' accounts are limited to a maximum leverage of 1:'+cap.max+'.'):'';
+if(note)note.textContent=cap?('The highest leverage available on '+cap.label+' accounts is 1:'+cap.max+'.'):'';
 if(note)note.style.display=cap?'':'none';
 var typeNote=fields.typeNote;
 if(typeNote){
