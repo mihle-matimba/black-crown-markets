@@ -893,7 +893,7 @@ return{accountSelect:accountSelect,leverageSelect:leverageSelect};
 function showChangeLeverageSupportModal(){
 if(document.querySelector('.bcm-modal-overlay'))return;
 try{if(sessionStorage.getItem('bcmChangeLeverageModalShown'))return;sessionStorage.setItem('bcmChangeLeverageModalShown','1');}catch(e){}
-var overlay=document.createElement('div');overlay.className='bcm-modal-overlay';overlay.innerHTML='<div class="bcm-modal"><p class="bcm-modal-text">If you are currently having issues changing your leverage, please email <a href="mailto:support@blackcrownmarkets.com" class="bcm-modal-link">support</a> with your account number &amp; the leverage amount you\'d like to change to.</p><button type="button" class="bcm-modal-btn">Got it</button></div>';
+var overlay=document.createElement('div');overlay.className='bcm-modal-overlay';overlay.innerHTML='<div class="bcm-modal"><span class="bcm-modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span><p class="bcm-modal-text">Trouble changing your leverage?<span class="bcm-modal-line2">Email <a href="mailto:support@blackcrownmarkets.com" class="bcm-modal-link">support</a> with your account number and the leverage you\'d like to switch to, and we\'ll take care of it for you.</span></p><button type="button" class="bcm-modal-btn">Got it</button></div>';
 document.body.appendChild(overlay);
 function close(){overlay.remove();}
 overlay.querySelector('.bcm-modal-btn').addEventListener('click',close);
@@ -910,6 +910,8 @@ form.dataset.bcmLeverageStyled='1';
 bindLeverageCap(fields);
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+var footer=panelDefault.querySelector('.panel-footer');
+if(footer){var supportLine=document.createElement('p');supportLine.className='bcm-lev-support-line';supportLine.innerHTML='Need help? <a href="mailto:support@blackcrownmarkets.com">Contact support</a>';footer.appendChild(supportLine);}
 showChangeLeverageSupportModal();
 }
 function closeRowMenus(){document.querySelectorAll('.bcm-row-menu.open').forEach(function(m){m.classList.remove('open');});}
