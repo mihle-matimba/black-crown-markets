@@ -401,6 +401,17 @@ body.bcm-accounts-page .label,body.bcm-accounts-page .badge{border-radius:100px!
 .bcm-leverage-panel .form-control{height:38px!important;border-radius:8px!important;border:1.5px solid #e5e5e7!important;padding:0 12px!important;font-size:13px!important;color:#1a1a1a!important;box-shadow:none!important;background:#fff!important;box-sizing:border-box!important}
 .bcm-leverage-panel .panel-footer{background:transparent!important;border-top:none!important;padding:14px 22px 20px!important}
 .bcm-leverage-panel .btn.btn-primary{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;width:100%!important;box-sizing:border-box!important}
+.bcm-verify-panel{border-radius:16px!important;border:1px solid #f0f0f0!important;box-shadow:0 2px 12px rgba(0,0,0,.04)!important;background:#fff!important;max-width:440px!important;margin:0 auto!important;overflow:hidden!important;text-align:center!important}
+.page-content-wrap .row:has(.bcm-verify-panel){display:flex!important;justify-content:center!important}
+.page-content-wrap .row:has(.bcm-verify-panel)>.col-md-6{float:none!important;width:auto!important;max-width:100%!important}
+.bcm-verify-panel .panel-heading{background:transparent!important;border:none!important;padding:32px 28px 4px!important;text-align:center!important}
+.bcm-verify-panel .panel-title{font-size:19px!important;font-weight:800!important;color:#1a1a1a!important;margin:0!important;letter-spacing:-.2px!important;line-height:1.35!important}
+.bcm-verify-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#f3f0ff;color:#7B2FBE;margin:0 auto 16px}
+.bcm-verify-icon svg{width:26px;height:26px}
+.bcm-verify-panel .panel-body{padding:16px 28px 32px!important}
+.bcm-verify-alert.alert-info{background:#f6f1fd!important;border:1px solid #e4d6f7!important;border-radius:10px!important;color:#5B21B6!important;font-size:13px!important;line-height:1.5!important;padding:14px 16px!important;text-align:left!important;margin:0 0 20px 0!important}
+.bcm-verify-btn.btn.btn-primary{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;float:none!important;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%)!important;border:none!important;border-radius:10px!important;padding:12px 24px!important;font-size:14px!important;font-weight:700!important;color:#fff!important;box-shadow:none!important;text-decoration:none!important;width:100%!important;box-sizing:border-box!important;height:auto!important}
+.bcm-verify-btn.btn.btn-primary:hover{opacity:.9!important;color:#fff!important}
 .bcm-lev-support-line{margin:10px 0 0!important;text-align:center!important;font-size:11px!important;color:#8a8a8a!important}
 .bcm-lev-support-line a{color:#7B2FBE!important;font-weight:600!important;text-decoration:none!important}
 .bcm-lev-support-line a:hover{text-decoration:underline!important}
