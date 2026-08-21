@@ -808,7 +808,9 @@ document.body.classList.add('bcm-accounts-page');
 var infoTitles=document.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
-var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
+// TEMP: leverage cap disabled for testing. Restore with:
+// var LEVERAGE_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
+var LEVERAGE_CAPS=[];
 function leverageCapFor(planText){
 if(!planText)return null;
 for(var i=0;i<LEVERAGE_CAPS.length;i++){if(LEVERAGE_CAPS[i].match.test(planText))return LEVERAGE_CAPS[i];}
