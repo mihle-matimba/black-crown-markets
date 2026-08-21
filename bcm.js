@@ -264,6 +264,13 @@ var CURRENCY_DEFS=[
 {value:'ZAR',symbol:'R',name:'South African Rand'},
 {value:'USD',symbol:'$',name:'US Dollar'}
 ];
+var LEVERAGE_TIERS=[1,10,20,50,100,200,300,500,1000,2000];
+function computeLeverageMax(typeDef){
+if(!typeDef||!typeDef.leverage)return null;
+var nums=String(typeDef.leverage).replace(/,/g,'').match(/\d+/g);
+if(!nums)return null;
+return Math.max.apply(null,nums.map(Number));
+}
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
@@ -331,7 +338,7 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 
-var TOTAL_STEPS=5;
+var TOTAL_STEPS=6;
 
 var wizardHtml=''
 +'<div class="bcm-wizard">'
@@ -359,13 +366,19 @@ var wizardHtml=''
 +'<p class="bcm-wiz-error" id="bcmStep3Error">Please select an account type to continue.</p>'
 +'</div>'
 +'<div class="bcm-wizard-pane" data-pane="4">'
++'<h3 class="bcm-wiz-pane-title">Select Leverage</h3>'
++'<p class="bcm-wiz-pane-subtitle">Choose the leverage for this trading account. The maximum allowed for your account type is selected by default.</p>'
++'<div class="bcm-lev-grid" id="bcmLeverageToggle"></div>'
++'<p class="bcm-wiz-error" id="bcmStepLevError">Please select a leverage to continue.</p>'
++'</div>'
++'<div class="bcm-wizard-pane" data-pane="5">'
 +'<h3 class="bcm-wiz-pane-title">Account Details</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Set the login password for this trading account.</p>'
 +'<div class="bcm-wiz-field" id="bcmPasswordFieldWrap"></div>'
 +'<div class="bcm-wiz-field" id="bcmConfirmFieldWrap"></div>'
 +'<p class="bcm-wiz-error" id="bcmStep4Error">Enter a password and confirm it to continue.</p>'
 +'</div>'
-+'<div class="bcm-wizard-pane" data-pane="5">'
++'<div class="bcm-wizard-pane" data-pane="6">'
 +'<h3 class="bcm-wiz-pane-title">Review &amp; Create</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Check your selections before creating the account.</p>'
 +'<div class="bcm-wiz-review" id="bcmWizardReview"></div>'
@@ -439,10 +452,12 @@ var currentStep=1;
 var selectedAccount=null;
 var selectedCurrency=null;
 var selectedType=null;
+var selectedLeverage=null;
 
 var accountToggle=wizard.querySelector('#bcmAccountToggle');
 var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
 var typeGrid=wizard.querySelector('#bcmTypeGrid');
+var leverageToggle=wizard.querySelector('#bcmLeverageToggle');
 
 function setActiveButton(container,value){
 container.querySelectorAll('.bcm-payment-option').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-value')===value);});
@@ -483,6 +498,26 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 });
 }
 
+function renderLeverageOptions(){
+var typeDef=(TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[]).filter(function(t){return t.value===selectedType;})[0];
+var max=computeLeverageMax(typeDef);
+var tiers=LEVERAGE_TIERS.filter(function(v){return !max||v<=max;});
+if(max&&tiers.indexOf(max)===-1)tiers.push(max);
+if(!selectedLeverage||tiers.indexOf(Number(selectedLeverage))===-1){selectedLeverage=String(max||tiers[tiers.length-1]);}
+leverageToggle.innerHTML=tiers.map(function(v){
+return '<div class="bcm-lev-chip'+(String(v)===selectedLeverage?' active':'')+'" data-value="'+v+'" role="button" tabindex="0">1:'+v+(max&&v===max?'<span class="bcm-lev-chip-badge">Max</span>':'')+'</div>';
+}).join('');
+leverageToggle.querySelectorAll('.bcm-lev-chip').forEach(function(chip){
+function pick(){
+selectedLeverage=chip.getAttribute('data-value');
+leverageToggle.querySelectorAll('.bcm-lev-chip').forEach(function(c){c.classList.toggle('active',c===chip);});
+clearError('bcmStepLevError');
+}
+chip.addEventListener('click',pick);
+chip.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+}
+
 currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
 function pick(){
 selectedCurrency=card.getAttribute('data-value');
@@ -504,16 +539,18 @@ var nextBtn=wizard.querySelector('#bcmWizNext');
 backBtn.textContent=step===1?'Cancel':'Back';
 if(step===1)nextBtn.textContent='Next: Currency';
 if(step===2)nextBtn.textContent='Next: Account Type';
-if(step===3)nextBtn.textContent='Next: Account Details';
-if(step===4)nextBtn.textContent='Next: Review & Create';
-if(step===5){
+if(step===3)nextBtn.textContent='Next: Leverage';
+if(step===4)nextBtn.textContent='Next: Account Details';
+if(step===5)nextBtn.textContent='Next: Review & Create';
+if(step===6){
 nextBtn.textContent='Create Account';
 var typeDef=(TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[]).filter(function(t){return t.value===selectedType;})[0];
 var accountBtn=accountToggle.querySelector('.active .bcm-payment-name');
 var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
-+(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'');
++(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
++(selectedLeverage?'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>1:'+esc(selectedLeverage)+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
@@ -537,10 +574,16 @@ return;
 }
 if(currentStep===3){
 if(!selectedType){wizard.querySelector('#bcmStep3Error').classList.add('bcm-wiz-error-visible');return;}
+renderLeverageOptions();
 goToStep(4);
 return;
 }
 if(currentStep===4){
+if(!selectedLeverage){wizard.querySelector('#bcmStepLevError').classList.add('bcm-wiz-error-visible');return;}
+goToStep(5);
+return;
+}
+if(currentStep===5){
 var step4Error=wizard.querySelector('#bcmStep4Error');
 if(!checkPwStrength(passwordInput.value)){
 step4Error.textContent='Password must meet all the requirements listed above.';
@@ -553,11 +596,12 @@ step4Error.classList.add('bcm-wiz-error-visible');
 return;
 }
 step4Error.classList.remove('bcm-wiz-error-visible');
-goToStep(5);
+goToStep(6);
 return;
 }
 ensureHiddenField('acc_type',selectedType);
 ensureHiddenField('currency',selectedCurrency);
+ensureHiddenField('leverage',selectedLeverage);
 this.disabled=true;
 this.textContent='Creating Account…';
 submitBtn.click();
