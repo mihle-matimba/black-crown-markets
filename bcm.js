@@ -675,7 +675,7 @@ amountInput.disabled=false;
 var d=findAccount(selectedAccount);
 if(currencyLabel&&d)currencyLabel.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
 if(wdCurrencyValue&&d)wdCurrencyValue.textContent=d.currency;
-if(wdMinCurrency&&d)wdMinCurrency.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
+if(wdMinCurrency&&d)wdMinCurrency.textContent=d.currency;
 var step1Error=document.getElementById('bcmWDStep1Error');
 if(step1Error)step1Error.classList.remove('bcm-wiz-error-visible');
 }
