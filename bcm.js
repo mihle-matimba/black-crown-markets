@@ -890,6 +890,15 @@ formGroup.classList.add('bcm-lev-row');
 }
 return{accountSelect:accountSelect,leverageSelect:leverageSelect};
 }
+function showChangeLeverageSupportModal(){
+if(document.querySelector('.bcm-modal-overlay'))return;
+try{if(sessionStorage.getItem('bcmChangeLeverageModalShown'))return;sessionStorage.setItem('bcmChangeLeverageModalShown','1');}catch(e){}
+var overlay=document.createElement('div');overlay.className='bcm-modal-overlay';overlay.innerHTML='<div class="bcm-modal"><p class="bcm-modal-text">If you are currently having issues changing your leverage, please email <a href="mailto:support@blackcrownmarkets.com" class="bcm-modal-link">support</a> with your account number &amp; the leverage amount you\'d like to change to.</p><button type="button" class="bcm-modal-btn">Got it</button></div>';
+document.body.appendChild(overlay);
+function close(){overlay.remove();}
+overlay.querySelector('.bcm-modal-btn').addEventListener('click',close);
+overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
+}
 function buildChangeLeveragePage(){
 var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/api/change-leverage"]');
 if(!form||form.dataset.bcmLeverageStyled)return;
@@ -901,6 +910,7 @@ form.dataset.bcmLeverageStyled='1';
 bindLeverageCap(fields);
 panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
+showChangeLeverageSupportModal();
 }
 function closeRowMenus(){document.querySelectorAll('.bcm-row-menu.open').forEach(function(m){m.classList.remove('open');});}
 function buildAccountsTableMenus(){
