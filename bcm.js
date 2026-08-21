@@ -811,7 +811,10 @@ icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 heading.insertBefore(icon,heading.firstChild);
 }
 var alertBox=panelDefault.querySelector('.alert.alert-info');
-if(alertBox)alertBox.classList.add('bcm-verify-alert');
+if(alertBox){
+alertBox.innerHTML='<p>In order to make a withdrawal, please upload your proof of address and bank statement for approval.</p><p style="margin:10px 0 0">If you have, please allow 4-6 working hours for approval.</p>';
+alertBox.classList.add('bcm-verify-alert');
+}
 var btn=panelDefault.querySelector('a.btn.btn-primary');
 if(btn)btn.classList.add('bcm-verify-btn');
 }
