@@ -943,20 +943,19 @@ return Math.max.apply(null,match.map(Number));
 }
 function applyLeverageCap(fields){
 var leverageSelect=fields.leverageSelect,accountSelect=fields.accountSelect;
-if(!leverageSelect._bcmLevOptions)leverageSelect._bcmLevOptions=Array.prototype.slice.call(leverageSelect.options);
-var all=leverageSelect._bcmLevOptions;
 var cap=leverageCapFor(accountPlanName(accountSelect.value,accountSelect));
 var previous=leverageSelect.value;
-leverageSelect.innerHTML='';
-var kept=[];
-all.forEach(function(opt){
+var options=Array.prototype.slice.call(leverageSelect.options);
+var firstValid=null;
+options.forEach(function(opt){
 var value=leverageOptionValue(opt);
-if(cap&&value!==null&&value>cap.max)return;
-leverageSelect.appendChild(opt);
-kept.push(opt);
+var over=!!(cap&&value!==null&&value>cap.max);
+if(opt.hidden!==over)opt.hidden=over;
+if(opt.disabled!==over)opt.disabled=over;
+if(!over&&firstValid===null)firstValid=opt;
 });
-var stillThere=kept.filter(function(o){return o.value===previous;}).length>0;
-leverageSelect.value=stillThere?previous:(kept.length?kept[kept.length-1].value:'');
+var stillValid=options.some(function(o){return o.value===previous&&!o.disabled;});
+if(!stillValid&&firstValid)leverageSelect.value=firstValid.value;
 var note=fields.capNote;
 if(note)note.textContent=cap?('The highest leverage available on '+cap.label+' accounts is 1:'+cap.max+'.'):'';
 if(note)note.style.display=cap?'':'none';
@@ -984,6 +983,10 @@ var accountHost=fields.accountSelect.closest('.bcm-lev-field')||fields.accountSe
 if(accountHost)accountHost.appendChild(typeNote);
 fields.typeNote=typeNote;
 fields.accountSelect.addEventListener('change',function(){applyLeverageCap(fields);});
+if(typeof MutationObserver!=='undefined'){
+var levOptionsObserver=new MutationObserver(function(){applyLeverageCap(fields);});
+levOptionsObserver.observe(fields.leverageSelect,{childList:true});
+}
 applyLeverageCap(fields);
 }
 function styleLeverageFormFields(form){
