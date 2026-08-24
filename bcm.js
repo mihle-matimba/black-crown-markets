@@ -19,6 +19,8 @@ if(refreshBtn){var refreshClone=refreshBtn.cloneNode(true);selectorRow.appendChi
 header.appendChild(selectorRow);mainContent.insertBefore(header,mainContent.firstChild);}
 var BCM_RAW_PAYMENT_SELECTOR=false;
 var BCM_RAW_ADD_ACCOUNT=false;
+var bcmSelectedCryptoMethod=false;
+var bcmApplyDepositCurrencyLock=null;
 function buildDepositPage(){if(BCM_RAW_PAYMENT_SELECTOR)return;var panel=document.querySelector('#instances .panel');if(!panel||panel.dataset.bcmPayments)return;var body=panel.querySelector('.panel-body');var table=body?body.querySelector('table'):null;var rows=table?table.querySelectorAll('tbody tr'):[];if(!rows.length)return;panel.dataset.bcmPayments='1';
 var methods=[];rows.forEach(function(row){var radio=row.querySelector('input[type=radio]');if(!radio)return;var infoDiv=row.querySelector('label > div');var nameEl=infoDiv?infoDiv.querySelector('b'):null;methods.push({radio:radio,name:nameEl?nameEl.textContent.trim():''});});
 methods.forEach(function(m){m.radio.checked=false;});var fieldsPanel=document.querySelector('#client-fields');var instancesEl=document.querySelector('#instances');
@@ -30,10 +32,10 @@ var option=document.createElement('div');option.className='bcm-payment-option';
 var iconContent=group.img?'<img src="'+group.img+'" alt="'+group.label+'" loading="lazy">':(group.icon||group.symbol);
 option.innerHTML='<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:'+group.color+'">'+iconContent+'</span><span class="bcm-payment-name">'+group.label+'</span></div><div class="bcm-payment-meta"><div class="bcm-payment-meta-row"><span class="bcm-payment-meta-label">Processing time</span><span class="bcm-payment-meta-value bcm-payment-pill">'+group.proc+'</span></div><div class="bcm-payment-meta-row"><span class="bcm-payment-meta-label">Fee</span><span class="bcm-payment-meta-value">'+group.fee+'</span></div><div class="bcm-payment-meta-row"><span class="bcm-payment-meta-label">Limits</span><span class="bcm-payment-meta-value">'+group.limits+'</span></div></div><span class="bcm-payment-radio"></span>';
 option.addEventListener('click',function(){if(!method.radio.checked)method.radio.click();});
-method.radio.addEventListener('change',function(){if(method.radio.checked){cards.forEach(function(c){c.el.classList.toggle('active',c.radio===method.radio);});if(fieldsPanel)fieldsPanel.classList.add('bcm-fields-visible');if(instancesEl)instancesEl.classList.add('bcm-instances-hidden');}});
+method.radio.addEventListener('change',function(){if(method.radio.checked){cards.forEach(function(c){c.el.classList.toggle('active',c.radio===method.radio);});if(fieldsPanel)fieldsPanel.classList.add('bcm-fields-visible');if(instancesEl)instancesEl.classList.add('bcm-instances-hidden');bcmSelectedCryptoMethod=(group.label!=='EFT, Card & Other');if(bcmApplyDepositCurrencyLock)bcmApplyDepositCurrencyLock();}});
 cards.push({el:option,radio:method.radio});list.appendChild(option);});
 table.style.display='none';body.appendChild(list);
-if(fieldsPanel&&!fieldsPanel.querySelector('.bcm-payment-back')){var backBtn=document.createElement('button');backBtn.type='button';backBtn.className='bcm-payment-back';backBtn.textContent='Select Another Payment Method';backBtn.addEventListener('click',function(){methods.forEach(function(m){m.radio.checked=false;});cards.forEach(function(c){c.el.classList.remove('active');});fieldsPanel.classList.remove('bcm-fields-visible');if(instancesEl)instancesEl.classList.remove('bcm-instances-hidden');});var headingEl=fieldsPanel.querySelector('.panel-heading');if(headingEl){headingEl.appendChild(backBtn);}else{fieldsPanel.insertBefore(backBtn,fieldsPanel.firstChild);}}}
+if(fieldsPanel&&!fieldsPanel.querySelector('.bcm-payment-back')){var backBtn=document.createElement('button');backBtn.type='button';backBtn.className='bcm-payment-back';backBtn.textContent='Select Another Payment Method';backBtn.addEventListener('click',function(){methods.forEach(function(m){m.radio.checked=false;});cards.forEach(function(c){c.el.classList.remove('active');});fieldsPanel.classList.remove('bcm-fields-visible');if(instancesEl)instancesEl.classList.remove('bcm-instances-hidden');bcmSelectedCryptoMethod=false;if(bcmApplyDepositCurrencyLock)bcmApplyDepositCurrencyLock();});var headingEl=fieldsPanel.querySelector('.panel-heading');if(headingEl){headingEl.appendChild(backBtn);}else{fieldsPanel.insertBefore(backBtn,fieldsPanel.firstChild);}}}
 function showDepositConfirmModal(){if(document.querySelector('.bcm-modal-overlay'))return;var overlay=document.createElement('div');overlay.className='bcm-modal-overlay';overlay.innerHTML='<div class="bcm-modal"><p class="bcm-modal-text">Please allow time for funds to leave your crypto wallet and reflect in your trading account.<span class="bcm-modal-line2">If it takes longer, please <a href="mailto:support@blackcrownmarkets.com" class="bcm-modal-link">contact support</a>.</span></p><a href="https://trade.blackcrownmarkets.com/" class="bcm-modal-btn">Back to Dashboard</a></div>';document.body.appendChild(overlay);}
 function buildNoAccountModal(){var path=window.location.pathname.replace(/\/$/,'')||'/';if(path!=='/')return;var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var select=document.querySelector('#selectAccounts');if(select&&select.options.length>0)return;if(document.querySelector('.bcm-modal-overlay'))return;try{if(sessionStorage.getItem('bcmNoAccountModalShown'))return;sessionStorage.setItem('bcmNoAccountModalShown','1');}catch(e){}
 var overlay=document.createElement('div');overlay.className='bcm-modal-overlay';overlay.innerHTML='<div class="bcm-modal"><button type="button" class="bcm-modal-close" aria-label="Close">&times;</button><p class="bcm-modal-text">You don\'t have a trading account yet.<span class="bcm-modal-line2">Open a live or demo account to start trading with Black Crown Markets.</span></p><a href="https://trade.blackcrownmarkets.com/accounts" class="bcm-modal-btn">Open an Account</a></div>';document.body.appendChild(overlay);
@@ -1062,6 +1064,23 @@ note.className='bcm-currency-note';
 note.style.display='none';
 currencySelect.parentElement.appendChild(note);
 function applyLock(){
+var cryptoNoteShown=false;
+if(bcmSelectedCryptoMethod){
+var hasUsdAccount=false;
+Array.prototype.forEach.call(accountSelect.options,function(o){var isZar=o.getAttribute('currency')==='ZAR';o.disabled=isZar;o.hidden=isZar;if(o.getAttribute('currency')==='USD')hasUsdAccount=true;});
+if(accountSelect.options[accountSelect.selectedIndex]&&accountSelect.options[accountSelect.selectedIndex].getAttribute('currency')==='ZAR'&&hasUsdAccount){
+var usdOption=null;
+Array.prototype.forEach.call(accountSelect.options,function(o){if(!usdOption&&o.getAttribute('currency')==='USD')usdOption=o;});
+if(usdOption){accountSelect.value=usdOption.value;fireChange(accountSelect);}
+}
+if(!hasUsdAccount){
+note.textContent='Crypto deposits are only available on USD accounts. Please open or select a USD account to deposit using crypto.';
+note.style.display='';
+cryptoNoteShown=true;
+}
+}else{
+Array.prototype.forEach.call(accountSelect.options,function(o){o.disabled=false;o.hidden=false;});
+}
 var selectedOption=accountSelect.options[accountSelect.selectedIndex];
 var accountCurrency=selectedOption?selectedOption.getAttribute('currency'):null;
 var zarOption=null;
@@ -1071,23 +1090,22 @@ Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=o.val
 if(currencySelect.value!=='ZAR'){currencySelect.value='ZAR';fireChange(currencySelect);}
 currencySelect.disabled=true;
 currencySelect.classList.add('bcm-currency-locked');
-note.textContent='ZAR accounts only accept ZAR as your chosen currency.';
-note.style.display='';
+if(!cryptoNoteShown){note.textContent='ZAR accounts only accept ZAR as your chosen currency.';note.style.display='';}
 }else if(accountCurrency==='USD'){
 Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 if(zarOption){zarOption.disabled=true;zarOption.hidden=true;}
 if(currencySelect.value==='ZAR'){currencySelect.value='USD';fireChange(currencySelect);}
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
-note.textContent='USD accounts cannot accept ZAR as your chosen currency.';
-note.style.display='';
+if(!cryptoNoteShown){note.textContent='USD accounts cannot accept ZAR as your chosen currency.';note.style.display='';}
 }else{
 Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
-note.style.display='none';
+if(!cryptoNoteShown){note.style.display='none';}
 }
 }
+bcmApplyDepositCurrencyLock=applyLock;
 applyLock();
 accountSelect.addEventListener('change',applyLock);
 }
