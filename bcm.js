@@ -219,7 +219,7 @@ var form=document.querySelector('#myForm');
 if(!form||form.dataset.bcmWizard)return;
 var platformSelect=document.querySelector('#add_platform');
 var accountSelect=document.querySelector('#add_account_type');
-var leverageSelect=form.querySelector('#leverage_select')||form.querySelector('select[name="leverage"]');
+var leverageField=form.querySelector('[name="requested_leverage"]')||form.querySelector('#leverage_select')||form.querySelector('select[name="leverage"]');
 var passwordGroup=document.querySelector('#password_input_main_container');
 var confirmGroup=document.querySelector('#password_confirm_input_main_container');
 var passwordInput=document.querySelector('#password-input');
@@ -334,7 +334,8 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 
-var HAS_LEV_STEP=!!leverageSelect;
+var HAS_LEV_STEP=!!leverageField;
+var LEV_PRESETS=['1:1','1:10','1:20','1:50','1:100','1:200','1:300','1:500','1:1000','1:2000'];
 var PANE_LEV=4;
 var PANE_DETAILS=HAS_LEV_STEP?5:4;
 var PANE_REVIEW=HAS_LEV_STEP?6:5;
@@ -455,7 +456,7 @@ var currentStep=1;
 var selectedAccount=null;
 var selectedCurrency=null;
 var selectedType=null;
-var selectedLeverage=HAS_LEV_STEP?(leverageSelect.value||null):null;
+var selectedLeverage=HAS_LEV_STEP?(leverageField.value||null):null;
 
 var accountToggle=wizard.querySelector('#bcmAccountToggle');
 var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
@@ -485,23 +486,35 @@ card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
+function defaultLeverageForType(){
+var activeLabel=typeGrid.querySelector('.bcm-wiz-type-card.active .bcm-wiz-type-label');
+var plan=activeLabel?activeLabel.textContent:'';
+return (/cent/i.test(plan)||/bonus/i.test(plan))?'1:500':'1:2000';
+}
 function renderLeverageCards(){
 if(!HAS_LEV_STEP)return;
-var liveOptions=Array.prototype.filter.call(leverageSelect.options,function(o){return o.value;});
-if(!liveOptions.length)return;
-if(!liveOptions.some(function(o){return o.value===selectedLeverage;}))selectedLeverage=leverageSelect.value||liveOptions[0].value;
-leverageGrid.innerHTML=liveOptions.map(function(o){
-var isDefault=o.value===(leverageSelect.value||liveOptions[0].value);
-return '<div class="bcm-lev-card'+(o.value===selectedLeverage?' active':'')+'" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
-+'<span class="bcm-lev-card-value">'+esc(o.textContent.trim())+'</span>'
-+(isDefault?'<span class="bcm-lev-card-max">MAX</span>':'')
+var isSelect=leverageField.tagName==='SELECT';
+var liveOptions=isSelect?Array.prototype.filter.call(leverageField.options,function(o){return o.value;}):[];
+var usingLive=liveOptions.length>0;
+var values=usingLive?liveOptions.map(function(o){return o.value;}):LEV_PRESETS;
+var defaultValue=usingLive?(leverageField.value||values[0]):defaultLeverageForType();
+function labelFor(v){
+if(!usingLive)return v;
+var o=liveOptions.filter(function(x){return x.value===v;})[0];
+return o?o.textContent.trim():v;
+}
+if(values.indexOf(selectedLeverage)===-1)selectedLeverage=defaultValue;
+leverageGrid.innerHTML=values.map(function(v){
+return '<div class="bcm-lev-card'+(v===selectedLeverage?' active':'')+'" data-value="'+esc(v)+'" role="button" tabindex="0">'
++'<span class="bcm-lev-card-value">'+esc(labelFor(v))+'</span>'
++(v===defaultValue?'<span class="bcm-lev-card-max">MAX</span>':'')
 +'</div>';
 }).join('');
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(card){
 function pick(){
 selectedLeverage=card.getAttribute('data-value');
-leverageSelect.value=selectedLeverage;
-fireChange(leverageSelect);
+leverageField.value=selectedLeverage;
+fireChange(leverageField);
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(c){c.classList.toggle('active',c===card);});
 clearError('bcmStepLevError');
 }
