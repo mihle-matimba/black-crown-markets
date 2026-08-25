@@ -831,17 +831,15 @@ return Math.max.apply(null,match.map(Number));
 }
 function applyLeverageCap(fields){
 var leverageSelect=fields.leverageSelect,accountSelect=fields.accountSelect;
-if(!leverageSelect._bcmLevOptions)leverageSelect._bcmLevOptions=Array.prototype.slice.call(leverageSelect.options);
-var all=leverageSelect._bcmLevOptions;
 var cap=leverageCapFor(accountPlanName(accountSelect.value,accountSelect));
 var previous=leverageSelect.value;
-leverageSelect.innerHTML='';
 var kept=[];
-all.forEach(function(opt){
+Array.prototype.forEach.call(leverageSelect.options,function(opt){
 var value=leverageOptionValue(opt);
-if(cap&&value!==null&&value>cap.max)return;
-leverageSelect.appendChild(opt);
-kept.push(opt);
+var exceeds=!!(cap&&value!==null&&value>cap.max);
+opt.hidden=exceeds;
+opt.disabled=exceeds;
+if(!exceeds)kept.push(opt);
 });
 var stillThere=kept.filter(function(o){return o.value===previous;}).length>0;
 leverageSelect.value=stillThere?previous:(kept.length?kept[kept.length-1].value:'');
