@@ -334,7 +334,7 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 
-var HAS_LEV_STEP=!!leverageField;
+var HAS_LEV_STEP=true;
 var LEV_PRESETS=['1:1','1:10','1:20','1:50','1:100','1:200','1:300','1:500','1:1000','1:2000'];
 var PANE_LEV=4;
 var PANE_DETAILS=HAS_LEV_STEP?5:4;
@@ -456,7 +456,7 @@ var currentStep=1;
 var selectedAccount=null;
 var selectedCurrency=null;
 var selectedType=null;
-var selectedLeverage=HAS_LEV_STEP?(leverageField.value||null):null;
+var selectedLeverage=leverageField?(leverageField.value||null):null;
 
 var accountToggle=wizard.querySelector('#bcmAccountToggle');
 var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
@@ -491,9 +491,20 @@ var activeLabel=typeGrid.querySelector('.bcm-wiz-type-card.active .bcm-wiz-type-
 var plan=activeLabel?activeLabel.textContent:'';
 return (/cent/i.test(plan)||/bonus/i.test(plan))?'1:500':'1:2000';
 }
+var levHidden=null;
+function applyLeverageToForm(){
+if(!selectedLeverage)return;
+if(leverageField){leverageField.value=selectedLeverage;fireChange(leverageField);return;}
+if(!levHidden){
+levHidden=document.createElement('input');
+levHidden.type='hidden';
+levHidden.name='requested_leverage';
+form.appendChild(levHidden);
+}
+levHidden.value=selectedLeverage;
+}
 function renderLeverageCards(){
-if(!HAS_LEV_STEP)return;
-var isSelect=leverageField.tagName==='SELECT';
+var isSelect=!!leverageField&&leverageField.tagName==='SELECT';
 var liveOptions=isSelect?Array.prototype.filter.call(leverageField.options,function(o){return o.value;}):[];
 var usingLive=liveOptions.length>0;
 var values=usingLive?liveOptions.map(function(o){return o.value;}):LEV_PRESETS;
@@ -513,8 +524,7 @@ return '<div class="bcm-lev-card'+(v===selectedLeverage?' active':'')+'" data-va
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(card){
 function pick(){
 selectedLeverage=card.getAttribute('data-value');
-leverageField.value=selectedLeverage;
-fireChange(leverageField);
+applyLeverageToForm();
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(c){c.classList.toggle('active',c===card);});
 clearError('bcmStepLevError');
 }
@@ -601,6 +611,7 @@ return;
 }
 if(HAS_LEV_STEP&&currentStep===PANE_LEV){
 if(!selectedLeverage){wizard.querySelector('#bcmStepLevError').classList.add('bcm-wiz-error-visible');return;}
+applyLeverageToForm();
 goToStep(PANE_DETAILS);
 return;
 }
@@ -622,6 +633,7 @@ return;
 }
 ensureHiddenField('acc_type',selectedType);
 ensureHiddenField('currency',selectedCurrency);
+applyLeverageToForm();
 this.disabled=true;
 this.textContent='Creating Account…';
 submitBtn.click();
