@@ -498,12 +498,19 @@ if(accountsBefore||snapshotInFlight||leverageField)return;
 snapshotInFlight=true;
 bcmFetchLeverageForm().then(function(f){
 if(f)accountsBefore=bcmAccountNumbers(f.accountSelect);
+bcmLevLog('snapshot before-create',accountsBefore);
 snapshotInFlight=false;
 },function(){snapshotInFlight=false;}).catch(function(){snapshotInFlight=false;});
 }
 function armLeverageChain(){
-if(leverageField||!selectedLeverage||!accountsBefore||!accountsBefore.length)return;
-try{sessionStorage.setItem(BCM_LEV_CHAIN_KEY,JSON.stringify({lev:selectedLeverage,before:accountsBefore,ts:Date.now()}));}catch(e){}
+if(leverageField||!selectedLeverage||!accountsBefore||!accountsBefore.length){
+bcmLevLog('chain NOT armed',{boundToRealField:!!leverageField,selectedLeverage:selectedLeverage,accountsBefore:accountsBefore});
+return;
+}
+try{
+sessionStorage.setItem(BCM_LEV_CHAIN_KEY,JSON.stringify({lev:selectedLeverage,before:accountsBefore,ts:Date.now()}));
+bcmLevLog('chain armed',{lev:selectedLeverage,before:accountsBefore});
+}catch(e){bcmLevLog('sessionStorage write failed',e&&e.message);}
 }
 var levHidden=null;
 function applyLeverageToForm(){
@@ -954,21 +961,25 @@ panelDefault.classList.add('bcm-leverage-panel');
 document.querySelectorAll('.panel-title').forEach(function(titleEl){if(titleEl.textContent.trim()==='Request a Change of Leverage on your Trading Account'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}});
 }
 var BCM_LEV_CHAIN_KEY='bcmPendingLev';
-var BCM_LEV_PAGE_URL='https://trade.blackcrownmarkets.com/change-leverage';
-var BCM_LEV_API_URL='https://trade.blackcrownmarkets.com/api/change-leverage';
+var BCM_LEV_PAGE_URL='/change-leverage';
+var BCM_LEV_API_URL='/api/change-leverage';
 var bcmLevChainBusy=false;
+function bcmLevLog(){if(window.BCM_DEBUG_LEV&&window.console)console.log.apply(console,['[bcm-lev]'].concat(Array.prototype.slice.call(arguments)));}
+// Skale stores leverage options as bare ratios ("100") while our cards use "1:100".
+// Compare on the trailing number so either representation matches.
+function bcmLevKey(v){var m=String(v==null?'':v).replace(/[,\s]/g,'').match(/(\d+)$/);return m?m[1]:null;}
 function bcmClearPendingLeverage(){try{sessionStorage.removeItem(BCM_LEV_CHAIN_KEY);}catch(e){}}
 function bcmAccountNumbers(sel){return Array.prototype.filter.call(sel.options,function(o){return o.value;}).map(function(o){return String(o.value);});}
 function bcmFetchLeverageForm(){
 return fetch(BCM_LEV_PAGE_URL,{credentials:'same-origin'}).then(function(r){return r.text();}).then(function(html){
 var doc=new DOMParser().parseFromString(html,'text/html');
-var f=doc.querySelector('form[action="'+BCM_LEV_API_URL+'"]');
-if(!f)return null;
-var acc=f.querySelector('#account_selected_for_changing_leverage');
-var lev=f.querySelector('#leverage_select');
-if(!acc||!lev||!acc.name||!lev.name)return null;
+var acc=doc.querySelector('#account_selected_for_changing_leverage');
+var lev=doc.querySelector('#leverage_select');
+var f=acc?acc.closest('form'):null;
+if(!f||!acc||!lev||!acc.name||!lev.name){bcmLevLog('form not found in fetched page',{form:!!f,acc:!!acc,lev:!!lev});return null;}
+bcmLevLog('fetched leverage form',{action:f.getAttribute('action'),accounts:bcmAccountNumbers(acc),levOptions:Array.prototype.map.call(lev.options,function(o){return o.value+'|'+o.textContent.trim();})});
 return{form:f,accountSelect:acc,leverageSelect:lev};
-});
+}).catch(function(e){bcmLevLog('fetch failed',e&&e.message);return null;});
 }
 function bcmSubmitLeverageChange(f,account,leverageValue){
 var params=new URLSearchParams();
@@ -979,7 +990,12 @@ params.set(el.name,el.value);
 });
 params.set(f.accountSelect.name,account);
 params.set(f.leverageSelect.name,leverageValue);
-return fetch(BCM_LEV_API_URL,{method:'POST',body:params,credentials:'same-origin',headers:{'Content-Type':'application/x-www-form-urlencoded'}});
+// Post to the form's own action, exactly as a real submit would.
+var action=f.form.getAttribute('action')||BCM_LEV_API_URL;
+var url=action;
+try{url=new URL(action,window.location.href).href;}catch(e){}
+bcmLevLog('submitting leverage change',{url:url,account:account,leverage:leverageValue,body:params.toString()});
+return fetch(url,{method:'POST',body:params,credentials:'include',headers:{'Content-Type':'application/x-www-form-urlencoded'}}).then(function(r){bcmLevLog('submit response',r.status);return r;});
 }
 function processPendingLeverageChain(){
 if(bcmLevChainBusy)return;
@@ -995,13 +1011,15 @@ bcmFetchLeverageForm().then(function(f){
 if(!f){done();return;}
 var current=bcmAccountNumbers(f.accountSelect);
 var fresh=current.filter(function(a){return st.before.indexOf(a)===-1;});
+bcmLevLog('diff',{before:st.before,current:current,fresh:fresh,want:st.lev});
 // Only ever act when exactly one brand-new account is identifiable.
 // 0 => not provisioned yet, retry on a later load. >1 => ambiguous, abandon.
 if(fresh.length!==1){if(fresh.length>1)bcmClearPendingLeverage();done();return;}
+var want=bcmLevKey(st.lev);
 var opt=Array.prototype.filter.call(f.leverageSelect.options,function(o){
-return String(o.value)===String(st.lev)||o.textContent.trim()===String(st.lev);
+return o.value&&(bcmLevKey(o.value)===want||bcmLevKey(o.textContent)===want);
 })[0];
-if(!opt){bcmClearPendingLeverage();done();return;}
+if(!opt){bcmLevLog('no matching leverage option, abandoning',want);bcmClearPendingLeverage();done();return;}
 bcmClearPendingLeverage();
 return bcmSubmitLeverageChange(f,fresh[0],opt.value).then(done,done);
 },done).catch(done);
