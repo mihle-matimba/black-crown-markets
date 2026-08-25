@@ -86,18 +86,26 @@ bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2
 gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="4" rx="1"></rect><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>'
 };
 
-var TYPE_META=[
-{match:/cent/i,label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips',minZAR:'R170',minUSD:'$10'},
-{match:/bonus/i,label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'Up to 150% bonus',minZAR:'R170',minUSD:'$10'},
-{match:/ecn|raw/i,label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips',minZAR:'R1,700',minUSD:'$100'},
-{match:/pro/i,label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips',minZAR:'R1,700',minUSD:'$100'},
-{match:/standard/i,label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips',minZAR:'R170',minUSD:'$10'}
-];
-function findTypeMeta(text){if(!text)return null;for(var i=0;i<TYPE_META.length;i++){if(TYPE_META[i].match.test(text))return TYPE_META[i];}return null;}
-var CURRENCY_META={
-ZAR:{symbol:'R',name:'South African Rand'},
-USD:{symbol:'$',name:'US Dollar'}
+var TYPE_DEFS_BY_CURRENCY={
+ZAR:[
+{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'R1,700',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'R1,700',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+],
+USD:[
+{value:'Standard Account ($10 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent ($10 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account ($100 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account ($100. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account ($10. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% of your deposit',badge:'Up to 150% bonus'}
+]
 };
+var CURRENCY_DEFS=[
+{value:'ZAR',symbol:'R',name:'South African Rand'},
+{value:'USD',symbol:'$',name:'US Dollar'}
+];
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
@@ -105,39 +113,48 @@ el.dispatchEvent(new Event('input',{bubbles:true}));
 el.dispatchEvent(new Event('change',{bubbles:true}));
 if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}
 }
+function ensureHiddenField(name,value){
+if(!value)return;
+var existing=form.querySelector('[name="'+name+'"]');
+if(existing){
+if(existing.tagName==='SELECT'){
+var hasOption=Array.prototype.some.call(existing.options,function(o){return o.value===value;});
+if(hasOption){existing.value=value;return;}
+existing.disabled=true;
+}else{existing.value=value;return;}
+}
+var input=document.createElement('input');
+input.type='hidden';
+input.name=name;
+input.value=value;
+form.appendChild(input);
+}
 
-var currencyOptions=Array.prototype.filter.call(currencySelect.options,function(o){return o.value;});
-var typeOptions=Array.prototype.filter.call(typeSelect.options,function(o){return o.value;});
-if(!currencyOptions.length||!typeOptions.length)return;
-
-function currencyCardHtml(o,active){
-var meta=CURRENCY_META[o.value]||{};
-return '<div class="bcm-payment-option'+(active?' active':'')+'" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
-+'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(meta.symbol||o.value.charAt(0))+'</span><span class="bcm-payment-name">'+esc(o.textContent.trim())+'</span></div>'
-+(meta.name?'<p class="bcm-wiz-card-desc">'+esc(meta.name)+'</p>':'')
+function currencyCardHtml(c,active){
+return '<div class="bcm-payment-option'+(active?' active':'')+'" data-value="'+esc(c.value)+'" role="button" tabindex="0">'
++'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(c.symbol)+'</span><span class="bcm-payment-name">'+esc(c.value)+'</span></div>'
++'<p class="bcm-wiz-card-desc">'+esc(c.name)+'</p>'
 +'<span class="bcm-payment-radio"></span>'
 +'</div>';
 }
-function typeCardHtml(o,active,selectedCurrency){
-var label=o.textContent.trim();
-var meta=findTypeMeta(label)||{};
-var min=selectedCurrency==='USD'?meta.minUSD:meta.minZAR;
+function typeCardHtml(t,active){
 var metaRows=''
-+(min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(min)+'</strong></div>':'')
-+(meta.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(meta.spread)+'</strong></div>':'')
-+(meta.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(meta.commission)+'</strong></div>':'')
-+(meta.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(meta.leverage)+'</strong></div>':'')
-+(meta.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(meta.contract)+'</strong></div>':'');
-return '<div class="bcm-wiz-type-card'+(active?' active':'')+'" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
-+'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+(meta.icon||ICON.trend)+'</span><span class="bcm-wiz-type-radio"></span></div>'
-+'<h4 class="bcm-wiz-type-label">'+esc(meta.label||label)+'</h4>'
-+(meta.desc?'<p class="bcm-wiz-type-desc">'+esc(meta.desc)+'</p>':'')
++(t.min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(t.min)+'</strong></div>':'')
++(t.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(t.spread)+'</strong></div>':'')
++(t.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(t.commission)+'</strong></div>':'')
++(t.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(t.leverage)+'</strong></div>':'')
++(t.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(t.contract)+'</strong></div>':'')
++(t.bonus?'<div class="bcm-wiz-meta-row"><span>Bonus</span><strong>'+esc(t.bonus)+'</strong></div>':'');
+return '<div class="bcm-wiz-type-card'+(active?' active':'')+'" data-value="'+esc(t.value)+'" role="button" tabindex="0">'
++'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+t.icon+'</span><span class="bcm-wiz-type-radio"></span></div>'
++'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
++'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
 +'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
-+(meta.badge?'<span class="bcm-wiz-type-badge">'+esc(meta.badge)+'</span>':'')
++(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
 +'</div>';
 }
 
-var selectedCurrency=currencySelect.value||currencyOptions[0].value;
+var selectedCurrency=currencySelect.value||(CURRENCY_DEFS[0]?CURRENCY_DEFS[0].value:null);
 var selectedType=typeSelect.value||null;
 
 var currencyGroup=currencySelect.closest('.form-group');
@@ -147,7 +164,7 @@ currencyLabel.className='bcm-wiz-field-label';
 currencyLabel.textContent='Currency';
 var currencyWrap=document.createElement('div');
 currencyWrap.className='bcm-payment-list bcm-wiz-small-cards';
-currencyWrap.innerHTML=currencyOptions.map(function(o){return currencyCardHtml(o,o.value===selectedCurrency);}).join('');
+currencyWrap.innerHTML=CURRENCY_DEFS.map(function(c){return currencyCardHtml(c,c.value===selectedCurrency);}).join('');
 currencyGroup.appendChild(currencyLabel);
 currencyGroup.appendChild(currencyWrap);
 
@@ -166,16 +183,16 @@ typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(c){c.classList.toggle('active',c===card);});
-typeSelect.value=selectedType;
-fireChange(typeSelect);
+if(Array.prototype.some.call(typeSelect.options,function(o){return o.value===selectedType;})){typeSelect.value=selectedType;fireChange(typeSelect);}
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 }
 function renderTypeCards(){
-if(!typeOptions.some(function(o){return o.value===selectedType;}))selectedType=typeOptions[0].value;
-typeGrid.innerHTML=typeOptions.map(function(o){return typeCardHtml(o,o.value===selectedType,selectedCurrency);}).join('');
+var defs=TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[];
+if(!defs.some(function(d){return d.value===selectedType;}))selectedType=defs[0]?defs[0].value:null;
+typeGrid.innerHTML=defs.map(function(t){return typeCardHtml(t,t.value===selectedType);}).join('');
 bindTypeCards();
 }
 renderTypeCards();
@@ -184,12 +201,16 @@ currencyWrap.querySelectorAll('.bcm-payment-option').forEach(function(card){
 function pick(){
 selectedCurrency=card.getAttribute('data-value');
 currencyWrap.querySelectorAll('.bcm-payment-option').forEach(function(c){c.classList.toggle('active',c===card);});
-currencySelect.value=selectedCurrency;
-fireChange(currencySelect);
+if(Array.prototype.some.call(currencySelect.options,function(o){return o.value===selectedCurrency;})){currencySelect.value=selectedCurrency;fireChange(currencySelect);}
 renderTypeCards();
 }
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+
+form.addEventListener('submit',function(){
+ensureHiddenField('currency',selectedCurrency);
+ensureHiddenField('acc_type',selectedType);
 });
 }
 function buildAddAccountPage(){
@@ -198,15 +219,13 @@ var form=document.querySelector('#myForm');
 if(!form||form.dataset.bcmWizard)return;
 var platformSelect=document.querySelector('#add_platform');
 var accountSelect=document.querySelector('#add_account_type');
-var typeSelect=form.querySelector('select[name="acc_type"]');
-var currencySelect=form.querySelector('select[name="currency"]');
 var passwordGroup=document.querySelector('#password_input_main_container');
 var confirmGroup=document.querySelector('#password_confirm_input_main_container');
 var passwordInput=document.querySelector('#password-input');
 var confirmInput=document.querySelector('#password-confirm-input');
 var submitBtn=document.querySelector('#buttonSubmit');
 var panelDefault=form.querySelector('.panel.panel-default');
-if(!platformSelect||!accountSelect||!typeSelect||!currencySelect||!passwordGroup||!confirmGroup||!passwordInput||!confirmInput||!submitBtn||!panelDefault)return;
+if(!platformSelect||!accountSelect||!passwordGroup||!confirmGroup||!passwordInput||!confirmInput||!submitBtn||!panelDefault)return;
 form.dataset.bcmWizard='1';
 
 var titleEl=panelDefault.querySelector('.panel-title');
@@ -222,23 +241,31 @@ gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2
 flask:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L4.5 19a1.5 1.5 0 0 0 1.3 2.3h12.4a1.5 1.5 0 0 0 1.3-2.3L14 9.5V3"/><path d="M7 15h10"/></svg>'
 };
 
-var TYPE_META=[
-{match:/cent/i,label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips',minZAR:'R170',minUSD:'$10'},
-{match:/bonus/i,label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',badge:'Up to 150% bonus',minZAR:'R170',minUSD:'$10'},
-{match:/ecn|raw/i,label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips',minZAR:'R1,700',minUSD:'$100'},
-{match:/pro/i,label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips',minZAR:'R1,700',minUSD:'$100'},
-{match:/standard/i,label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips',minZAR:'R170',minUSD:'$10'}
-];
-function findTypeMeta(text){if(!text)return null;for(var i=0;i<TYPE_META.length;i++){if(TYPE_META[i].match.test(text))return TYPE_META[i];}return null;}
+var TYPE_DEFS_BY_CURRENCY={
+ZAR:[
+{value:'Standard Account (R170 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent (R170 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account (R1,700 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'R1,700',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account (R1,700 Min. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'R1,700',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account (R170. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'R170',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% up to 150,000 ZAR',badge:'Up to 150% bonus'}
+],
+USD:[
+{value:'Standard Account ($10 Min. Deposit)',label:'Standard',icon:ICON.trend,desc:'Our everyday account. Commission-free pricing that works for almost every type of trader.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 1.8 pips'},
+{value:'Standard Cent ($10 Min. Deposit)',label:'Standard Cent',icon:ICON.trend,desc:'Built for getting started. Trade in cent lots so you can learn the platform with real money at a fraction of the risk.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 1,000 units (cent lot)',badge:'From 1.8 pips'},
+{value:'Pro Account ($100 Min. Deposit)',label:'Pro',icon:ICON.star,desc:'For the more serious trader. Pro spreads start at roughly half a Standard account’s minimum — with no commission.',min:'$100',spread:'From 0.9 pips',commission:'No commission',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.9 pips'},
+{value:'ECN Account ($100. Deposit)',label:'Raw ECN',icon:ICON.bolt,desc:'Raw ECN pricing routed straight to our liquidity providers, with a transparent per-side commission.',min:'$100',spread:'From 0.0 pips',commission:'$3.50–$4.00 per lot, per side',leverage:'Up to 1:2000',contract:'1 lot = 100,000 units',badge:'From 0.0 pips'},
+{value:'150% Bonus Account ($10. Deposit)',label:'Bonus Account',icon:ICON.gift,desc:'Extra trading power on top of your deposit, with a bonus of up to 150% credited to your account.',min:'$10',spread:'From 1.8 pips',commission:'No commission',leverage:'Up to 1:500',contract:'1 lot = 100,000 units',bonus:'150% of your deposit',badge:'Up to 150% bonus'}
+]
+};
 var ACCOUNT_DEFS=[
 {match:/^live$/i,icon:ICON.trend,desc:'Trade with real funds in live market conditions.'},
 {match:/^demo$/i,icon:ICON.flask,desc:'Practice risk-free with virtual funds.'}
 ];
 function findAccountDef(text){for(var i=0;i<ACCOUNT_DEFS.length;i++){if(ACCOUNT_DEFS[i].match.test(text))return ACCOUNT_DEFS[i];}return null;}
-var CURRENCY_META={
-ZAR:{symbol:'R',name:'South African Rand'},
-USD:{symbol:'$',name:'US Dollar'}
-};
+var CURRENCY_DEFS=[
+{value:'ZAR',symbol:'R',name:'South African Rand'},
+{value:'USD',symbol:'$',name:'US Dollar'}
+];
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function fireChange(el){
@@ -246,10 +273,28 @@ el.dispatchEvent(new Event('input',{bubbles:true}));
 el.dispatchEvent(new Event('change',{bubbles:true}));
 if(window.jQuery){try{window.jQuery(el).trigger('change').trigger('change.select2');}catch(e){}}
 }
+function ensureHiddenField(name,value){
+if(value===null||value===undefined||value==='')return;
+var existing=form.querySelector('[name="'+name+'"]');
+if(existing){
+if(existing.tagName==='SELECT'){
+var hasOption=Array.prototype.some.call(existing.options,function(o){return o.value===value;});
+if(hasOption){existing.value=value;return;}
+existing.disabled=true;
+}else{
+existing.value=value;
+return;
+}
+}
+var input=document.createElement('input');
+input.type='hidden';
+input.name=name;
+input.value=value;
+form.appendChild(input);
+}
+
 var accountOptions=Array.prototype.filter.call(accountSelect.options,function(o){return o.value;});
-var typeOptions=Array.prototype.filter.call(typeSelect.options,function(o){return o.value;});
-var currencyOptions=Array.prototype.filter.call(currencySelect.options,function(o){return o.value;});
-if(!accountOptions.length||!typeOptions.length||!currencyOptions.length)return;
+if(!accountOptions.length)return;
 
 function accountCardHtml(o){
 var def=findAccountDef(o.textContent.trim())||{};
@@ -260,36 +305,33 @@ return '<div class="bcm-payment-option" data-value="'+esc(o.value)+'" role="butt
 +'</div>';
 }
 
-function currencyCardHtml(o){
-var meta=CURRENCY_META[o.value]||{};
-return '<div class="bcm-payment-option" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
-+'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(meta.symbol||o.value.charAt(0))+'</span><span class="bcm-payment-name">'+esc(o.textContent.trim())+'</span></div>'
-+(meta.name?'<p class="bcm-wiz-card-desc">'+esc(meta.name)+'</p>':'')
+function currencyCardHtml(c){
+return '<div class="bcm-payment-option" data-value="'+esc(c.value)+'" role="button" tabindex="0">'
++'<div class="bcm-payment-head"><span class="bcm-payment-icon" style="background:#7B2FBE">'+esc(c.symbol)+'</span><span class="bcm-payment-name">'+esc(c.value)+'</span></div>'
++'<p class="bcm-wiz-card-desc">'+esc(c.name)+'</p>'
 +'<span class="bcm-payment-radio"></span>'
 +'</div>';
 }
 
-function typeCardHtml(o,selectedCurrency){
-var label=o.textContent.trim();
-var meta=findTypeMeta(label)||{};
-var min=selectedCurrency==='USD'?meta.minUSD:meta.minZAR;
+function typeCardHtml(t){
 var metaRows=''
-+(min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(min)+'</strong></div>':'')
-+(meta.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(meta.spread)+'</strong></div>':'')
-+(meta.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(meta.commission)+'</strong></div>':'')
-+(meta.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(meta.leverage)+'</strong></div>':'')
-+(meta.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(meta.contract)+'</strong></div>':'');
-return '<div class="bcm-wiz-type-card" data-value="'+esc(o.value)+'" role="button" tabindex="0">'
-+'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+(meta.icon||ICON.trend)+'</span><span class="bcm-wiz-type-radio"></span></div>'
-+'<h4 class="bcm-wiz-type-label">'+esc(meta.label||label)+'</h4>'
-+(meta.desc?'<p class="bcm-wiz-type-desc">'+esc(meta.desc)+'</p>':'')
++(t.min?'<div class="bcm-wiz-meta-row"><span>Minimum deposit</span><strong>'+esc(t.min)+'</strong></div>':'')
++(t.spread?'<div class="bcm-wiz-meta-row"><span>Spread</span><strong>'+esc(t.spread)+'</strong></div>':'')
++(t.commission?'<div class="bcm-wiz-meta-row"><span>Commission</span><strong>'+esc(t.commission)+'</strong></div>':'')
++(t.leverage?'<div class="bcm-wiz-meta-row"><span>Maximum leverage</span><strong>'+esc(t.leverage)+'</strong></div>':'')
++(t.contract?'<div class="bcm-wiz-meta-row"><span>Contract size</span><strong>'+esc(t.contract)+'</strong></div>':'')
++(t.bonus?'<div class="bcm-wiz-meta-row"><span>Bonus</span><strong>'+esc(t.bonus)+'</strong></div>':'');
+return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="button" tabindex="0">'
++'<div class="bcm-wiz-type-top"><span class="bcm-wiz-type-icon">'+t.icon+'</span><span class="bcm-wiz-type-radio"></span></div>'
++'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
++'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
 +'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
-+(meta.badge?'<span class="bcm-wiz-type-badge">'+esc(meta.badge)+'</span>':'')
++(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
 +'</div>';
 }
 
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
-var currencyCardsHtml=currencyOptions.map(currencyCardHtml).join('');
+var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 
 var TOTAL_STEPS=5;
 
@@ -428,13 +470,13 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 });
 
 function renderTypeCards(){
-typeGrid.innerHTML=typeOptions.map(function(o){return typeCardHtml(o,selectedCurrency);}).join('');
+var defs=TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[];
+if(!defs.some(function(d){return d.value===selectedType;}))selectedType=null;
+typeGrid.innerHTML=defs.map(typeCardHtml).join('');
 setActiveCard(selectedType);
 typeGrid.querySelectorAll('.bcm-wiz-type-card').forEach(function(card){
 function pick(){
 selectedType=card.getAttribute('data-value');
-typeSelect.value=selectedType;
-fireChange(typeSelect);
 setActiveCard(selectedType);
 clearError('bcmStep3Error');
 }
@@ -442,13 +484,10 @@ card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 }
-renderTypeCards();
 
 currencyToggle.querySelectorAll('.bcm-payment-option').forEach(function(card){
 function pick(){
 selectedCurrency=card.getAttribute('data-value');
-currencySelect.value=selectedCurrency;
-fireChange(currencySelect);
 setActiveButton(currencyToggle,selectedCurrency);
 clearError('bcmStep2Error');
 renderTypeCards();
@@ -471,13 +510,12 @@ if(step===3)nextBtn.textContent='Next: Account Details';
 if(step===4)nextBtn.textContent='Next: Review & Create';
 if(step===5){
 nextBtn.textContent='Create Account';
-var selectedTypeOption=typeOptions.filter(function(o){return o.value===selectedType;})[0];
-var typeLabel=selectedTypeOption?((findTypeMeta(selectedTypeOption.textContent.trim())||{}).label||selectedTypeOption.textContent.trim()):'';
+var typeDef=(TYPE_DEFS_BY_CURRENCY[selectedCurrency]||[]).filter(function(t){return t.value===selectedType;})[0];
 var accountBtn=accountToggle.querySelector('.active .bcm-payment-name');
 var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
-+(typeLabel?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeLabel)+'</strong></div>':'');
++(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'');
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
@@ -520,6 +558,8 @@ step4Error.classList.remove('bcm-wiz-error-visible');
 goToStep(5);
 return;
 }
+ensureHiddenField('acc_type',selectedType);
+ensureHiddenField('currency',selectedCurrency);
 this.disabled=true;
 this.textContent='Creating Account…';
 submitBtn.click();
