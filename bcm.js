@@ -1464,6 +1464,12 @@ wrap.appendChild(fbRow);
 function adjustSidebarHeight(){var sidebar=document.querySelector('.page-sidebar');var header=document.querySelector('.main-header')||document.querySelector('.x-navigation-horizontal');if(!sidebar||!header)return;var headerHeight=header.getBoundingClientRect().height;sidebar.style.setProperty('min-height','calc(100vh - '+headerHeight+'px)','important');}
 function markActiveNavItem(){var links=document.querySelectorAll('.page-sidebar .x-navigation a[href]');var currentPath=window.location.pathname.replace(/\/$/,'')||'/';links.forEach(function(a){var linkPath;try{linkPath=new URL(a.getAttribute('href'),window.location.href).pathname.replace(/\/$/,'')||'/';}catch(e){return;}if(linkPath===currentPath){var li=a.closest('li');if(li)li.classList.add('active');}});}
 function initGroupToggles(){var labels=document.querySelectorAll('.page-sidebar .bcm-group-label');labels.forEach(function(label){label.classList.add('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display='none';label.addEventListener('click',function(){label.classList.toggle('bcm-collapsed');var list=label.nextElementSibling;if(list)list.style.display=label.classList.contains('bcm-collapsed')?'none':'';});});}
+var DEPOSIT_MIN_BY_TIER={ZAR:{high:1700,low:170},USD:{high:100,low:10}};
+function depositAccountTier(option){
+if(!option)return'low';
+var text=[option.getAttribute('type'),option.getAttribute('data-type'),option.getAttribute('group'),option.textContent].filter(Boolean).join(' ');
+return /\b(pro|ecn)\b/i.test(text)?'high':'low';
+}
 function buildDepositCurrencyLock(){
 var accountSelect=document.querySelector('#mt_account_id');
 var currencySelect=document.querySelector('#deposit_currency');
@@ -1474,6 +1480,49 @@ var note=document.createElement('p');
 note.className='bcm-currency-note';
 note.style.display='none';
 currencySelect.parentElement.appendChild(note);
+var depositForm=accountSelect.closest('form');
+var amountInput=depositForm?depositForm.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]'):null;
+var minNote=null;
+if(amountInput){
+minNote=document.createElement('p');
+minNote.className='bcm-deposit-min-hint';
+var amountWrap=amountInput.closest('.form-group')||amountInput.parentElement;
+amountWrap.appendChild(minNote);
+}
+function currentDepositMin(){
+var currency=currencySelect.value||'USD';
+var tier=depositAccountTier(accountSelect.options[accountSelect.selectedIndex]);
+var table=DEPOSIT_MIN_BY_TIER[currency]||DEPOSIT_MIN_BY_TIER.USD;
+return{amount:table[tier],currency:currency};
+}
+function updateDepositMinNote(){
+if(!minNote)return;
+var m=currentDepositMin();
+var symbol=m.currency==='ZAR'?'R':(m.currency==='USD'?'$':'');
+minNote.textContent='Minimum deposit: '+symbol+m.amount.toLocaleString()+' '+m.currency;
+minNote.classList.remove('bcm-deposit-min-hint-error');
+if(amountInput)amountInput.setAttribute('min',String(m.amount));
+}
+function depositAmountValid(){
+if(!amountInput)return true;
+var m=currentDepositMin();
+var val=parseFloat(amountInput.value);
+return!!val&&val>=m.amount;
+}
+if(amountInput){
+amountInput.addEventListener('input',function(){if(minNote)minNote.classList.remove('bcm-deposit-min-hint-error');});
+}
+if(depositForm&&!depositForm.dataset.bcmDepositMinGate){
+depositForm.dataset.bcmDepositMinGate='1';
+depositForm.addEventListener('submit',function(e){
+if(!depositAmountValid()){
+e.preventDefault();
+e.stopPropagation();
+if(minNote){var m=currentDepositMin();var symbol=m.currency==='ZAR'?'R':(m.currency==='USD'?'$':'');minNote.textContent='Minimum deposit for this account is '+symbol+m.amount.toLocaleString()+' '+m.currency+'.';minNote.classList.add('bcm-deposit-min-hint-error');}
+if(amountInput)amountInput.focus();
+}
+},true);
+}
 function applyLock(){
 var cryptoNoteShown=false;
 if(bcmSelectedCryptoMethod){
@@ -1515,10 +1564,12 @@ currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
 if(!cryptoNoteShown){note.style.display='none';}
 }
+updateDepositMinNote();
 }
 bcmApplyDepositCurrencyLock=applyLock;
 applyLock();
 accountSelect.addEventListener('change',applyLock);
+currencySelect.addEventListener('change',updateDepositMinNote);
 }
 function observeContentChanges(){var target=document.querySelector('.page-content-wrap')||document.body;if(!target||typeof MutationObserver==='undefined')return;var observer=new MutationObserver(function(){buildDepositPage();buildDepositSummaryPage();buildAddAccountPage();buildWithdrawPage();buildWithdrawGatePage();buildBankDetailsPage();buildAccountsPage();buildChangeLeveragePage();buildAccountsTableMenus();separateSumSubFromUpload();isolateSumSubWidget();stripUploadDocumentLabels();buildDepositCurrencyLock();});observer.observe(target,{childList:true,subtree:true});}
 function bindLogoutRedirect(){var yesBtn=document.querySelector('#mb-signout .button-yes');if(!yesBtn||yesBtn.dataset.bcmLogout)return;yesBtn.dataset.bcmLogout='1';var logoutHref=yesBtn.getAttribute('href');yesBtn.setAttribute('href','https://register.blackcrownmarkets.com');yesBtn.addEventListener('click',function(e){e.preventDefault();function redirect(){window.location.href='https://register.blackcrownmarkets.com';}fetch(logoutHref,{mode:'no-cors',credentials:'include'}).then(redirect,redirect);});}

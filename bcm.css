@@ -482,3 +482,5 @@ html.bcm-embedded body{background:#fff!important}
 .bcm-upload-modal-form .btn.btn-default{float:none!important;border-radius:8px!important;padding:10px 20px!important;height:auto!important;font-size:13px!important;box-sizing:border-box!important}
 .bcm-currency-locked{cursor:not-allowed!important;background:#f5f4f7!important;color:#6b7280!important;opacity:1!important}
 .bcm-currency-note{font-size:12px;color:#9aa0a6;margin:8px 0 0;line-height:1.5}
+.bcm-deposit-min-hint{font-size:12px;color:#6b7280;margin:6px 0 0;line-height:1.5}
+.bcm-deposit-min-hint.bcm-deposit-min-hint-error{color:#dc2626;font-weight:600}
