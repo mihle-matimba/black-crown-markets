@@ -801,7 +801,7 @@ infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important 
 var TOTAL_STEPS=3;
 function selectedMethodMeta(){var o=methodSelect.options[methodSelect.selectedIndex];return o?wdMethodMeta(o):null;}
 function isCryptoMethod(){var m=selectedMethodMeta();return !!(m&&m.label==='Crypto');}
-var stepBadge=document.createElement('p');
+var stepBadge=document.createElement('div');
 stepBadge.className='bcm-wizard-step-text';
 stepBadge.id='bcmWDStepText';
 stepBadge.textContent='Step 1 of '+TOTAL_STEPS;
@@ -887,6 +887,7 @@ var ready=currentStep===TOTAL_STEPS&&!amountInput.disabled&&amountInput.value&&p
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
+[stepBadge,step1Heading,accountGroup,step1ErrorEl,step2Heading,methodGroup,step2ErrorEl,step3Heading,infoBanner,fieldsToHide,amountGroup,navBar].forEach(function(el){if(el)panelBody.appendChild(el);});
 var step1Elements=[step1Heading,accountGroup];
 var step2Elements=[step2Heading,methodGroup];
 var step3Elements=[step3Heading,infoBanner,fieldsToHide,amountGroup];
