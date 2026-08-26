@@ -898,10 +898,22 @@ function applyWalletChooser(){
 walletChooser.innerHTML='';
 walletChooser.style.display='none';
 cryptoPane.style.display='none';
-if(currentStep!==3||!isCryptoMethod())return;
 var sel=savedWalletSelect();
+var selHost=sel?(sel.closest('.form-group')||sel):null;
+if(currentStep!==3||!isCryptoMethod()){
+if(selHost&&selHost.getAttribute('data-bcm-hidden')){
+selHost.style.display=selHost.getAttribute('data-bcm-prev-display')||'';
+selHost.removeAttribute('data-bcm-hidden');
+selHost.removeAttribute('data-bcm-prev-display');
+}
+return;
+}
 var saved=sel?Array.prototype.filter.call(sel.options,function(o){return o.value&&bcmIsCryptoRecord(o.textContent||'');}):[];
-if(sel)sel.style.display='none';
+if(selHost&&!selHost.getAttribute('data-bcm-hidden')){
+selHost.setAttribute('data-bcm-prev-display',selHost.style.display||'');
+selHost.setAttribute('data-bcm-hidden','1');
+selHost.style.display='none';
+}
 if(!sel||!saved.length){cryptoPane.style.display='';return;}
 walletChooser.innerHTML=saved.map(function(o){
 return '<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.crypto+'</span><span class="bcm-wd-method-name">'+esc((o.textContent||o.value).trim())+'</span></div>';
