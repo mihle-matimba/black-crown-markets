@@ -706,6 +706,7 @@ amountInput.disabled=false;
 var d=findAccount(selectedAccount);
 if(currencyLabel&&d)currencyLabel.textContent=CURRENCY_SYMBOLS[d.currency]||d.currency;
 if(wdCurrencyValue&&d)wdCurrencyValue.textContent=d.currency;
+updateMinCurrency();
 var step1Error=document.getElementById('bcmWDStep1Error');
 if(step1Error)step1Error.classList.remove('bcm-wiz-error-visible');
 }
@@ -801,8 +802,15 @@ beneficiaryObserver.observe(wireFields,{childList:true,subtree:true});
 var amountValueWrap=amountGroup.querySelector('.col-md-9')||amountGroup;
 var minAmountNote=document.createElement('p');
 minAmountNote.className='bcm-wd-amount-hint';
-minAmountNote.innerHTML='Minimum <a href="#" id="bcmWDMinFill">1.00</a> USD';
+minAmountNote.innerHTML='Minimum <a href="#" id="bcmWDMinFill">1.00</a> <span id="bcmWDMinCurrency"></span>';
 amountValueWrap.appendChild(minAmountNote);
+function updateMinCurrency(){
+var el=minAmountNote.querySelector('#bcmWDMinCurrency');
+if(!el)return;
+var d=selectedAccount?findAccount(selectedAccount):null;
+el.textContent=(d&&d.currency)?d.currency:'';
+}
+updateMinCurrency();
 minAmountNote.querySelector('#bcmWDMinFill').addEventListener('click',function(e){
 e.preventDefault();
 amountInput.disabled=false;
@@ -862,7 +870,8 @@ cryptoPane.innerHTML='<div class="form-group"><label>Asset &amp; Network</label>
 +'</select></div>'
 +'<div class="form-group"><label>Wallet Address</label><input type="text" class="form-control" id="bcmWDAddress" autocomplete="off" spellcheck="false" placeholder="Paste your wallet address"><p class="help-block" id="bcmWDAddressHint"></p></div>'
 +'<p class="bcm-wiz-error" id="bcmWDCryptoError">Please enter a valid wallet address for the selected network.</p>'
-+'<div class="bcm-wd-banner bcm-wd-crypto-warn"><strong>Check the network carefully</strong><p>Funds sent to an address on the wrong network cannot be recovered.</p></div>';
++'<div class="bcm-wd-banner bcm-wd-crypto-warn"><strong>Check the network carefully</strong><p>Funds sent to an address on the wrong network cannot be recovered.</p></div>'
++'<div class="bcm-wd-banner bcm-wd-crypto-proof"><strong>Proof of wallet ownership required</strong><p>Before this withdrawal can be released, email proof of your wallet ID and ownership (a screenshot of the wallet showing the address, in your name) to <a href="mailto:withdrawals@blackcrownmarkets.com">withdrawals@blackcrownmarkets.com</a>. Quote your trading account number in the email.</p></div>';
 fieldsToHide.parentNode.insertBefore(cryptoPane,fieldsToHide);
 function selectedAsset(){var el=cryptoPane.querySelector('#bcmWDAsset');var v=el?el.value:'';return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
 function cryptoAddressValid(){var el=cryptoPane.querySelector('#bcmWDAddress');var v=el?el.value.trim():'';return !!v&&selectedAsset().re.test(v);}
