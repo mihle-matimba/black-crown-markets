@@ -755,7 +755,7 @@ var wdCurrencyValue=methodRowWrap.querySelector('#bcmWDCurrencyValue');
 var methodCards=methodRowWrap.querySelectorAll('.bcm-wd-method-card');
 function highlightMethod(value){Array.prototype.forEach.call(methodCards,function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});}
 Array.prototype.forEach.call(methodCards,function(card){
-function pickMethod(){var value=card.getAttribute('data-value');applyMethod(value);highlightMethod(value);}
+function pickMethod(){var value=card.getAttribute('data-value');applyMethod(value);highlightMethod(value);updateNavLabels();}
 card.addEventListener('click',pickMethod);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pickMethod();}});
 });
@@ -798,7 +798,9 @@ infoBanner.innerHTML='<strong>Processing time</strong><p>Your request will gener
 fieldsToHide.parentNode.insertBefore(infoBanner,fieldsToHide);
 var infoTitles=page.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}else if(titleEl.textContent.trim()==='Withdraw Request Form'){titleEl.textContent='Withdrawal';}});
-var TOTAL_STEPS=2;
+var TOTAL_STEPS=3;
+function selectedMethodMeta(){var o=methodSelect.options[methodSelect.selectedIndex];return o?wdMethodMeta(o):null;}
+function isCryptoMethod(){var m=selectedMethodMeta();return !!(m&&m.label==='Crypto');}
 var stepBadge=document.createElement('p');
 stepBadge.className='bcm-wizard-step-text';
 stepBadge.id='bcmWDStepText';
@@ -812,54 +814,126 @@ var step1ErrorEl=document.createElement('p');
 step1ErrorEl.className='bcm-wiz-error';
 step1ErrorEl.id='bcmWDStep1Error';
 step1ErrorEl.textContent='Please choose an account to continue.';
-accountGroup.parentNode.insertBefore(step1ErrorEl,fieldsToHide);
+accountGroup.parentNode.insertBefore(step1ErrorEl,accountGroup.nextSibling);
 var step2Heading=document.createElement('div');
 step2Heading.id='bcmWDStep2Heading';
 step2Heading.style.display='none';
-step2Heading.innerHTML='<h3 class="bcm-wiz-pane-title">Type of Withdrawal</h3><p class="bcm-wiz-pane-subtitle">Choose your withdrawal method and enter an amount.</p>';
-fieldsToHide.parentNode.insertBefore(step2Heading,fieldsToHide);
+step2Heading.innerHTML='<h3 class="bcm-wiz-pane-title">Type of Withdrawal</h3><p class="bcm-wiz-pane-subtitle">Choose how you would like to receive your funds.</p>';
+methodGroup.parentNode.insertBefore(step2Heading,methodGroup);
+var step2ErrorEl=document.createElement('p');
+step2ErrorEl.className='bcm-wiz-error';
+step2ErrorEl.id='bcmWDStep2Error';
+step2ErrorEl.textContent='Please choose a withdrawal method to continue.';
+methodGroup.parentNode.insertBefore(step2ErrorEl,methodGroup.nextSibling);
+var step3Heading=document.createElement('div');
+step3Heading.id='bcmWDStep3Heading';
+step3Heading.style.display='none';
+fieldsToHide.parentNode.insertBefore(step3Heading,infoBanner);
+function updateStep3Heading(){
+var crypto=isCryptoMethod();
+step3Heading.innerHTML='<h3 class="bcm-wiz-pane-title">'+(crypto?'Wallet &amp; Amount':'Details &amp; Amount')+'</h3><p class="bcm-wiz-pane-subtitle">'+(crypto?'Choose a saved wallet or add a new one, then enter the amount.':'Confirm your withdrawal details and enter the amount.')+'</p>';
+}
+var walletChooser=document.createElement('div');
+walletChooser.className='bcm-wd-wallet-list';
+walletChooser.style.display='none';
+fieldsToHide.parentNode.insertBefore(walletChooser,fieldsToHide);
+function selectedMethodPane(){var o=methodSelect.options[methodSelect.selectedIndex];return o?methodPane(o.value):null;}
+function savedWalletSelect(){
+var pane=selectedMethodPane();
+if(!pane)return null;
+var selects=pane.querySelectorAll('select');
+for(var i=0;i<selects.length;i++){
+var probe=((selects[i].id||'')+' '+(selects[i].name||'')).toLowerCase();
+if(/wallet|saved|address|beneficiar/.test(probe))return selects[i];
+}
+return null;
+}
+function applyWalletChooser(){
+walletChooser.innerHTML='';
+walletChooser.style.display='none';
+if(!isCryptoMethod())return;
+var sel=savedWalletSelect();
+if(!sel)return;
+var saved=Array.prototype.filter.call(sel.options,function(o){return o.value;});
+if(!saved.length)return;
+sel.style.display='none';
+walletChooser.innerHTML=saved.map(function(o){
+return '<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.crypto+'</span><span class="bcm-wd-method-name">'+esc((o.textContent||o.value).trim())+'</span></div>';
+}).join('')+'<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card bcm-wd-wallet-new" data-value="" role="button" tabindex="0"><span class="bcm-wd-method-icon">+</span><span class="bcm-wd-method-name">Add a new wallet</span></div>';
+var walletCards=walletChooser.querySelectorAll('.bcm-wd-wallet-card');
+Array.prototype.forEach.call(walletCards,function(card){
+function pickWallet(){
+sel.value=card.getAttribute('data-value');
+fireChange(sel);
+Array.prototype.forEach.call(walletCards,function(c){c.classList.toggle('active',c===card);});
+}
+card.addEventListener('click',pickWallet);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pickWallet();}});
+});
+walletChooser.style.display='';
+}
 var navBar=document.createElement('div');
 navBar.className='bcm-wizard-actions';
 navBar.id='bcmWDNav';
 navBar.innerHTML='<button type="button" class="bcm-wiz-btn-secondary" id="bcmWDBack" style="display:none">Back</button><button type="button" class="bcm-wiz-btn-primary" id="bcmWDNext">Next: Type of Withdrawal</button>';
-fieldsToHide.parentNode.insertBefore(navBar,step2Heading);
+panelBody.appendChild(navBar);
+var backBtn=navBar.querySelector('#bcmWDBack');
+var nextBtn=navBar.querySelector('#bcmWDNext');
 var clearButton=form.querySelector('#clearButton');
 if(clearButton)clearButton.style.display='none';
 page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
-var ready=currentStep===2&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
+var ready=currentStep===TOTAL_STEPS&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
-var step2Elements=[step2Heading,infoBanner,fieldsToHide,amountGroup];
 var step1Elements=[step1Heading,accountGroup];
+var step2Elements=[step2Heading,methodGroup];
+var step3Elements=[step3Heading,infoBanner,fieldsToHide,amountGroup];
+var allStepElements=step1Elements.concat(step2Elements).concat(step3Elements);
 var currentStep=1;
 function enforceStepVisibility(){
-step1Elements.forEach(function(el){var show=currentStep===1;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
-step2Elements.forEach(function(el){var show=currentStep===2;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});
+function apply(list,step){list.forEach(function(el){var show=currentStep===step;if(show&&el.style.display==='none')el.style.display='';if(!show&&el.style.display!=='none')el.style.display='none';});}
+apply(step1Elements,1);
+apply(step2Elements,2);
+apply(step3Elements,3);
 updateFooterVisibility();
 }
 enforceStepVisibility();
 if(typeof MutationObserver!=='undefined'){
 var stepVisibilityObserver=new MutationObserver(enforceStepVisibility);
-step1Elements.concat(step2Elements).forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
+allStepElements.forEach(function(el){stepVisibilityObserver.observe(el,{attributes:true,attributeFilter:['style']});});
 var footerObserver=new MutationObserver(updateFooterVisibility);
 footerObserver.observe(panelFooter,{attributes:true,attributeFilter:['style']});
+}
+function updateNavLabels(){
+nextBtn.textContent=currentStep===1?'Next: Type of Withdrawal':('Next: '+(isCryptoMethod()?'Wallet Details':'Details'));
 }
 function goToStep(step){
 currentStep=step;
 stepBadge.textContent='Step '+step+' of '+TOTAL_STEPS;
+if(step===3){updateStep3Heading();applyWalletChooser();}
 enforceStepVisibility();
-document.getElementById('bcmWDBack').style.display=step===1?'none':'';
-document.getElementById('bcmWDNext').style.display=step===1?'':'none';
+backBtn.style.display=step===1?'none':'';
+nextBtn.style.display=step===TOTAL_STEPS?'none':'';
+updateNavLabels();
 window.scrollTo({top:panelDefault.offsetTop-24,behavior:'smooth'});
 }
-navBar.querySelector('#bcmWDBack').addEventListener('click',function(){goToStep(1);});
-navBar.querySelector('#bcmWDNext').addEventListener('click',function(){
+backBtn.addEventListener('click',function(){if(currentStep>1)goToStep(currentStep-1);});
+nextBtn.addEventListener('click',function(){
+if(currentStep===1){
 if(!selectedAccount){step1ErrorEl.classList.add('bcm-wiz-error-visible');return;}
 step1ErrorEl.classList.remove('bcm-wiz-error-visible');
 goToStep(2);
+return;
+}
+if(currentStep===2){
+if(!methodSelect.value){step2ErrorEl.classList.add('bcm-wiz-error-visible');return;}
+step2ErrorEl.classList.remove('bcm-wiz-error-visible');
+goToStep(3);
+}
 });
+updateNavLabels();
 }
 function buildBankDetailsPage(){
 var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/bank-details"]');

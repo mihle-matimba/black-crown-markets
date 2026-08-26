@@ -218,6 +218,9 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wd-method-card:hover{border-color:#c9a7e8}
 .bcm-wd-method-card.active{border-color:#7B2FBE;box-shadow:0 0 0 3px rgba(123,47,190,.12)}
 .bcm-wd-method-card:focus-visible{outline:none;border-color:#7B2FBE;box-shadow:0 0 0 3px rgba(123,47,190,.12)}
+.bcm-wd-wallet-list{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+.bcm-wd-wallet-card{flex:none}
+.bcm-wd-wallet-new .bcm-wd-method-icon{font-size:16px;font-weight:700;line-height:1}
 .bcm-wd-method-icon{flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:#7B2FBE}
 .bcm-wd-method-icon svg{width:15px;height:15px}
 .bcm-wd-method-name{font-size:13px;font-weight:700;color:#1a1a1a}
