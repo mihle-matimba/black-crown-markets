@@ -1483,9 +1483,26 @@ if(field)return field;
 }
 return null;
 }
+function findFieldNearLabelText(root,labelText){
+if(!root)return null;
+var target=labelText.toLowerCase();
+var all=root.querySelectorAll('label,div,span,strong,b,p,h1,h2,h3,h4,h5,h6');
+for(var i=0;i<all.length;i++){
+var el=all[i];
+if(el.children.length)continue;
+if(el.textContent.trim().toLowerCase()!==target)continue;
+var container=el.parentElement;
+for(var depth=0;depth<6&&container;depth++){
+var field=container.querySelector('input:not([type=hidden]),select,textarea');
+if(field)return field;
+container=container.parentElement;
+}
+}
+return null;
+}
 function findDepositAmountField(root){
 if(!root)return null;
-return root.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]')||findFieldByLabel(root,'amount');
+return root.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]')||findFieldByLabel(root,'amount')||findFieldNearLabelText(root,'amount');
 }
 function findDepositSubmitControl(root){
 if(!root)return null;
