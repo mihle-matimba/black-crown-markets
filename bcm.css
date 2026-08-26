@@ -213,13 +213,18 @@ html body .message-box .mb-container .mb-middle,html body .mb-middle{background:
 .bcm-wd-chevron{color:#9aa0a6;font-size:15px;line-height:1}
 .bcm-wd-method-currency-row{display:flex;gap:8px;align-items:stretch}
 .bcm-wd-method-row{flex:1;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1.5px solid #e5e5e7;border-radius:8px;background:#fff}
+.bcm-wd-method-list{flex:1;display:flex;gap:8px}
+.bcm-wd-method-card{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.bcm-wd-method-card:hover{border-color:#c9a7e8}
+.bcm-wd-method-card.active{border-color:#7B2FBE;box-shadow:0 0 0 3px rgba(123,47,190,.12)}
+.bcm-wd-method-card:focus-visible{outline:none;border-color:#7B2FBE;box-shadow:0 0 0 3px rgba(123,47,190,.12)}
 .bcm-wd-method-icon{flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:#7B2FBE}
 .bcm-wd-method-icon svg{width:15px;height:15px}
 .bcm-wd-method-name{font-size:13px;font-weight:700;color:#1a1a1a}
 .bcm-wd-currency-box{flex:none;min-width:76px;padding:6px 12px;border:1.5px solid #e5e5e7;border-radius:8px;background:#fff;display:flex;flex-direction:column;justify-content:center;gap:1px}
 .bcm-wd-currency-label{font-size:10px;color:#9aa0a6}
 .bcm-wd-currency-value{font-size:13px;font-weight:700;color:#1a1a1a}
-@media (max-width:520px){.bcm-wd-method-currency-row{flex-direction:column}}
+@media (max-width:520px){.bcm-wd-method-currency-row{flex-direction:column}.bcm-wd-method-list{flex-direction:column}}
 .bcm-wd-banner{background:#eef2ff;border-radius:8px;padding:10px 14px;margin:14px 0}
 .bcm-wd-banner strong{display:block;font-size:12px;color:#1a1a1a;margin-bottom:2px}
 .bcm-wd-banner p{margin:0;font-size:11px;color:#4b5563;line-height:1.4}

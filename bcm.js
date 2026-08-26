@@ -714,20 +714,55 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 });
 var methodGroup=methodSelect.closest('.form-group');
 methodSelect.style.display='none';
+var WD_METHOD_EXCLUDED=['CreditCard'];
+var WD_METHOD_ICONS={
+bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg>',
+crypto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 8.5h4.2a2 2 0 0 1 0 4H9.5h4.7a2 2 0 0 1 0 4H9.5"/><path d="M11 6.4v11.2"/><path d="M13.6 6.4v11.2"/></svg>',
+card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'
+};
+function wdMethodMeta(opt){
+var probe=(opt.value||'')+' '+(opt.textContent||'');
+if(/crypto|coin|wallet|usdt|usdc|btc|bitcoin|eth|trc|erc/i.test(probe))return{label:'Crypto',icon:WD_METHOD_ICONS.crypto};
+if(/card/i.test(probe))return{label:'Credit Card',icon:WD_METHOD_ICONS.card};
+if(/wire|bank|transfer/i.test(probe))return{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
+return{label:((opt.textContent||opt.value)||'').trim(),icon:WD_METHOD_ICONS.bank};
+}
+Array.prototype.forEach.call(methodSelect.options,function(o){if(WD_METHOD_EXCLUDED.indexOf(o.value)!==-1)o.disabled=true;});
+var methodOptions=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&WD_METHOD_EXCLUDED.indexOf(o.value)===-1;});
+function methodPane(value){return value?form.querySelector('[id="'+value+'"]'):null;}
+function applyMethod(value){
+methodSelect.value=value;
+fireChange(methodSelect);
+Array.prototype.forEach.call(methodSelect.options,function(o){
+var pane=methodPane(o.value);
+if(pane)pane.style.display=(o.value===value)?'block':'none';
+});
+}
+var currencyBoxHTML='<div class="bcm-wd-currency-box"><span class="bcm-wd-currency-label">Currency</span><span class="bcm-wd-currency-value" id="bcmWDCurrencyValue">—</span></div>';
 var methodRowWrap=document.createElement('div');
 methodRowWrap.className='bcm-wd-method-currency-row';
-methodRowWrap.innerHTML='<div class="bcm-wd-method-row"><span class="bcm-wd-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-wd-method-name">Wire Transfer</span></div>'
-+'<div class="bcm-wd-currency-box"><span class="bcm-wd-currency-label">Currency</span><span class="bcm-wd-currency-value" id="bcmWDCurrencyValue">—</span></div>';
+if(methodOptions.length>1){
+methodRowWrap.innerHTML='<div class="bcm-wd-method-list">'+methodOptions.map(function(o){
+var meta=wdMethodMeta(o);
+return '<div class="bcm-wd-method-row bcm-wd-method-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+meta.icon+'</span><span class="bcm-wd-method-name">'+esc(meta.label)+'</span></div>';
+}).join('')+'</div>'+currencyBoxHTML;
+}else{
+var soleMeta=methodOptions.length?wdMethodMeta(methodOptions[0]):{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
+methodRowWrap.innerHTML='<div class="bcm-wd-method-row"><span class="bcm-wd-method-icon">'+soleMeta.icon+'</span><span class="bcm-wd-method-name">'+esc(soleMeta.label)+'</span></div>'+currencyBoxHTML;
+}
 methodGroup.appendChild(methodRowWrap);
 var wdCurrencyValue=methodRowWrap.querySelector('#bcmWDCurrencyValue');
-var creditCardOption=Array.prototype.filter.call(methodSelect.options,function(o){return o.value==='CreditCard';})[0];
-if(creditCardOption)creditCardOption.disabled=true;
-methodSelect.value='WireTransfer';
-fireChange(methodSelect);
+var methodCards=methodRowWrap.querySelectorAll('.bcm-wd-method-card');
+function highlightMethod(value){Array.prototype.forEach.call(methodCards,function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});}
+Array.prototype.forEach.call(methodCards,function(card){
+function pickMethod(){var value=card.getAttribute('data-value');applyMethod(value);highlightMethod(value);}
+card.addEventListener('click',pickMethod);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pickMethod();}});
+});
 var creditCardFields=form.querySelector('#CreditCard');
 var wireFields=form.querySelector('#WireTransfer');
-if(creditCardFields)creditCardFields.style.display='none';
-if(wireFields)wireFields.style.display='block';
+var defaultMethod=methodOptions.filter(function(o){return o.value==='WireTransfer';})[0]||methodOptions[0];
+if(defaultMethod){applyMethod(defaultMethod.value);highlightMethod(defaultMethod.value);}
 var BENEFICIARY_FIELD_LABELS=['beneficiary details','name','address','country','bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name','branch code'];
 function hideBeneficiaryDetails(){
 if(!wireFields)return;
