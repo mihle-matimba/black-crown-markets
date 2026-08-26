@@ -639,6 +639,29 @@ this.textContent='Creating Account…';
 submitBtn.click();
 });
 }
+var WD_METHOD_ICONS={
+bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg>',
+crypto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 8.5h4.2a2 2 0 0 1 0 4H9.5h4.7a2 2 0 0 1 0 4H9.5"/><path d="M11 6.4v11.2"/><path d="M13.6 6.4v11.2"/></svg>',
+card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'
+};
+function wdMethodMeta(opt){
+var probe=(opt.value||'')+' '+(opt.textContent||'');
+if(/crypto|coin|wallet|usdt|usdc|btc|bitcoin|eth|trc|erc/i.test(probe))return{label:'Crypto',icon:WD_METHOD_ICONS.crypto};
+if(/card/i.test(probe))return{label:'Credit Card',icon:WD_METHOD_ICONS.card};
+if(/wire|bank|transfer/i.test(probe))return{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
+return{label:((opt.textContent||opt.value)||'').trim(),icon:WD_METHOD_ICONS.bank};
+}
+var WD_CRYPTO_ASSETS=[
+{value:'USDT-TRC20',label:'USDT (TRC-20)',chain:'TRON',re:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,hint:'A TRON address starts with T and is 34 characters long.'},
+{value:'USDT-ERC20',label:'USDT (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'USDC-ERC20',label:'USDC (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'ETH',label:'Ethereum (ETH)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'BTC',label:'Bitcoin (BTC)',chain:'Bitcoin',re:/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/,hint:'A Bitcoin address starts with 1, 3 or bc1.'}
+];
+function bcmAssetByValue(v){return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
+function bcmShortAddr(a){a=String(a||'');return a.length>14?(a.slice(0,6)+'…'+a.slice(-4)):a;}
+function bcmCryptoRecordName(assetLabel,addr){return 'CRYPTO · '+assetLabel+' · '+bcmShortAddr(addr);}
+var BCM_CRYPTO_PREFIX=/^\s*CRYPTO\s*·/i;
 function buildWithdrawPage(){
 var page=document.querySelector('#withdrawalpage');
 var form=document.querySelector('#withdrawForm');
@@ -716,25 +739,6 @@ card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.p
 var methodGroup=methodSelect.closest('.form-group');
 methodSelect.style.display='none';
 var WD_METHOD_EXCLUDED=['CreditCard'];
-var WD_METHOD_ICONS={
-bank:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg>',
-crypto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 8.5h4.2a2 2 0 0 1 0 4H9.5h4.7a2 2 0 0 1 0 4H9.5"/><path d="M11 6.4v11.2"/><path d="M13.6 6.4v11.2"/></svg>',
-card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'
-};
-function wdMethodMeta(opt){
-var probe=(opt.value||'')+' '+(opt.textContent||'');
-if(/crypto|coin|wallet|usdt|usdc|btc|bitcoin|eth|trc|erc/i.test(probe))return{label:'Crypto',icon:WD_METHOD_ICONS.crypto};
-if(/card/i.test(probe))return{label:'Credit Card',icon:WD_METHOD_ICONS.card};
-if(/wire|bank|transfer/i.test(probe))return{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
-return{label:((opt.textContent||opt.value)||'').trim(),icon:WD_METHOD_ICONS.bank};
-}
-var WD_CRYPTO_ASSETS=[
-{value:'USDT-TRC20',label:'USDT (TRC-20)',chain:'TRON',re:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,hint:'A TRON address starts with T and is 34 characters long.'},
-{value:'USDT-ERC20',label:'USDT (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
-{value:'USDC-ERC20',label:'USDC (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
-{value:'ETH',label:'Ethereum (ETH)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
-{value:'BTC',label:'Bitcoin (BTC)',chain:'Bitcoin',re:/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/,hint:'A Bitcoin address starts with 1, 3 or bc1.'}
-];
 var WD_CRYPTO_KEY='__bcm_crypto';
 Array.prototype.forEach.call(methodSelect.options,function(o){if(WD_METHOD_EXCLUDED.indexOf(o.value)!==-1)o.disabled=true;});
 var skaleMethods=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&WD_METHOD_EXCLUDED.indexOf(o.value)===-1;});
@@ -863,38 +867,18 @@ fieldsToHide.parentNode.insertBefore(walletChooser,fieldsToHide);
 var cryptoPane=document.createElement('div');
 cryptoPane.className='bcm-wd-crypto-pane';
 cryptoPane.style.display='none';
-cryptoPane.innerHTML='<div class="form-group"><label>Asset &amp; Network</label><select class="form-control" id="bcmWDAsset">'
-+WD_CRYPTO_ASSETS.map(function(a){return '<option value="'+esc(a.value)+'">'+esc(a.label)+'</option>';}).join('')
-+'</select></div>'
-+'<div class="form-group"><label>Wallet Address</label><input type="text" class="form-control" id="bcmWDAddress" autocomplete="off" spellcheck="false" placeholder="Paste your wallet address"><p class="help-block" id="bcmWDAddressHint"></p></div>'
-+'<p class="bcm-wiz-error" id="bcmWDCryptoError">Please enter a valid wallet address for the selected network.</p>'
-+'<div class="bcm-wd-banner bcm-wd-crypto-warn"><strong>Check the network carefully</strong><p>Funds sent to an address on the wrong network cannot be recovered.</p></div>'
-+'<div class="bcm-wd-banner bcm-wd-crypto-proof"><strong>Proof of wallet ownership required</strong><p>Before this withdrawal can be released, email proof of your wallet ID and ownership (a screenshot of the wallet showing the address, in your name) to <a href="mailto:withdrawals@blackcrownmarkets.com">withdrawals@blackcrownmarkets.com</a>. Quote your trading account number in the email.</p></div>';
+cryptoPane.innerHTML='<div class="bcm-wd-banner bcm-wd-crypto-proof"><strong>No crypto wallet saved yet</strong><p>Withdrawals are sent to a saved payout method. Add your wallet once and it is available here every time.</p></div>'
++'<p class="bcm-wiz-error" id="bcmWDCryptoError"></p>'
++'<a class="bcm-wd-gate-btn" href="https://trade.blackcrownmarkets.com/bank-details?bcmtype=crypto"><span>Add a crypto wallet</span></a>';
 fieldsToHide.parentNode.insertBefore(cryptoPane,fieldsToHide);
-function selectedAsset(){var el=cryptoPane.querySelector('#bcmWDAsset');var v=el?el.value:'';return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
-function cryptoAddressValid(){var el=cryptoPane.querySelector('#bcmWDAddress');var v=el?el.value.trim():'';return !!v&&selectedAsset().re.test(v);}
-function updateAddressHint(){
-var hintEl=cryptoPane.querySelector('#bcmWDAddressHint');
-if(hintEl)hintEl.textContent=selectedAsset().hint;
-var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
-var addrEl=cryptoPane.querySelector('#bcmWDAddress');
-if(errEl&&addrEl&&!addrEl.value.trim())errEl.classList.remove('bcm-wiz-error-visible');
-updateFooterVisibility();
-}
-cryptoPane.querySelector('#bcmWDAsset').addEventListener('change',updateAddressHint);
-cryptoPane.querySelector('#bcmWDAddress').addEventListener('input',function(){
-var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
-if(errEl&&cryptoAddressValid())errEl.classList.remove('bcm-wiz-error-visible');
-updateFooterVisibility();
-});
 function selectedMethodPane(){var c=currentChoice();return(c&&c.key!==WD_CRYPTO_KEY)?methodPane(c.post):null;}
 function savedWalletSelect(){
-var pane=selectedMethodPane();
-if(!pane)return null;
-var selects=pane.querySelectorAll('select');
+var direct=form.querySelector('select[name="saved_bank_detail_id"],select[name*="saved_bank_detail"],select[id*="saved_bank_detail"]');
+if(direct)return direct;
+var selects=form.querySelectorAll('select');
 for(var i=0;i<selects.length;i++){
 var probe=((selects[i].id||'')+' '+(selects[i].name||'')).toLowerCase();
-if(/wallet|saved|address|beneficiar/.test(probe))return selects[i];
+if(/saved|bank_detail|wallet|beneficiar/.test(probe))return selects[i];
 }
 return null;
 }
@@ -903,26 +887,28 @@ walletChooser.innerHTML='';
 walletChooser.style.display='none';
 cryptoPane.style.display='none';
 if(currentStep!==3||!isCryptoMethod())return;
-if(!selectedMethodPane()){cryptoPane.style.display='';updateAddressHint();return;}
 var sel=savedWalletSelect();
-if(!sel){cryptoPane.style.display='';updateAddressHint();return;}
-var saved=Array.prototype.filter.call(sel.options,function(o){return o.value;});
-if(!saved.length)return;
-sel.style.display='none';
+var saved=sel?Array.prototype.filter.call(sel.options,function(o){return o.value&&BCM_CRYPTO_PREFIX.test(o.textContent||'');}):[];
+if(sel)sel.style.display='none';
+if(!sel||!saved.length){cryptoPane.style.display='';return;}
 walletChooser.innerHTML=saved.map(function(o){
 return '<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.crypto+'</span><span class="bcm-wd-method-name">'+esc((o.textContent||o.value).trim())+'</span></div>';
-}).join('')+'<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card bcm-wd-wallet-new" data-value="" role="button" tabindex="0"><span class="bcm-wd-method-icon">+</span><span class="bcm-wd-method-name">Add a new wallet</span></div>';
-var walletCards=walletChooser.querySelectorAll('.bcm-wd-wallet-card');
+}).join('')+'<a class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card bcm-wd-wallet-new" href="https://trade.blackcrownmarkets.com/bank-details?bcmtype=crypto"><span class="bcm-wd-method-icon">+</span><span class="bcm-wd-method-name">Add a new wallet</span></a>';
+var walletCards=walletChooser.querySelectorAll('.bcm-wd-wallet-card[data-value]');
 Array.prototype.forEach.call(walletCards,function(card){
 function pickWallet(){
 sel.value=card.getAttribute('data-value');
 fireChange(sel);
 Array.prototype.forEach.call(walletCards,function(c){c.classList.toggle('active',c===card);});
+updateFooterVisibility();
 }
 card.addEventListener('click',pickWallet);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pickWallet();}});
 });
+if(saved.length===1){sel.value=saved[0].value;fireChange(sel);}
+Array.prototype.forEach.call(walletCards,function(c){c.classList.toggle('active',c.getAttribute('data-value')===sel.value);});
 walletChooser.style.display='';
+updateFooterVisibility();
 }
 var navBar=document.createElement('div');
 navBar.className='bcm-wizard-actions';
@@ -936,7 +922,7 @@ if(clearButton)clearButton.style.display='none';
 page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
 var ready=currentStep===TOTAL_STEPS&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
-if(ready&&cryptoPane&&cryptoPane.style.display!=='none')ready=cryptoAddressValid();
+if(ready&&isCryptoMethod()){var sw=savedWalletSelect();var so=sw?sw.options[sw.selectedIndex]:null;ready=!!(sw&&sw.value&&so&&BCM_CRYPTO_PREFIX.test(so.textContent||''));}
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
@@ -1014,14 +1000,15 @@ if(msg)errEl.textContent=msg;
 errEl.classList.add('bcm-wiz-error-visible');
 }
 submitBtn.addEventListener('click',function(e){
-if(!isCryptoMethod()||cryptoPane.style.display==='none')return;
-if(!cryptoAddressValid()){e.preventDefault();e.stopImmediatePropagation();showCryptoError('Please enter a valid wallet address for the selected network.');return;}
-var dest=cryptoDestinationField();
-if(!dest){e.preventDefault();e.stopImmediatePropagation();showCryptoError('We could not attach your wallet details to this request. Please contact support rather than submitting without a destination address.');return;}
-var asset=selectedAsset();
-dest.value='CRYPTO WITHDRAWAL | '+asset.label+' | network '+asset.chain+' | '+cryptoPane.querySelector('#bcmWDAddress').value.trim();
-fireChange(dest);
 if(/[?&]bcmdebug/.test(location.search)&&window.console)console.log('[bcm] withdraw payload',new URLSearchParams(new FormData(form)).toString());
+if(!isCryptoMethod())return;
+var sw=savedWalletSelect();
+var so=sw?sw.options[sw.selectedIndex]:null;
+if(!sw||!sw.value||!so||!BCM_CRYPTO_PREFIX.test(so.textContent||'')){
+e.preventDefault();e.stopImmediatePropagation();
+var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
+if(errEl){errEl.textContent='Please choose a saved crypto wallet to withdraw to.';errEl.classList.add('bcm-wiz-error-visible');}
+}
 },true);
 }
 function buildWithdrawGatePage(){
@@ -1067,8 +1054,9 @@ panelDefault.classList.add('bcm-bank-details-panel');
 var methodGroup=methodSelect.closest('.form-group');
 methodSelect.style.display='none';
 var methodRow=document.createElement('div');
-methodRow.className='bcm-wd-method-row';
-methodRow.innerHTML='<span class="bcm-wd-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21V9"/><path d="M15 21V9"/></svg></span><span class="bcm-wd-method-name">Wire Transfer</span>';
+methodRow.className='bcm-wd-method-list';
+methodRow.innerHTML='<div class="bcm-wd-method-row bcm-wd-method-card active" data-mode="wire" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.bank+'</span><span class="bcm-wd-method-name">Wire Transfer</span></div>'
++'<div class="bcm-wd-method-row bcm-wd-method-card" data-mode="crypto" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.crypto+'</span><span class="bcm-wd-method-name">Crypto</span></div>';
 methodGroup.appendChild(methodRow);
 methodGroup.classList.add('bcm-bd-span2');
 var bankDetailNameInput=form.querySelector('input[name=saved_bank_name]');
@@ -1097,13 +1085,91 @@ var leafGroups=Array.prototype.filter.call(panelBody.querySelectorAll('.form-gro
 leafGroups.forEach(function(fg){panelBody.appendChild(fg);});
 Array.prototype.slice.call(panelBody.children).forEach(function(child){if(child.id!=='upload-documents-section'&&child.children.length===0)child.remove();});
 }
+function bdFieldByLabel(labels){
+var all=form.querySelectorAll('*');
+for(var i=0;i<all.length;i++){
+var el=all[i];
+if(el.children.length>0)continue;
+var t=el.textContent.trim().toLowerCase();
+if(labels.indexOf(t)===-1)continue;
+var row=el.closest('.form-group')||el.parentElement;
+if(!row)continue;
+var input=row.querySelector('select,textarea,input[type=text],input:not([type])');
+if(input)return{input:input,row:row};
+}
+return null;
+}
+var BD_BANK_ONLY_LABELS=['bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name','branch code'];
+var bdAccountField=bdFieldByLabel(['account number / iban','account number','iban']);
+var bdBankNameField=bdFieldByLabel(['bank name']);
+var bdBankOnlyRows=[];
+BD_BANK_ONLY_LABELS.forEach(function(l){var f=bdFieldByLabel([l]);if(f&&bdBankOnlyRows.indexOf(f.row)===-1)bdBankOnlyRows.push(f.row);});
+var bdCrypto=document.createElement('div');
+bdCrypto.className='bcm-bd-crypto bcm-bd-span2';
+bdCrypto.style.display='none';
+bdCrypto.innerHTML='<div class="form-group"><label>Asset &amp; Network</label><select class="form-control" id="bcmBDAsset">'
++WD_CRYPTO_ASSETS.map(function(a){return '<option value="'+escBank(a.value)+'">'+escBank(a.label)+'</option>';}).join('')
++'</select></div>'
++'<div class="form-group"><label>Wallet Address</label><input type="text" class="form-control" id="bcmBDAddress" autocomplete="off" spellcheck="false" placeholder="Paste your wallet address"><p class="help-block" id="bcmBDHint"></p></div>'
++'<p class="bcm-wiz-error" id="bcmBDError">Please enter a valid wallet address for the selected network.</p>'
++'<div class="bcm-wd-banner bcm-wd-crypto-warn"><strong>Check the network carefully</strong><p>Funds sent to an address on the wrong network cannot be recovered.</p></div>'
++'<div class="bcm-wd-banner bcm-wd-crypto-proof"><strong>Proof of wallet ownership required</strong><p>Email proof of your wallet ID and ownership to <a href="mailto:withdrawals@blackcrownmarkets.com">withdrawals@blackcrownmarkets.com</a>, quoting your trading account number.</p></div>';
+methodGroup.parentNode.insertBefore(bdCrypto,methodGroup.nextSibling);
+function bdAsset(){var el=bdCrypto.querySelector('#bcmBDAsset');return bcmAssetByValue(el?el.value:'');}
+function bdAddress(){var el=bdCrypto.querySelector('#bcmBDAddress');return el?el.value.trim():'';}
+function bdAddressValid(){var v=bdAddress();return !!v&&bdAsset().re.test(v);}
+var bdMode='wire';
+function setBankNameValue(v){
+var target=form.querySelector('[name=beneficiarybankname]');
+if(!target)return;
+if(target.tagName==='SELECT'){
+var has=Array.prototype.filter.call(target.options,function(o){return o.value===v;})[0];
+if(!has){var opt=document.createElement('option');opt.value=v;opt.textContent=v;target.appendChild(opt);}
+}
+target.value=v;
+}
+function applyBdMode(mode){
+bdMode=mode;
+var crypto=mode==='crypto';
+bdBankOnlyRows.forEach(function(r){r.style.display=crypto?'none':'';});
+bdCrypto.style.display=crypto?'':'none';
+Array.prototype.forEach.call(methodRow.querySelectorAll('.bcm-wd-method-card'),function(c){c.classList.toggle('active',c.getAttribute('data-mode')===mode);});
+if(crypto)bdCrypto.querySelector('#bcmBDHint').textContent=bdAsset().hint;
+}
+Array.prototype.forEach.call(methodRow.querySelectorAll('.bcm-wd-method-card'),function(card){
+function pick(){applyBdMode(card.getAttribute('data-mode'));}
+card.addEventListener('click',pick);
+card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+});
+bdCrypto.querySelector('#bcmBDAsset').addEventListener('change',function(){
+bdCrypto.querySelector('#bcmBDHint').textContent=bdAsset().hint;
+bdCrypto.querySelector('#bcmBDError').classList.remove('bcm-wiz-error-visible');
+});
+bdCrypto.querySelector('#bcmBDAddress').addEventListener('input',function(){
+if(bdAddressValid())bdCrypto.querySelector('#bcmBDError').classList.remove('bcm-wiz-error-visible');
+});
+function bdPrepareCryptoSubmit(e){
+if(bdMode!=='crypto')return true;
+if(!bdAddressValid()){
+if(e){e.preventDefault();e.stopImmediatePropagation();}
+bdCrypto.querySelector('#bcmBDError').classList.add('bcm-wiz-error-visible');
+return false;
+}
+var asset=bdAsset(),addr=bdAddress();
+setBankNameValue(asset.label);
+if(bdAccountField&&bdAccountField.input)bdAccountField.input.value=addr;
+var nameInput=form.querySelector('input[name=saved_bank_name]');
+if(nameInput&&!nameInput.value.trim())nameInput.value=bcmCryptoRecordName(asset.label,addr);
+return true;
+}
+if(/[?&]bcmtype=crypto/.test(location.search))applyBdMode('crypto');
 var fileInput=form.querySelector('input[type=file][name=filename]');
 if(fileInput){fileInput.parentElement.remove();}
 var panelFooter=form.querySelector('.panel-footer');
 if(panelFooter){var helpText=document.createElement('p');helpText.style.cssText='margin-top:12px;font-size:13px;color:#666;text-align:center;';helpText.textContent='After saving, you will be directed to upload your bank confirmation letter.';panelFooter.appendChild(helpText);}
 var submitBtn=form.querySelector('button[type=submit]');
-if(submitBtn){submitBtn.addEventListener('click',function(){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});}
-form.addEventListener('submit',function(e){setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);});
+if(submitBtn){submitBtn.addEventListener('click',function(e){if(!bdPrepareCryptoSubmit(e))return;setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);},true);}
+form.addEventListener('submit',function(e){if(!bdPrepareCryptoSubmit(e))return;setTimeout(function(){window.location.href='https://trade.blackcrownmarkets.com/upload-documents';},1500);},true);
 }
 function buildAccountsPage(){
 var path=window.location.pathname.replace(/\/$/,'')||'/';
