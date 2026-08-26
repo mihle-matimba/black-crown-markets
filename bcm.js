@@ -735,52 +735,51 @@ var WD_CRYPTO_ASSETS=[
 {value:'ETH',label:'Ethereum (ETH)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
 {value:'BTC',label:'Bitcoin (BTC)',chain:'Bitcoin',re:/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/,hint:'A Bitcoin address starts with 1, 3 or bc1.'}
 ];
-var syntheticCryptoOption=null;
-(function(){
-var hasCrypto=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&wdMethodMeta(o).label==='Crypto';})[0];
-if(hasCrypto)return;
-syntheticCryptoOption=document.createElement('option');
-syntheticCryptoOption.value='Crypto';
-syntheticCryptoOption.textContent='Crypto';
-syntheticCryptoOption.setAttribute('data-bcm-synthetic','1');
-methodSelect.appendChild(syntheticCryptoOption);
-})();
+var WD_CRYPTO_KEY='__bcm_crypto';
 Array.prototype.forEach.call(methodSelect.options,function(o){if(WD_METHOD_EXCLUDED.indexOf(o.value)!==-1)o.disabled=true;});
-var methodOptions=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&WD_METHOD_EXCLUDED.indexOf(o.value)===-1;});
+var skaleMethods=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&WD_METHOD_EXCLUDED.indexOf(o.value)===-1;});
+var skaleCrypto=skaleMethods.filter(function(o){return wdMethodMeta(o).label==='Crypto';})[0];
+var cryptoCarrier=skaleMethods.filter(function(o){return o.value==='WireTransfer';})[0]||skaleMethods[0];
+var methodChoices=skaleMethods.map(function(o){var m=wdMethodMeta(o);return{key:o.value,post:o.value,label:m.label,icon:m.icon,crypto:m.label==='Crypto'};});
+if(!skaleCrypto&&cryptoCarrier)methodChoices.push({key:WD_CRYPTO_KEY,post:cryptoCarrier.value,label:'Crypto',icon:WD_METHOD_ICONS.crypto,crypto:true});
+var brandMethod=null;
 function methodPane(value){return value?form.querySelector('[id="'+value+'"]'):null;}
-function applyMethod(value){
-methodSelect.value=value;
-fireChange(methodSelect);
+function currentChoice(){var k=brandMethod;return methodChoices.filter(function(c){return c.key===k;})[0]||null;}
+function applyMethod(key){
+var choice=methodChoices.filter(function(c){return c.key===key;})[0];
+if(!choice)return;
+brandMethod=choice.key;
+if(methodSelect.value!==choice.post){methodSelect.value=choice.post;fireChange(methodSelect);}
+var ownPane=(choice.key===WD_CRYPTO_KEY)?null:methodPane(choice.post);
 Array.prototype.forEach.call(methodSelect.options,function(o){
 var pane=methodPane(o.value);
-if(pane)pane.style.display=(o.value===value)?'block':'none';
+if(pane)pane.style.display=(ownPane&&pane===ownPane)?'block':'none';
 });
 }
 var currencyBoxHTML='<div class="bcm-wd-currency-box"><span class="bcm-wd-currency-label">Currency</span><span class="bcm-wd-currency-value" id="bcmWDCurrencyValue">—</span></div>';
 var methodRowWrap=document.createElement('div');
 methodRowWrap.className='bcm-wd-method-currency-row';
-if(methodOptions.length>1){
-methodRowWrap.innerHTML='<div class="bcm-wd-method-list">'+methodOptions.map(function(o){
-var meta=wdMethodMeta(o);
-return '<div class="bcm-wd-method-row bcm-wd-method-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+meta.icon+'</span><span class="bcm-wd-method-name">'+esc(meta.label)+'</span></div>';
+if(methodChoices.length>1){
+methodRowWrap.innerHTML='<div class="bcm-wd-method-list">'+methodChoices.map(function(c){
+return '<div class="bcm-wd-method-row bcm-wd-method-card" data-value="'+esc(c.key)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+c.icon+'</span><span class="bcm-wd-method-name">'+esc(c.label)+'</span></div>';
 }).join('')+'</div>'+currencyBoxHTML;
 }else{
-var soleMeta=methodOptions.length?wdMethodMeta(methodOptions[0]):{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
+var soleMeta=methodChoices.length?methodChoices[0]:{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
 methodRowWrap.innerHTML='<div class="bcm-wd-method-row"><span class="bcm-wd-method-icon">'+soleMeta.icon+'</span><span class="bcm-wd-method-name">'+esc(soleMeta.label)+'</span></div>'+currencyBoxHTML;
 }
 methodGroup.appendChild(methodRowWrap);
 var wdCurrencyValue=methodRowWrap.querySelector('#bcmWDCurrencyValue');
 var methodCards=methodRowWrap.querySelectorAll('.bcm-wd-method-card');
-function highlightMethod(value){Array.prototype.forEach.call(methodCards,function(c){c.classList.toggle('active',c.getAttribute('data-value')===value);});}
+function highlightMethod(key){Array.prototype.forEach.call(methodCards,function(c){c.classList.toggle('active',c.getAttribute('data-value')===key);});}
 Array.prototype.forEach.call(methodCards,function(card){
-function pickMethod(){var value=card.getAttribute('data-value');applyMethod(value);highlightMethod(value);updateNavLabels();}
+function pickMethod(){var key=card.getAttribute('data-value');applyMethod(key);highlightMethod(key);updateNavLabels();}
 card.addEventListener('click',pickMethod);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pickMethod();}});
 });
 var creditCardFields=form.querySelector('#CreditCard');
 var wireFields=form.querySelector('#WireTransfer');
-var defaultMethod=methodOptions.filter(function(o){return o.value==='WireTransfer';})[0]||methodOptions[0];
-if(defaultMethod){applyMethod(defaultMethod.value);highlightMethod(defaultMethod.value);}
+var defaultChoice=methodChoices.filter(function(c){return c.key==='WireTransfer';})[0]||methodChoices[0];
+if(defaultChoice){applyMethod(defaultChoice.key);highlightMethod(defaultChoice.key);}
 var BENEFICIARY_FIELD_LABELS=['beneficiary details','name','address','country','bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name','branch code'];
 function hideBeneficiaryDetails(){
 if(!wireFields)return;
@@ -824,8 +823,7 @@ fieldsToHide.parentNode.insertBefore(infoBanner,fieldsToHide);
 var infoTitles=page.querySelectorAll('.panel-title');
 infoTitles.forEach(function(titleEl){if(titleEl.textContent.trim()==='Important Information'){var infoPanel=titleEl.closest('.panel');var infoCol=infoPanel?infoPanel.closest('.col-md-6'):null;if(infoPanel)infoPanel.remove();if(infoCol&&!infoCol.children.length)infoCol.remove();}else if(titleEl.textContent.trim()==='Withdraw Request Form'){titleEl.textContent='Withdrawal';}});
 var TOTAL_STEPS=3;
-function selectedMethodMeta(){var o=methodSelect.options[methodSelect.selectedIndex];return o?wdMethodMeta(o):null;}
-function isCryptoMethod(){var m=selectedMethodMeta();return !!(m&&m.label==='Crypto');}
+function isCryptoMethod(){var c=currentChoice();return !!(c&&c.crypto);}
 var stepBadge=document.createElement('div');
 stepBadge.className='bcm-wizard-step-text';
 stepBadge.id='bcmWDStepText';
@@ -889,7 +887,7 @@ var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
 if(errEl&&cryptoAddressValid())errEl.classList.remove('bcm-wiz-error-visible');
 updateFooterVisibility();
 });
-function selectedMethodPane(){var o=methodSelect.options[methodSelect.selectedIndex];return o?methodPane(o.value):null;}
+function selectedMethodPane(){var c=currentChoice();return(c&&c.key!==WD_CRYPTO_KEY)?methodPane(c.post):null;}
 function savedWalletSelect(){
 var pane=selectedMethodPane();
 if(!pane)return null;
@@ -985,7 +983,7 @@ goToStep(2);
 return;
 }
 if(currentStep===2){
-if(!methodSelect.value){step2ErrorEl.classList.add('bcm-wiz-error-visible');return;}
+if(!brandMethod){step2ErrorEl.classList.add('bcm-wiz-error-visible');return;}
 step2ErrorEl.classList.remove('bcm-wiz-error-visible');
 goToStep(3);
 }
@@ -1023,7 +1021,7 @@ if(!dest){e.preventDefault();e.stopImmediatePropagation();showCryptoError('We co
 var asset=selectedAsset();
 dest.value='CRYPTO WITHDRAWAL | '+asset.label+' | network '+asset.chain+' | '+cryptoPane.querySelector('#bcmWDAddress').value.trim();
 fireChange(dest);
-if(syntheticCryptoOption)methodSelect.value='WireTransfer';
+if(/[?&]bcmdebug/.test(location.search)&&window.console)console.log('[bcm] withdraw payload',new URLSearchParams(new FormData(form)).toString());
 },true);
 }
 function buildWithdrawGatePage(){
