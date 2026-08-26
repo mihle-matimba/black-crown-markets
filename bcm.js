@@ -661,7 +661,19 @@ var WD_CRYPTO_ASSETS=[
 function bcmAssetByValue(v){return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
 function bcmShortAddr(a){a=String(a||'');return a.length>14?(a.slice(0,6)+'…'+a.slice(-4)):a;}
 function bcmCryptoRecordName(assetLabel,addr){return 'CRYPTO · '+assetLabel+' · '+bcmShortAddr(addr);}
-var BCM_CRYPTO_PREFIX=/^\s*CRYPTO\s*·/i;
+var BCM_CRYPTO_PREFIX=/^\s*CRYPTO\s*[·:\-]/i;
+function bcmIsCryptoRecord(t){
+t=String(t||'');
+if(!t)return false;
+if(BCM_CRYPTO_PREFIX.test(t))return true;
+if(/\bcrypto\b/i.test(t))return true;
+if(/\b(usdt|usdc|btc|bitcoin|eth|ethereum|tron|trc-?20|erc-?20|bep-?20|wallet)\b/i.test(t))return true;
+if(/0x[a-fA-F0-9]{40}/.test(t))return true;
+if(/\bT[1-9A-HJ-NP-Za-km-z]{33}\b/.test(t))return true;
+if(/\bbc1[ac-hj-np-z02-9]{11,71}\b/.test(t))return true;
+for(var i=0;i<WD_CRYPTO_ASSETS.length;i++){if(t.indexOf(WD_CRYPTO_ASSETS[i].label)>-1)return true;}
+return false;
+}
 function buildWithdrawPage(){
 var page=document.querySelector('#withdrawalpage');
 var form=document.querySelector('#withdrawForm');
@@ -888,7 +900,7 @@ walletChooser.style.display='none';
 cryptoPane.style.display='none';
 if(currentStep!==3||!isCryptoMethod())return;
 var sel=savedWalletSelect();
-var saved=sel?Array.prototype.filter.call(sel.options,function(o){return o.value&&BCM_CRYPTO_PREFIX.test(o.textContent||'');}):[];
+var saved=sel?Array.prototype.filter.call(sel.options,function(o){return o.value&&bcmIsCryptoRecord(o.textContent||'');}):[];
 if(sel)sel.style.display='none';
 if(!sel||!saved.length){cryptoPane.style.display='';return;}
 walletChooser.innerHTML=saved.map(function(o){
@@ -922,7 +934,7 @@ if(clearButton)clearButton.style.display='none';
 page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
 var ready=currentStep===TOTAL_STEPS&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
-if(ready&&isCryptoMethod()){var sw=savedWalletSelect();var so=sw?sw.options[sw.selectedIndex]:null;ready=!!(sw&&sw.value&&so&&BCM_CRYPTO_PREFIX.test(so.textContent||''));}
+if(ready&&isCryptoMethod()){var sw=savedWalletSelect();var so=sw?sw.options[sw.selectedIndex]:null;ready=!!(sw&&sw.value&&so&&bcmIsCryptoRecord(so.textContent||''));}
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
@@ -1004,7 +1016,7 @@ if(/[?&]bcmdebug/.test(location.search)&&window.console)console.log('[bcm] withd
 if(!isCryptoMethod())return;
 var sw=savedWalletSelect();
 var so=sw?sw.options[sw.selectedIndex]:null;
-if(!sw||!sw.value||!so||!BCM_CRYPTO_PREFIX.test(so.textContent||'')){
+if(!sw||!sw.value||!so||!bcmIsCryptoRecord(so.textContent||'')){
 e.preventDefault();e.stopImmediatePropagation();
 var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
 if(errEl){errEl.textContent='Please choose a saved crypto wallet to withdraw to.';errEl.classList.add('bcm-wiz-error-visible');}
@@ -1200,7 +1212,10 @@ if(el.hasAttribute('required')&&!String(el.value||'').trim())el.value='N/A';
 });
 });
 var nameInput=form.querySelector('input[name=saved_bank_name]');
-if(nameInput&&!nameInput.value.trim())nameInput.value=bcmCryptoRecordName(asset.label,addr);
+if(nameInput){
+var typed=String(nameInput.value||'').trim();
+if(!BCM_CRYPTO_PREFIX.test(typed))nameInput.value=bcmCryptoRecordName(typed||asset.label,addr);
+}
 return true;
 }
 function bdRemember(mode){try{sessionStorage.setItem('bcmBdMode',mode);}catch(err){}}
