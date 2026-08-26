@@ -1487,12 +1487,22 @@ function findDepositAmountField(root){
 if(!root)return null;
 return root.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]')||findFieldByLabel(root,'amount');
 }
+function findDepositSubmitControl(root){
+if(!root)return null;
+var candidates=root.querySelectorAll('button,input[type=submit],a.btn,a.button');
+for(var i=0;i<candidates.length;i++){
+var el=candidates[i];
+if(el.type==='button')continue;
+var text=(el.value||el.textContent||'').trim().toLowerCase();
+if(text.indexOf('deposit')>-1)return el;
+}
+return root.querySelector('button[type=submit],input[type=submit]');
+}
 function buildDepositMinimumGate(){
 var accountSelect=document.querySelector('#mt_account_id');
 if(!accountSelect)return;
-var depositForm=accountSelect.closest('form');
-if(!depositForm)return;
-var amountInput=findDepositAmountField(depositForm);
+var searchRoot=document.querySelector('#client-fields')||document.querySelector('.page-content-wrap')||document;
+var amountInput=findDepositAmountField(searchRoot)||findDepositAmountField(document);
 if(!amountInput||amountInput.dataset.bcmDepositMinGate)return;
 amountInput.dataset.bcmDepositMinGate='1';
 var minNote=document.createElement('p');
@@ -1501,7 +1511,8 @@ var amountWrap=amountInput.closest('.form-group')||amountInput.parentElement;
 amountWrap.appendChild(minNote);
 function currentDepositMin(){
 var currencySelect=document.querySelector('#deposit_currency');
-var selectedOption=accountSelect.options[accountSelect.selectedIndex];
+var liveAccountSelect=document.querySelector('#mt_account_id')||accountSelect;
+var selectedOption=liveAccountSelect.options[liveAccountSelect.selectedIndex];
 var currency=(currencySelect&&currencySelect.value)||(selectedOption?selectedOption.getAttribute('currency'):null)||'USD';
 var tier=depositAccountTier(selectedOption);
 var table=DEPOSIT_MIN_BY_TIER[currency]||DEPOSIT_MIN_BY_TIER.USD;
@@ -1514,30 +1525,35 @@ minNote.textContent='Minimum deposit: '+symbol+m.amount.toLocaleString()+' '+m.c
 minNote.classList.remove('bcm-deposit-min-hint-error');
 amountInput.setAttribute('min',String(m.amount));
 }
+function amountBelowMin(){
+var m=currentDepositMin();
+var val=parseFloat(amountInput.value);
+return!val||val<m.amount;
+}
+function showBlockedMessage(){
+var m=currentDepositMin();
+var symbol=m.currency==='ZAR'?'R':(m.currency==='USD'?'$':'');
+minNote.textContent='Minimum deposit for this account is '+symbol+m.amount.toLocaleString()+' '+m.currency+'.';
+minNote.classList.add('bcm-deposit-min-hint-error');
+amountInput.focus();
+}
 amountInput.addEventListener('input',function(){minNote.classList.remove('bcm-deposit-min-hint-error');});
 accountSelect.addEventListener('change',updateDepositMinNote);
 var currencySelectNow=document.querySelector('#deposit_currency');
 if(currencySelectNow)currencySelectNow.addEventListener('change',updateDepositMinNote);
-if(!depositForm.dataset.bcmDepositMinGateForm){
+var depositForm=amountInput.closest('form');
+if(depositForm&&!depositForm.dataset.bcmDepositMinGateForm){
 depositForm.dataset.bcmDepositMinGateForm='1';
 depositForm.addEventListener('submit',function(e){
-var liveAccountSelect=document.querySelector('#mt_account_id')||accountSelect;
-var liveAmountInput=findDepositAmountField(depositForm)||amountInput;
-var liveCurrencySelect=document.querySelector('#deposit_currency');
-var selectedOption=liveAccountSelect.options[liveAccountSelect.selectedIndex];
-var currency=(liveCurrencySelect&&liveCurrencySelect.value)||(selectedOption?selectedOption.getAttribute('currency'):null)||'USD';
-var tier=depositAccountTier(selectedOption);
-var table=DEPOSIT_MIN_BY_TIER[currency]||DEPOSIT_MIN_BY_TIER.USD;
-var min=table[tier];
-var val=parseFloat(liveAmountInput.value);
-if(!val||val<min){
-e.preventDefault();
-e.stopPropagation();
-var liveNote=liveAmountInput.closest('.form-group')?liveAmountInput.closest('.form-group').querySelector('.bcm-deposit-min-hint'):null;
-var symbol=currency==='ZAR'?'R':(currency==='USD'?'$':'');
-if(liveNote){liveNote.textContent='Minimum deposit for this account is '+symbol+min.toLocaleString()+' '+currency+'.';liveNote.classList.add('bcm-deposit-min-hint-error');}
-liveAmountInput.focus();
+if(amountBelowMin()){e.preventDefault();e.stopPropagation();showBlockedMessage();}
+},true);
 }
+var submitScope=amountInput.closest('.panel')||amountInput.closest('#client-fields')||searchRoot;
+var submitBtn=findDepositSubmitControl(submitScope)||findDepositSubmitControl(document);
+if(submitBtn&&!submitBtn.dataset.bcmDepositMinGateBtn){
+submitBtn.dataset.bcmDepositMinGateBtn='1';
+submitBtn.addEventListener('click',function(e){
+if(amountBelowMin()){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();showBlockedMessage();}
 },true);
 }
 updateDepositMinNote();
