@@ -661,6 +661,7 @@ var WD_CRYPTO_ASSETS=[
 function bcmAssetByValue(v){return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
 function bcmShortAddr(a){a=String(a||'');return a.length>14?(a.slice(0,6)+'…'+a.slice(-4)):a;}
 function bcmCryptoRecordName(assetLabel,addr){return 'CRYPTO · '+assetLabel+' · '+bcmShortAddr(addr);}
+var BCM_ADD_WALLET_URL='https://trade.blackcrownmarkets.com/bank-details/create?bcmtype=crypto';
 var BCM_CRYPTO_PREFIX=/^\s*CRYPTO\s*[·:\-]/i;
 function bcmIsCryptoRecord(t){
 t=String(t||'');
@@ -881,7 +882,7 @@ cryptoPane.className='bcm-wd-crypto-pane';
 cryptoPane.style.display='none';
 cryptoPane.innerHTML='<div class="bcm-wd-banner bcm-wd-crypto-proof"><strong>No crypto wallet saved yet</strong><p>Withdrawals are sent to a saved payout method. Add your wallet once and it is available here every time.</p></div>'
 +'<p class="bcm-wiz-error" id="bcmWDCryptoError"></p>'
-+'<a class="bcm-wd-gate-btn" href="https://trade.blackcrownmarkets.com/bank-details?bcmtype=crypto"><span>Add a crypto wallet</span></a>';
++'<a class="bcm-wd-gate-btn" href="'+BCM_ADD_WALLET_URL+'"><span>Add a crypto wallet</span></a>';
 fieldsToHide.parentNode.insertBefore(cryptoPane,fieldsToHide);
 function selectedMethodPane(){var c=currentChoice();return(c&&c.key!==WD_CRYPTO_KEY)?methodPane(c.post):null;}
 function savedWalletSelect(){
@@ -917,7 +918,7 @@ selHost.style.display='none';
 if(!sel||!saved.length){cryptoPane.style.display='';return;}
 walletChooser.innerHTML=saved.map(function(o){
 return '<div class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card" data-value="'+esc(o.value)+'" role="button" tabindex="0"><span class="bcm-wd-method-icon">'+WD_METHOD_ICONS.crypto+'</span><span class="bcm-wd-method-name">'+esc((o.textContent||o.value).trim())+'</span></div>';
-}).join('')+'<a class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card bcm-wd-wallet-new" href="https://trade.blackcrownmarkets.com/bank-details?bcmtype=crypto"><span class="bcm-wd-method-icon">+</span><span class="bcm-wd-method-name">Add a new wallet</span></a>';
+}).join('')+'<a class="bcm-wd-method-row bcm-wd-method-card bcm-wd-wallet-card bcm-wd-wallet-new" href="'+BCM_ADD_WALLET_URL+'"><span class="bcm-wd-method-icon">+</span><span class="bcm-wd-method-name">Add a new wallet</span></a>';
 var walletCards=walletChooser.querySelectorAll('.bcm-wd-wallet-card[data-value]');
 Array.prototype.forEach.call(walletCards,function(card){
 function pickWallet(){
