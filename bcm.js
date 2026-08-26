@@ -1524,7 +1524,8 @@ if(!amountInput||amountInput.dataset.bcmDepositMinGate)return;
 amountInput.dataset.bcmDepositMinGate='1';
 var minNote=document.createElement('p');
 minNote.className='bcm-deposit-min-hint';
-var amountWrap=amountInput.closest('.form-group')||amountInput.parentElement;
+var amountGroup=amountInput.closest('.form-group');
+var amountWrap=(amountGroup&&amountGroup.querySelector('.col-md-9'))||amountGroup||amountInput.parentElement;
 amountWrap.appendChild(minNote);
 function currentDepositMin(){
 var currencySelect=document.querySelector('#deposit_currency');
@@ -1541,6 +1542,7 @@ var symbol=m.currency==='ZAR'?'R':(m.currency==='USD'?'$':'');
 minNote.textContent='Minimum deposit: '+symbol+m.amount.toLocaleString()+' '+m.currency;
 minNote.classList.remove('bcm-deposit-min-hint-error');
 amountInput.setAttribute('min',String(m.amount));
+amountInput.setAttribute('data-parsley-min',String(m.amount));
 }
 function amountBelowMin(){
 var m=currentDepositMin();
