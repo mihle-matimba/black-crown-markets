@@ -727,6 +727,23 @@ if(/card/i.test(probe))return{label:'Credit Card',icon:WD_METHOD_ICONS.card};
 if(/wire|bank|transfer/i.test(probe))return{label:'Wire Transfer',icon:WD_METHOD_ICONS.bank};
 return{label:((opt.textContent||opt.value)||'').trim(),icon:WD_METHOD_ICONS.bank};
 }
+var WD_CRYPTO_ASSETS=[
+{value:'USDT-TRC20',label:'USDT (TRC-20)',chain:'TRON',re:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,hint:'A TRON address starts with T and is 34 characters long.'},
+{value:'USDT-ERC20',label:'USDT (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'USDC-ERC20',label:'USDC (ERC-20)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'ETH',label:'Ethereum (ETH)',chain:'Ethereum',re:/^0x[a-fA-F0-9]{40}$/,hint:'An Ethereum address starts with 0x and is 42 characters long.'},
+{value:'BTC',label:'Bitcoin (BTC)',chain:'Bitcoin',re:/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/,hint:'A Bitcoin address starts with 1, 3 or bc1.'}
+];
+var syntheticCryptoOption=null;
+(function(){
+var hasCrypto=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&wdMethodMeta(o).label==='Crypto';})[0];
+if(hasCrypto)return;
+syntheticCryptoOption=document.createElement('option');
+syntheticCryptoOption.value='Crypto';
+syntheticCryptoOption.textContent='Crypto';
+syntheticCryptoOption.setAttribute('data-bcm-synthetic','1');
+methodSelect.appendChild(syntheticCryptoOption);
+})();
 Array.prototype.forEach.call(methodSelect.options,function(o){if(WD_METHOD_EXCLUDED.indexOf(o.value)!==-1)o.disabled=true;});
 var methodOptions=Array.prototype.filter.call(methodSelect.options,function(o){return o.value&&WD_METHOD_EXCLUDED.indexOf(o.value)===-1;});
 function methodPane(value){return value?form.querySelector('[id="'+value+'"]'):null;}
@@ -837,6 +854,32 @@ var walletChooser=document.createElement('div');
 walletChooser.className='bcm-wd-wallet-list';
 walletChooser.style.display='none';
 fieldsToHide.parentNode.insertBefore(walletChooser,fieldsToHide);
+var cryptoPane=document.createElement('div');
+cryptoPane.className='bcm-wd-crypto-pane';
+cryptoPane.style.display='none';
+cryptoPane.innerHTML='<div class="form-group"><label>Asset &amp; Network</label><select class="form-control" id="bcmWDAsset">'
++WD_CRYPTO_ASSETS.map(function(a){return '<option value="'+esc(a.value)+'">'+esc(a.label)+'</option>';}).join('')
++'</select></div>'
++'<div class="form-group"><label>Wallet Address</label><input type="text" class="form-control" id="bcmWDAddress" autocomplete="off" spellcheck="false" placeholder="Paste your wallet address"><p class="help-block" id="bcmWDAddressHint"></p></div>'
++'<p class="bcm-wiz-error" id="bcmWDCryptoError">Please enter a valid wallet address for the selected network.</p>'
++'<div class="bcm-wd-banner bcm-wd-crypto-warn"><strong>Check the network carefully</strong><p>Funds sent to an address on the wrong network cannot be recovered.</p></div>';
+fieldsToHide.parentNode.insertBefore(cryptoPane,fieldsToHide);
+function selectedAsset(){var el=cryptoPane.querySelector('#bcmWDAsset');var v=el?el.value:'';return WD_CRYPTO_ASSETS.filter(function(a){return a.value===v;})[0]||WD_CRYPTO_ASSETS[0];}
+function cryptoAddressValid(){var el=cryptoPane.querySelector('#bcmWDAddress');var v=el?el.value.trim():'';return !!v&&selectedAsset().re.test(v);}
+function updateAddressHint(){
+var hintEl=cryptoPane.querySelector('#bcmWDAddressHint');
+if(hintEl)hintEl.textContent=selectedAsset().hint;
+var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
+var addrEl=cryptoPane.querySelector('#bcmWDAddress');
+if(errEl&&addrEl&&!addrEl.value.trim())errEl.classList.remove('bcm-wiz-error-visible');
+updateFooterVisibility();
+}
+cryptoPane.querySelector('#bcmWDAsset').addEventListener('change',updateAddressHint);
+cryptoPane.querySelector('#bcmWDAddress').addEventListener('input',function(){
+var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
+if(errEl&&cryptoAddressValid())errEl.classList.remove('bcm-wiz-error-visible');
+updateFooterVisibility();
+});
 function selectedMethodPane(){var o=methodSelect.options[methodSelect.selectedIndex];return o?methodPane(o.value):null;}
 function savedWalletSelect(){
 var pane=selectedMethodPane();
@@ -851,9 +894,11 @@ return null;
 function applyWalletChooser(){
 walletChooser.innerHTML='';
 walletChooser.style.display='none';
-if(!isCryptoMethod())return;
+cryptoPane.style.display='none';
+if(currentStep!==3||!isCryptoMethod())return;
+if(!selectedMethodPane()){cryptoPane.style.display='';updateAddressHint();return;}
 var sel=savedWalletSelect();
-if(!sel)return;
+if(!sel){cryptoPane.style.display='';updateAddressHint();return;}
 var saved=Array.prototype.filter.call(sel.options,function(o){return o.value;});
 if(!saved.length)return;
 sel.style.display='none';
@@ -884,10 +929,11 @@ if(clearButton)clearButton.style.display='none';
 page.classList.remove('bcm-wd-footer-ready');
 function updateFooterVisibility(){
 var ready=currentStep===TOTAL_STEPS&&!amountInput.disabled&&amountInput.value&&parseFloat(amountInput.value)>0;
+if(ready&&cryptoPane&&cryptoPane.style.display!=='none')ready=cryptoAddressValid();
 page.classList.toggle('bcm-wd-footer-ready',!!ready);
 }
 amountInput.addEventListener('input',updateFooterVisibility);
-[stepBadge,step1Heading,accountGroup,step1ErrorEl,step2Heading,methodGroup,step2ErrorEl,step3Heading,infoBanner,fieldsToHide,amountGroup,navBar].forEach(function(el){if(el)panelBody.appendChild(el);});
+[stepBadge,step1Heading,accountGroup,step1ErrorEl,step2Heading,methodGroup,step2ErrorEl,step3Heading,infoBanner,walletChooser,cryptoPane,fieldsToHide,amountGroup,navBar].forEach(function(el){if(el)panelBody.appendChild(el);});
 var step1Elements=[step1Heading,accountGroup];
 var step2Elements=[step2Heading,methodGroup];
 var step3Elements=[step3Heading,infoBanner,fieldsToHide,amountGroup];
@@ -913,7 +959,8 @@ nextBtn.textContent=currentStep===1?'Next: Type of Withdrawal':('Next: '+(isCryp
 function goToStep(step){
 currentStep=step;
 stepBadge.textContent='Step '+step+' of '+TOTAL_STEPS;
-if(step===3){updateStep3Heading();applyWalletChooser();}
+if(step===3)updateStep3Heading();
+applyWalletChooser();
 enforceStepVisibility();
 backBtn.style.display=step===1?'none':'';
 nextBtn.style.display=step===TOTAL_STEPS?'none':'';
@@ -935,6 +982,40 @@ goToStep(3);
 }
 });
 updateNavLabels();
+function cryptoDestinationField(){
+if(!wireFields)return null;
+var pref=['beneficiary details','bank name','account number / iban','account number','iban','address','name'];
+var found={};
+var all=wireFields.querySelectorAll('*');
+for(var i=0;i<all.length;i++){
+var el=all[i];
+if(el.children.length>0)continue;
+var t=el.textContent.trim().toLowerCase();
+if(pref.indexOf(t)===-1)continue;
+var row=el.closest('.form-group')||el.parentElement;
+if(!row)continue;
+var input=row.querySelector('textarea,input[type=text],input:not([type])');
+if(input&&!found[t])found[t]=input;
+}
+for(var j=0;j<pref.length;j++){if(found[pref[j]])return found[pref[j]];}
+return null;
+}
+function showCryptoError(msg){
+var errEl=cryptoPane.querySelector('#bcmWDCryptoError');
+if(!errEl)return;
+if(msg)errEl.textContent=msg;
+errEl.classList.add('bcm-wiz-error-visible');
+}
+submitBtn.addEventListener('click',function(e){
+if(!isCryptoMethod()||cryptoPane.style.display==='none')return;
+if(!cryptoAddressValid()){e.preventDefault();e.stopImmediatePropagation();showCryptoError('Please enter a valid wallet address for the selected network.');return;}
+var dest=cryptoDestinationField();
+if(!dest){e.preventDefault();e.stopImmediatePropagation();showCryptoError('We could not attach your wallet details to this request. Please contact support rather than submitting without a destination address.');return;}
+var asset=selectedAsset();
+dest.value='CRYPTO WITHDRAWAL | '+asset.label+' | network '+asset.chain+' | '+cryptoPane.querySelector('#bcmWDAddress').value.trim();
+fireChange(dest);
+if(syntheticCryptoOption)methodSelect.value='WireTransfer';
+},true);
 }
 function buildBankDetailsPage(){
 var form=document.querySelector('form[action="https://trade.blackcrownmarkets.com/bank-details"]');
