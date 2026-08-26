@@ -1076,7 +1076,14 @@ bankSelect.className=bankNameInput.className;
 bankSelect.innerHTML='<option value="">Select your bank</option>'
 +BANK_GROUPS_ZA.map(function(g){return '<optgroup label="'+escBank(g.label)+'">'+g.banks.map(function(b){return '<option value="'+escBank(b)+'">'+escBank(b)+'</option>';}).join('')+'</optgroup>';}).join('')
 +'<option value="Other">Other</option>';
+var bankNamePrev=String(bankNameInput.value||'').trim();
 bankNameInput.parentNode.replaceChild(bankSelect,bankNameInput);
+if(bankNamePrev){
+if(!Array.prototype.filter.call(bankSelect.options,function(o){return o.value===bankNamePrev;})[0]){
+var prevOpt=document.createElement('option');prevOpt.value=bankNamePrev;prevOpt.textContent=bankNamePrev;bankSelect.appendChild(prevOpt);
+}
+bankSelect.value=bankNamePrev;
+}
 }
 var panelBody=form.querySelector('.panel-body');
 if(panelBody){
@@ -1102,6 +1109,22 @@ return null;
 var BD_BANK_ONLY_LABELS=['bank name','bank address','bank country','account number / iban','account number','iban','swift code / bic','swift code','bic','branch name','branch code'];
 var bdAccountField=bdFieldByLabel(['account number / iban','account number','iban']);
 var bdBankNameField=bdFieldByLabel(['bank name']);
+var bdBankCountryField=bdFieldByLabel(['bank country']);
+var bdSwiftField=bdFieldByLabel(['swift code / bic','swift code','bic']);
+var bdBeneficiaryCountryField=bdFieldByLabel(['country','beneficiary country']);
+var bdBeneficiaryAddressField=bdFieldByLabel(['address','beneficiary address']);
+var bdBankAddressField=bdFieldByLabel(['bank address']);
+var bdBranchNameField=bdFieldByLabel(['branch name']);
+var bdBranchCodeField=bdFieldByLabel(['branch code']);
+function bdSetValue(field,v){
+if(!field||!field.input)return;
+var el=field.input;
+if(el.tagName==='SELECT'){
+var has=Array.prototype.filter.call(el.options,function(o){return o.value===v;})[0];
+if(!has&&v){var o=document.createElement('option');o.value=v;o.textContent=v;el.appendChild(o);}
+}
+el.value=v;
+}
 var bdBankOnlyRows=[];
 BD_BANK_ONLY_LABELS.forEach(function(l){var f=bdFieldByLabel([l]);if(f&&bdBankOnlyRows.indexOf(f.row)===-1)bdBankOnlyRows.push(f.row);});
 var bdCrypto=document.createElement('div');
@@ -1137,7 +1160,7 @@ Array.prototype.forEach.call(methodRow.querySelectorAll('.bcm-wd-method-card'),f
 if(crypto)bdCrypto.querySelector('#bcmBDHint').textContent=bdAsset().hint;
 }
 Array.prototype.forEach.call(methodRow.querySelectorAll('.bcm-wd-method-card'),function(card){
-function pick(){applyBdMode(card.getAttribute('data-mode'));}
+function pick(){var m=card.getAttribute('data-mode');bdRemember(m);applyBdMode(m);}
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
@@ -1146,7 +1169,7 @@ bdCrypto.querySelector('#bcmBDHint').textContent=bdAsset().hint;
 bdCrypto.querySelector('#bcmBDError').classList.remove('bcm-wiz-error-visible');
 });
 bdCrypto.querySelector('#bcmBDAddress').addEventListener('input',function(){
-if(bdAddressValid())bdCrypto.querySelector('#bcmBDError').classList.remove('bcm-wiz-error-visible');
+if(bdAddressValid()){var ee=bdCrypto.querySelector('#bcmBDError');ee.textContent='Please enter a valid wallet address for the selected network.';ee.classList.remove('bcm-wiz-error-visible');}
 });
 function bdPrepareCryptoSubmit(e){
 if(bdMode!=='crypto')return true;
@@ -1155,14 +1178,42 @@ if(e){e.preventDefault();e.stopImmediatePropagation();}
 bdCrypto.querySelector('#bcmBDError').classList.add('bcm-wiz-error-visible');
 return false;
 }
+var country=(bdBeneficiaryCountryField&&bdBeneficiaryCountryField.input)?String(bdBeneficiaryCountryField.input.value||'').trim():'';
+if(bdBankCountryField&&!country){
+if(e){e.preventDefault();e.stopImmediatePropagation();}
+var cErr=bdCrypto.querySelector('#bcmBDError');
+if(cErr){cErr.textContent='Please select your country before saving this wallet.';cErr.classList.add('bcm-wiz-error-visible');}
+return false;
+}
 var asset=bdAsset(),addr=bdAddress();
 setBankNameValue(asset.label);
 if(bdAccountField&&bdAccountField.input)bdAccountField.input.value=addr;
+var benAddr=(bdBeneficiaryAddressField&&bdBeneficiaryAddressField.input)?String(bdBeneficiaryAddressField.input.value||'').trim():'';
+bdSetValue(bdBankCountryField,country);
+bdSetValue(bdBankAddressField,benAddr||'N/A');
+bdSetValue(bdSwiftField,asset.chain);
+bdSetValue(bdBranchNameField,'Crypto Wallet');
+bdSetValue(bdBranchCodeField,asset.value);
+bdBankOnlyRows.forEach(function(row){
+Array.prototype.forEach.call(row.querySelectorAll('input,select,textarea'),function(el){
+if(el.hasAttribute('required')&&!String(el.value||'').trim())el.value='N/A';
+});
+});
 var nameInput=form.querySelector('input[name=saved_bank_name]');
 if(nameInput&&!nameInput.value.trim())nameInput.value=bcmCryptoRecordName(asset.label,addr);
 return true;
 }
-if(/[?&]bcmtype=crypto/.test(location.search))applyBdMode('crypto');
+function bdRemember(mode){try{sessionStorage.setItem('bcmBdMode',mode);}catch(err){}}
+function bdRecalled(){try{return sessionStorage.getItem('bcmBdMode');}catch(err){return null;}}
+function bdRepopulateFromRender(){
+var accVal=(bdAccountField&&bdAccountField.input)?String(bdAccountField.input.value||'').trim():'';
+var nameEl=form.querySelector('[name=beneficiarybankname]');
+var nameVal=nameEl?String(nameEl.value||'').trim():'';
+var match=WD_CRYPTO_ASSETS.filter(function(a){return a.label===nameVal;})[0];
+if(match)bdCrypto.querySelector('#bcmBDAsset').value=match.value;
+if(accVal&&!bdCrypto.querySelector('#bcmBDAddress').value)bdCrypto.querySelector('#bcmBDAddress').value=accVal;
+}
+if(/[?&]bcmtype=crypto/.test(location.search)||bdRecalled()==='crypto'){bdRemember('crypto');bdRepopulateFromRender();applyBdMode('crypto');}
 var fileInput=form.querySelector('input[type=file][name=filename]');
 if(fileInput){fileInput.parentElement.remove();}
 var panelFooter=form.querySelector('.panel-footer');
