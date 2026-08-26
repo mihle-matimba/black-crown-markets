@@ -1481,7 +1481,19 @@ note.className='bcm-currency-note';
 note.style.display='none';
 currencySelect.parentElement.appendChild(note);
 var depositForm=accountSelect.closest('form');
-var amountInput=depositForm?depositForm.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]'):null;
+function findFieldByLabel(root,labelText){
+if(!root)return null;
+var groups=root.querySelectorAll('.form-group');
+for(var i=0;i<groups.length;i++){
+var label=groups[i].querySelector('label');
+if(label&&label.textContent.trim().toLowerCase()===labelText){
+var field=groups[i].querySelector('input,select');
+if(field)return field;
+}
+}
+return null;
+}
+var amountInput=depositForm?(depositForm.querySelector('#depositAmount,input[name=amount],#amount,input[name=deposit_amount]')||findFieldByLabel(depositForm,'amount')):null;
 var minNote=null;
 if(amountInput){
 minNote=document.createElement('p');
