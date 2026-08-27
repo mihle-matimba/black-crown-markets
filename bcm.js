@@ -486,10 +486,20 @@ card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
-function defaultLeverageForType(){
+function selectedTypeCapText(){
 var activeLabel=typeGrid.querySelector('.bcm-wiz-type-card.active .bcm-wiz-type-label');
-var plan=activeLabel?activeLabel.textContent:'';
-return (/cent/i.test(plan)||/bonus/i.test(plan))?'1:500':'1:2000';
+var activeCard=typeGrid.querySelector('.bcm-wiz-type-card.active');
+return (activeLabel?activeLabel.textContent:'')+' '+(activeCard?activeCard.getAttribute('data-value')||'':'');
+}
+// Presets the selected account type is actually allowed (Cent/Bonus stop at 1:500).
+function allowedLeveragePresets(){
+var cap=bcmLeverageCapFor(selectedTypeCapText());
+if(!cap)return LEV_PRESETS;
+return LEV_PRESETS.filter(function(v){var n=Number(bcmLevKey(v));return n&&n<=cap.max;});
+}
+function defaultLeverageForType(){
+var allowed=allowedLeveragePresets();
+return allowed[allowed.length-1];
 }
 var accountsBefore=null;
 var snapshotInFlight=false;
@@ -528,7 +538,7 @@ function renderLeverageCards(){
 var isSelect=!!leverageField&&leverageField.tagName==='SELECT';
 var liveOptions=isSelect?Array.prototype.filter.call(leverageField.options,function(o){return o.value;}):[];
 var usingLive=liveOptions.length>0;
-var values=usingLive?liveOptions.map(function(o){return o.value;}):LEV_PRESETS;
+var values=usingLive?liveOptions.map(function(o){return o.value;}):allowedLeveragePresets();
 var defaultValue=usingLive?(leverageField.value||values[0]):defaultLeverageForType();
 function labelFor(v){
 if(!usingLive)return v;
@@ -913,12 +923,38 @@ if(!plan&&accountSelect){var opt=accountSelect.options[accountSelect.selectedInd
 return plan;
 }
 function updateLeverageTypeNote(fields){
-var typeNote=fields.typeNote;
-if(!typeNote)return;
 var plan=accountPlanName(fields.accountSelect.value,fields.accountSelect);
+var cap=bcmLeverageCapFor(plan);
+var typeNote=fields.typeNote;
+if(typeNote){
 var typeLabel=plan?plan.replace(/\s*\([^)]*\)\s*$/,''):'';
 typeNote.textContent=typeLabel?('Account type: '+typeLabel):'';
 typeNote.style.display=typeLabel?'':'none';
+}
+// Cap the selected account type's leverage options. Strictly non-destructive:
+// options are only ever hidden/disabled in place - never removed, re-added or
+// rebuilt - so Skale's own list stays the source of truth and we can never
+// offer a leverage their config doesn't have.
+var leverageSelect=fields.leverageSelect;
+if(!leverageSelect)return;
+var allowed=[];
+Array.prototype.forEach.call(leverageSelect.options,function(o){
+var n=Number(bcmLevKey(o.value)||bcmLevKey(o.textContent));
+var over=!!(cap&&n&&n>cap.max);
+o.hidden=over;
+o.disabled=over;
+if(!over&&o.value)allowed.push(o);
+});
+// If the current pick is now capped out, fall back to the highest allowed one.
+var selected=leverageSelect.options[leverageSelect.selectedIndex];
+if(selected&&selected.disabled&&allowed.length){
+leverageSelect.value=allowed[allowed.length-1].value;
+}
+var capNote=fields.capNote;
+if(capNote){
+capNote.textContent=cap?(cap.label+' accounts are limited to a maximum leverage of 1:'+cap.max+'.'):'';
+capNote.style.display=cap?'':'none';
+}
 }
 function bindLeverageTypeNote(fields){
 if(fields.accountSelect.dataset.bcmLevTypeNoted)return;
@@ -929,7 +965,21 @@ typeNote.style.display='none';
 var accountHost=fields.accountSelect.closest('.bcm-lev-field')||fields.accountSelect.parentNode;
 if(accountHost)accountHost.appendChild(typeNote);
 fields.typeNote=typeNote;
+var capNote=document.createElement('p');
+capNote.className='bcm-lev-cap-note';
+capNote.style.display='none';
+var levHost=fields.leverageSelect?(fields.leverageSelect.closest('.bcm-lev-field')||fields.leverageSelect.parentNode):null;
+if(levHost&&levHost.parentNode)levHost.parentNode.appendChild(capNote);
+fields.capNote=capNote;
 fields.accountSelect.addEventListener('change',function(){updateLeverageTypeNote(fields);});
+// Skale repopulates the leverage list itself when the account changes. Watch for
+// that and re-apply the cap to whatever it just rendered, so we stay in sync with
+// their list instead of fighting it. childList only - our own hidden/disabled
+// attribute writes therefore cannot retrigger this.
+if(fields.leverageSelect&&typeof MutationObserver!=='undefined'){
+var levObserver=new MutationObserver(function(){updateLeverageTypeNote(fields);});
+levObserver.observe(fields.leverageSelect,{childList:true});
+}
 updateLeverageTypeNote(fields);
 }
 function styleLeverageFormFields(form){
@@ -965,6 +1015,13 @@ var BCM_LEV_PAGE_URL='/change-leverage';
 var BCM_LEV_API_URL='/api/change-leverage';
 var bcmLevChainBusy=false;
 function bcmLevLog(){if(window.BCM_DEBUG_LEV&&window.console)console.log.apply(console,['[bcm-lev]'].concat(Array.prototype.slice.call(arguments)));}
+// Account types that are limited to a lower maximum leverage than the rest.
+var BCM_LEV_CAPS=[{match:/cent/i,max:500,label:'Standard Cent'},{match:/bonus/i,max:500,label:'Bonus'}];
+function bcmLeverageCapFor(planText){
+if(!planText)return null;
+for(var i=0;i<BCM_LEV_CAPS.length;i++){if(BCM_LEV_CAPS[i].match.test(planText))return BCM_LEV_CAPS[i];}
+return null;
+}
 // Skale stores leverage options as bare ratios ("100") while our cards use "1:100".
 // Compare on the trailing number so either representation matches.
 function bcmLevKey(v){var m=String(v==null?'':v).replace(/[,\s]/g,'').match(/(\d+)$/);return m?m[1]:null;}
