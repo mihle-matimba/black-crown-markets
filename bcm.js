@@ -151,6 +151,7 @@ return '<div class="bcm-wiz-type-card'+(active?' active':'')+'" data-value="'+es
 +'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
 +'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
 +'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
++(t.bonus?'<p class="bcm-wiz-type-notice">This is a leverage bonus, not a tradable bonus — it boosts your available margin, not withdrawable cash or profit.</p>':'')
 +(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
 +'</div>';
 }
@@ -328,6 +329,7 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 +'<h4 class="bcm-wiz-type-label">'+esc(t.label)+'</h4>'
 +'<p class="bcm-wiz-type-desc">'+esc(t.desc)+'</p>'
 +'<div class="bcm-wiz-type-meta">'+metaRows+'</div>'
++(t.bonus?'<p class="bcm-wiz-type-notice">This is a leverage bonus, not a tradable bonus — it boosts your available margin, not withdrawable cash or profit.</p>':'')
 +(t.badge?'<span class="bcm-wiz-type-badge">'+esc(t.badge)+'</span>':'')
 +'</div>';
 }
