@@ -1505,7 +1505,7 @@ if(!cryptoNoteShown){note.textContent='ZAR accounts only accept ZAR as your chos
 }else if(accountCurrency==='USD'){
 Array.prototype.forEach.call(currencySelect.options,function(o){o.disabled=false;o.hidden=false;});
 if(zarOption){zarOption.disabled=true;zarOption.hidden=true;}
-if(currencySelect.value==='ZAR'){currencySelect.value='USD';fireChange(currencySelect);}
+if(currencySelect.value!=='USD'){currencySelect.value='USD';fireChange(currencySelect);}
 currencySelect.disabled=false;
 currencySelect.classList.remove('bcm-currency-locked');
 if(!cryptoNoteShown){note.textContent='USD accounts cannot accept ZAR as your chosen currency.';note.style.display='';}
