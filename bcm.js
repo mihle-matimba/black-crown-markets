@@ -79,9 +79,9 @@ if(toggleZone.tagName==='BUTTON')toggleZone.type='button';
 toggleZone.setAttribute('role','button');toggleZone.setAttribute('tabindex','0');toggleZone.setAttribute('aria-label','Show password');toggleZone.setAttribute('aria-pressed','false');toggleZone.classList.add('bcm-password-toggle');
 function renderIcon(isVisible){toggleZone.innerHTML=isVisible?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 5.5 9 5.5a15.6 15.6 0 0 1-2.2 2.7M6.6 6.7A16.5 16.5 0 0 0 3 9.5S6.5 15 12 15a10.7 10.7 0 0 0 3.1-.5"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12s3.5-5.5 9-5.5 9 5.5 9 5.5-3.5 5.5-9 5.5S3 12 3 12z"/><circle cx="12" cy="12" r="2.5"/></svg>';}
 renderIcon(false);
-function togglePassword(){var isPassword=input.type==='password';input.type=isPassword?'text':'password';renderIcon(isPassword);toggleZone.setAttribute('aria-label',isPassword?'Hide password':'Show password');toggleZone.setAttribute('aria-pressed',isPassword?'true':'false');input.focus();}
-toggleZone.addEventListener('click',function(e){e.preventDefault();togglePassword();});
-toggleZone.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();togglePassword();}});
+function togglePassword(){var isPassword=input.type==='password';var nowVisible=isPassword;input.type=nowVisible?'text':'password';renderIcon(nowVisible);toggleZone.setAttribute('aria-label',nowVisible?'Hide password':'Show password');toggleZone.setAttribute('aria-pressed',nowVisible?'true':'false');input.focus();}
+toggleZone.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();togglePassword();});
+toggleZone.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();togglePassword();}});
 }
 function buildRegistrationPage(){var body=document.querySelector('.registration-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var stepNumbers=left.querySelectorAll('.steps_2 .stepNumber');stepNumbers.forEach(function(el,i){el.textContent=String(i+1);});
 var passwordInput=left.querySelector('#password-input');var passwordGroup=left.querySelector('#password_input_main_container')||(passwordInput&&passwordInput.closest('.form-group'));bindPasswordVisibilityToggle(passwordInput,passwordGroup,'password-field');
