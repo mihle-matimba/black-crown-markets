@@ -151,18 +151,23 @@ h1{
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0ms !important;}
-  .planet,.plasma,.stars,.rock,.rock .rk,.logo,h1,.tagline,.foot{opacity:1 !important;transform:none !important;}
+  .planet,.plasma,.stars,.rock,.rock .rk,.logo,h1,.tagline,.foot,.bcm-nav_logo,.bcm-nav_links,.bcm-nav_actions{opacity:1 !important;transform:none !important;}
 }
 
 .bcm-nav{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:24px clamp(20px,4vw,56px);}
+.bcm-nav_logo,.bcm-nav_links,.bcm-nav_actions{opacity:0;transform:translateY(-14px);}
+.bcm-nav_logo{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .2s;}
+.bcm-nav_links{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .35s;}
+.bcm-nav_actions{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .5s;}
 .bcm-nav_logo img{height:34px;width:auto;display:block;}
 .bcm-nav_links{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(160,107,255,.22);border-radius:100px;padding:6px;backdrop-filter:blur(10px);}
 .bcm-nav_links a{color:rgba(231,224,255,.85);text-decoration:none;font-size:.9rem;font-weight:500;padding:10px 18px;border-radius:100px;transition:background .2s,color .2s;white-space:nowrap;}
 .bcm-nav_links a:hover{background:rgba(255,255,255,.08);color:#fff;}
 .bcm-nav_actions{display:flex;align-items:center;gap:12px;}
-.bcm-nav_actions a{text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;}
-.bcm-nav_login{color:#fff;padding:10px 18px;}
-.bcm-nav_open{color:#fff;background:#7b3ff2;padding:10px 22px;border-radius:100px;transition:background .2s,transform .15s;}
+.bcm-nav_actions a{text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;transition:background .2s,transform .15s,color .2s;}
+.bcm-nav_login{color:#fff;padding:10px 18px;border-radius:100px;}
+.bcm-nav_login:hover{background:rgba(255,255,255,.08);}
+.bcm-nav_open{color:#fff;background:#7b3ff2;padding:10px 22px;border-radius:100px;}
 .bcm-nav_open:hover{background:#a06bff;transform:translateY(-1px);}
 @media (max-width:900px){
   .bcm-nav_links{display:none;}
