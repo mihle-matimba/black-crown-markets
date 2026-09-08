@@ -445,15 +445,33 @@ confirmWrap.appendChild(confirmGroup);
 function bindPasswordToggle(input,showIcon,hideIcon,toggleZone){
 if(!toggleZone||toggleZone.dataset.bcmBound)return;
 toggleZone.dataset.bcmBound='1';
-toggleZone.addEventListener('click',function(){
+toggleZone.removeAttribute('onclick');
+toggleZone.setAttribute('role','button');
+toggleZone.setAttribute('tabindex','0');
+toggleZone.setAttribute('aria-label','Show password');
+toggleZone.setAttribute('aria-pressed','false');
+function togglePassword(){
 var isPassword=input.type==='password';
 input.type=isPassword?'text':'password';
 if(showIcon)showIcon.style.display=isPassword?'none':'';
 if(hideIcon)hideIcon.style.display=isPassword?'':'none';
+toggleZone.setAttribute('aria-label',isPassword?'Hide password':'Show password');
+toggleZone.setAttribute('aria-pressed',isPassword?'true':'false');
+input.focus();
+}
+toggleZone.addEventListener('click',function(e){
+e.preventDefault();
+togglePassword();
+});
+toggleZone.addEventListener('keydown',function(e){
+if(e.key==='Enter'||e.key===' '){
+e.preventDefault();
+togglePassword();
+}
 });
 }
-bindPasswordToggle(passwordInput,document.querySelector('#icon-show'),document.querySelector('#icon-hide'),document.querySelector('#password-field'));
-bindPasswordToggle(confirmInput,document.querySelector('#icon-confirm-show'),document.querySelector('#icon-confirm-hide'),document.querySelector('#password-confirm-field'));
+bindPasswordToggle(passwordInput,passwordGroup.querySelector('#icon-show'),passwordGroup.querySelector('#icon-hide'),passwordGroup.querySelector('#password-field'));
+bindPasswordToggle(confirmInput,confirmGroup.querySelector('#icon-confirm-show'),confirmGroup.querySelector('#icon-confirm-hide'),confirmGroup.querySelector('#password-confirm-field'));
 
 var currentStep=1;
 var selectedAccount=null;
