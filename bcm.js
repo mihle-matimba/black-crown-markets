@@ -67,7 +67,25 @@ var confirmBtn=document.createElement('button');confirmBtn.type='button';confirm
 var copyBtn=container.querySelector('.bcm-ds-copy');if(copyBtn){copyBtn.addEventListener('click',function(){var value=copyBtn.getAttribute('data-address');if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(value);}else{var ta=document.createElement('textarea');ta.value=value;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}copyBtn.classList.add('bcm-ds-copied');setTimeout(function(){copyBtn.classList.remove('bcm-ds-copied');},1500);});}}
 function relocateDisclaimers(){var mainContent=document.querySelector('.page-content-wrap');if(!mainContent)return;var disclaimer=document.querySelector('.disclaimer-color');var footer=document.querySelector('.footer-color');if(disclaimer)mainContent.appendChild(disclaimer);if(footer)mainContent.appendChild(footer);}
 function buildLoginPage(){var body=document.querySelector('.login-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var titleEl=left.querySelector('.login-title');if(titleEl){var subtitle=document.createElement('div');subtitle.className='bcm-login-subtitle';subtitle.textContent='Access your Black Crown Markets account to manage your trading with ease.';titleEl.insertAdjacentElement('afterend',subtitle);}var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
+function bindPasswordVisibilityToggle(input,group,toggleId){
+if(!input||!group)return;
+var inputGroup=input.closest('.input-group')||input.parentElement||group;
+inputGroup.classList.add('bcm-password-input-wrap');
+var toggleZone=group.querySelector('#'+toggleId);
+if(!toggleZone){toggleZone=document.createElement('button');toggleZone.type='button';toggleZone.id=toggleId;inputGroup.appendChild(toggleZone);}
+if(toggleZone.dataset.bcmBound)return;
+toggleZone.dataset.bcmBound='1';toggleZone.removeAttribute('onclick');
+if(toggleZone.tagName==='BUTTON')toggleZone.type='button';
+toggleZone.setAttribute('role','button');toggleZone.setAttribute('tabindex','0');toggleZone.setAttribute('aria-label','Show password');toggleZone.setAttribute('aria-pressed','false');toggleZone.classList.add('bcm-password-toggle');
+function renderIcon(isVisible){toggleZone.innerHTML=isVisible?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 5.5 9 5.5a15.6 15.6 0 0 1-2.2 2.7M6.6 6.7A16.5 16.5 0 0 0 3 9.5S6.5 15 12 15a10.7 10.7 0 0 0 3.1-.5"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12s3.5-5.5 9-5.5 9 5.5 9 5.5-3.5 5.5-9 5.5S3 12 3 12z"/><circle cx="12" cy="12" r="2.5"/></svg>';}
+renderIcon(false);
+function togglePassword(){var isPassword=input.type==='password';input.type=isPassword?'text':'password';renderIcon(isPassword);toggleZone.setAttribute('aria-label',isPassword?'Hide password':'Show password');toggleZone.setAttribute('aria-pressed',isPassword?'true':'false');input.focus();}
+toggleZone.addEventListener('click',function(e){e.preventDefault();togglePassword();});
+toggleZone.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();togglePassword();}});
+}
 function buildRegistrationPage(){var body=document.querySelector('.registration-body');if(!body||body.dataset.bcmLogin)return;body.dataset.bcmLogin='1';document.documentElement.classList.add('bcm-login-page');var left=document.createElement('div');left.className='bcm-login-left';while(body.firstChild){left.appendChild(body.firstChild);}var stepNumbers=left.querySelectorAll('.steps_2 .stepNumber');stepNumbers.forEach(function(el,i){el.textContent=String(i+1);});
+var passwordInput=left.querySelector('#password-input');var passwordGroup=left.querySelector('#password_input_main_container')||(passwordInput&&passwordInput.closest('.form-group'));bindPasswordVisibilityToggle(passwordInput,passwordGroup,'password-field');
+var confirmInput=left.querySelector('#password-confirm-input');var confirmGroup=left.querySelector('#password_confirm_input_main_container')||(confirmInput&&confirmInput.closest('.form-group'));bindPasswordVisibilityToggle(confirmInput,confirmGroup,'password-confirm-field');
 buildRegistrationAccountFields(left);
 var right=document.createElement('div');right.className='bcm-login-right';right.innerHTML='<img class="bcm-login-logo" src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/blackcrown%20white.svg" alt="Black Crown Markets"/>';body.appendChild(left);body.appendChild(right);body.classList.add('bcm-login-card');document.body.appendChild(body);}
 
@@ -442,36 +460,8 @@ confirmWrap.appendChild(confirmLabel);
 confirmGroup.classList.add('bcm-wiz-password-group');
 confirmWrap.appendChild(confirmGroup);
 
-function bindPasswordToggle(input,showIcon,hideIcon,toggleZone){
-if(!toggleZone||toggleZone.dataset.bcmBound)return;
-toggleZone.dataset.bcmBound='1';
-toggleZone.removeAttribute('onclick');
-toggleZone.setAttribute('role','button');
-toggleZone.setAttribute('tabindex','0');
-toggleZone.setAttribute('aria-label','Show password');
-toggleZone.setAttribute('aria-pressed','false');
-function togglePassword(){
-var isPassword=input.type==='password';
-input.type=isPassword?'text':'password';
-if(showIcon)showIcon.style.display=isPassword?'none':'';
-if(hideIcon)hideIcon.style.display=isPassword?'':'none';
-toggleZone.setAttribute('aria-label',isPassword?'Hide password':'Show password');
-toggleZone.setAttribute('aria-pressed',isPassword?'true':'false');
-input.focus();
-}
-toggleZone.addEventListener('click',function(e){
-e.preventDefault();
-togglePassword();
-});
-toggleZone.addEventListener('keydown',function(e){
-if(e.key==='Enter'||e.key===' '){
-e.preventDefault();
-togglePassword();
-}
-});
-}
-bindPasswordToggle(passwordInput,passwordGroup.querySelector('#icon-show'),passwordGroup.querySelector('#icon-hide'),passwordGroup.querySelector('#password-field'));
-bindPasswordToggle(confirmInput,confirmGroup.querySelector('#icon-confirm-show'),confirmGroup.querySelector('#icon-confirm-hide'),confirmGroup.querySelector('#password-confirm-field'));
+bindPasswordVisibilityToggle(passwordInput,passwordGroup,'password-field');
+bindPasswordVisibilityToggle(confirmInput,confirmGroup,'password-confirm-field');
 
 var currentStep=1;
 var selectedAccount=null;
