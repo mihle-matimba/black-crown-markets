@@ -442,19 +442,34 @@ confirmWrap.appendChild(confirmLabel);
 confirmGroup.classList.add('bcm-wiz-password-group');
 confirmWrap.appendChild(confirmGroup);
 
-function bindPasswordToggle(input,showIcon,hideIcon,toggleZone){
-if(!toggleZone||toggleZone.dataset.bcmBound)return;
+function bindPasswordToggle(input,group,toggleId){
+var inputGroup=input.closest('.input-group')||input.parentElement||group;
+var toggleZone=group.querySelector('#'+toggleId);
+if(!toggleZone){
+toggleZone=document.createElement('button');
+toggleZone.type='button';
+toggleZone.id=toggleId;
+inputGroup.appendChild(toggleZone);
+}
+if(toggleZone.dataset.bcmBound)return;
 toggleZone.dataset.bcmBound='1';
 toggleZone.removeAttribute('onclick');
+if(toggleZone.tagName==='BUTTON')toggleZone.type='button';
 toggleZone.setAttribute('role','button');
 toggleZone.setAttribute('tabindex','0');
 toggleZone.setAttribute('aria-label','Show password');
 toggleZone.setAttribute('aria-pressed','false');
+toggleZone.classList.add('bcm-password-toggle');
+function renderIcon(isVisible){
+toggleZone.innerHTML=isVisible
+?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 5.5 9 5.5a15.6 15.6 0 0 1-2.2 2.7M6.6 6.7A16.5 16.5 0 0 0 3 9.5S6.5 15 12 15a10.7 10.7 0 0 0 3.1-.5"/></svg>'
+:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12s3.5-5.5 9-5.5 9 5.5 9 5.5-3.5 5.5-9 5.5S3 12 3 12z"/><circle cx="12" cy="12" r="2.5"/></svg>';
+}
+renderIcon(false);
 function togglePassword(){
 var isPassword=input.type==='password';
 input.type=isPassword?'text':'password';
-if(showIcon)showIcon.style.display=isPassword?'none':'';
-if(hideIcon)hideIcon.style.display=isPassword?'':'none';
+renderIcon(isPassword);
 toggleZone.setAttribute('aria-label',isPassword?'Hide password':'Show password');
 toggleZone.setAttribute('aria-pressed',isPassword?'true':'false');
 input.focus();
@@ -470,8 +485,8 @@ togglePassword();
 }
 });
 }
-bindPasswordToggle(passwordInput,passwordGroup.querySelector('#icon-show'),passwordGroup.querySelector('#icon-hide'),passwordGroup.querySelector('#password-field'));
-bindPasswordToggle(confirmInput,confirmGroup.querySelector('#icon-confirm-show'),confirmGroup.querySelector('#icon-confirm-hide'),confirmGroup.querySelector('#password-confirm-field'));
+bindPasswordToggle(passwordInput,passwordGroup,'password-field');
+bindPasswordToggle(confirmInput,confirmGroup,'password-confirm-field');
 
 var currentStep=1;
 var selectedAccount=null;
