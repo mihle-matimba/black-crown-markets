@@ -2430,6 +2430,39 @@ a.button-primary:hover {
   font-weight: 600;
   color: rgba(203,182,255,.85);
 }
+.word-rotate {
+  position: relative;
+  display: inline-block;
+  height: 1.2em;
+  overflow: hidden;
+  vertical-align: bottom;
+  min-width: 168px;
+  text-align: left;
+}
+.word-rotate span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  color: rgba(203,182,255,.85);
+  white-space: nowrap;
+  animation: wordCycle 4s infinite;
+}
+.word-rotate span:nth-child(1) { animation-delay: 0s; }
+.word-rotate span:nth-child(2) { animation-delay: 2s; }
+@keyframes wordCycle {
+  0%, 4% { opacity: 0; transform: translateY(18px); }
+  10%, 40% { opacity: 1; transform: translateY(0); }
+  46%, 100% { opacity: 0; transform: translateY(-18px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word-rotate span {
+    animation: none !important;
+    opacity: 0;
+    transform: none;
+  }
+  .word-rotate span:nth-child(1) { opacity: 1; }
+}
 .payment-methods-row {
   display: flex;
   flex-wrap: wrap;
@@ -2467,7 +2500,7 @@ a.button-primary:hover {
   .payment-methods-row { gap: 32px 36px; }
 }
 </style>
-<h2 class="payment-methods-heading">Supported by <em>trusted</em> payment methods</h2>
+<h2 class="payment-methods-heading"><span class="word-rotate"><span>Deposit</span><span>Withdraw</span></span> with <em>trusted</em> payment methods</h2>
 <div class="payment-methods-row">
   <span class="payment-logo visa-mark">VISA</span>
   <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:8px;">
