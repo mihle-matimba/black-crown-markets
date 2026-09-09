@@ -2493,6 +2493,23 @@ a.button-primary:hover {
 .bank-grid-item:hover {
   color: #fff;
 }
+.bank-grid-item-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bank-grid-item-img img {
+  height: 22px;
+  width: auto;
+  display: block;
+  filter: grayscale(1) brightness(1.6);
+  opacity: .6;
+  transition: filter .2s, opacity .2s;
+}
+.bank-grid-item-img:hover img {
+  filter: grayscale(0) brightness(1);
+  opacity: 1;
+}
 @media (max-width: 700px) {
   .bank-grid {
     grid-template-columns: repeat(2, auto);
@@ -2518,11 +2535,13 @@ a.button-primary:hover {
   <span class="payment-logo gpay-mark">G Pay</span>
   <span class="payment-logo text-mark" style="font-size:19px;">USDT</span>
   <span class="payment-logo text-mark" style="font-size:19px;">Ozow</span>
-  <span class="payment-logo text-mark" style="font-size:19px;">Capitec Pay</span>
+  <span class="payment-logo" style="display:flex;align-items:center;">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR16aiPb9aOpUrCNkdT7Y1PNEypBlGYj3D6eq9xL5c5tw&s=10" alt="Capitec Pay" style="height:24px;width:auto;display:block;" />
+  </span>
 </div>
 <div class="bank-grid">
   <span class="bank-grid-item">Standard Bank</span>
-  <span class="bank-grid-item">FNB</span>
+  <span class="bank-grid-item bank-grid-item-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy-Soal0_sKezBa1XdePJA4rZ-43Pesxy1HZwCPcZqu3A_mUW7rz0EA84&s=10" alt="FNB" /></span>
   <span class="bank-grid-item">Absa</span>
   <span class="bank-grid-item">Nedbank</span>
   <span class="bank-grid-item">Capitec</span>
