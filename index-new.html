@@ -2350,6 +2350,42 @@ a.button-primary:hover {
   }
 })();
 </script>
+</section><section class="dash-preview-section">
+<style>
+.dash-preview-section {
+  background: #04020a;
+  padding: 100px 20px 120px;
+  text-align: center;
+}
+.dash-mock {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,.55);
+  border: 1px solid rgba(160,107,255,.2);
+  background: #0b0a12;
+}
+.dash-mock-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dash-mock::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
+  pointer-events: none;
+}
+</style>
+<div class="dash-mock">
+  <img class="dash-mock-img" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard" />
+</div>
 </section><section class="fin-simple-section">
 <style>
 .fin-simple-section {
