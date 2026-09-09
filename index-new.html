@@ -1843,6 +1843,7 @@ AF('banners', 'showBanner')
   padding-bottom: 0 !important;
 }
 .section_home-hero .hero-dash-preview {
+  position: relative;
   width: min(900px, 90vw);
   margin-top: 8px;
   opacity: 0;
@@ -1855,6 +1856,17 @@ AF('banners', 'showBanner')
   height: auto;
   border-radius: 16px;
   filter: drop-shadow(0 30px 80px rgba(123,63,242,.35));
+}
+.section_home-hero .hero-dash-preview::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
+  pointer-events: none;
+  border-radius: 0 0 16px 16px;
 }
 @media (prefers-reduced-motion: reduce) {
   .section_home-hero .hero-dash-preview {
