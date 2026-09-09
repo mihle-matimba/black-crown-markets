@@ -2418,6 +2418,12 @@ a.button-primary:hover {
   z-index: 1;
 }
 .payment-methods-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.32em;
+  row-gap: 6px;
   font-family: 'Inter', sans-serif;
   font-size: clamp(24px, 3.4vw, 34px);
   font-weight: 600;
@@ -2436,12 +2442,14 @@ a.button-primary:hover {
   height: 1.2em;
   overflow: hidden;
   vertical-align: bottom;
-  min-width: 168px;
-  text-align: left;
+  min-width: 148px;
+  text-align: center;
+  flex-shrink: 0;
 }
 .word-rotate span {
   position: absolute;
   left: 0;
+  right: 0;
   top: 0;
   opacity: 0;
   color: rgba(203,182,255,.85);
@@ -2500,7 +2508,7 @@ a.button-primary:hover {
   .payment-methods-row { gap: 32px 36px; }
 }
 </style>
-<h2 class="payment-methods-heading"><span class="word-rotate"><span>Deposit</span><span>Withdraw</span></span> with <em>trusted</em> payment methods</h2>
+<h2 class="payment-methods-heading"><span class="word-rotate"><span>Deposit</span><span>Withdraw</span></span><span>with</span><em>trusted</em><span>payment</span><span>methods</span></h2>
 <div class="payment-methods-row">
   <span class="payment-logo visa-mark">VISA</span>
   <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:8px;">
