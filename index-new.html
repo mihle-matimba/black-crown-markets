@@ -2107,9 +2107,29 @@ a.button-primary:hover {
 </div></div></div><div data-w-id="9fa0e9c2-7dac-f312-af33-5c4790f67715" class="home-hero_interaction-trigger"></div></div></div></section></section><section class="stats-section">
 <style>
 .stats-section {
-  background: #0a0a0f;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 80% at 50% -10%, #160a2e 0%, #0a0418 32%, #04020a 62%), #04020a;
   padding: 100px 20px;
   text-align: center;
+}
+.stats-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(123,63,242,.28) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+.stats-section > *:not(.stats-glow) {
+  position: relative;
+  z-index: 1;
 }
 .stats-heading {
   font-size: clamp(28px, 4vw, 40px);
@@ -2133,12 +2153,13 @@ a.button-primary:hover {
   position: relative;
 }
 .stat-item + .stat-item {
-  border-left: 1px solid rgba(255,255,255,.15);
+  border-left: 1px solid rgba(160,107,255,.25);
 }
 .stat-value {
   font-size: clamp(32px, 4vw, 44px);
   font-weight: 700;
   color: #fff;
+  text-shadow: 0 0 30px rgba(160,107,255,.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2151,7 +2172,7 @@ a.button-primary:hover {
 .stat-label {
   margin-top: 12px;
   font-size: 15px;
-  color: rgba(255,255,255,.55);
+  color: rgba(231,224,255,.55);
 }
 @media (max-width: 700px) {
   .stats-row {
@@ -2160,26 +2181,78 @@ a.button-primary:hover {
   }
   .stat-item + .stat-item {
     border-left: none;
-    border-top: 1px solid rgba(255,255,255,.15);
+    border-top: 1px solid rgba(160,107,255,.25);
     padding-top: 32px;
   }
 }
 </style>
+<div class="stats-glow"></div>
 <h2 class="stats-heading">Our Journey in Numbers: Growth, Trust, and Impact</h2>
 <div class="stats-row">
   <div class="stat-item">
-    <div class="stat-value">$2B+</div>
+    <div class="stat-value"><span class="counter" data-prefix="$" data-target="2" data-suffix="B+">$0B+</span></div>
     <div class="stat-label">Assets Securely Managed</div>
   </div>
   <div class="stat-item">
-    <div class="stat-value">5,000+</div>
+    <div class="stat-value"><span class="counter" data-target="5000" data-suffix="+" data-format="comma">0+</span></div>
     <div class="stat-label">Trusted by users</div>
   </div>
   <div class="stat-item">
-    <div class="stat-value"><span class="star">&#9733;</span> 4.8</div>
+    <div class="stat-value"><span class="star">&#9733;</span> <span class="counter" data-target="4.8" data-decimals="1">0.0</span></div>
     <div class="stat-label">App Store rating</div>
   </div>
 </div>
+<script>
+(function(){
+  var section = document.currentScript.closest('.stats-section');
+  var counters = section.querySelectorAll('.counter');
+  var animated = false;
+  function formatNumber(n, decimals, useComma) {
+    var s = n.toFixed(decimals);
+    if (useComma) {
+      var parts = s.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      s = parts.join('.');
+    }
+    return s;
+  }
+  function runCounters() {
+    if (animated) return;
+    animated = true;
+    counters.forEach(function(el){
+      var target = parseFloat(el.getAttribute('data-target'));
+      var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+      var useComma = el.getAttribute('data-format') === 'comma';
+      var duration = 1600;
+      var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var value = target * eased;
+        el.textContent = prefix + formatNumber(value, decimals, useComma) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          runCounters();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(section);
+  } else {
+    runCounters();
+  }
+})();
+</script>
 </section><section class="why-trade"><div class="left"><h2>Why Trade With Black Crown Markets?</h2><div class="cta-row"><a href="https://register.blackcrownmarkets.com/login" class="btn-primary">Get Started</a><a href="#" class="btn-ghost">Disclosure</a></div><div class="features"><div class="feature-item active"><span class="feature-title">Instant Withdrawals</span><span class="feature-desc">Funds sent within seconds with seamless, zero-friction transactions.<sup>1</sup></span></div><div class="feature-item"><span class="feature-title">Negative Balance Protection</span><span class="feature-desc">Automated risk protocols ensure you never lose more than your deployed capital</span></div><div class="feature-item"><span class="feature-title">More Speed, Less Slippage</span><span class="feature-desc">Ultra-low latency execution with institutional-grade infrastructure behind every trade.</span></div><div class="feature-item"><span class="feature-title">Best-In-Class Security</span><span class="feature-desc">Bank-grade encryption and segregated client funds so your capital stays protected.</span></div></div></div><div class="right"><div class="mockup-wrap"><img src="https://ffxlryusmstnfjedleds.supabase.co/storage/v1/object/public/Assets/mockup.png" alt="Black Crown Markets trading app mockup" /><div class="badge"><div class="badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#7B2FBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div><div class="badge-text"><strong>+18.4% this month</strong><span>Average client return</span></div></div></div></div></section><section class="features-section-new"><style>
 
 .features-section-new {
