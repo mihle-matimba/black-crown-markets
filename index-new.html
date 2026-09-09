@@ -2442,9 +2442,17 @@ a.button-primary:hover {
   height: 1.2em;
   overflow: hidden;
   vertical-align: bottom;
-  min-width: 148px;
   text-align: center;
   flex-shrink: 0;
+}
+.word-rotate .word-measure {
+  position: static;
+  right: auto;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 1;
+  animation: none;
 }
 .word-rotate span {
   position: absolute;
@@ -2508,7 +2516,22 @@ a.button-primary:hover {
   .payment-methods-row { gap: 32px 36px; }
 }
 </style>
-<h2 class="payment-methods-heading"><span class="word-rotate"><span>Deposit</span><span>Withdraw</span></span><span>with</span><em>trusted</em><span>payment</span><span>methods</span></h2>
+<h2 class="payment-methods-heading"><span class="word-rotate" id="bcmWordRotate"><span>Deposit</span><span>Withdraw</span><span class="word-measure">Withdraw</span></span><span>with</span><em>trusted</em><span>payment</span><span>methods</span></h2>
+<script>
+(function(){
+  var box = document.getElementById('bcmWordRotate');
+  if (!box) return;
+  var measure = box.querySelector('.word-measure');
+  function sizeBox() {
+    box.style.width = measure.offsetWidth + 'px';
+  }
+  sizeBox();
+  window.addEventListener('resize', sizeBox);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(sizeBox);
+  }
+})();
+</script>
 <div class="payment-methods-row">
   <span class="payment-logo visa-mark">VISA</span>
   <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:8px;">
