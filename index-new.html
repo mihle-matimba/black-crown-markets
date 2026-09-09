@@ -2353,25 +2353,9 @@ a.button-primary:hover {
 </section><section class="dash-preview-section">
 <style>
 .dash-preview-section {
-  position: relative;
-  text-align: center;
-  overflow: hidden;
-}
-.dash-panel {
-  padding: 100px 20px 120px;
-}
-.dash-panel-dark {
-  position: relative;
-  z-index: 1;
   background: #04020a;
-}
-.dash-panel-light {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: #f4f1fb;
-  clip-path: inset(calc(100% - var(--reveal, 0%)) 0 0 0);
-  -webkit-clip-path: inset(calc(100% - var(--reveal, 0%)) 0 0 0);
+  padding: 100px 20px 120px;
+  text-align: center;
 }
 .dash-preview-badge {
   display: inline-flex;
@@ -2388,11 +2372,6 @@ a.button-primary:hover {
   text-transform: uppercase;
   margin-bottom: 24px;
 }
-.dash-panel-light .dash-preview-badge {
-  background: rgba(123,63,242,.08);
-  border-color: rgba(123,63,242,.25);
-  color: #7b3ff2;
-}
 .dash-preview-badge .dot {
   width: 8px;
   height: 8px;
@@ -2408,18 +2387,12 @@ a.button-primary:hover {
   margin: 0 auto 16px;
   line-height: 1.25;
 }
-.dash-panel-light .dash-preview-heading {
-  color: #150f26;
-}
 .dash-preview-sub {
   max-width: 560px;
   margin: 0 auto 40px;
   color: rgba(231,224,255,.6);
   font-size: 16px;
   line-height: 1.6;
-}
-.dash-panel-light .dash-preview-sub {
-  color: rgba(21,15,38,.6);
 }
 .dash-toggle {
   display: inline-flex;
@@ -2430,10 +2403,6 @@ a.button-primary:hover {
   border-radius: 100px;
   padding: 6px;
   margin-bottom: 44px;
-}
-.dash-panel-light .dash-toggle {
-  background: rgba(21,15,38,.04);
-  border-color: rgba(123,63,242,.25);
 }
 .dash-toggle button {
   display: flex;
@@ -2448,9 +2417,6 @@ a.button-primary:hover {
   border-radius: 100px;
   cursor: pointer;
   transition: background .2s, color .2s;
-}
-.dash-panel-light .dash-toggle button {
-  color: rgba(21,15,38,.55);
 }
 .dash-toggle button svg { width: 15px; height: 15px; }
 .dash-toggle button.active {
@@ -2467,97 +2433,55 @@ a.button-primary:hover {
   border: 1px solid rgba(160,107,255,.2);
   background: #0b0a12;
 }
-.dash-panel-light .dash-mock {
-  box-shadow: 0 40px 100px rgba(80,60,140,.18);
-  border-color: rgba(123,63,242,.2);
-  background: #fff;
-}
 .dash-mock-img {
   display: block;
   width: 100%;
   height: auto;
 }
-@media (prefers-reduced-motion: reduce) {
-  .dash-panel-light {
-    transition: none !important;
-  }
+.dash-mock-img.dash-img-light {
+  display: none;
+}
+.dash-mock.is-light .dash-img-dark {
+  display: none;
+}
+.dash-mock.is-light .dash-img-light {
+  display: block;
 }
 </style>
-<div class="dash-panel dash-panel-dark">
-  <div class="dash-preview-badge"><span class="dot"></span> Live Preview</div>
-  <h2 class="dash-preview-heading">A Dashboard Built For Traders</h2>
-  <p class="dash-preview-sub">Track balances, positions, and performance in one place &mdash; in whichever theme suits you.</p>
-  <div class="dash-toggle" role="group" aria-label="Dashboard theme toggle">
-    <button type="button" class="dash-toggle-dark active" onclick="window.__bcmSetDashTheme('dark')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      Dark
-    </button>
-    <button type="button" class="dash-toggle-light" onclick="window.__bcmSetDashTheme('light')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      Light
-    </button>
-  </div>
-  <div class="dash-mock">
-    <img class="dash-mock-img" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard in dark mode" />
-  </div>
+<div class="dash-preview-badge"><span class="dot"></span> Live Preview</div>
+<h2 class="dash-preview-heading">A Dashboard Built For Traders</h2>
+<p class="dash-preview-sub">Track balances, positions, and performance in one place &mdash; in whichever theme suits you.</p>
+<div class="dash-toggle" role="group" aria-label="Dashboard theme toggle">
+  <button type="button" class="dash-toggle-dark active" onclick="window.__bcmSetDashTheme('dark')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    Dark
+  </button>
+  <button type="button" class="dash-toggle-light" onclick="window.__bcmSetDashTheme('light')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    Light
+  </button>
 </div>
-<div class="dash-panel dash-panel-light" id="bcmDashLight" aria-hidden="true">
-  <div class="dash-preview-badge"><span class="dot"></span> Live Preview</div>
-  <h2 class="dash-preview-heading">A Dashboard Built For Traders</h2>
-  <p class="dash-preview-sub">Track balances, positions, and performance in one place &mdash; in whichever theme suits you.</p>
-  <div class="dash-toggle" role="group" aria-hidden="true">
-    <button type="button" class="dash-toggle-dark" tabindex="-1">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      Dark
-    </button>
-    <button type="button" class="dash-toggle-light active" tabindex="-1">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      Light
-    </button>
-  </div>
-  <div class="dash-mock">
-    <img class="dash-mock-img" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard in light mode" />
-  </div>
+
+<div class="dash-mock" id="bcmDashMock">
+  <img class="dash-mock-img dash-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard in dark mode" />
+  <img class="dash-mock-img dash-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard in light mode" />
 </div>
 <script>
-(function(){
-  var section = document.querySelector('.dash-preview-section');
-  var lightPanel = document.getElementById('bcmDashLight');
-  if (!section || !lightPanel) return;
-
-  function applyReveal(pct) {
-    section.style.setProperty('--reveal', pct + '%');
+window.__bcmSetDashTheme = function(mode) {
+  var mock = document.getElementById('bcmDashMock');
+  var darkBtn = document.querySelector('.dash-toggle-dark');
+  var lightBtn = document.querySelector('.dash-toggle-light');
+  if (!mock) return;
+  if (mode === 'light') {
+    mock.classList.add('is-light');
+    lightBtn.classList.add('active');
+    darkBtn.classList.remove('active');
+  } else {
+    mock.classList.remove('is-light');
+    darkBtn.classList.add('active');
+    lightBtn.classList.remove('active');
   }
-
-  var ticking = false;
-  var SPEED = 2.2;
-  function updateFromScroll() {
-    ticking = false;
-    var rect = section.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var raw = (vh - rect.top) / vh;
-    var progress = (raw - 0.5) * SPEED + 0.5;
-    progress = Math.max(0, Math.min(1, progress));
-    applyReveal(progress * 100);
-  }
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      window.requestAnimationFrame(updateFromScroll);
-    }
-  }
-
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    updateFromScroll();
-  }
-
-  window.__bcmSetDashTheme = function(mode) {
-    applyReveal(mode === 'light' ? 100 : 0);
-  };
-})();
+};
 </script>
 </section><section class="fin-simple-section">
 <style>
