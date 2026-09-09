@@ -154,24 +154,31 @@ h1{
   .planet,.plasma,.stars,.rock,.rock .rk,.logo,h1,.tagline,.foot,.bcm-nav_logo,.bcm-nav_links,.bcm-nav_actions{opacity:1 !important;transform:none !important;}
 }
 
-.bcm-nav{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:24px clamp(20px,4vw,56px);}
+.bcm-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px clamp(20px,4vw,56px);background:transparent;border-bottom:1px solid transparent;transition:padding .35s cubic-bezier(.2,.7,.2,1),background .35s ease,border-color .35s ease,box-shadow .35s ease;}
+.bcm-nav.is-scrolled{padding:12px clamp(20px,4vw,56px);background:rgba(4,2,10,.72);backdrop-filter:blur(14px);border-bottom-color:rgba(160,107,255,.18);box-shadow:0 10px 30px rgba(0,0,0,.35);}
 .bcm-nav_logo,.bcm-nav_links,.bcm-nav_actions{opacity:0;transform:translateY(-14px);}
 .bcm-nav_logo{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .2s;}
 .bcm-nav_links{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .35s;}
 .bcm-nav_actions{animation:up .9s cubic-bezier(.2,.7,.2,1) forwards .5s;}
-.bcm-nav_logo img{height:34px;width:auto;display:block;}
-.bcm-nav_links{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(160,107,255,.22);border-radius:100px;padding:6px;backdrop-filter:blur(10px);}
-.bcm-nav_links a{color:rgba(231,224,255,.85);text-decoration:none;font-size:.9rem;font-weight:500;padding:10px 18px;border-radius:100px;transition:background .2s,color .2s;white-space:nowrap;}
+.bcm-nav_logo img{height:34px;width:auto;display:block;transition:height .35s cubic-bezier(.2,.7,.2,1);}
+.bcm-nav.is-scrolled .bcm-nav_logo img{height:26px;}
+.bcm-nav_links{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(160,107,255,.22);border-radius:100px;padding:6px;backdrop-filter:blur(10px);transition:padding .35s cubic-bezier(.2,.7,.2,1),background .35s ease;}
+.bcm-nav.is-scrolled .bcm-nav_links{padding:3px;background:rgba(255,255,255,.04);}
+.bcm-nav_links a{color:rgba(231,224,255,.85);text-decoration:none;font-size:.9rem;font-weight:500;padding:10px 18px;border-radius:100px;transition:background .2s,color .2s,padding .35s cubic-bezier(.2,.7,.2,1);white-space:nowrap;}
+.bcm-nav.is-scrolled .bcm-nav_links a{padding:8px 15px;font-size:.85rem;}
 .bcm-nav_links a:hover{background:rgba(255,255,255,.08);color:#fff;}
 .bcm-nav_actions{display:flex;align-items:center;gap:12px;}
-.bcm-nav_actions a{text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;transition:background .2s,transform .15s,color .2s;}
+.bcm-nav_actions a{text-decoration:none;font-size:.9rem;font-weight:600;white-space:nowrap;transition:background .2s,transform .15s,color .2s,padding .35s cubic-bezier(.2,.7,.2,1);}
 .bcm-nav_login{color:#fff;padding:10px 18px;border-radius:100px;}
 .bcm-nav_login:hover{background:rgba(255,255,255,.08);}
 .bcm-nav_open{color:#fff;background:#7b3ff2;padding:10px 22px;border-radius:100px;}
+.bcm-nav.is-scrolled .bcm-nav_login{padding:8px 14px;}
+.bcm-nav.is-scrolled .bcm-nav_open{padding:8px 18px;}
 .bcm-nav_open:hover{background:#a06bff;transform:translateY(-1px);}
 @media (max-width:900px){
   .bcm-nav_links{display:none;}
   .bcm-nav{padding:18px 20px;}
+  .bcm-nav.is-scrolled{padding:10px 20px;}
 }
 </style>
 </head>
@@ -1858,6 +1865,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+(function(){
+  const nav=document.querySelector('.bcm-nav');
+  if(!nav) return;
+  const onScroll=()=>nav.classList.toggle('is-scrolled', window.scrollY>40);
+  onScroll();
+  addEventListener('scroll', onScroll, {passive:true});
+})();
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, fine=matchMedia('(pointer: fine)').matches;
 if(!reduce&&fine){
   const layers=[...document.querySelectorAll('[data-parallax]')];
