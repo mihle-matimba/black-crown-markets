@@ -2530,11 +2530,13 @@ a.button-primary:hover {
   }
 
   var ticking = false;
+  var SPEED = 2.2;
   function updateFromScroll() {
     ticking = false;
     var rect = section.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var progress = (vh - rect.top) / (vh + rect.height);
+    var raw = (vh - rect.top) / vh;
+    var progress = (raw - 0.5) * SPEED + 0.5;
     progress = Math.max(0, Math.min(1, progress));
     applyReveal(progress * 100);
   }
