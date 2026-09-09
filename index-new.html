@@ -2891,8 +2891,27 @@ function addLottieFunctionality() {
     }
   });
 }</script></div></div></div></div></section></div><!-- Support Section -->
-<section style="background: url('https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/64be9d89-a5e2-4a60-a41d-5924b169269e.png') center / cover no-repeat; padding: 120px 60px; width: 100%;">
+<section class="bcm-banner-section" style="background: url('https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/64be9d89-a5e2-4a60-a41d-5924b169269e.png') center / cover no-repeat; padding: 120px 60px; width: 100%;">
 <style>
+.bcm-banner-section {
+  position: relative;
+  overflow: hidden;
+}
+.bcm-banner-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(4,2,10,.55);
+  pointer-events: none;
+}
+.bcm-banner-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, #04020a 0%, transparent 18%, transparent 82%, #04020a 100%);
+  pointer-events: none;
+}
 .bcm-section {
   display: flex;
   align-items: center;
