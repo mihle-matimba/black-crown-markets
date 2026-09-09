@@ -1848,6 +1848,33 @@ AF('banners', 'showBanner')
   justify-content: center !important;
   width: 100% !important;
 }
+.section_home-hero .home-hero_heading-2,
+.section_home-hero .home-hero_text,
+.section_home-hero .home-hero_button {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.section_home-hero .home-hero_heading-2 {
+  animation: heroTextReveal 1s cubic-bezier(.2,.7,.2,1) forwards .3s;
+}
+.section_home-hero .home-hero_text {
+  animation: heroTextReveal 1s cubic-bezier(.2,.7,.2,1) forwards .5s;
+}
+.section_home-hero .home-hero_button {
+  animation: heroTextReveal 1s cubic-bezier(.2,.7,.2,1) forwards .7s;
+}
+@keyframes heroTextReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .section_home-hero .home-hero_heading-2,
+  .section_home-hero .home-hero_text,
+  .section_home-hero .home-hero_button {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
 .section_home-hero .home-hero_heading-2 {
   color: #fff !important;
   text-shadow: 0 0 38px rgba(176,124,255,.45), 0 2px 16px rgba(0,0,0,.5) !important;
