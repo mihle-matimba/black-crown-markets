@@ -2457,7 +2457,8 @@ a.button-primary:hover {
 }
 .payment-logo:hover {
   opacity: 1;
-  filter: grayscale(.4);
+  filter: grayscale(0);
+  color: #fff;
 }
 .payment-logo svg { height: 26px; width: auto; display: block; }
 .payment-logo.text-mark {
@@ -2470,40 +2471,36 @@ a.button-primary:hover {
 @media (max-width: 640px) {
   .payment-methods-row { gap: 32px 36px; }
 }
-.bank-marquee {
+.bank-grid {
   margin-top: 56px;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 20px 48px;
+  justify-content: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.bank-marquee-track {
-  display: flex;
-  width: max-content;
-  gap: 64px;
-  animation: bankMarquee 28s linear infinite;
-}
-.bank-marquee:hover .bank-marquee-track {
-  animation-play-state: paused;
-}
-.bank-marquee-item {
+.bank-grid-item {
   font-family: 'Inter', sans-serif;
   font-size: 19px;
   font-weight: 700;
-  color: rgba(231,224,255,.45);
+  color: rgba(231,224,255,.4);
   white-space: nowrap;
-  opacity: .75;
-  transition: opacity .2s;
+  text-align: center;
+  transition: color .2s;
 }
-.bank-marquee-item:hover {
-  opacity: 1;
+.bank-grid-item:hover {
+  color: #fff;
 }
-@keyframes bankMarquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+@media (max-width: 700px) {
+  .bank-grid {
+    grid-template-columns: repeat(2, auto);
+  }
 }
-@media (prefers-reduced-motion: reduce) {
-  .bank-marquee-track {
-    animation: none !important;
+@media (min-width: 701px) and (max-width: 960px) {
+  .bank-grid {
+    grid-template-columns: repeat(3, auto);
   }
 }
 </style>
@@ -2523,21 +2520,13 @@ a.button-primary:hover {
   <span class="payment-logo text-mark" style="font-size:19px;">Ozow</span>
   <span class="payment-logo text-mark" style="font-size:19px;">Capitec Pay</span>
 </div>
-<div class="bank-marquee">
-  <div class="bank-marquee-track">
-    <span class="bank-marquee-item">Standard Bank</span>
-    <span class="bank-marquee-item">FNB</span>
-    <span class="bank-marquee-item">Absa</span>
-    <span class="bank-marquee-item">Nedbank</span>
-    <span class="bank-marquee-item">Capitec</span>
-    <span class="bank-marquee-item">Investec</span>
-    <span class="bank-marquee-item">Standard Bank</span>
-    <span class="bank-marquee-item">FNB</span>
-    <span class="bank-marquee-item">Absa</span>
-    <span class="bank-marquee-item">Nedbank</span>
-    <span class="bank-marquee-item">Capitec</span>
-    <span class="bank-marquee-item">Investec</span>
-  </div>
+<div class="bank-grid">
+  <span class="bank-grid-item">Standard Bank</span>
+  <span class="bank-grid-item">FNB</span>
+  <span class="bank-grid-item">Absa</span>
+  <span class="bank-grid-item">Nedbank</span>
+  <span class="bank-grid-item">Capitec</span>
+  <span class="bank-grid-item">Investec</span>
 </div>
 </section><section class="fin-simple-section">
 <style>
