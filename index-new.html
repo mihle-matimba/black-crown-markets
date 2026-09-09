@@ -2438,14 +2438,22 @@ a.button-primary:hover {
   width: 100%;
   height: auto;
 }
+.dash-mock-img.dash-img-dark {
+  position: relative;
+  z-index: 1;
+}
 .dash-mock-img.dash-img-light {
-  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  clip-path: inset(calc(100% - var(--reveal, 0%)) 0 0 0);
+  -webkit-clip-path: inset(calc(100% - var(--reveal, 0%)) 0 0 0);
 }
-.dash-mock.is-light .dash-img-dark {
-  display: none;
-}
-.dash-mock.is-light .dash-img-light {
-  display: block;
+@media (prefers-reduced-motion: reduce) {
+  .dash-mock-img.dash-img-light {
+    transition: none !important;
+  }
 }
 </style>
 <div class="dash-preview-badge"><span class="dot"></span> Live Preview</div>
@@ -2467,21 +2475,53 @@ a.button-primary:hover {
   <img class="dash-mock-img dash-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard in light mode" />
 </div>
 <script>
-window.__bcmSetDashTheme = function(mode) {
+(function(){
   var mock = document.getElementById('bcmDashMock');
+  var section = document.querySelector('.dash-preview-section');
   var darkBtn = document.querySelector('.dash-toggle-dark');
   var lightBtn = document.querySelector('.dash-toggle-light');
-  if (!mock) return;
-  if (mode === 'light') {
-    mock.classList.add('is-light');
-    lightBtn.classList.add('active');
-    darkBtn.classList.remove('active');
-  } else {
-    mock.classList.remove('is-light');
-    darkBtn.classList.add('active');
-    lightBtn.classList.remove('active');
+  if (!mock || !section) return;
+
+  function applyReveal(pct) {
+    mock.style.setProperty('--reveal', pct + '%');
+    if (pct > 50) {
+      mock.classList.add('is-light');
+      lightBtn.classList.add('active');
+      darkBtn.classList.remove('active');
+    } else {
+      mock.classList.remove('is-light');
+      darkBtn.classList.add('active');
+      lightBtn.classList.remove('active');
+    }
   }
-};
+
+  var ticking = false;
+  function updateFromScroll() {
+    ticking = false;
+    var rect = section.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var progress = (vh - rect.top) / (vh + rect.height);
+    progress = Math.max(0, Math.min(1, progress));
+    applyReveal(progress * 100);
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateFromScroll);
+    }
+  }
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    updateFromScroll();
+  }
+
+  window.__bcmSetDashTheme = function(mode) {
+    applyReveal(mode === 'light' ? 100 : 0);
+  };
+})();
 </script>
 </section><section class="fin-simple-section">
 <style>
