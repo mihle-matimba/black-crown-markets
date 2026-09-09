@@ -2523,7 +2523,7 @@ a.button-primary:hover {
   if (!box) return;
   var measure = box.querySelector('.word-measure');
   function sizeBox() {
-    box.style.width = measure.offsetWidth + 'px';
+    box.style.width = (measure.offsetWidth + 4) + 'px';
   }
   sizeBox();
   window.addEventListener('resize', sizeBox);
