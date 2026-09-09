@@ -2436,48 +2436,8 @@ a.button-primary:hover {
   font-weight: 600;
   color: rgba(203,182,255,.85);
 }
-.word-rotate {
-  position: relative;
-  display: inline-block;
-  height: 1.2em;
-  overflow: hidden;
-  vertical-align: bottom;
-  text-align: center;
-  flex-shrink: 0;
-}
-.word-rotate .word-measure {
-  position: static;
-  right: auto;
-  visibility: hidden;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 1;
-  animation: none;
-}
-.word-rotate span {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  opacity: 0;
+.deposit-withdraw {
   color: rgba(203,182,255,.85);
-  white-space: nowrap;
-  animation: wordCycle 4s infinite;
-}
-.word-rotate span:nth-child(1) { animation-delay: 0s; }
-.word-rotate span:nth-child(2) { animation-delay: 2s; }
-@keyframes wordCycle {
-  0%, 4% { opacity: 0; }
-  10%, 40% { opacity: 1; }
-  46%, 100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .word-rotate span {
-    animation: none !important;
-    opacity: 0;
-    transform: none;
-  }
-  .word-rotate span:nth-child(1) { opacity: 1; }
 }
 .payment-methods-row {
   display: flex;
@@ -2516,22 +2476,7 @@ a.button-primary:hover {
   .payment-methods-row { gap: 32px 36px; }
 }
 </style>
-<h2 class="payment-methods-heading"><span class="word-rotate" id="bcmWordRotate"><span>Deposit</span><span>Withdraw</span><span class="word-measure">Withdraw</span></span><span>with</span><em>trusted</em><span>payment</span><span>methods</span></h2>
-<script>
-(function(){
-  var box = document.getElementById('bcmWordRotate');
-  if (!box) return;
-  var measure = box.querySelector('.word-measure');
-  function sizeBox() {
-    box.style.width = (measure.offsetWidth + 4) + 'px';
-  }
-  sizeBox();
-  window.addEventListener('resize', sizeBox);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(sizeBox);
-  }
-})();
-</script>
+<h2 class="payment-methods-heading"><span class="deposit-withdraw">Deposit &amp; Withdraw</span><span>with</span><em>trusted</em><span>payment</span><span>methods</span></h2>
 <div class="payment-methods-row">
   <span class="payment-logo visa-mark">VISA</span>
   <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:8px;">
