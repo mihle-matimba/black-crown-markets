@@ -1833,9 +1833,8 @@ AF('banners', 'showBanner')
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
   text-align: center !important;
-  padding-top: 64px !important;
 }
 .section_home-hero .home-hero_text-wrapper {
   position: static !important;
@@ -1845,25 +1844,20 @@ AF('banners', 'showBanner')
   flex-direction: column !important;
   align-items: center !important;
   text-align: center !important;
+  gap: 28px;
 }
 .section_home-hero .home-hero_text_container {
   text-align: center !important;
 }
-.section_home-hero .home-hero_content {
-  position: relative !important;
-}
 .section_home-hero .home-hero_button {
   display: flex !important;
   justify-content: center !important;
-  width: auto !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
+  width: 100% !important;
   margin: 0 !important;
-  z-index: 5 !important;
 }
 .section_home-hero .home-hero_heading-2,
-.section_home-hero .home-hero_text {
+.section_home-hero .home-hero_text,
+.section_home-hero .home-hero_button {
   opacity: 0;
   transform: translateY(24px);
 }
@@ -1874,26 +1868,17 @@ AF('banners', 'showBanner')
   animation: heroTextReveal 1s cubic-bezier(.2,.7,.2,1) forwards .5s;
 }
 .section_home-hero .home-hero_button {
-  opacity: 0;
-  transform: translate(-50%, calc(-50% + 24px));
-  animation: heroButtonReveal 1s cubic-bezier(.2,.7,.2,1) forwards .7s;
+  animation: heroTextReveal 1s cubic-bezier(.2,.7,.2,1) forwards .7s;
 }
 @keyframes heroTextReveal {
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes heroButtonReveal {
-  to { opacity: 1; transform: translate(-50%, -50%); }
-}
 @media (prefers-reduced-motion: reduce) {
   .section_home-hero .home-hero_heading-2,
-  .section_home-hero .home-hero_text {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-  }
+  .section_home-hero .home-hero_text,
   .section_home-hero .home-hero_button {
     opacity: 1 !important;
-    transform: translate(-50%, -50%) !important;
+    transform: none !important;
     animation: none !important;
   }
 }
