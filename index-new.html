@@ -2470,6 +2470,42 @@ a.button-primary:hover {
 @media (max-width: 640px) {
   .payment-methods-row { gap: 32px 36px; }
 }
+.bank-marquee {
+  margin-top: 56px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+.bank-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 64px;
+  animation: bankMarquee 28s linear infinite;
+}
+.bank-marquee:hover .bank-marquee-track {
+  animation-play-state: paused;
+}
+.bank-marquee-item {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: rgba(231,224,255,.45);
+  white-space: nowrap;
+  opacity: .75;
+  transition: opacity .2s;
+}
+.bank-marquee-item:hover {
+  opacity: 1;
+}
+@keyframes bankMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bank-marquee-track {
+    animation: none !important;
+  }
+}
 </style>
 <h2 class="payment-methods-heading"><span>Fund your account with</span><em>trusted</em><span>payment methods</span></h2>
 <div class="payment-methods-row">
@@ -2484,6 +2520,24 @@ a.button-primary:hover {
   </span>
   <span class="payment-logo gpay-mark">G Pay</span>
   <span class="payment-logo text-mark" style="font-size:19px;">USDT</span>
+  <span class="payment-logo text-mark" style="font-size:19px;">Ozow</span>
+  <span class="payment-logo text-mark" style="font-size:19px;">Capitec Pay</span>
+</div>
+<div class="bank-marquee">
+  <div class="bank-marquee-track">
+    <span class="bank-marquee-item">Standard Bank</span>
+    <span class="bank-marquee-item">FNB</span>
+    <span class="bank-marquee-item">Absa</span>
+    <span class="bank-marquee-item">Nedbank</span>
+    <span class="bank-marquee-item">Capitec</span>
+    <span class="bank-marquee-item">Investec</span>
+    <span class="bank-marquee-item">Standard Bank</span>
+    <span class="bank-marquee-item">FNB</span>
+    <span class="bank-marquee-item">Absa</span>
+    <span class="bank-marquee-item">Nedbank</span>
+    <span class="bank-marquee-item">Capitec</span>
+    <span class="bank-marquee-item">Investec</span>
+  </div>
 </div>
 </section><section class="fin-simple-section">
 <style>
