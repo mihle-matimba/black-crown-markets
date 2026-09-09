@@ -2395,11 +2395,30 @@ a.button-primary:hover {
 </section><section class="payment-methods-section">
 <style>
 .payment-methods-section {
+  position: relative;
   background: #04020a;
   padding: 80px 20px 90px;
   text-align: center;
+  overflow: hidden;
+}
+.payment-methods-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1100px;
+  max-width: 160%;
+  height: 480px;
+  background: radial-gradient(ellipse at top, rgba(123,63,242,.35) 0%, rgba(123,63,242,.12) 45%, transparent 75%);
+  pointer-events: none;
+}
+.payment-methods-section > * {
+  position: relative;
+  z-index: 1;
 }
 .payment-methods-heading {
+  font-family: 'Inter', sans-serif;
   font-size: clamp(24px, 3.4vw, 34px);
   font-weight: 600;
   color: #fff;
@@ -2407,9 +2426,9 @@ a.button-primary:hover {
   letter-spacing: -0.01em;
 }
 .payment-methods-heading em {
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
+  color: #cbb6ff;
 }
 .payment-methods-row {
   display: flex;
@@ -2424,6 +2443,7 @@ a.button-primary:hover {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: 'Inter', sans-serif;
   color: rgba(231,224,255,.5);
   opacity: .75;
   filter: grayscale(1);
@@ -2435,14 +2455,14 @@ a.button-primary:hover {
 }
 .payment-logo svg { height: 26px; width: auto; display: block; }
 .payment-logo.text-mark {
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 21px;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
-.payment-logo.visa-mark { font-style: italic; font-family: Georgia, serif; font-size: 26px; font-weight: 700; }
-.payment-logo.paypal-mark { font-family: Georgia, serif; font-style: italic; font-size: 23px; font-weight: 700; }
+.payment-logo.visa-mark { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.payment-logo.paypal-mark { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; }
 .payment-logo.gpay-mark { font-size: 20px; font-weight: 600; }
-.payment-logo.skrill-mark { font-size: 21px; font-weight: 700; font-style: italic; }
+.payment-logo.skrill-mark { font-size: 21px; font-weight: 700; }
 @media (max-width: 640px) {
   .payment-methods-row { gap: 32px 36px; }
 }
