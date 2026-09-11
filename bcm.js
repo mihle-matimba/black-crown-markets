@@ -114,6 +114,62 @@ if(!form||!currencySelect||!typeSelect)return;
 
 if(platformSelect){var platformGroup=platformSelect.closest('.form-group');if(platformGroup)platformGroup.style.display='none';}
 
+(function setupRegistrationPasswordRules(){
+var regPasswordInput=scope.querySelector('#password-input');
+var regConfirmInput=scope.querySelector('#password-confirm-input');
+if(!regPasswordInput||!regConfirmInput||regPasswordInput.dataset.bcmPwRules)return;
+regPasswordInput.dataset.bcmPwRules='1';
+var REG_PW_RULES=[
+{key:'length',label:'At least 8 characters',test:function(pw){return pw.length>=8;}},
+{key:'upper',label:'An uppercase letter',test:function(pw){return /[A-Z]/.test(pw);}},
+{key:'lower',label:'A lowercase letter',test:function(pw){return /[a-z]/.test(pw);}},
+{key:'digit',label:'A number',test:function(pw){return /[0-9]/.test(pw);}},
+{key:'symbol',label:'A symbol',test:function(pw){return /[^A-Za-z0-9]/.test(pw);}}
+];
+function regEsc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+var regPwRulesList=document.createElement('ul');
+regPwRulesList.className='bcm-pw-rules';
+regPwRulesList.innerHTML=REG_PW_RULES.map(function(r){return '<li data-rule="'+r.key+'"><span class="bcm-pw-rule-icon"></span>'+regEsc(r.label)+'</li>';}).join('');
+var regPwError=document.createElement('p');
+regPwError.className='bcm-wiz-error';
+regPwError.id='bcmRegPwError';
+regPwError.textContent='Password must meet all the requirements listed above.';
+var regPasswordGroup=regPasswordInput.closest('.form-group')||regPasswordInput.parentElement;
+regPasswordGroup.insertAdjacentElement('afterend',regPwError);
+regPasswordGroup.insertAdjacentElement('afterend',regPwRulesList);
+function regCheckPwStrength(pw){return REG_PW_RULES.every(function(r){return r.test(pw);});}
+function regUpdatePwRules(){
+var pw=regPasswordInput.value;
+REG_PW_RULES.forEach(function(r){var li=regPwRulesList.querySelector('[data-rule="'+r.key+'"]');if(li)li.classList.toggle('bcm-pw-rule-met',r.test(pw));});
+if(regCheckPwStrength(pw))regPwError.classList.remove('bcm-wiz-error-visible');
+}
+regUpdatePwRules();
+regPasswordInput.addEventListener('input',regUpdatePwRules);
+regConfirmInput.addEventListener('input',function(){if(regConfirmInput.value===regPasswordInput.value)regPwError.classList.remove('bcm-wiz-error-visible');});
+form.addEventListener('submit',function(e){
+var pw=regPasswordInput.value;
+if(!regCheckPwStrength(pw)){
+e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+regPwError.textContent='Password must meet all the requirements listed above.';
+regPwError.classList.add('bcm-wiz-error-visible');
+var step1Anchor=scope.querySelector('a[href="#step-1"]');
+if(step1Anchor)step1Anchor.click();
+regPasswordInput.focus();
+return false;
+}
+if(pw!==regConfirmInput.value){
+e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+regPwError.textContent='Enter a password and confirm it — passwords must match.';
+regPwError.classList.add('bcm-wiz-error-visible');
+var step1AnchorB=scope.querySelector('a[href="#step-1"]');
+if(step1AnchorB)step1AnchorB.click();
+regConfirmInput.focus();
+return false;
+}
+regPwError.classList.remove('bcm-wiz-error-visible');
+},true);
+})();
+
 var ICON={
 trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>',
 star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
