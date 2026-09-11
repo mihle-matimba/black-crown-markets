@@ -1808,7 +1808,8 @@ AF('banners', 'showBanner')
 .section_home-hero .rock,
 .stats-section .rock,
 .dash-preview-section .rock,
-.dash-preview-section-2 .rock{
+.dash-preview-section-2 .rock,
+.account-types-section .rock{
   position:absolute;pointer-events:none;opacity:0;z-index:0;
   filter:drop-shadow(0 18px 40px rgba(60,20,120,.45));
   animation:rockIn 1.4s ease forwards var(--in,.6s);will-change:transform;
@@ -1816,14 +1817,16 @@ AF('banners', 'showBanner')
 .section_home-hero .rock .rk,
 .stats-section .rock .rk,
 .dash-preview-section .rock .rk,
-.dash-preview-section-2 .rock .rk{
+.dash-preview-section-2 .rock .rk,
+.account-types-section .rock .rk{
   width:100%;background:center/contain no-repeat var(--src);
   animation:float var(--dur,9s) ease-in-out infinite var(--del,0s);
 }
 .section_home-hero .depth-far,
 .stats-section .depth-far,
 .dash-preview-section .depth-far,
-.dash-preview-section-2 .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
+.dash-preview-section-2 .depth-far,
+.account-types-section .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
 @keyframes planetIn{from{opacity:0;transform:translateY(-26px) scale(1.015);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes plasmaIn{to{opacity:1;}}
 @keyframes rockIn{from{opacity:0;transform:translateY(20px) scale(.94);}to{opacity:1;transform:none;}}
@@ -2452,6 +2455,7 @@ a.button-primary:hover {
   right: 0;
   bottom: 0;
   height: 45%;
+  z-index: 3;
   background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
   pointer-events: none;
 }
@@ -3016,6 +3020,8 @@ a.button-primary:hover {
   .account-types-grid { grid-template-columns: 1fr; }
 }
 </style>
+<div class="rock depth-far" style="top:8%;right:6%;width:60px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:9s;--amp:-16px;--rot:10deg;--spin:-6deg;--del:0.6s;"></div></div>
+<div class="rock depth-far" style="bottom:8%;left:5%;width:80px;--in:0.7s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.7s;"></div></div>
 <div class="account-types-heading-wrap">
   <div class="stats-badge"><span class="dot"></span> Accounts</div>
   <h2>One Platform. Multiple Ways to Trade.</h2>
