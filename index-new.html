@@ -1806,18 +1806,24 @@ AF('banners', 'showBanner')
   filter:blur(20px);transform:scaleX(.7);
 }
 .section_home-hero .rock,
-.stats-section .rock{
+.stats-section .rock,
+.dash-preview-section .rock,
+.dash-preview-section-2 .rock{
   position:absolute;pointer-events:none;opacity:0;z-index:0;
   filter:drop-shadow(0 18px 40px rgba(60,20,120,.45));
   animation:rockIn 1.4s ease forwards var(--in,.6s);will-change:transform;
 }
 .section_home-hero .rock .rk,
-.stats-section .rock .rk{
+.stats-section .rock .rk,
+.dash-preview-section .rock .rk,
+.dash-preview-section-2 .rock .rk{
   width:100%;background:center/contain no-repeat var(--src);
   animation:float var(--dur,9s) ease-in-out infinite var(--del,0s);
 }
 .section_home-hero .depth-far,
-.stats-section .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
+.stats-section .depth-far,
+.dash-preview-section .depth-far,
+.dash-preview-section-2 .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
 @keyframes planetIn{from{opacity:0;transform:translateY(-26px) scale(1.015);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes plasmaIn{to{opacity:1;}}
 @keyframes rockIn{from{opacity:0;transform:translateY(20px) scale(.94);}to{opacity:1;transform:none;}}
@@ -2375,6 +2381,7 @@ a.button-primary:hover {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
+  overflow: hidden;
 }
 .dash-preview-inner {
   display: flex;
@@ -2466,6 +2473,8 @@ a.button-primary:hover {
 </style>
 <div class="dash-preview-scroll">
   <div class="dash-preview-sticky">
+    <div class="rock depth-far" style="top:10%;left:6%;width:70px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:9s;--amp:-16px;--rot:10deg;--spin:-6deg;--del:0.6s;"></div></div>
+    <div class="rock depth-far" style="bottom:12%;right:8%;width:90px;--in:0.7s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.7s;"></div></div>
     <div class="dash-preview-inner">
       <div class="dash-preview-textwrap">
         <span class="dash-text-light">Trade All Day</span>
@@ -2536,6 +2545,7 @@ a.button-primary:hover {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
+  overflow: hidden;
 }
 .dash-preview-2-inner {
   display: flex;
@@ -2613,6 +2623,8 @@ a.button-primary:hover {
 </style>
 <div class="dash-preview-2-scroll">
   <div class="dash-preview-2-sticky">
+    <div class="rock depth-far" style="top:12%;right:7%;width:60px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:8s;--amp:-14px;--rot:14deg;--spin:-4deg;--del:0.6s;"></div></div>
+    <div class="rock depth-far" style="bottom:10%;left:5%;width:80px;--in:0.75s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.75s;"></div></div>
     <div class="dash-preview-2-inner">
       <div class="dash-preview-2-textwrap">
         <span class="dash-text-2a">With tools to track your growth</span>
