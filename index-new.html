@@ -2829,6 +2829,190 @@ a.button-primary:hover {
   <span class="bank-grid-item bank-grid-item-img"><img src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/CPI.JO-7f69f481.png" alt="Capitec" /></span>
   <span class="bank-grid-item">Investec</span>
 </div>
+</section><section class="account-types-section">
+<style>
+.account-types-section {
+  position: relative;
+  background: #04020a;
+  padding: 100px 20px 110px;
+  text-align: center;
+  overflow: hidden;
+}
+.account-types-heading-wrap {
+  max-width: 640px;
+  margin: 0 auto 56px;
+}
+.account-types-heading-wrap h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4.2vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  margin: 20px 0 16px;
+  line-height: 1.25;
+}
+.account-types-heading-wrap p {
+  color: rgba(231,224,255,.6);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.account-types-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.account-type-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(160,107,255,.2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .2s, transform .2s;
+}
+.account-type-card:hover {
+  border-color: rgba(160,107,255,.5);
+  transform: translateY(-3px);
+}
+.account-type-card.is-featured {
+  background: linear-gradient(160deg, rgba(160,107,255,.14), rgba(255,255,255,.03));
+  border-color: rgba(160,107,255,.55);
+}
+.account-type-name {
+  color: #fff;
+  font-size: 21px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+.account-type-tagline {
+  color: rgba(231,224,255,.55);
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  min-height: 40px;
+}
+.account-type-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.account-type-stats li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13.5px;
+  color: rgba(231,224,255,.6);
+  border-bottom: 1px dashed rgba(160,107,255,.15);
+  padding-bottom: 10px;
+}
+.account-type-stats li span:last-child {
+  color: #fff;
+  font-weight: 700;
+}
+.account-type-btn {
+  margin-top: auto;
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(160,107,255,.1);
+  color: #cbb6ff;
+  border: 1px solid rgba(160,107,255,.35);
+  transition: background .2s, color .2s;
+}
+.account-type-btn:hover {
+  background: linear-gradient(135deg, #a06bff, #7b3ff2);
+  color: #fff;
+}
+.account-types-cta {
+  margin-top: 44px;
+}
+.account-types-cta a {
+  color: #cbb6ff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+@media (max-width: 980px) {
+  .account-types-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .account-types-grid { grid-template-columns: 1fr; }
+}
+</style>
+<div class="account-types-heading-wrap">
+  <div class="stats-badge"><span class="dot"></span> Accounts</div>
+  <h2>Choose The Account That Fits Your Trading</h2>
+  <p>Every account trades the same markets on the same platform &mdash; only the pricing model changes.</p>
+</div>
+<div class="account-types-grid">
+  <div class="account-type-card">
+    <h3 class="account-type-name">Standard</h3>
+    <p class="account-type-tagline">The everyday account, great for almost any trader.</p>
+    <ul class="account-type-stats">
+      <li><span>Min. Deposit</span><span>$10</span></li>
+      <li><span>Spread From</span><span>1.8 pips</span></li>
+      <li><span>Commission</span><span>None</span></li>
+      <li><span>Max Leverage</span><span>1:2000</span></li>
+    </ul>
+    <a href="account-types.html" class="account-type-btn">View Details</a>
+  </div>
+  <div class="account-type-card">
+    <h3 class="account-type-name">Standard Cent</h3>
+    <p class="account-type-tagline">Built for beginners &mdash; trade in cent lots to reduce risk while learning.</p>
+    <ul class="account-type-stats">
+      <li><span>Min. Deposit</span><span>$10</span></li>
+      <li><span>Spread From</span><span>1.8 pips</span></li>
+      <li><span>Commission</span><span>None</span></li>
+      <li><span>Max Leverage</span><span>1:500</span></li>
+    </ul>
+    <a href="account-types.html" class="account-type-btn">View Details</a>
+  </div>
+  <div class="account-type-card is-featured">
+    <h3 class="account-type-name">Pro</h3>
+    <p class="account-type-tagline">For serious traders &mdash; tighter spreads with zero commission.</p>
+    <ul class="account-type-stats">
+      <li><span>Min. Deposit</span><span>$100</span></li>
+      <li><span>Spread From</span><span>0.9 pips</span></li>
+      <li><span>Commission</span><span>None</span></li>
+      <li><span>Max Leverage</span><span>1:2000</span></li>
+    </ul>
+    <a href="account-types.html" class="account-type-btn">View Details</a>
+  </div>
+  <div class="account-type-card">
+    <h3 class="account-type-name">Raw ECN</h3>
+    <p class="account-type-tagline">Raw institutional pricing routed direct to liquidity &mdash; built for scalping and algo trading.</p>
+    <ul class="account-type-stats">
+      <li><span>Min. Deposit</span><span>$100</span></li>
+      <li><span>Spread From</span><span>0.0 pips</span></li>
+      <li><span>Commission</span><span>$3/lot/side</span></li>
+      <li><span>Max Leverage</span><span>1:2000</span></li>
+    </ul>
+    <a href="account-types.html" class="account-type-btn">View Details</a>
+  </div>
+  <div class="account-type-card">
+    <h3 class="account-type-name">Bonus Account</h3>
+    <p class="account-type-tagline">Extra trading power with a 150% leverage bonus, up to R150,000.</p>
+    <ul class="account-type-stats">
+      <li><span>Min. Deposit</span><span>$10</span></li>
+      <li><span>Spread From</span><span>1.8 pips</span></li>
+      <li><span>Commission</span><span>None</span></li>
+      <li><span>Max Leverage</span><span>1:500</span></li>
+    </ul>
+    <a href="account-types.html" class="account-type-btn">View Details</a>
+  </div>
+</div>
+<div class="account-types-cta">
+  <a href="account-types.html">Compare all account types in full detail &rarr;</a>
+</div>
 </section><section class="fin-simple-section">
 <style>
 .fin-simple-section {
