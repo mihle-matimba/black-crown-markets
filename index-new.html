@@ -2376,6 +2376,17 @@ a.button-primary:hover {
   width: 100%;
   height: auto;
 }
+.dash-mock-img-dark {
+  position: relative;
+  z-index: 1;
+}
+.dash-mock-img-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+}
 .dash-mock::after {
   content: '';
   position: absolute;
@@ -2389,26 +2400,25 @@ a.button-primary:hover {
 </style>
 <div class="dash-mock-wrap">
   <div class="dash-mock">
-    <img class="dash-mock-img" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard" />
+    <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
+    <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
   </div>
 </div>
-</section><div id="bcmThemeFade" style="position:fixed;inset:0;z-index:40;pointer-events:none;background:#f5f3ff;opacity:0;"></div>
 <script>
 (function(){
-  var overlay = document.getElementById('bcmThemeFade');
-  var trigger = document.querySelector('.dash-preview-section');
-  if (!overlay || !trigger) return;
+  var section = document.querySelector('.dash-preview-section');
+  var lightImg = document.querySelector('.dash-mock-img-light');
+  if (!section || !lightImg) return;
 
-  var MAX_OPACITY = 0.9;
   var ticking = false;
 
   function update() {
     ticking = false;
-    var rect = trigger.getBoundingClientRect();
+    var rect = section.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var progress = (vh - rect.bottom) / vh;
+    var progress = (vh - rect.top) / (vh + rect.height);
     progress = Math.max(0, Math.min(1, progress));
-    overlay.style.opacity = (progress * MAX_OPACITY).toFixed(3);
+    lightImg.style.opacity = progress.toFixed(3);
   }
   function onScroll() {
     if (!ticking) {
@@ -2425,6 +2435,7 @@ a.button-primary:hover {
   update();
 })();
 </script>
+</section>
 <section class="payment-methods-section">
 <style>
 .payment-methods-section {
