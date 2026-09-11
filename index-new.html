@@ -2362,12 +2362,54 @@ a.button-primary:hover {
 <style>
 .dash-preview-section {
   background: #04020a;
-  padding: 100px 20px 120px;
-  text-align: center;
+}
+.dash-preview-scroll {
+  position: relative;
+  height: 220vh;
+}
+.dash-preview-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+.dash-preview-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.dash-preview-textwrap {
+  flex: 0 0 auto;
+  display: grid;
+  text-align: left;
+}
+.dash-preview-textwrap span {
+  grid-area: 1 / 1;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  white-space: nowrap;
+  transition: opacity .15s linear;
+}
+.dash-text-light {
+  color: #fff;
+  opacity: 1;
+}
+.dash-text-dark {
+  color: #cbb6ff;
+  opacity: 0;
 }
 .dash-mock-wrap {
-  max-width: 1080px;
-  margin: 0 auto;
+  flex: 1 1 auto;
+  max-width: 800px;
   border-radius: 20px;
   padding: 1px;
   background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
@@ -2384,11 +2426,11 @@ a.button-primary:hover {
   width: 100%;
   height: auto;
 }
-.dash-mock-img-dark {
+.dash-mock-img-light {
   position: relative;
   z-index: 1;
 }
-.dash-mock-img-light {
+.dash-mock-img-dark {
   position: absolute;
   top: 0;
   left: 0;
@@ -2406,31 +2448,60 @@ a.button-primary:hover {
   background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
   pointer-events: none;
 }
+@media (max-width: 900px) {
+  .dash-preview-scroll { height: 180vh; }
+  .dash-preview-inner {
+    flex-direction: column;
+    gap: 28px;
+  }
+  .dash-preview-textwrap {
+    text-align: center;
+    justify-content: center;
+  }
+  .dash-preview-textwrap span {
+    white-space: normal;
+    text-align: center;
+  }
+}
 </style>
-<div class="dash-mock-wrap">
-  <div class="dash-mock">
-    <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
-    <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
+<div class="dash-preview-scroll">
+  <div class="dash-preview-sticky">
+    <div class="dash-preview-inner">
+      <div class="dash-preview-textwrap">
+        <span class="dash-text-light">Trade All Day</span>
+        <span class="dash-text-dark">All Night</span>
+      </div>
+      <div class="dash-mock-wrap">
+        <div class="dash-mock">
+          <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
+          <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>
 (function(){
-  var section = document.querySelector('.dash-preview-section');
-  var lightImg = document.querySelector('.dash-mock-img-light');
-  if (!section || !lightImg) return;
+  var scrollWrap = document.querySelector('.dash-preview-scroll');
+  var darkImg = document.querySelector('.dash-mock-img-dark');
+  var textLight = document.querySelector('.dash-text-light');
+  var textDark = document.querySelector('.dash-text-dark');
+  if (!scrollWrap || !darkImg) return;
 
   var ticking = false;
 
-  var SPEED = 20;
+  var SPEED = 3.5;
 
   function update() {
     ticking = false;
-    var rect = section.getBoundingClientRect();
+    var rect = scrollWrap.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var raw = (vh - rect.top) / (vh + rect.height);
+    var raw = -rect.top / (rect.height - vh);
     var progress = (raw - 0.5) * SPEED + 0.5;
     progress = Math.max(0, Math.min(1, progress));
-    lightImg.style.opacity = progress.toFixed(3);
+    darkImg.style.opacity = progress.toFixed(3);
+    if (textLight) textLight.style.opacity = (1 - progress).toFixed(3);
+    if (textDark) textDark.style.opacity = progress.toFixed(3);
   }
   function onScroll() {
     if (!ticking) {
