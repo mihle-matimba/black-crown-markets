@@ -2365,7 +2365,7 @@ a.button-primary:hover {
 }
 .dash-preview-scroll {
   position: relative;
-  height: 220vh;
+  height: 400vh;
 }
 .dash-preview-sticky {
   position: sticky;
@@ -2375,6 +2375,7 @@ a.button-primary:hover {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
+  overflow: hidden;
 }
 .dash-preview-inner {
   display: flex;
@@ -2384,29 +2385,29 @@ a.button-primary:hover {
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  transition: transform .4s ease, opacity .4s ease;
+}
+.dash-preview-inner.is-swapped {
+  flex-direction: row-reverse;
 }
 .dash-preview-textwrap {
   flex: 0 0 auto;
   display: grid;
   text-align: left;
+  max-width: 480px;
 }
 .dash-preview-textwrap span {
   grid-area: 1 / 1;
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(32px, 4.6vw, 60px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.1;
-  white-space: nowrap;
+  line-height: 1.15;
   transition: opacity .15s linear;
 }
-.dash-text-light {
-  color: #fff;
-  opacity: 1;
-}
-.dash-text-dark {
-  color: #cbb6ff;
-  opacity: 0;
-}
+.dash-text-1 { color: #fff; opacity: 1; }
+.dash-text-2 { color: #cbb6ff; opacity: 0; }
+.dash-text-3 { color: #fff; opacity: 0; }
+.dash-text-4 { color: #cbb6ff; opacity: 0; }
 .dash-mock-wrap {
   flex: 1 1 auto;
   max-width: 800px;
@@ -2449,27 +2450,27 @@ a.button-primary:hover {
   pointer-events: none;
 }
 @media (max-width: 900px) {
-  .dash-preview-scroll { height: 180vh; }
-  .dash-preview-inner {
+  .dash-preview-scroll { height: 320vh; }
+  .dash-preview-inner,
+  .dash-preview-inner.is-swapped {
     flex-direction: column;
     gap: 28px;
   }
   .dash-preview-textwrap {
     text-align: center;
     justify-content: center;
-  }
-  .dash-preview-textwrap span {
-    white-space: normal;
-    text-align: center;
+    max-width: none;
   }
 }
 </style>
 <div class="dash-preview-scroll">
   <div class="dash-preview-sticky">
-    <div class="dash-preview-inner">
+    <div class="dash-preview-inner" id="dashQuadInner">
       <div class="dash-preview-textwrap">
-        <span class="dash-text-light">Trade All Day</span>
-        <span class="dash-text-dark">And All Night</span>
+        <span class="dash-text-1">Trade All Day</span>
+        <span class="dash-text-2">And All Night</span>
+        <span class="dash-text-3">With tools to track your growth</span>
+        <span class="dash-text-4">And daily profits</span>
       </div>
       <div class="dash-mock-wrap">
         <div class="dash-mock">
@@ -2483,168 +2484,48 @@ a.button-primary:hover {
 <script>
 (function(){
   var scrollWrap = document.querySelector('.dash-preview-scroll');
+  var inner = document.getElementById('dashQuadInner');
   var darkImg = document.querySelector('.dash-mock-img-dark');
-  var textLight = document.querySelector('.dash-text-light');
-  var textDark = document.querySelector('.dash-text-dark');
-  if (!scrollWrap || !darkImg) return;
+  var t1 = document.querySelector('.dash-text-1');
+  var t2 = document.querySelector('.dash-text-2');
+  var t3 = document.querySelector('.dash-text-3');
+  var t4 = document.querySelector('.dash-text-4');
+  if (!scrollWrap || !inner || !darkImg) return;
 
   var ticking = false;
+  var isSwapped = false;
 
-  var SPEED = 3.5;
+  function seg(raw, start, end) {
+    return Math.max(0, Math.min(1, (raw - start) / (end - start)));
+  }
 
   function update() {
     ticking = false;
     var rect = scrollWrap.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
     var raw = -rect.top / (rect.height - vh);
-    var progress = (raw - 0.5) * SPEED + 0.5;
-    progress = Math.max(0, Math.min(1, progress));
-    darkImg.style.opacity = progress.toFixed(3);
-    if (textLight) textLight.style.opacity = (1 - progress).toFixed(3);
-    if (textDark) textDark.style.opacity = progress.toFixed(3);
-  }
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      window.requestAnimationFrame(update);
+    raw = Math.max(0, Math.min(1, raw));
+
+    var s1 = seg(raw, 0.00, 0.22);
+    var s3 = seg(raw, 0.50, 0.72);
+    var s4 = seg(raw, 0.80, 1.00);
+
+    darkImg.style.opacity = (raw < 0.5 ? s1 : (1 - s3)).toFixed(3);
+
+    t1.style.opacity = (1 - s1).toFixed(3);
+    t2.style.opacity = Math.min(s1, 1 - s3).toFixed(3);
+    t3.style.opacity = Math.min(s3, 1 - s4).toFixed(3);
+    t4.style.opacity = s4.toFixed(3);
+
+    var dip = Math.sin(s3 * Math.PI);
+    inner.style.opacity = (1 - dip * 0.6).toFixed(3);
+    inner.style.transform = 'translateY(' + (dip * 14).toFixed(1) + 'px) scale(' + (1 - dip * 0.03).toFixed(3) + ')';
+
+    var shouldSwap = s3 >= 0.5;
+    if (shouldSwap !== isSwapped) {
+      isSwapped = shouldSwap;
+      inner.classList.toggle('is-swapped', isSwapped);
     }
-  }
-
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-  }
-  update();
-})();
-</script>
-</section>
-<section class="dash-preview-section-2">
-<style>
-.dash-preview-section-2 {
-  background: #04020a;
-}
-.dash-preview-2-scroll {
-  position: relative;
-  height: 220vh;
-}
-.dash-preview-2-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-}
-.dash-preview-2-inner {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: center;
-  gap: 64px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-.dash-preview-2-textwrap {
-  flex: 0 0 auto;
-  display: grid;
-  text-align: left;
-  max-width: 440px;
-}
-.dash-preview-2-textwrap span {
-  grid-area: 1 / 1;
-  font-size: clamp(32px, 4.4vw, 56px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: #fff;
-  transition: opacity .15s linear;
-}
-.dash-text-2a {
-  opacity: 1;
-}
-.dash-text-2b {
-  opacity: 0;
-  color: #cbb6ff;
-}
-.dash-mock-wrap-2 {
-  flex: 1 1 auto;
-  max-width: 800px;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
-  box-shadow: 0 40px 100px rgba(0,0,0,.55);
-}
-.dash-mock-2 {
-  position: relative;
-  border-radius: 19px;
-  overflow: hidden;
-  background: #0b0a12;
-}
-.dash-mock-2 img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.dash-mock-2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 45%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
-  pointer-events: none;
-}
-@media (max-width: 900px) {
-  .dash-preview-2-scroll { height: 180vh; }
-  .dash-preview-2-inner {
-    flex-direction: column;
-    gap: 28px;
-  }
-  .dash-preview-2-textwrap {
-    text-align: center;
-    justify-content: center;
-    max-width: none;
-  }
-}
-</style>
-<div class="dash-preview-2-scroll">
-  <div class="dash-preview-2-sticky">
-    <div class="dash-preview-2-inner">
-      <div class="dash-preview-2-textwrap">
-        <span class="dash-text-2a">With tools to track your growth</span>
-        <span class="dash-text-2b">And daily profits</span>
-      </div>
-      <div class="dash-mock-wrap-2">
-        <div class="dash-mock-2">
-          <img src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  var scrollWrap = document.querySelector('.dash-preview-2-scroll');
-  var textA = document.querySelector('.dash-text-2a');
-  var textB = document.querySelector('.dash-text-2b');
-  if (!scrollWrap || !textA || !textB) return;
-
-  var ticking = false;
-  var SPEED = 3.5;
-
-  function update() {
-    ticking = false;
-    var rect = scrollWrap.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var raw = -rect.top / (rect.height - vh);
-    var progress = (raw - 0.5) * SPEED + 0.5;
-    progress = Math.max(0, Math.min(1, progress));
-    textA.style.opacity = (1 - progress).toFixed(3);
-    textB.style.opacity = progress.toFixed(3);
   }
   function onScroll() {
     if (!ticking) {
