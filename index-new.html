@@ -2877,8 +2877,21 @@ a.button-primary:hover {
   transform: translateY(-3px);
 }
 .account-type-card.is-featured {
+  position: relative;
   background: linear-gradient(160deg, rgba(160,107,255,.14), rgba(255,255,255,.03));
   border-color: rgba(160,107,255,.55);
+}
+.account-type-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #a06bff, #7b3ff2);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 100px;
 }
 .account-type-name {
   color: #fff;
@@ -2932,6 +2945,61 @@ a.button-primary:hover {
   background: linear-gradient(135deg, #a06bff, #7b3ff2);
   color: #fff;
 }
+.account-type-btn-solid {
+  background: linear-gradient(135deg, #a06bff, #7b3ff2);
+  color: #fff;
+  border-color: transparent;
+}
+.account-type-btn-solid:hover {
+  background: linear-gradient(135deg, #b483ff, #8b4ff5);
+}
+.account-types-trust {
+  margin-top: 64px;
+}
+.account-types-trust-line {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+.account-types-trust-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(160,107,255,.2);
+}
+.account-types-trust-line span {
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+  background: #04020a;
+  color: rgba(231,224,255,.5);
+  font-size: 13px;
+}
+.account-types-trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px 56px;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(231,224,255,.6);
+  font-size: 14px;
+  font-weight: 600;
+}
+.trust-item svg {
+  width: 20px;
+  height: 20px;
+  color: #a06bff;
+  flex-shrink: 0;
+}
 .account-types-cta {
   margin-top: 44px;
 }
@@ -2950,8 +3018,8 @@ a.button-primary:hover {
 </style>
 <div class="account-types-heading-wrap">
   <div class="stats-badge"><span class="dot"></span> Accounts</div>
-  <h2>Choose The Account That Fits Your Trading</h2>
-  <p>Every account trades the same markets on the same platform &mdash; only the pricing model changes.</p>
+  <h2>One Platform. Multiple Ways to Trade.</h2>
+  <p>Same markets. Same platform. Different account types &mdash; choose the one that matches your goals.</p>
 </div>
 <div class="account-types-grid">
   <div class="account-type-card">
@@ -2977,6 +3045,7 @@ a.button-primary:hover {
     <a href="account-types.html" class="account-type-btn">View Details</a>
   </div>
   <div class="account-type-card is-featured">
+    <span class="account-type-badge">Most Popular</span>
     <h3 class="account-type-name">Pro</h3>
     <p class="account-type-tagline">For serious traders &mdash; tighter spreads with zero commission.</p>
     <ul class="account-type-stats">
@@ -2985,7 +3054,7 @@ a.button-primary:hover {
       <li><span>Commission</span><span>None</span></li>
       <li><span>Max Leverage</span><span>1:2000</span></li>
     </ul>
-    <a href="account-types.html" class="account-type-btn">View Details</a>
+    <a href="account-types.html" class="account-type-btn account-type-btn-solid">View Details</a>
   </div>
   <div class="account-type-card">
     <h3 class="account-type-name">Raw ECN</h3>
@@ -3012,6 +3081,27 @@ a.button-primary:hover {
 </div>
 <div class="account-types-cta">
   <a href="account-types.html">Compare all account types in full detail &rarr;</a>
+</div>
+<div class="account-types-trust">
+  <div class="account-types-trust-line"><span>Trade with a globally trusted broker</span></div>
+  <div class="account-types-trust-row">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+      <span>Regulated Broker</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <span>Segregated Client Funds</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg>
+      <span>Deep Liquidity</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+      <span>24/7 Support</span>
+    </div>
+  </div>
 </div>
 </section><section class="fin-simple-section">
 <style>
