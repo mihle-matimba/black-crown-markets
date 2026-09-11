@@ -2386,6 +2386,7 @@ a.button-primary:hover {
   left: 0;
   z-index: 2;
   opacity: 0;
+  transition: opacity .1s linear;
 }
 .dash-mock::after {
   content: '';
@@ -2412,7 +2413,7 @@ a.button-primary:hover {
 
   var ticking = false;
 
-  var SPEED = 9;
+  var SPEED = 20;
 
   function update() {
     ticking = false;
