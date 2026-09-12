@@ -2407,7 +2407,6 @@ a.button-primary:hover {
   letter-spacing: -0.02em;
   line-height: 1.1;
   white-space: nowrap;
-  transition: opacity .15s linear;
 }
 .dash-text-light {
   color: #fff;
@@ -2445,8 +2444,7 @@ a.button-primary:hover {
   top: 0;
   left: 0;
   z-index: 2;
-  opacity: 0;
-  transition: opacity .1s linear;
+  clip-path: inset(0 0 100% 0);
 }
 .dash-mock::after {
   content: '';
@@ -2512,9 +2510,10 @@ a.button-primary:hover {
     var raw = -rect.top / (rect.height - vh);
     var progress = (raw - 0.5) * SPEED + 0.5;
     progress = Math.max(0, Math.min(1, progress));
-    darkImg.style.opacity = progress.toFixed(3);
-    if (textLight) textLight.style.opacity = (1 - progress).toFixed(3);
-    if (textDark) textDark.style.opacity = progress.toFixed(3);
+    darkImg.style.clipPath = 'inset(' + ((1 - progress) * 100).toFixed(2) + '% 0 0 0)';
+    var revealed = progress >= 0.5;
+    if (textLight) textLight.style.opacity = revealed ? '0' : '1';
+    if (textDark) textDark.style.opacity = revealed ? '1' : '0';
   }
   function onScroll() {
     if (!ticking) {
