@@ -3333,7 +3333,339 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
   });
 })();
 </script>
+</section><section class="reviews-section">
+<style>
+.reviews-section {
+  position: relative;
+  background: #04020a;
+  padding: 100px 20px 110px;
+  text-align: center;
+  overflow: hidden;
+}
+.reviews-heading-wrap {
+  max-width: 640px;
+  margin: 0 auto 20px;
+}
+.reviews-heading-wrap h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4.2vw, 42px);
+  font-weight: 700;
+  color: #fff;
+  margin: 20px 0 16px;
+  line-height: 1.25;
+}
+.reviews-stars-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.reviews-stars {
+  display: inline-flex;
+  gap: 3px;
+}
+.reviews-stars svg {
+  width: 22px;
+  height: 22px;
+  color: #00b67a;
+}
+.reviews-excellent {
+  font-weight: 800;
+  color: #fff;
+  font-size: 16px;
+}
+.reviews-heading-wrap p {
+  color: rgba(231,224,255,.55);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.reviews-grid {
+  max-width: 1240px;
+  margin: 56px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: left;
+}
+.review-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(160,107,255,.18);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .2s, transform .2s;
+}
+.review-card:hover {
+  border-color: rgba(160,107,255,.4);
+  transform: translateY(-3px);
+}
+.review-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.review-avatar {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a06bff, #7b3ff2);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.review-meta-name {
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.review-meta-sub {
+  color: rgba(231,224,255,.45);
+  font-size: 12.5px;
+}
+.review-stars-time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.review-stars {
+  display: inline-flex;
+  gap: 2px;
+}
+.review-stars svg {
+  width: 16px;
+  height: 16px;
+  color: #00b67a;
+}
+.review-time {
+  color: rgba(231,224,255,.4);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.review-title {
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.review-body {
+  color: rgba(231,224,255,.6);
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin: 0 0 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+.review-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(160,107,255,.12);
+  color: rgba(231,224,255,.4);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+@media (max-width: 980px) {
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .reviews-grid { grid-template-columns: 1fr; }
+}
+</style>
+<div class="reviews-heading-wrap">
+  <div class="stats-badge"><span class="dot"></span> Reviews</div>
+  <div class="reviews-stars-row">
+    <span class="reviews-stars">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+    </span>
+    <span class="reviews-excellent">Excellent</span>
+  </div>
+  <h2>What Our Traders Are Saying</h2>
+  <p>Real reviews from real Black Crown Markets clients.</p>
+</div>
+<div class="reviews-grid">
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">S</div>
+      <div>
+        <div class="review-meta-name">Sasheena</div>
+        <div class="review-meta-sub">ZA &bull; 1 review</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">7 minutes ago</span>
+    </div>
+    <h3 class="review-title">When it comes to choosing a broker</h3>
+    <p class="review-body">When it comes to choosing a broker, I believe your clients&rsquo; needs should always come first. That&rsquo;s exactly what I found with Black Crown Markets (BCM). My experience with BCM has been smooth from the start. Whenever I&rsquo;ve had a query, it&rsquo;s been addressed and resolved without being left unanswered. Deposits are easy, and withdrawals are even easier, which gives me peace of mind knowing I can manage my account with confidence. Since using BCM, my overall trading experience has been seamless, and I&rsquo;m genuinely happy with the service and support I&rsquo;ve received. For me, having a broker that puts its clients first makes all the difference.</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">MM</div>
+      <div>
+        <div class="review-meta-name">Merishka Moodley</div>
+        <div class="review-meta-sub">ZA &bull; 1 review</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">40 minutes ago</span>
+    </div>
+    <h3 class="review-title">My experience at BCM has been nothing&hellip;</h3>
+    <p class="review-body">My experience at BCM has been nothing short of amazing. From the professional support team, to the ease and efficiency of the portal. This broker listens and gives their clients exactly what they ask for. As a trader they have given me everything I need and there is absolutely no need for me to explore elsewhere. Thank you BCM</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">SG</div>
+      <div>
+        <div class="review-meta-name">Sonia Gudka</div>
+        <div class="review-meta-sub">ZA &bull; 2 reviews</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">An hour ago</span>
+    </div>
+    <h3 class="review-title">Phenomenal Review for BCM</h3>
+    <p class="review-body">I would like to express my sincere appreciation for BCM and the incredible service and experience they provide. From start to finish, the professionalism, dedication, and attention to detail have been truly outstanding. BCM goes above and beyond to ensure that every client feels valued, supported, and confident. The team is knowledgeable, friendly, and always willing to assist with a positive attitude. Their commitment to quality and excellence is clearly reflected in everything they do. Thank you BCM for your exceptional service, reliability, and for creating such a positive experience. I would highly recommend BCM to anyone looking for a broker that delivers with passion, integrity, and professionalism.</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">ES</div>
+      <div>
+        <div class="review-meta-name">Eve S</div>
+        <div class="review-meta-sub">ZA &bull; 1 review</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">An hour ago</span>
+    </div>
+    <h3 class="review-title">BCM.. A great experience to live in</h3>
+    <p class="review-body">BCM... Family, fun, fortune.. Questions??? Answered!! Queries??? Resolved!! Communications??? Received!!! As a beginner trader I have found a new passion because the powers that be in BCM are passionate about success and growth, not just for themselves, but for every member of the community. They learn, we learn, they win, we win. Definitely people we can trust and this makes it a pleasure to work with a broker that understands everyone from beginner like me to the professional traders. I'm very happy so far and am confident that BCM is a cut above the rest. Many Thanks</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">DL</div>
+      <div>
+        <div class="review-meta-name">Daneil Lotter</div>
+        <div class="review-meta-sub">ZA &bull; 1 review</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">An hour ago</span>
+    </div>
+    <h3 class="review-title">Not sure what to say other than&hellip;</h3>
+    <p class="review-body">Not sure what to say other than amazing. Everything just works, plain and simple! For traders, by traders.</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">RS</div>
+      <div>
+        <div class="review-meta-name">Renola Sooknunan Moona</div>
+        <div class="review-meta-sub">ZA &bull; 2 reviews</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">2 hours ago</span>
+    </div>
+    <h3 class="review-title">Great Experience with BCM</h3>
+    <p class="review-body">So far, I&rsquo;ve had a really good experience with Black Crown Markets. The trading conditions have been good, the platform is easy to use and my overall trading experience has been smooth. What I really appreciate is the support from the team. Whenever I&rsquo;ve had questions or needed help, they&rsquo;ve been there and actually respond, which makes a big difference. For me, trust is a big thing when dealing with a broker. I want to know who I&rsquo;m dealing with, I want clear communication and I want to feel confident that there&rsquo;s a team behind the platform. So far, BCM has given me that confidence. I also like that the team is approachable and actually takes the time to assist traders instead of making you feel like just another account number. I am so happy with BCM! Much appreciated, team!</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+
+</div>
+<div class="reviews-grid" style="margin-top:20px; grid-template-columns: 1fr; max-width: 620px;">
+  <div class="review-card">
+    <div class="review-card-head">
+      <div class="review-avatar">TP</div>
+      <div>
+        <div class="review-meta-name">Thilashni pillay</div>
+        <div class="review-meta-sub">ZA &bull; 1 review</div>
+      </div>
+    </div>
+    <div class="review-stars-time">
+      <span class="review-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+      </span>
+      <span class="review-time">2 hours ago</span>
+    </div>
+    <h3 class="review-title">As traders</h3>
+    <p class="review-body" style="-webkit-line-clamp: unset;">As traders, we look beyond the charts. We look at trading conditions, platform performance, regulation, trust, and support. Black Crown Markets has given us a positive trading experience so far, with a platform that supports our journey and a team that values its traders.</p>
+    <div class="review-actions"><span>Useful</span><span>Share</span><span>Reply</span></div>
+  </div>
+</div>
 </section><section class="bcm-banner-section" style="background: url('https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/64be9d89-a5e2-4a60-a41d-5924b169269e.png') center / cover no-repeat; padding: 120px 60px; width: 100%;">
+
 <style>
 .bcm-banner-section {
   position: relative;
