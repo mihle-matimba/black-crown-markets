@@ -2374,7 +2374,7 @@ a.button-primary:hover {
 }
 .dash-preview-scroll {
   position: relative;
-  height: 220vh;
+  height: 150vh;
 }
 .dash-preview-sticky {
   position: sticky;
@@ -2458,7 +2458,7 @@ a.button-primary:hover {
   pointer-events: none;
 }
 @media (max-width: 900px) {
-  .dash-preview-scroll { height: 180vh; }
+  .dash-preview-scroll { height: 130vh; }
   .dash-preview-inner {
     flex-direction: column;
     gap: 28px;
@@ -2501,14 +2501,15 @@ a.button-primary:hover {
 
   var ticking = false;
 
-  var SPEED = 3.5;
+  var SPEED = 6;
+  var CENTER = 0.25;
 
   function update() {
     ticking = false;
     var rect = scrollWrap.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
     var raw = -rect.top / (rect.height - vh);
-    var progress = (raw - 0.5) * SPEED + 0.5;
+    var progress = (raw - CENTER) * SPEED + 0.5;
     progress = Math.max(0, Math.min(1, progress));
     darkImg.style.clipPath = 'inset(' + ((1 - progress) * 100).toFixed(2) + '% 0 0 0)';
     var revealed = progress >= 0.5;
