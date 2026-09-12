@@ -1807,8 +1807,7 @@ AF('banners', 'showBanner')
 }
 .section_home-hero .rock,
 .stats-section .rock,
-.dash-preview-section .rock,
-.dash-preview-section-2 .rock,
+.dash-combo-section .rock,
 .account-types-section .rock{
   position:absolute;pointer-events:none;opacity:0;z-index:0;
   filter:drop-shadow(0 18px 40px rgba(60,20,120,.45));
@@ -1816,16 +1815,14 @@ AF('banners', 'showBanner')
 }
 .section_home-hero .rock .rk,
 .stats-section .rock .rk,
-.dash-preview-section .rock .rk,
-.dash-preview-section-2 .rock .rk,
+.dash-combo-section .rock .rk,
 .account-types-section .rock .rk{
   width:100%;background:center/contain no-repeat var(--src);
   animation:float var(--dur,9s) ease-in-out infinite var(--del,0s);
 }
 .section_home-hero .depth-far,
 .stats-section .depth-far,
-.dash-preview-section .depth-far,
-.dash-preview-section-2 .depth-far,
+.dash-combo-section .depth-far,
 .account-types-section .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
 @keyframes planetIn{from{opacity:0;transform:translateY(-26px) scale(1.015);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes plasmaIn{to{opacity:1;}}
@@ -2367,16 +2364,16 @@ a.button-primary:hover {
   }
 })();
 </script>
-</section><section class="dash-preview-section">
+</section><section class="dash-combo-section">
 <style>
-.dash-preview-section {
+.dash-combo-section {
   background: #04020a;
 }
-.dash-preview-scroll {
+.dash-combo-scroll {
   position: relative;
-  height: 150vh;
+  height: 300vh;
 }
-.dash-preview-sticky {
+.dash-combo-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
@@ -2386,43 +2383,47 @@ a.button-primary:hover {
   padding: 60px 20px;
   overflow: hidden;
 }
-.dash-preview-inner {
-  display: flex;
+.dash-combo-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  justify-content: center;
   gap: 64px;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
-.dash-preview-textwrap {
-  flex: 0 0 auto;
+.dash-combo-text {
+  grid-column: 1;
+  grid-row: 1;
   display: grid;
   text-align: left;
+  justify-self: start;
+  max-width: 460px;
+  transition: transform .8s cubic-bezier(.65,0,.35,1);
 }
-.dash-preview-textwrap span {
+.dash-combo-text .dc-line {
   grid-area: 1 / 1;
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(32px, 4.6vw, 60px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-.dash-text-light {
-  color: #fff;
-  opacity: 1;
-}
-.dash-text-dark {
-  color: #cbb6ff;
+  line-height: 1.15;
   opacity: 0;
 }
-.dash-mock-wrap {
-  flex: 1 1 auto;
+.dc-line-1 { color: #fff; opacity: 1; }
+.dc-line-2 { color: #cbb6ff; }
+.dc-line-3 { color: #fff; }
+.dc-line-4 { color: #cbb6ff; }
+.dash-combo-image {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  width: 100%;
   max-width: 800px;
   border-radius: 20px;
   padding: 1px;
   background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
   box-shadow: 0 40px 100px rgba(0,0,0,.55);
+  transition: transform .8s cubic-bezier(.65,0,.35,1);
 }
 .dash-mock {
   position: relative;
@@ -2444,7 +2445,8 @@ a.button-primary:hover {
   top: 0;
   left: 0;
   z-index: 2;
-  clip-path: inset(0 0 100% 0);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path .5s ease;
 }
 .dash-mock::after {
   content: '';
@@ -2457,32 +2459,48 @@ a.button-primary:hover {
   background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
   pointer-events: none;
 }
+.dash-combo-inner.is-swapped .dash-combo-text {
+  transform: translateX(calc(100% + 64px));
+}
+.dash-combo-inner.is-swapped .dash-combo-image {
+  transform: translateX(calc(-100% - 64px));
+}
 @media (max-width: 900px) {
-  .dash-preview-scroll { height: 130vh; }
-  .dash-preview-inner {
+  .dash-combo-scroll { height: 220vh; }
+  .dash-combo-inner {
+    display: flex;
     flex-direction: column;
     gap: 28px;
   }
-  .dash-preview-textwrap {
+  .dash-combo-text,
+  .dash-combo-image {
+    transform: none !important;
+    transition: none;
+    justify-self: center;
+    max-width: none;
+  }
+  .dash-combo-text {
     text-align: center;
     justify-content: center;
   }
-  .dash-preview-textwrap span {
+  .dash-combo-text .dc-line {
     white-space: normal;
     text-align: center;
   }
 }
 </style>
-<div class="dash-preview-scroll">
-  <div class="dash-preview-sticky">
+<div class="dash-combo-scroll">
+  <div class="dash-combo-sticky">
     <div class="rock depth-far" style="top:10%;left:6%;width:70px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:9s;--amp:-16px;--rot:10deg;--spin:-6deg;--del:0.6s;"></div></div>
     <div class="rock depth-far" style="bottom:12%;right:8%;width:90px;--in:0.7s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.7s;"></div></div>
-    <div class="dash-preview-inner">
-      <div class="dash-preview-textwrap">
-        <span class="dash-text-light">Trade All Day</span>
-        <span class="dash-text-dark">And All Night</span>
+    <div class="dash-combo-inner">
+      <div class="dash-combo-text">
+        <span class="dc-line dc-line-1">Trade All Day</span>
+        <span class="dc-line dc-line-2">And All Night</span>
+        <span class="dc-line dc-line-3">With tools to track your growth</span>
+        <span class="dc-line dc-line-4">And daily profits</span>
       </div>
-      <div class="dash-mock-wrap">
+      <div class="dash-combo-image">
         <div class="dash-mock">
           <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
           <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
@@ -2493,174 +2511,42 @@ a.button-primary:hover {
 </div>
 <script>
 (function(){
-  var scrollWrap = document.querySelector('.dash-preview-scroll');
+  var scrollWrap = document.querySelector('.dash-combo-scroll');
+  var inner = document.querySelector('.dash-combo-inner');
   var darkImg = document.querySelector('.dash-mock-img-dark');
-  var textLight = document.querySelector('.dash-text-light');
-  var textDark = document.querySelector('.dash-text-dark');
-  if (!scrollWrap || !darkImg) return;
+  var lines = Array.prototype.slice.call(document.querySelectorAll('.dc-line'));
+  if (!scrollWrap || !inner || !darkImg || !lines.length) return;
 
   var ticking = false;
-
   var SPEED = 3;
   var CENTER = 0.25;
 
+  function setActiveLine(n) {
+    lines.forEach(function(el, i) {
+      el.style.opacity = (i + 1 === n) ? '1' : '0';
+    });
+  }
+
   function update() {
     ticking = false;
     var rect = scrollWrap.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
     var raw = -rect.top / (rect.height - vh);
-    var progress = (raw - CENTER) * SPEED + 0.5;
-    progress = Math.max(0, Math.min(1, progress));
-    darkImg.style.clipPath = 'inset(' + ((1 - progress) * 100).toFixed(2) + '% 0 0 0)';
-    var revealed = progress >= 0.5;
-    if (textLight) textLight.style.opacity = revealed ? '0' : '1';
-    if (textDark) textDark.style.opacity = revealed ? '1' : '0';
-  }
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      window.requestAnimationFrame(update);
+    raw = Math.max(0, Math.min(1, raw));
+
+    if (raw < 0.5) {
+      inner.classList.remove('is-swapped');
+      var local = raw / 0.5;
+      var reveal = (local - CENTER) * SPEED + 0.5;
+      reveal = Math.max(0, Math.min(1, reveal));
+      darkImg.style.clipPath = 'inset(' + ((1 - reveal) * 100).toFixed(2) + '% 0 0 0)';
+      setActiveLine(reveal >= 0.5 ? 2 : 1);
+    } else {
+      inner.classList.add('is-swapped');
+      darkImg.style.clipPath = 'inset(100% 0 0 0)';
+      var local2 = (raw - 0.5) / 0.5;
+      setActiveLine(local2 >= 0.5 ? 4 : 3);
     }
-  }
-
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-  }
-  update();
-})();
-</script>
-</section>
-<section class="dash-preview-section-2">
-<style>
-.dash-preview-section-2 {
-  background: #04020a;
-}
-.dash-preview-2-scroll {
-  position: relative;
-  height: 220vh;
-}
-.dash-preview-2-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  overflow: hidden;
-}
-.dash-preview-2-inner {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: center;
-  gap: 64px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-.dash-preview-2-textwrap {
-  flex: 0 0 auto;
-  display: grid;
-  text-align: left;
-  max-width: 440px;
-}
-.dash-preview-2-textwrap span {
-  grid-area: 1 / 1;
-  font-size: clamp(32px, 4.4vw, 56px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: #fff;
-  transition: opacity .15s linear;
-}
-.dash-text-2a {
-  opacity: 1;
-}
-.dash-text-2b {
-  opacity: 0;
-  color: #cbb6ff !important;
-}
-.dash-mock-wrap-2 {
-  flex: 1 1 auto;
-  max-width: 800px;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
-  box-shadow: 0 40px 100px rgba(0,0,0,.55);
-}
-.dash-mock-2 {
-  position: relative;
-  border-radius: 19px;
-  overflow: hidden;
-  background: #0b0a12;
-}
-.dash-mock-2 img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.dash-mock-2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 45%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
-  pointer-events: none;
-}
-@media (max-width: 900px) {
-  .dash-preview-2-scroll { height: 180vh; }
-  .dash-preview-2-inner {
-    flex-direction: column;
-    gap: 28px;
-  }
-  .dash-preview-2-textwrap {
-    text-align: center;
-    justify-content: center;
-    max-width: none;
-  }
-}
-</style>
-<div class="dash-preview-2-scroll">
-  <div class="dash-preview-2-sticky">
-    <div class="rock depth-far" style="top:12%;right:7%;width:60px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:8s;--amp:-14px;--rot:14deg;--spin:-4deg;--del:0.6s;"></div></div>
-    <div class="rock depth-far" style="bottom:10%;left:5%;width:80px;--in:0.75s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.75s;"></div></div>
-    <div class="dash-preview-2-inner">
-      <div class="dash-preview-2-textwrap">
-        <span class="dash-text-2a">With tools to track your growth</span>
-        <span class="dash-text-2b">And daily profits</span>
-      </div>
-      <div class="dash-mock-wrap-2">
-        <div class="dash-mock-2">
-          <img src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  var scrollWrap = document.querySelector('.dash-preview-2-scroll');
-  var textA = document.querySelector('.dash-text-2a');
-  var textB = document.querySelector('.dash-text-2b');
-  if (!scrollWrap || !textA || !textB) return;
-
-  var ticking = false;
-  var SPEED = 3.5;
-
-  function update() {
-    ticking = false;
-    var rect = scrollWrap.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var raw = -rect.top / (rect.height - vh);
-    var progress = (raw - 0.5) * SPEED + 0.5;
-    progress = Math.max(0, Math.min(1, progress));
-    textA.style.opacity = (1 - progress).toFixed(3);
-    textB.style.opacity = progress.toFixed(3);
   }
   function onScroll() {
     if (!ticking) {
