@@ -2392,14 +2392,28 @@ a.button-primary:hover {
   margin: 0 auto;
   width: 100%;
 }
-.dash-combo-text {
-  grid-column: 1;
+.dash-combo-slot {
   grid-row: 1;
+  position: relative;
+  transition: transform .1s linear;
+  will-change: transform;
+}
+.dash-combo-slot-text {
+  grid-column: 1;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-start;
+}
+.dash-combo-slot-image {
+  grid-column: 2;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.dash-combo-text {
   display: grid;
   text-align: left;
-  justify-self: start;
   max-width: 460px;
-  transition: transform .8s cubic-bezier(.65,0,.35,1);
 }
 .dash-combo-text .dc-line {
   grid-area: 1 / 1;
@@ -2414,16 +2428,12 @@ a.button-primary:hover {
 .dc-line-3 { color: #fff; }
 .dc-line-4 { color: #cbb6ff; }
 .dash-combo-image {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
   width: 100%;
   max-width: 800px;
   border-radius: 20px;
   padding: 1px;
   background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
   box-shadow: 0 40px 100px rgba(0,0,0,.55);
-  transition: transform .8s cubic-bezier(.65,0,.35,1);
 }
 .dash-mock {
   position: relative;
@@ -2446,7 +2456,6 @@ a.button-primary:hover {
   left: 0;
   z-index: 2;
   clip-path: inset(100% 0 0 0);
-  transition: clip-path .5s ease;
 }
 .dash-mock::after {
   content: '';
@@ -2459,12 +2468,6 @@ a.button-primary:hover {
   background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
   pointer-events: none;
 }
-.dash-combo-inner.is-swapped .dash-combo-text {
-  transform: translateX(calc(100% + 64px));
-}
-.dash-combo-inner.is-swapped .dash-combo-image {
-  transform: translateX(calc(-100% - 64px));
-}
 @media (max-width: 900px) {
   .dash-combo-scroll { height: 220vh; }
   .dash-combo-inner {
@@ -2472,16 +2475,15 @@ a.button-primary:hover {
     flex-direction: column;
     gap: 28px;
   }
-  .dash-combo-text,
-  .dash-combo-image {
+  .dash-combo-slot {
     transform: none !important;
     transition: none;
-    justify-self: center;
-    max-width: none;
+    justify-content: center;
   }
   .dash-combo-text {
     text-align: center;
     justify-content: center;
+    max-width: none;
   }
   .dash-combo-text .dc-line {
     white-space: normal;
@@ -2494,16 +2496,20 @@ a.button-primary:hover {
     <div class="rock depth-far" style="top:10%;left:6%;width:70px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:9s;--amp:-16px;--rot:10deg;--spin:-6deg;--del:0.6s;"></div></div>
     <div class="rock depth-far" style="bottom:12%;right:8%;width:90px;--in:0.7s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.7s;"></div></div>
     <div class="dash-combo-inner">
-      <div class="dash-combo-text">
-        <span class="dc-line dc-line-1">Trade All Day</span>
-        <span class="dc-line dc-line-2">And All Night</span>
-        <span class="dc-line dc-line-3">With tools to track your growth</span>
-        <span class="dc-line dc-line-4">And daily profits</span>
+      <div class="dash-combo-slot dash-combo-slot-text">
+        <div class="dash-combo-text">
+          <span class="dc-line dc-line-1">Trade All Day</span>
+          <span class="dc-line dc-line-2">And All Night</span>
+          <span class="dc-line dc-line-3">With tools to track your growth</span>
+          <span class="dc-line dc-line-4">And daily profits</span>
+        </div>
       </div>
-      <div class="dash-combo-image">
-        <div class="dash-mock">
-          <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
-          <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
+      <div class="dash-combo-slot dash-combo-slot-image">
+        <div class="dash-combo-image">
+          <div class="dash-mock">
+            <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
+            <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
+          </div>
         </div>
       </div>
     </div>
@@ -2512,14 +2518,18 @@ a.button-primary:hover {
 <script>
 (function(){
   var scrollWrap = document.querySelector('.dash-combo-scroll');
-  var inner = document.querySelector('.dash-combo-inner');
+  var slotText = document.querySelector('.dash-combo-slot-text');
+  var slotImage = document.querySelector('.dash-combo-slot-image');
   var darkImg = document.querySelector('.dash-mock-img-dark');
   var lines = Array.prototype.slice.call(document.querySelectorAll('.dc-line'));
-  if (!scrollWrap || !inner || !darkImg || !lines.length) return;
+  if (!scrollWrap || !slotText || !slotImage || !darkImg || !lines.length) return;
 
   var ticking = false;
   var SPEED = 3;
   var CENTER = 0.25;
+
+  var SWAP_START = 0.4;
+  var SWAP_END = 0.62;
 
   function setActiveLine(n) {
     lines.forEach(function(el, i) {
@@ -2534,18 +2544,28 @@ a.button-primary:hover {
     var raw = -rect.top / (rect.height - vh);
     raw = Math.max(0, Math.min(1, raw));
 
-    if (raw < 0.5) {
-      inner.classList.remove('is-swapped');
-      var local = raw / 0.5;
+    if (raw < SWAP_START) {
+      var local = raw / SWAP_START;
       var reveal = (local - CENTER) * SPEED + 0.5;
       reveal = Math.max(0, Math.min(1, reveal));
       darkImg.style.clipPath = 'inset(' + ((1 - reveal) * 100).toFixed(2) + '% 0 0 0)';
       setActiveLine(reveal >= 0.5 ? 2 : 1);
+      slotText.style.transform = 'none';
+      slotImage.style.transform = 'none';
+    } else if (raw < SWAP_END) {
+      var swapT = (raw - SWAP_START) / (SWAP_END - SWAP_START);
+      darkImg.style.clipPath = 'inset(' + (swapT * 100).toFixed(2) + '% 0 0 0)';
+      setActiveLine(swapT >= 0.5 ? 3 : 2);
+      var pct = (swapT * 100).toFixed(2);
+      var px = (swapT * 64).toFixed(2);
+      slotText.style.transform = 'translateX(calc(' + pct + '% + ' + px + 'px))';
+      slotImage.style.transform = 'translateX(calc(-' + pct + '% - ' + px + 'px))';
     } else {
-      inner.classList.add('is-swapped');
       darkImg.style.clipPath = 'inset(100% 0 0 0)';
-      var local2 = (raw - 0.5) / 0.5;
+      var local2 = (raw - SWAP_END) / (1 - SWAP_END);
       setActiveLine(local2 >= 0.5 ? 4 : 3);
+      slotText.style.transform = 'translateX(calc(100% + 64px))';
+      slotImage.style.transform = 'translateX(calc(-100% - 64px))';
     }
   }
   function onScroll() {
