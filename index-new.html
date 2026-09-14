@@ -1911,6 +1911,24 @@ AF('banners', 'showBanner')
     gap: 1.2vh !important;
   }
 }
+@media (max-width: 640px) {
+  .section_home-hero .hero-dash-preview {
+    height: 48vh;
+    max-width: 96vw;
+  }
+  .section_home-hero .home-hero_content {
+    padding-bottom: 46vh !important;
+  }
+}
+@media (max-width: 640px) and (max-height: 600px) {
+  .section_home-hero .hero-dash-preview {
+    height: 30vh;
+  }
+  .section_home-hero .home-hero_content {
+    padding-bottom: 30vh !important;
+    gap: 1vh !important;
+  }
+}
 .section_home-hero .home-hero_text-wrapper {
   position: static !important;
   z-index: 2 !important;
