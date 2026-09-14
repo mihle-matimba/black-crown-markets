@@ -3,9 +3,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+}
 .header_wrapper-2.smart-banner-active {
   top: 69px;
-  transition: top 0.3s ease-in-out; 
+  transition: top 0.3s ease-in-out;
 }
 @media screen and (max-width: 390px) {
   .header_wrapper-2.smart-banner-active {
@@ -438,6 +445,8 @@ section.why-trade {
 /* Markets Section Styles */
 .markets-section {
   max-width: 1200px;
+  width: 100%;
+  min-width: 0;
   margin: 80px auto 0 auto;
   padding: 0 20px;
 }
