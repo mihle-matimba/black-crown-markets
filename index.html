@@ -2351,20 +2351,71 @@ function addLottieFunctionality() {
   letter-spacing: .02em;
   color: rgba(231,224,255,.35);
 }
+.reviews-trustpilot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  margin-bottom: 18px;
+  padding: 10px 18px;
+  border-radius: 100px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(0,182,122,.3);
+  transition: border-color .2s, background .2s;
+}
+.reviews-trustpilot-badge:hover {
+  border-color: #00b67a;
+  background: rgba(0,182,122,.08);
+}
+.reviews-trustpilot-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.reviews-trustpilot-logo svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.reviews-trustpilot-logo span {
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
 .reviews-stars-row {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
 }
 .reviews-stars {
   display: inline-flex;
   gap: 3px;
 }
 .reviews-stars svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   color: #00b67a;
+}
+.reviews-star-half {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.reviews-star-half svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+}
+.reviews-star-half svg:first-child {
+  color: rgba(231,224,255,.25);
+}
+.reviews-star-half svg:last-child {
+  color: #00b67a;
+  clip-path: inset(0 50% 0 0);
 }
 .reviews-excellent {
   font-weight: 800;
@@ -2484,6 +2535,25 @@ function addLottieFunctionality() {
 }
 </style>
 <div class="reviews-heading-wrap">
+  <a href="https://au.trustpilot.com/review/blackcrownmarkets.com" target="_blank" rel="noopener" class="reviews-trustpilot-badge">
+    <span class="reviews-trustpilot-logo">
+      <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#00b67a"/><path fill="#fff" d="M12 5.5l1.85 5.55h5.65l-4.57 3.4 1.75 5.55L12 16.6l-4.68 3.4 1.75-5.55-4.57-3.4h5.65L12 5.5z"/></svg>
+      <span>Trustpilot</span>
+    </span>
+    <span class="reviews-stars-row">
+      <span class="reviews-stars">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        <span class="reviews-star-half">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z"/></svg>
+        </span>
+      </span>
+      <span class="reviews-excellent">4.5 out of 5</span>
+    </span>
+  </a>
   <h2>Loved By Traders <span class="reviews-accent">Across Africa</span></h2>
   <p>Real reviews from real Black Crown Markets clients.</p>
 </div>
