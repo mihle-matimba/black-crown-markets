@@ -1874,6 +1874,8 @@ AF('banners', 'showBanner')
   width: auto;
   height: 100%;
   max-width: 100%;
+  object-fit: contain;
+  object-position: bottom;
   border-radius: 16px 16px 0 0;
   filter: drop-shadow(0 30px 80px rgba(123,63,242,.35));
 }
@@ -2391,25 +2393,27 @@ a.button-primary:hover {
 .csr-section {
   background: #04020a;
 }
+.csr-scroll {
+  position: relative;
+  height: 320vh;
+}
 .csr-container {
-  height: 960px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  overflow: hidden;
   padding: 8px 20px;
 }
 @media (min-width: 768px) {
-  .csr-container { height: 1280px; padding: 8px 80px; }
+  .csr-container { padding: 8px 80px; }
 }
 .csr-inner {
-  padding: 40px 0 160px;
   width: 100%;
   position: relative;
   perspective: 1000px;
-}
-@media (min-width: 768px) {
-  .csr-inner { padding: 160px 0; }
 }
 .csr-header {
   max-width: 1024px;
@@ -2481,6 +2485,7 @@ a.button-primary:hover {
   clip-path: inset(100% 0 0 0);
 }
 </style>
+<div class="csr-scroll" id="csrScroll">
 <div class="csr-container">
   <div class="csr-inner">
     <div class="csr-header" id="csrHeader">
@@ -2495,19 +2500,20 @@ a.button-primary:hover {
     </div>
   </div>
 </div>
+</div>
 <script>
 (function(){
   var section = document.querySelector('.csr-section');
-  var container = document.querySelector('.csr-container');
+  var scroll = document.getElementById('csrScroll');
   var header = document.getElementById('csrHeader');
   var card = document.getElementById('csrCard');
   var imgDark = document.getElementById('csrImgDark');
-  if (!section || !container || !header || !card || !imgDark) return;
+  if (!section || !scroll || !header || !card || !imgDark) return;
 
   var ticking = false;
-  var ROTATE_SPEED = 2.2;
-  var REVEAL_START = 0.35;
-  var REVEAL_END = 0.85;
+  var ROTATE_SPEED = 3.5;
+  var REVEAL_START = 0.4;
+  var REVEAL_END = 1;
 
   function isMobile() {
     return window.innerWidth <= 768;
@@ -2515,17 +2521,15 @@ a.button-primary:hover {
 
   function update() {
     ticking = false;
-    var rect = container.getBoundingClientRect();
+    var rect = scroll.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var progress = (vh - rect.top) / (rect.height + vh);
+    var progress = -rect.top / (rect.height - vh);
     progress = Math.max(0, Math.min(1, progress));
 
     var rotateProgress = Math.min(1, progress * ROTATE_SPEED);
     var rotate = 20 - 20 * rotateProgress;
     var scale = isMobile() ? (0.7 + 0.2 * rotateProgress) : (1.05 - 0.05 * rotateProgress);
-    var translate = -100 * progress;
 
-    header.style.transform = 'translateY(' + translate.toFixed(2) + 'px)';
     card.style.transform = 'rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
 
     var revealProgress = (progress - REVEAL_START) / (REVEAL_END - REVEAL_START);
