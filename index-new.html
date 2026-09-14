@@ -3083,16 +3083,16 @@ a.button-primary:hover {
 .grh-dim {
   color: rgba(231,224,255,.32);
 }
-.grh-highlight {
+.grh-word {
   color: rgba(231,224,255,.32);
-  transition: color .9s ease, text-shadow .9s ease;
+  transition: color .5s ease, text-shadow .5s ease;
 }
-.grh-highlight.is-active {
+.grh-word.is-active {
   color: #fff;
   text-shadow: 0 0 26px rgba(160,107,255,.65);
 }
 @media (prefers-reduced-motion: reduce) {
-  .grh-highlight {
+  .grh-word {
     color: #fff;
     text-shadow: 0 0 26px rgba(160,107,255,.65);
     transition: none;
@@ -3126,27 +3126,44 @@ a.button-primary:hover {
     <canvas id="bcmGlobeCanvas"></canvas>
   </div>
   <div class="global-reach-text">
-    <h2><span class="grh-dim">Trade with a broker built around</span> <span class="grh-highlight" id="grhHighlight">global standards, competitive conditions, and seamless trading experience.</span></h2>
+    <h2><span class="grh-dim">Trade with a broker built around</span> <span class="grh-phrase" id="grhPhrase"><span class="grh-word">global</span> <span class="grh-word">standards,</span> <span class="grh-word">competitive</span> <span class="grh-word">conditions,</span> <span class="grh-word">and</span> <span class="grh-word">seamless</span> <span class="grh-word">trading</span> <span class="grh-word">experience.</span></span></h2>
     <span class="grs-tagline">Global Markets, Global Standards, One Broker</span>
   </div>
 </div>
 <script>
 (function(){
-  var el = document.getElementById('grhHighlight');
-  if (!el) return;
-  if (!('IntersectionObserver' in window)) {
-    el.classList.add('is-active');
+  var phrase = document.getElementById('grhPhrase');
+  if (!phrase) return;
+  var words = Array.prototype.slice.call(phrase.querySelectorAll('.grh-word'));
+  if (!words.length) return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    words.forEach(function(w){ w.classList.add('is-active'); });
     return;
   }
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting) {
-        el.classList.add('is-active');
-        observer.unobserve(entry.target);
-      }
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var rect = phrase.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var progress = (vh * 0.85 - rect.top) / (vh * 0.55);
+    progress = Math.max(0, Math.min(1, progress));
+    var activeCount = Math.round(progress * words.length);
+    words.forEach(function(w, i){
+      w.classList.toggle('is-active', i < activeCount);
     });
-  }, { threshold: 0.4 });
-  observer.observe(el);
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 <script type="module">
