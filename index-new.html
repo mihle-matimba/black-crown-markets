@@ -3073,29 +3073,25 @@ a.button-primary:hover {
   padding: 0 20px;
 }
 .global-reach-text h2 {
-  max-width: 760px;
+  max-width: 620px;
   font-family: 'Inter', sans-serif;
   font-size: clamp(24px, 3.4vw, 38px);
   font-weight: 700;
   line-height: 1.4;
-  color: rgba(231,224,255,.28);
-  text-shadow: 0 4px 30px rgba(0,0,0,.6);
-}
-.grs-country {
-  color: rgba(231,224,255,.28);
-  transition: color .5s ease, text-shadow .5s ease;
-}
-.grs-country.is-active {
   color: #fff;
-  text-shadow: 0 0 24px rgba(160,107,255,.75);
+  text-shadow: 0 4px 30px rgba(0,0,0,.6);
+  margin: 0 0 20px;
 }
 .grs-tagline {
-  color: rgba(231,224,255,.28);
-  transition: color .5s ease, text-shadow .5s ease;
-}
-.grs-tagline.is-active {
-  color: #cbb6ff;
-  text-shadow: 0 0 24px rgba(160,107,255,.6);
+  display: block;
+  margin-top: 20px;
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #cbb6ff, #a06bff, #7b3ff2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 @media (max-width: 900px) {
   .global-reach-inner {
@@ -3114,55 +3110,10 @@ a.button-primary:hover {
     <canvas id="bcmGlobeCanvas"></canvas>
   </div>
   <div class="global-reach-text">
-    <h2>
-      Whether you're in
-      <span class="grs-country" data-i="0">South Africa</span>,
-      <span class="grs-country" data-i="1">Zambia</span>,
-      <span class="grs-country" data-i="2">Kenya</span>,
-      <span class="grs-country" data-i="3">Zimbabwe</span>,
-      <span class="grs-country" data-i="4">Mozambique</span>,
-      <span class="grs-country" data-i="5">Botswana</span>,
-      or
-      <span class="grs-country" data-i="6">Ghana</span>,
-      <span class="grs-tagline">we've got you.</span>
-    </h2>
+    <h2>Trade with a broker built around global standards, competitive conditions, and seamless trading experience.</h2>
+    <span class="grs-tagline">Global Markets, Global Standards, One Broker</span>
   </div>
 </div>
-<script>
-(function(){
-  var section = document.querySelector('.global-reach-section');
-  var countryEls = Array.prototype.slice.call(document.querySelectorAll('.grs-country'));
-  var taglineEl = document.querySelector('.grs-tagline');
-  if (!section) return;
-
-  var ticking = false;
-  function updateReveal() {
-    ticking = false;
-    var rect = section.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var progress = (vh * 0.8 - rect.top) / (rect.height * 0.7);
-    progress = Math.max(0, Math.min(1, progress));
-
-    var total = countryEls.length + 1;
-    countryEls.forEach(function(el, i) {
-      var threshold = i / total;
-      el.classList.toggle('is-active', progress > threshold);
-    });
-    if (taglineEl) {
-      taglineEl.classList.toggle('is-active', progress > (countryEls.length / total));
-    }
-  }
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(updateReveal);
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  updateReveal();
-})();
-</script>
 <script type="module">
 import createGlobe from 'https://esm.sh/cobe@0.6.3';
 
