@@ -2435,22 +2435,34 @@ a.button-primary:hover {
   background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
   box-shadow: 0 40px 100px rgba(0,0,0,.55);
 }
+.dash-mock-stack {
+  position: relative;
+}
 .dash-mock {
   position: relative;
   border-radius: 19px;
   overflow: hidden;
   background: #0b0a12;
 }
+.dash-mock-a {
+  z-index: 1;
+}
+.dash-mock-b {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+}
 .dash-mock-img {
   display: block;
   width: 100%;
   height: auto;
 }
-.dash-mock-img-light {
+.dash-mock-img-base {
   position: relative;
   z-index: 1;
 }
-.dash-mock-img-dark {
+.dash-mock-img-reveal {
   position: absolute;
   top: 0;
   left: 0;
@@ -2506,9 +2518,15 @@ a.button-primary:hover {
       </div>
       <div class="dash-combo-slot dash-combo-slot-image">
         <div class="dash-combo-image">
-          <div class="dash-mock">
-            <img class="dash-mock-img dash-mock-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.27.png" alt="Black Crown Markets dashboard light mode" />
-            <img class="dash-mock-img dash-mock-img-dark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-09%20at%2012.14.38.png" alt="Black Crown Markets dashboard dark mode" />
+          <div class="dash-mock-stack">
+            <div class="dash-mock dash-mock-a">
+              <img class="dash-mock-img dash-mock-img-base dash-mock-img-1" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard" />
+              <img class="dash-mock-img dash-mock-img-reveal dash-mock-img-2" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard" />
+            </div>
+            <div class="dash-mock dash-mock-b">
+              <img class="dash-mock-img dash-mock-img-base dash-mock-img-3" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2009.00.07.png" alt="Black Crown Markets dashboard" />
+              <img class="dash-mock-img dash-mock-img-reveal dash-mock-img-4" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.59.40.png" alt="Black Crown Markets dashboard" />
+            </div>
           </div>
         </div>
       </div>
@@ -2520,9 +2538,12 @@ a.button-primary:hover {
   var scrollWrap = document.querySelector('.dash-combo-scroll');
   var slotText = document.querySelector('.dash-combo-slot-text');
   var slotImage = document.querySelector('.dash-combo-slot-image');
-  var darkImg = document.querySelector('.dash-mock-img-dark');
+  var img2 = document.querySelector('.dash-mock-img-2');
+  var img4 = document.querySelector('.dash-mock-img-4');
+  var mockA = document.querySelector('.dash-mock-a');
+  var mockB = document.querySelector('.dash-mock-b');
   var lines = Array.prototype.slice.call(document.querySelectorAll('.dc-line'));
-  if (!scrollWrap || !slotText || !slotImage || !darkImg || !lines.length) return;
+  if (!scrollWrap || !slotText || !slotImage || !img2 || !img4 || !mockA || !mockB || !lines.length) return;
 
   var ticking = false;
   var SPEED = 3;
@@ -2548,22 +2569,32 @@ a.button-primary:hover {
       var local = raw / SWAP_START;
       var reveal = (local - CENTER) * SPEED + 0.5;
       reveal = Math.max(0, Math.min(1, reveal));
-      darkImg.style.clipPath = 'inset(' + ((1 - reveal) * 100).toFixed(2) + '% 0 0 0)';
+      img2.style.clipPath = 'inset(' + ((1 - reveal) * 100).toFixed(2) + '% 0 0 0)';
+      img4.style.clipPath = 'inset(100% 0 0 0)';
+      mockA.style.opacity = '1';
+      mockB.style.opacity = '0';
       setActiveLine(reveal >= 0.5 ? 2 : 1);
       slotText.style.transform = 'none';
       slotImage.style.transform = 'none';
     } else if (raw < SWAP_END) {
       var swapT = (raw - SWAP_START) / (SWAP_END - SWAP_START);
-      darkImg.style.clipPath = 'inset(' + (swapT * 100).toFixed(2) + '% 0 0 0)';
+      img2.style.clipPath = 'inset(' + (swapT * 100).toFixed(2) + '% 0 0 0)';
+      img4.style.clipPath = 'inset(100% 0 0 0)';
+      mockA.style.opacity = (1 - swapT).toFixed(3);
+      mockB.style.opacity = swapT.toFixed(3);
       setActiveLine(swapT >= 0.5 ? 3 : 2);
       var pct = (swapT * 100).toFixed(2);
       var px = (swapT * 64).toFixed(2);
       slotText.style.transform = 'translateX(calc(' + pct + '% + ' + px + 'px))';
       slotImage.style.transform = 'translateX(calc(-' + pct + '% - ' + px + 'px))';
     } else {
-      darkImg.style.clipPath = 'inset(100% 0 0 0)';
+      img2.style.clipPath = 'inset(100% 0 0 0)';
+      mockA.style.opacity = '0';
+      mockB.style.opacity = '1';
       var local2 = (raw - SWAP_END) / (1 - SWAP_END);
-      setActiveLine(local2 >= 0.5 ? 4 : 3);
+      var revealed2 = local2 >= 0.5;
+      img4.style.clipPath = revealed2 ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)';
+      setActiveLine(revealed2 ? 4 : 3);
       slotText.style.transform = 'translateX(calc(100% + 64px))';
       slotImage.style.transform = 'translateX(calc(-100% - 64px))';
     }
