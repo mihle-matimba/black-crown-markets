@@ -2435,6 +2435,26 @@ a.button-primary:hover {
   background-clip: text;
   color: transparent;
 }
+.csr-daynight {
+  display: inline-grid;
+  vertical-align: bottom;
+  text-align: left;
+}
+.csr-daynight span {
+  grid-area: 1 / 1;
+}
+.csr-day {
+  opacity: 1;
+}
+.csr-night {
+  opacity: 0;
+}
+.csr-night.is-active {
+  opacity: 1;
+}
+.csr-day.is-hidden {
+  opacity: 0;
+}
 .csr-header p {
   margin-top: 18px;
   font-size: 16px;
@@ -2489,7 +2509,7 @@ a.button-primary:hover {
 <div class="csr-container">
   <div class="csr-inner">
     <div class="csr-header" id="csrHeader">
-      <h2>Trade All Day <span class="accent">and Night</span></h2>
+      <h2>Trade All <span class="csr-daynight" id="csrDayNight"><span class="csr-day">Day</span><span class="csr-night accent">Night</span></span></h2>
       <p>Track your growth, manage your accounts, and trade across markets, all from a single, beautifully built dashboard.</p>
     </div>
     <div class="csr-card" id="csrCard">
@@ -2508,12 +2528,14 @@ a.button-primary:hover {
   var header = document.getElementById('csrHeader');
   var card = document.getElementById('csrCard');
   var imgDark = document.getElementById('csrImgDark');
+  var dayEl = document.querySelector('.csr-day');
+  var nightEl = document.querySelector('.csr-night');
   if (!section || !scroll || !header || !card || !imgDark) return;
 
   var ticking = false;
   var ROTATE_SPEED = 3.5;
   var REVEAL_START = 0.4;
-  var REVEAL_END = 1;
+  var REVEAL_END = 0.65;
 
   function isMobile() {
     return window.innerWidth <= 768;
@@ -2535,6 +2557,12 @@ a.button-primary:hover {
     var revealProgress = (progress - REVEAL_START) / (REVEAL_END - REVEAL_START);
     revealProgress = Math.max(0, Math.min(1, revealProgress));
     imgDark.style.clipPath = 'inset(' + ((1 - revealProgress) * 100).toFixed(2) + '% 0 0 0)';
+
+    if (dayEl && nightEl) {
+      var isNight = revealProgress >= 0.5;
+      dayEl.classList.toggle('is-hidden', isNight);
+      nightEl.classList.toggle('is-active', isNight);
+    }
   }
   function onScroll() {
     if (!ticking) {
