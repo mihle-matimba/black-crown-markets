@@ -1814,7 +1814,6 @@ AF('banners', 'showBanner')
 }
 .section_home-hero .rock,
 .stats-section .rock,
-.dash-combo-section .rock,
 .account-types-section .rock{
   position:absolute;pointer-events:none;opacity:0;z-index:0;
   filter:drop-shadow(0 18px 40px rgba(60,20,120,.45));
@@ -1822,14 +1821,12 @@ AF('banners', 'showBanner')
 }
 .section_home-hero .rock .rk,
 .stats-section .rock .rk,
-.dash-combo-section .rock .rk,
 .account-types-section .rock .rk{
   width:100%;background:center/contain no-repeat var(--src);
   animation:float var(--dur,9s) ease-in-out infinite var(--del,0s);
 }
 .section_home-hero .depth-far,
 .stats-section .depth-far,
-.dash-combo-section .depth-far,
 .account-types-section .depth-far{filter:drop-shadow(0 10px 26px rgba(60,20,120,.4)) blur(1.1px);opacity:.78;}
 @keyframes planetIn{from{opacity:0;transform:translateY(-26px) scale(1.015);}to{opacity:1;transform:translateY(0) scale(1);}}
 @keyframes plasmaIn{to{opacity:1;}}
@@ -2389,254 +2386,214 @@ a.button-primary:hover {
   }
 })();
 </script>
-</section><section class="dash-combo-section">
+</section><section class="csr-section">
 <style>
-.dash-combo-section {
+.csr-section {
   background: #04020a;
 }
-.dash-combo-scroll {
-  position: relative;
-  height: 300vh;
-}
-.dash-combo-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.csr-container {
+  height: 960px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px;
-  overflow: hidden;
-}
-.dash-combo-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 64px;
-  max-width: 1760px;
-  margin: 0 auto;
-  width: 100%;
-}
-.dash-combo-slot {
-  grid-row: 1;
   position: relative;
-  transition: transform .1s linear;
+  padding: 8px 20px;
+}
+@media (min-width: 768px) {
+  .csr-container { height: 1280px; padding: 8px 80px; }
+}
+.csr-inner {
+  padding: 40px 0 160px;
+  width: 100%;
+  position: relative;
+  perspective: 1000px;
+}
+@media (min-width: 768px) {
+  .csr-inner { padding: 160px 0; }
+}
+.csr-header {
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
   will-change: transform;
 }
-.dash-combo-slot-text {
-  grid-column: 1;
-  z-index: 2;
-  display: flex;
-  justify-content: flex-start;
-}
-.dash-combo-slot-image {
-  grid-column: 2;
-  z-index: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-.dash-combo-text {
-  display: grid;
-  text-align: left;
-  max-width: 460px;
-}
-.dash-combo-text .dc-line {
-  grid-area: 1 / 1;
-  font-size: clamp(32px, 4.6vw, 60px);
+.csr-header h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4.6vw, 52px);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  opacity: 0;
+  color: #fff;
 }
-.dc-line-1 { color: #fff; opacity: 1; }
-.dc-line-2 { color: #cbb6ff; }
-.dc-line-3 { color: #fff; }
-.dc-line-4 { color: #cbb6ff; }
-.dash-combo-image {
+.csr-header h2 .accent {
+  background: linear-gradient(90deg, #cbb6ff, #a06bff, #7b3ff2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.csr-header p {
+  margin-top: 18px;
+  font-size: 16px;
+  color: rgba(231,224,255,.6);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+.csr-card {
+  max-width: 1024px;
+  margin: -48px auto 0;
+  height: 480px;
   width: 100%;
-  max-width: 980px;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
-  box-shadow: 0 40px 100px rgba(0,0,0,.55);
+  border: 4px solid #3d3550;
+  padding: 8px;
+  background: #17111f;
+  border-radius: 30px;
+  box-shadow: 0 0 #0000004d, 0 9px 20px rgba(123,63,242,.18), 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003;
+  will-change: transform;
 }
-.dash-mock-stack {
-  position: relative;
+@media (min-width: 768px) {
+  .csr-card { height: 640px; padding: 24px; }
 }
-.dash-mock {
+.csr-card-inner {
   position: relative;
-  border-radius: 19px;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  border-radius: 16px;
   background: #0b0a12;
 }
-.dash-mock-a {
+.csr-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.csr-img-light {
+  position: relative;
   z-index: 1;
 }
-.dash-mock-b {
+.csr-img-dark {
   position: absolute;
   inset: 0;
   z-index: 2;
   opacity: 0;
+  transition: opacity .5s ease;
 }
-.dash-mock-img {
-  display: block;
-  width: 100%;
-  height: auto;
+.csr-img-dark.is-active {
+  opacity: 1;
 }
-.dash-mock-img-base {
-  position: relative;
-  z-index: 1;
-}
-.dash-mock-img-reveal {
+.csr-mode-toggle {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  clip-path: inset(100% 0 0 0);
-}
-.dash-mock::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 45%;
+  top: 14px;
+  right: 14px;
   z-index: 3;
-  background: linear-gradient(to bottom, transparent 0%, rgba(4,2,10,.6) 55%, #04020a 100%);
-  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10,4,24,.7);
+  border: 1px solid rgba(160,107,255,.35);
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: border-color .2s, background .2s;
 }
-@media (max-width: 900px) {
-  .dash-combo-scroll { height: 220vh; }
-  .dash-combo-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-  .dash-combo-slot {
-    transform: none !important;
-    transition: none;
-    justify-content: center;
-  }
-  .dash-combo-text {
-    text-align: center;
-    justify-content: center;
-    max-width: none;
-  }
-  .dash-combo-text .dc-line {
-    white-space: normal;
-    text-align: center;
-  }
+.csr-mode-toggle:hover {
+  border-color: #a06bff;
+  background: rgba(10,4,24,.9);
+}
+.csr-mode-toggle svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+@media (max-width: 480px) {
+  .csr-mode-toggle span { display: none; }
+  .csr-mode-toggle { padding: 8px; }
 }
 </style>
-<div class="dash-combo-scroll">
-  <div class="dash-combo-sticky">
-    <div class="rock depth-far" style="top:10%;left:6%;width:70px;--in:0.6s;"><div class="rk" style="--src:var(--r3);aspect-ratio:161/175;--dur:9s;--amp:-16px;--rot:10deg;--spin:-6deg;--del:0.6s;"></div></div>
-    <div class="rock depth-far" style="bottom:12%;right:8%;width:90px;--in:0.7s;"><div class="rk" style="--src:var(--r2);aspect-ratio:184/192;--dur:10s;--amp:-18px;--rot:-8deg;--spin:6deg;--del:0.7s;"></div></div>
-    <div class="dash-combo-inner">
-      <div class="dash-combo-slot dash-combo-slot-text">
-        <div class="dash-combo-text">
-          <span class="dc-line dc-line-1">Trade All Day</span>
-          <span class="dc-line dc-line-2">And All Night</span>
-          <span class="dc-line dc-line-3">With tools to track your growth</span>
-          <span class="dc-line dc-line-4">And daily profits</span>
-        </div>
-      </div>
-      <div class="dash-combo-slot dash-combo-slot-image">
-        <div class="dash-combo-image">
-          <div class="dash-mock-stack">
-            <div class="dash-mock dash-mock-a">
-              <img class="dash-mock-img dash-mock-img-base dash-mock-img-1" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard" />
-              <img class="dash-mock-img dash-mock-img-reveal dash-mock-img-2" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard" />
-            </div>
-            <div class="dash-mock dash-mock-b">
-              <img class="dash-mock-img dash-mock-img-base dash-mock-img-3" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2009.00.07.png" alt="Black Crown Markets dashboard" />
-              <img class="dash-mock-img dash-mock-img-reveal dash-mock-img-4" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.59.40.png" alt="Black Crown Markets dashboard" />
-            </div>
-          </div>
-        </div>
+<div class="csr-container">
+  <div class="csr-inner">
+    <div class="csr-header" id="csrHeader">
+      <h2>One Dashboard. <span class="accent">Total Control.</span></h2>
+      <p>Track your growth, manage your accounts, and trade across markets, all from a single, beautifully built dashboard.</p>
+    </div>
+    <div class="csr-card" id="csrCard">
+      <div class="csr-card-inner">
+        <button class="csr-mode-toggle" id="csrModeToggle" type="button" aria-label="Toggle light or dark dashboard preview">
+          <svg id="csrIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg id="csrIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <span id="csrModeLabel">Light mode</span>
+        </button>
+        <img class="csr-img csr-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard light mode" />
+        <img class="csr-img csr-img-dark" id="csrImgDark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard dark mode" />
       </div>
     </div>
   </div>
 </div>
 <script>
 (function(){
-  var scrollWrap = document.querySelector('.dash-combo-scroll');
-  var slotText = document.querySelector('.dash-combo-slot-text');
-  var slotImage = document.querySelector('.dash-combo-slot-image');
-  var img2 = document.querySelector('.dash-mock-img-2');
-  var img4 = document.querySelector('.dash-mock-img-4');
-  var mockA = document.querySelector('.dash-mock-a');
-  var mockB = document.querySelector('.dash-mock-b');
-  var lines = Array.prototype.slice.call(document.querySelectorAll('.dc-line'));
-  if (!scrollWrap || !slotText || !slotImage || !img2 || !img4 || !mockA || !mockB || !lines.length) return;
+  var section = document.querySelector('.csr-section');
+  var container = document.querySelector('.csr-container');
+  var header = document.getElementById('csrHeader');
+  var card = document.getElementById('csrCard');
+  if (!section || !container || !header || !card) return;
 
   var ticking = false;
-  var SPEED = 3;
-  var CENTER = 0.25;
-
-  var SWAP_START = 0.4;
-  var SWAP_END = 0.62;
-
-  function setActiveLine(n) {
-    lines.forEach(function(el, i) {
-      el.style.opacity = (i + 1 === n) ? '1' : '0';
-    });
+  function isMobile() {
+    return window.innerWidth <= 768;
   }
 
   function update() {
     ticking = false;
-    var rect = scrollWrap.getBoundingClientRect();
+    var rect = container.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var raw = -rect.top / (rect.height - vh);
-    raw = Math.max(0, Math.min(1, raw));
+    var progress = (vh - rect.top) / (rect.height + vh);
+    progress = Math.max(0, Math.min(1, progress));
 
-    if (raw < SWAP_START) {
-      var local = raw / SWAP_START;
-      var reveal = (local - CENTER) * SPEED + 0.5;
-      reveal = Math.max(0, Math.min(1, reveal));
-      img2.style.clipPath = 'inset(' + ((1 - reveal) * 100).toFixed(2) + '% 0 0 0)';
-      img4.style.clipPath = 'inset(100% 0 0 0)';
-      mockA.style.opacity = '1';
-      mockB.style.opacity = '0';
-      setActiveLine(reveal >= 0.5 ? 2 : 1);
-      slotText.style.transform = 'none';
-      slotImage.style.transform = 'none';
-    } else if (raw < SWAP_END) {
-      var swapT = (raw - SWAP_START) / (SWAP_END - SWAP_START);
-      img2.style.clipPath = 'inset(' + (swapT * 100).toFixed(2) + '% 0 0 0)';
-      img4.style.clipPath = 'inset(100% 0 0 0)';
-      mockA.style.opacity = (1 - swapT).toFixed(3);
-      mockB.style.opacity = swapT.toFixed(3);
-      setActiveLine(swapT >= 0.5 ? 3 : 2);
-      var pct = (swapT * 100).toFixed(2);
-      var px = (swapT * 64).toFixed(2);
-      slotText.style.transform = 'translateX(calc(' + pct + '% + ' + px + 'px))';
-      slotImage.style.transform = 'translateX(calc(-' + pct + '% - ' + px + 'px))';
-    } else {
-      img2.style.clipPath = 'inset(100% 0 0 0)';
-      mockA.style.opacity = '0';
-      mockB.style.opacity = '1';
-      var local2 = (raw - SWAP_END) / (1 - SWAP_END);
-      var revealed2 = local2 >= 0.5;
-      img4.style.clipPath = revealed2 ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)';
-      setActiveLine(revealed2 ? 4 : 3);
-      slotText.style.transform = 'translateX(calc(100% + 64px))';
-      slotImage.style.transform = 'translateX(calc(-100% - 64px))';
-    }
+    var rotate = 20 - 20 * progress;
+    var scale = isMobile() ? (0.7 + 0.2 * progress) : (1.05 - 0.05 * progress);
+    var translate = -100 * progress;
+
+    header.style.transform = 'translateY(' + translate.toFixed(2) + 'px)';
+    card.style.transform = 'rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
   }
   function onScroll() {
     if (!ticking) {
       ticking = true;
-      window.requestAnimationFrame(update);
+      requestAnimationFrame(update);
     }
   }
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
+  if (reduceMotion) {
+    header.style.transform = 'none';
+    card.style.transform = 'none';
+  } else {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+    update();
   }
-  update();
+
+  var toggle = document.getElementById('csrModeToggle');
+  var imgDark = document.getElementById('csrImgDark');
+  var iconSun = document.getElementById('csrIconSun');
+  var iconMoon = document.getElementById('csrIconMoon');
+  var label = document.getElementById('csrModeLabel');
+  var isDark = false;
+  toggle.addEventListener('click', function(){
+    isDark = !isDark;
+    imgDark.classList.toggle('is-active', isDark);
+    iconSun.style.display = isDark ? 'none' : 'block';
+    iconMoon.style.display = isDark ? 'block' : 'none';
+    label.textContent = isDark ? 'Dark mode' : 'Light mode';
+  });
 })();
 </script>
 </section>
