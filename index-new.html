@@ -2478,59 +2478,17 @@ a.button-primary:hover {
   position: absolute;
   inset: 0;
   z-index: 2;
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-.csr-img-dark.is-active {
-  opacity: 1;
-}
-.csr-mode-toggle {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(10,4,24,.7);
-  border: 1px solid rgba(160,107,255,.35);
-  color: #fff;
-  border-radius: 100px;
-  padding: 8px 14px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  font-weight: 700;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: border-color .2s, background .2s;
-}
-.csr-mode-toggle:hover {
-  border-color: #a06bff;
-  background: rgba(10,4,24,.9);
-}
-.csr-mode-toggle svg {
-  width: 15px;
-  height: 15px;
-  flex: none;
-}
-@media (max-width: 480px) {
-  .csr-mode-toggle span { display: none; }
-  .csr-mode-toggle { padding: 8px; }
+  clip-path: inset(100% 0 0 0);
 }
 </style>
 <div class="csr-container">
   <div class="csr-inner">
     <div class="csr-header" id="csrHeader">
-      <h2>One Dashboard. <span class="accent">Total Control.</span></h2>
+      <h2>Trade All Day <span class="accent">and Night</span></h2>
       <p>Track your growth, manage your accounts, and trade across markets, all from a single, beautifully built dashboard.</p>
     </div>
     <div class="csr-card" id="csrCard">
       <div class="csr-card-inner">
-        <button class="csr-mode-toggle" id="csrModeToggle" type="button" aria-label="Toggle light or dark dashboard preview">
-          <svg id="csrIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-          <svg id="csrIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <span id="csrModeLabel">Light mode</span>
-        </button>
         <img class="csr-img csr-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard light mode" />
         <img class="csr-img csr-img-dark" id="csrImgDark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard dark mode" />
       </div>
@@ -2543,9 +2501,14 @@ a.button-primary:hover {
   var container = document.querySelector('.csr-container');
   var header = document.getElementById('csrHeader');
   var card = document.getElementById('csrCard');
-  if (!section || !container || !header || !card) return;
+  var imgDark = document.getElementById('csrImgDark');
+  if (!section || !container || !header || !card || !imgDark) return;
 
   var ticking = false;
+  var ROTATE_SPEED = 2.2;
+  var REVEAL_START = 0.35;
+  var REVEAL_END = 0.85;
+
   function isMobile() {
     return window.innerWidth <= 768;
   }
@@ -2557,12 +2520,17 @@ a.button-primary:hover {
     var progress = (vh - rect.top) / (rect.height + vh);
     progress = Math.max(0, Math.min(1, progress));
 
-    var rotate = 20 - 20 * progress;
-    var scale = isMobile() ? (0.7 + 0.2 * progress) : (1.05 - 0.05 * progress);
+    var rotateProgress = Math.min(1, progress * ROTATE_SPEED);
+    var rotate = 20 - 20 * rotateProgress;
+    var scale = isMobile() ? (0.7 + 0.2 * rotateProgress) : (1.05 - 0.05 * rotateProgress);
     var translate = -100 * progress;
 
     header.style.transform = 'translateY(' + translate.toFixed(2) + 'px)';
     card.style.transform = 'rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+
+    var revealProgress = (progress - REVEAL_START) / (REVEAL_END - REVEAL_START);
+    revealProgress = Math.max(0, Math.min(1, revealProgress));
+    imgDark.style.clipPath = 'inset(' + ((1 - revealProgress) * 100).toFixed(2) + '% 0 0 0)';
   }
   function onScroll() {
     if (!ticking) {
@@ -2575,25 +2543,12 @@ a.button-primary:hover {
   if (reduceMotion) {
     header.style.transform = 'none';
     card.style.transform = 'none';
+    imgDark.style.clipPath = 'inset(0 0 0 0)';
   } else {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
   }
-
-  var toggle = document.getElementById('csrModeToggle');
-  var imgDark = document.getElementById('csrImgDark');
-  var iconSun = document.getElementById('csrIconSun');
-  var iconMoon = document.getElementById('csrIconMoon');
-  var label = document.getElementById('csrModeLabel');
-  var isDark = false;
-  toggle.addEventListener('click', function(){
-    isDark = !isDark;
-    imgDark.classList.toggle('is-active', isDark);
-    iconSun.style.display = isDark ? 'none' : 'block';
-    iconMoon.style.display = isDark ? 'block' : 'none';
-    label.textContent = isDark ? 'Dark mode' : 'Light mode';
-  });
 })();
 </script>
 </section>
