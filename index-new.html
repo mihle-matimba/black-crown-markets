@@ -1765,8 +1765,8 @@ AF('banners', 'showBanner')
 .section_home-hero,
 .home-hero_component,
 .home-hero_content {
-  min-height: 560px !important;
-  height: auto !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
   max-height: none !important;
 }
 .section_home-hero .home-hero_background-wrapper {
@@ -1853,13 +1853,15 @@ AF('banners', 'showBanner')
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  gap: 32px !important;
-  padding-top: 170px !important;
-  padding-bottom: 0 !important;
+  gap: 2vh !important;
+  padding-top: 90px !important;
+  padding-bottom: 16px !important;
 }
 .section_home-hero .hero-dash-preview {
   position: relative;
-  width: min(900px, 90vw);
+  width: auto;
+  max-width: 90vw;
+  height: 34vh;
   margin-top: 8px;
   margin-bottom: 0;
   opacity: 0;
@@ -1871,8 +1873,9 @@ AF('banners', 'showBanner')
 }
 .section_home-hero .hero-dash-img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
   border-radius: 16px;
   filter: drop-shadow(0 30px 80px rgba(123,63,242,.35));
 }
@@ -2387,7 +2390,7 @@ a.button-primary:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 20px 20px;
   overflow: hidden;
 }
 .dash-combo-inner {
@@ -2395,7 +2398,7 @@ a.button-primary:hover {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 64px;
-  max-width: 1400px;
+  max-width: 1760px;
   margin: 0 auto;
   width: 100%;
 }
@@ -2436,7 +2439,7 @@ a.button-primary:hover {
 .dc-line-4 { color: #cbb6ff; }
 .dash-combo-image {
   width: 100%;
-  max-width: 800px;
+  max-width: 980px;
   border-radius: 20px;
   padding: 1px;
   background: linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
