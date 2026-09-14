@@ -285,45 +285,72 @@ body {
   line-height: 1.6;
 }
 
-/* Success state */
-.vip-success {
-  display: none;
-  text-align: center;
+/* Success toast */
+.vip-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(20px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100vw - 32px);
+  background: #150f26;
+  border: 1px solid rgba(160,107,255,.35);
+  border-radius: 14px;
+  padding: 16px 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+  z-index: 50;
 }
-.vip-success.is-visible { display: block; }
-.vip-success-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
+.vip-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.vip-toast-icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: linear-gradient(135deg, #a06bff, #7b3ff2);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.vip-success-icon svg { width: 28px; height: 28px; color: #fff; }
-.vip-success h2 {
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 12px;
+.vip-toast-icon svg { width: 18px; height: 18px; color: #fff; }
+.vip-toast-text {
+  text-align: left;
 }
-.vip-success p {
+.vip-toast-text strong {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.vip-toast-text span {
+  display: block;
+  font-size: 13px;
   color: rgba(231,224,255,.6);
-  font-size: 15px;
-  line-height: 1.6;
-  max-width: 420px;
-  margin: 0 auto 24px;
 }
-.vip-success a.vip-home-link {
-  display: inline-block;
-  color: #cbb6ff;
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(203,182,255,.4);
-  padding-bottom: 2px;
+.vip-toast-close {
+  flex: none;
+  background: none;
+  border: none;
+  color: rgba(231,224,255,.4);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 0;
+  transition: color .2s;
 }
-.vip-form-wrap.is-hidden { display: none; }
+.vip-toast-close:hover { color: #fff; }
+.vip-toast-close svg { width: 16px; height: 16px; }
+@media (max-width: 480px) {
+  .vip-toast { bottom: 16px; padding: 14px 16px; }
+}
 
 @media (max-width: 480px) {
   .vip-toggle-row { gap: 8px; }
@@ -404,17 +431,21 @@ body {
       <button type="submit" class="vip-submit">Submit VIP Application</button>
       <p class="vip-disclaimer">By submitting, you agree to be contacted by Black Crown Markets regarding your VIP application. We never share your details with third parties.</p>
     </form>
-
-    <div class="vip-success" id="vipSuccess">
-      <div class="vip-success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-      </div>
-      <h2>Application Received</h2>
-      <p>Thank you for applying for VIP access. A member of our VIP relations team will be in touch with you shortly.</p>
-      <a href="/" class="vip-home-link">Return to homepage</a>
-    </div>
   </div>
 </main>
+
+<div class="vip-toast" id="vipToast" role="status" aria-live="polite">
+  <div class="vip-toast-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </div>
+  <div class="vip-toast-text">
+    <strong>Application received</strong>
+    <span>Our VIP relations team will be in touch shortly.</span>
+  </div>
+  <button type="button" class="vip-toast-close" id="vipToastClose" aria-label="Dismiss">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+</div>
 
 <script>
 (function () {
@@ -433,8 +464,19 @@ body {
   });
 
   var form = document.getElementById('vipForm');
-  var formWrap = document.querySelector('.vip-form-wrap');
-  var success = document.getElementById('vipSuccess');
+  var toast = document.getElementById('vipToast');
+  var toastClose = document.getElementById('vipToastClose');
+  var toastTimer = null;
+
+  function showToast() {
+    clearTimeout(toastTimer);
+    toast.classList.add('is-visible');
+    toastTimer = setTimeout(hideToast, 6000);
+  }
+  function hideToast() {
+    toast.classList.remove('is-visible');
+  }
+  toastClose.addEventListener('click', hideToast);
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -442,8 +484,9 @@ body {
       form.reportValidity();
       return;
     }
-    form.classList.add('is-hidden');
-    success.classList.add('is-visible');
+    form.reset();
+    syncAccountNumberVisibility();
+    showToast();
   });
 })();
 </script>
