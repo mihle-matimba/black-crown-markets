@@ -2414,6 +2414,11 @@ a.button-primary:hover {
   width: 100%;
   position: relative;
   perspective: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 .csr-header {
   max-width: 1024px;
@@ -2466,9 +2471,11 @@ a.button-primary:hover {
 }
 .csr-card {
   max-width: 1024px;
-  margin: -48px auto 0;
+  margin: 0 auto;
   height: 480px;
+  max-height: 48vh;
   width: 100%;
+  flex: none;
   border: 4px solid #3d3550;
   padding: 8px;
   background: #17111f;
@@ -2477,7 +2484,7 @@ a.button-primary:hover {
   will-change: transform;
 }
 @media (min-width: 768px) {
-  .csr-card { height: 640px; padding: 24px; }
+  .csr-card { height: 640px; max-height: 54vh; padding: 24px; }
 }
 .csr-card-inner {
   position: relative;
