@@ -2694,55 +2694,6 @@ a.button-primary:hover {
 @media (max-width: 640px) {
   .payment-methods-row { gap: 32px 36px; }
 }
-.bank-grid {
-  margin-top: 56px;
-  display: grid;
-  grid-template-columns: repeat(6, auto);
-  gap: 20px 48px;
-  justify-content: center;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.bank-grid-item {
-  font-family: 'Inter', sans-serif;
-  font-size: 19px;
-  font-weight: 700;
-  color: rgba(231,224,255,.4);
-  white-space: nowrap;
-  text-align: center;
-  transition: color .2s;
-}
-.bank-grid-item:hover {
-  color: #fff;
-}
-.bank-grid-item-img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.bank-grid-item-img img {
-  height: 22px;
-  width: auto;
-  display: block;
-  filter: grayscale(1) brightness(1.6);
-  opacity: .6;
-  transition: filter .2s, opacity .2s;
-}
-.bank-grid-item-img:hover img {
-  filter: grayscale(0) brightness(1);
-  opacity: 1;
-}
-@media (max-width: 700px) {
-  .bank-grid {
-    grid-template-columns: repeat(2, auto);
-  }
-}
-@media (min-width: 701px) and (max-width: 960px) {
-  .bank-grid {
-    grid-template-columns: repeat(3, auto);
-  }
-}
 </style>
 <h2 class="payment-methods-heading"><span>Fund your account with</span><em>trusted</em><span>payment methods</span></h2>
 <div class="payment-methods-row">
@@ -2756,19 +2707,18 @@ a.button-primary:hover {
     Apple Pay
   </span>
   <span class="payment-logo gpay-mark">G Pay</span>
-  <span class="payment-logo text-mark" style="font-size:19px;">USDT</span>
-  <span class="payment-logo text-mark" style="font-size:19px;">Ozow</span>
   <span class="payment-logo" style="display:flex;align-items:center;">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR16aiPb9aOpUrCNkdT7Y1PNEypBlGYj3D6eq9xL5c5tw&s=10" alt="Capitec Pay" style="height:24px;width:auto;display:block;" />
+    <img src="https://cdn.prod.website-files.com/6283605e6ac07b4da2c53ce3/6283605e6ac07b724dc53d7d_logo.png" alt="Ozow" style="height:24px;width:auto;display:block;" />
   </span>
-</div>
-<div class="bank-grid">
-  <span class="bank-grid-item">Standard Bank</span>
-  <span class="bank-grid-item bank-grid-item-img"><img src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/fnb-logo-removebg-preview.png" alt="FNB" /></span>
-  <span class="bank-grid-item">Absa</span>
-  <span class="bank-grid-item">Nedbank</span>
-  <span class="bank-grid-item bank-grid-item-img"><img src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/CPI.JO-7f69f481.png" alt="Capitec" /></span>
-  <span class="bank-grid-item">Investec</span>
+  <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:6px;font-size:19px;">
+    <svg viewBox="0 0 32 32" width="22" fill="currentColor"><path d="M22.85 14.14c.31-2.06-1.26-3.17-3.4-3.9l.7-2.79-1.7-.43-.68 2.72c-.45-.11-.91-.22-1.37-.32l.68-2.74-1.7-.43-.7 2.79c-.37-.09-.74-.17-1.09-.26l-2.34-.58-.45 1.81s1.26.29 1.23.3c.69.17.81.63.79 1l-.8 3.18c.05.01.11.03.18.06l-.18-.05-1.11 4.46c-.08.21-.3.52-.77.4.02.02-1.23-.31-1.23-.31l-.84 1.94 2.21.55c.41.1.81.21 1.21.31l-.71 2.83 1.7.43.7-2.8c.47.13.92.24 1.36.35l-.7 2.78 1.7.43.71-2.82c2.9.55 5.08.33 6-2.3.74-2.11-.04-3.33-1.57-4.12 1.11-.26 1.95-1 2.17-2.53zm-3.89 5.45c-.53 2.11-4.09.97-5.24.68l.94-3.75c1.16.29 4.86.86 4.3 3.07zm.53-5.48c-.48 1.92-3.44.94-4.4.7l.85-3.4c.96.24 4.05.69 3.55 2.7z"/></svg>
+    Bitcoin
+  </span>
+  <span class="payment-logo text-mark" style="display:flex;align-items:center;gap:6px;font-size:19px;">
+    <svg viewBox="0 0 32 32" width="18" fill="currentColor"><path d="M16 2 6 16.5 16 22l10-5.5L16 2zM6 18.5 16 30l10-11.5-10 5.7-10-5.7z"/></svg>
+    Ethereum
+  </span>
+  <span class="payment-logo text-mark" style="font-size:19px;">USDT</span>
 </div>
 </section><section class="account-types-section">
 <style>
