@@ -3078,9 +3078,25 @@ a.button-primary:hover {
   font-size: clamp(24px, 3.4vw, 38px);
   font-weight: 700;
   line-height: 1.4;
-  color: #fff;
-  text-shadow: 0 4px 30px rgba(0,0,0,.6);
   margin: 0 0 20px;
+}
+.grh-dim {
+  color: rgba(231,224,255,.32);
+}
+.grh-highlight {
+  color: rgba(231,224,255,.32);
+  transition: color .9s ease, text-shadow .9s ease;
+}
+.grh-highlight.is-active {
+  color: #fff;
+  text-shadow: 0 0 26px rgba(160,107,255,.65);
+}
+@media (prefers-reduced-motion: reduce) {
+  .grh-highlight {
+    color: #fff;
+    text-shadow: 0 0 26px rgba(160,107,255,.65);
+    transition: none;
+  }
 }
 .grs-tagline {
   display: block;
@@ -3110,10 +3126,29 @@ a.button-primary:hover {
     <canvas id="bcmGlobeCanvas"></canvas>
   </div>
   <div class="global-reach-text">
-    <h2>Trade with a broker built around global standards, competitive conditions, and seamless trading experience.</h2>
+    <h2><span class="grh-dim">Trade with a broker built around</span> <span class="grh-highlight" id="grhHighlight">global standards, competitive conditions, and seamless trading experience.</span></h2>
     <span class="grs-tagline">Global Markets, Global Standards, One Broker</span>
   </div>
 </div>
+<script>
+(function(){
+  var el = document.getElementById('grhHighlight');
+  if (!el) return;
+  if (!('IntersectionObserver' in window)) {
+    el.classList.add('is-active');
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        el.classList.add('is-active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  observer.observe(el);
+})();
+</script>
 <script type="module">
 import createGlobe from 'https://esm.sh/cobe@0.6.3';
 
