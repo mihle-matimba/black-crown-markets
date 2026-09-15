@@ -2066,6 +2066,33 @@ a.button-primary:hover {
   transform: translateY(-4px);
   border-color: #d8d8dc;
 }
+.acct-card.is-vip {
+  position: relative;
+  background: linear-gradient(160deg, rgba(212,175,55,.08), #ffffff);
+  border: 1px solid rgba(212,175,55,.45);
+}
+.acct-card.is-vip:hover {
+  border-color: rgba(212,175,55,.7);
+  box-shadow: 0 12px 48px rgba(212,175,55,.18);
+}
+.acct-card.is-vip h3 {
+  background: linear-gradient(90deg, #b8860b, #d4af37);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.acct-card-badge {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: linear-gradient(135deg, #f5d67a, #d4af37);
+  color: #2a1f00;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 100px;
+}
 .acct-card h3 {
   font-size: 32px;
   font-weight: 800;
@@ -2333,7 +2360,8 @@ a.button-primary:hover {
     </div>
 
     <!-- VIP Account -->
-    <div class="acct-card">
+    <div class="acct-card is-vip">
+      <span class="acct-card-badge">Exclusive</span>
       <h3>VIP Account</h3>
       <p class="acct-card-desc">Same raw ECN pricing as our Raw ECN account, with no commission and a dedicated relations manager for high value traders.</p>
       <hr class="acct-card-rule"/>
