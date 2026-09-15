@@ -2379,7 +2379,10 @@ a.button-primary:hover {
     gap: 0;
   }
   .stat-card {
-    gap: 12px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
     padding: 8px 0;
   }
   .stat-icon {
@@ -2490,6 +2493,11 @@ a.button-primary:hover {
 .csr-scroll {
   position: relative;
   height: 122vh;
+}
+@media (max-width: 700px) {
+  .csr-scroll {
+    height: 108vh;
+  }
 }
 .csr-container {
   position: sticky;
