@@ -2590,7 +2590,7 @@ a.button-primary:hover {
   height: auto;
   max-height: 60vh;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 22px;
   filter: drop-shadow(0 30px 80px rgba(123,63,242,.35));
 }
 .csr-img-light {
@@ -2603,6 +2603,17 @@ a.button-primary:hover {
   z-index: 2;
   clip-path: inset(100% 0 0 0);
 }
+.csr-img-mobile {
+  display: none;
+}
+@media (max-width: 700px) {
+  .csr-img-desktop {
+    display: none;
+  }
+  .csr-img-mobile {
+    display: block;
+  }
+}
 </style>
 <div class="csr-scroll" id="csrScroll">
 <div class="csr-container">
@@ -2613,8 +2624,10 @@ a.button-primary:hover {
     </div>
     <div class="csr-card" id="csrCard">
       <div class="csr-card-inner">
-        <img class="csr-img csr-img-light" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard light mode" />
-        <img class="csr-img csr-img-dark" id="csrImgDark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard dark mode" />
+        <img class="csr-img csr-img-light csr-img-desktop" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.57.38.png" alt="Black Crown Markets dashboard light mode" />
+        <img class="csr-img csr-img-dark csr-img-desktop" id="csrImgDark" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-14%20at%2008.58.26.png" alt="Black Crown Markets dashboard dark mode" />
+        <img class="csr-img csr-img-light csr-img-mobile" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2011.37.19.png" alt="Black Crown Markets dashboard light mode" />
+        <img class="csr-img csr-img-dark csr-img-mobile" id="csrImgDarkMobile" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2011.37.37.png" alt="Black Crown Markets dashboard dark mode" />
       </div>
     </div>
   </div>
@@ -2627,6 +2640,7 @@ a.button-primary:hover {
   var header = document.getElementById('csrHeader');
   var card = document.getElementById('csrCard');
   var imgDark = document.getElementById('csrImgDark');
+  var imgDarkMobile = document.getElementById('csrImgDarkMobile');
   var dayEl = document.querySelector('.csr-day');
   var nightEl = document.querySelector('.csr-night');
   if (!section || !scroll || !header || !card || !imgDark) return;
@@ -2654,7 +2668,9 @@ a.button-primary:hover {
 
     var revealProgress = (progress - REVEAL_START) / (REVEAL_END - REVEAL_START);
     revealProgress = Math.max(0, Math.min(1, revealProgress));
-    imgDark.style.clipPath = 'inset(' + ((1 - revealProgress) * 100).toFixed(2) + '% 0 0 0)';
+    var clipVal = 'inset(' + ((1 - revealProgress) * 100).toFixed(2) + '% 0 0 0)';
+    imgDark.style.clipPath = clipVal;
+    if (imgDarkMobile) imgDarkMobile.style.clipPath = clipVal;
 
     if (dayEl && nightEl) {
       var isNight = revealProgress >= 0.5;
@@ -2674,6 +2690,7 @@ a.button-primary:hover {
     header.style.transform = 'none';
     card.style.transform = 'none';
     imgDark.style.clipPath = 'inset(0 0 0 0)';
+    if (imgDarkMobile) imgDarkMobile.style.clipPath = 'inset(0 0 0 0)';
   } else {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
