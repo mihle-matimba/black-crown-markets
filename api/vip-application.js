@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { createClient } = require('@supabase/supabase-js');
 
 const DEPOSIT_RANGES = [
   '$10,000 - $50,000',
@@ -9,18 +9,17 @@ const DEPOSIT_RANGES = [
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-let pool;
-function getPool() {
-  if (!pool) {
-    if (!process.env.DATABASE_URL) {
-      throw new Error('DATABASE_URL is not configured');
+let supabase;
+function getSupabase() {
+  if (!supabase) {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error('SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY are not configured');
     }
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
+    supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+      auth: { persistSession: false },
     });
   }
-  return pool;
+  return supabase;
 }
 
 module.exports = async (req, res) => {
@@ -57,15 +56,22 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const db = getPool();
-    const result = await db.query(
-      `INSERT INTO vip_applications
-         (has_account, account_number, deposit_amount_range, full_name, email, phone)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id, created_at`,
-      [hasAccount, hasAccount ? accountNumber : null, depositAmountRange, fullName, email, phone]
-    );
-    return res.status(201).json({ id: result.rows[0].id, createdAt: result.rows[0].created_at });
+    const db = getSupabase();
+    const { data, error } = await db
+      .from('vip_applications')
+      .insert({
+        has_account: hasAccount,
+        account_number: hasAccount ? accountNumber : null,
+        deposit_amount_range: depositAmountRange,
+        full_name: fullName,
+        email,
+        phone,
+      })
+      .select('id, created_at')
+      .single();
+
+    if (error) throw error;
+    return res.status(201).json({ id: data.id, createdAt: data.created_at });
   } catch (err) {
     console.error('vip-application insert failed', err);
     return res.status(500).json({ error: 'Failed to store application' });
