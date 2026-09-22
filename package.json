@@ -1,0 +1,7 @@
+{
+  "name": "black-crown-markets",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.11.5"
+  }
+}

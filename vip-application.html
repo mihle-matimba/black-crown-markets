@@ -478,15 +478,46 @@ body {
   }
   toastClose.addEventListener('click', hideToast);
 
+  var submitBtn = form.querySelector('.vip-submit');
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    form.reset();
-    syncAccountNumberVisibility();
-    showToast();
+
+    var payload = {
+      hasAccount: (document.getElementById('hasAccountYes').checked ? 'yes' : 'no'),
+      accountNumber: accountNumberInput.value.trim(),
+      depositAmount: document.getElementById('depositAmount').value,
+      fullName: document.getElementById('fullName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim()
+    };
+
+    submitBtn.disabled = true;
+
+    fetch('/api/vip-application', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Request failed');
+        return response.json();
+      })
+      .then(function () {
+        form.reset();
+        syncAccountNumberVisibility();
+        showToast();
+      })
+      .catch(function () {
+        alert('Something went wrong submitting your application. Please try again.');
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+      });
   });
 })();
 </script>
