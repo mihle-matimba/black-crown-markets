@@ -540,6 +540,7 @@ var selectedAccount=null;
 var selectedCurrency=null;
 var selectedType=null;
 var selectedLeverage=leverageField?(leverageField.value||null):null;
+var selectedLeverageLabel=selectedLeverage;
 
 var accountToggle=wizard.querySelector('#bcmAccountToggle');
 var currencyToggle=wizard.querySelector('#bcmCurrencyToggle');
@@ -578,20 +579,7 @@ function leverageNumeric(v){return parseInt(String(v).replace(/^1:/,''),10)||0;}
 var levHidden=null;
 function applyLeverageToForm(){
 if(!selectedLeverage)return;
-if(leverageField){
-if(leverageField.tagName==='SELECT'){
-var opts=Array.prototype.slice.call(leverageField.options);
-var idx=opts.findIndex(function(o){return o.value===selectedLeverage;});
-if(idx===-1){
-var want=leverageNumeric(selectedLeverage);
-idx=opts.findIndex(function(o){return leverageNumeric(o.textContent)===want;});
-}
-if(idx!==-1){leverageField.selectedIndex=idx;fireChange(leverageField);}
-}else{
-leverageField.value=selectedLeverage;fireChange(leverageField);
-}
-return;
-}
+if(leverageField)return;
 if(!levHidden){
 levHidden=document.createElement('input');
 levHidden.type='hidden';
@@ -600,6 +588,85 @@ form.appendChild(levHidden);
 }
 levHidden.value=selectedLeverage;
 }
+function csrfToken(){
+var meta=document.querySelector('meta[name="csrf-token"]');
+if(meta)return meta.getAttribute('content');
+var input=document.querySelector('input[name="_token"]');
+return input?input.value:null;
+}
+function findAccountNumber(obj){
+if(!obj||typeof obj!=='object')return null;
+var keys=['account_number','accountNumber','account_no','account'];
+for(var i=0;i<keys.length;i++){
+var v=obj[keys[i]];
+if(typeof v==='number'||(/^[0-9]{4,}$/.test(v)))return String(v);
+}
+for(var k in obj){
+if(!obj.hasOwnProperty(k))continue;
+var val=obj[k];
+if(val&&typeof val==='object'){
+var found=findAccountNumber(val);
+if(found)return found;
+}
+}
+return null;
+}
+function applyLeverageToAccount(accountNumber){
+var token=csrfToken();
+if(!accountNumber||!token)return;
+var body='_token='+encodeURIComponent(token)
++'&account_number='+encodeURIComponent(accountNumber)
++'&leverage='+encodeURIComponent(leverageNumeric(selectedLeverageLabel||selectedLeverage));
+fetch('https://trade.blackcrownmarkets.com/api/change-leverage',{
+method:'POST',
+credentials:'include',
+headers:{
+'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+'X-CSRF-TOKEN':token,
+'X-Requested-With':'XMLHttpRequest'
+},
+body:body
+}).catch(function(){});
+}
+function handleRegisterResponse(text){
+if(!selectedLeverage&&!selectedLeverageLabel)return;
+var payload;
+try{payload=JSON.parse(text);}catch(e){return;}
+var msgText=Array.isArray(payload&&payload.msg)?payload.msg.join(' '):(payload&&payload.msg)||'';
+if(payload&&payload.type!==1)return;
+if(/not created|error|invalid|fail/i.test(msgText))return;
+var accountNumber=findAccountNumber(payload)||findAccountNumber(payload&&payload.data);
+if(!accountNumber){
+var m=/\[(\d{4,})\]/.exec(msgText);
+if(m)accountNumber=m[1];
+}
+if(accountNumber)applyLeverageToAccount(accountNumber);
+}
+(function hookRegisterRequest(){
+var origOpen=XMLHttpRequest.prototype.open;
+var origSend=XMLHttpRequest.prototype.send;
+XMLHttpRequest.prototype.open=function(method,url){
+this._bcmUrl=url;
+return origOpen.apply(this,arguments);
+};
+XMLHttpRequest.prototype.send=function(){
+if(this._bcmUrl&&/\/api\/register/.test(this._bcmUrl)){
+this.addEventListener('load',function(){handleRegisterResponse(this.responseText);});
+}
+return origSend.apply(this,arguments);
+};
+var origFetch=window.fetch;
+if(origFetch){
+window.fetch=function(input,init){
+var url=typeof input==='string'?input:(input&&input.url);
+var p=origFetch.apply(this,arguments);
+if(url&&/\/api\/register/.test(url)){
+p.then(function(res){res.clone().text().then(handleRegisterResponse);}).catch(function(){});
+}
+return p;
+};
+}
+})();
 function renderLeverageCards(){
 var isSelect=!!leverageField&&leverageField.tagName==='SELECT';
 var liveOptions=isSelect?Array.prototype.filter.call(leverageField.options,function(o){return o.value;}):[];
@@ -616,8 +683,9 @@ var o=liveOptions.filter(function(x){return x.value===v;})[0];
 return o?o.textContent.trim():v;
 }
 if(values.indexOf(selectedLeverage)===-1)selectedLeverage=defaultValue;
+selectedLeverageLabel=labelFor(selectedLeverage);
 leverageGrid.innerHTML=values.map(function(v){
-return '<div class="bcm-lev-card'+(v===selectedLeverage?' active':'')+'" data-value="'+esc(v)+'" role="button" tabindex="0">'
+return '<div class="bcm-lev-card'+(v===selectedLeverage?' active':'')+'" data-value="'+esc(v)+'" data-label="'+esc(labelFor(v))+'" role="button" tabindex="0">'
 +'<span class="bcm-lev-card-value">'+esc(labelFor(v))+'</span>'
 +(v===defaultValue?'<span class="bcm-lev-card-max">MAX</span>':'')
 +'</div>';
@@ -625,6 +693,7 @@ return '<div class="bcm-lev-card'+(v===selectedLeverage?' active':'')+'" data-va
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(card){
 function pick(){
 selectedLeverage=card.getAttribute('data-value');
+selectedLeverageLabel=card.getAttribute('data-label');
 applyLeverageToForm();
 leverageGrid.querySelectorAll('.bcm-lev-card').forEach(function(c){c.classList.toggle('active',c===card);});
 clearError('bcmStepLevError');
