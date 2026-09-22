@@ -576,32 +576,17 @@ return (/cent/i.test(plan)||/bonus/i.test(plan))?500:2000;
 }
 function leverageNumeric(v){return parseInt(String(v).replace(/^1:/,''),10)||0;}
 var levHidden=null;
-function leverageRatio(v){return '1:'+leverageNumeric(v);}
 function applyLeverageToForm(){
 if(!selectedLeverage)return;
 if(leverageField){
 if(leverageField.tagName==='SELECT'){
 var opts=Array.prototype.slice.call(leverageField.options);
+var idx=opts.findIndex(function(o){return o.value===selectedLeverage;});
+if(idx===-1){
 var want=leverageNumeric(selectedLeverage);
-var idx=opts.findIndex(function(o){return o.value===leverageRatio(selectedLeverage);});
-if(idx===-1)idx=opts.findIndex(function(o){return leverageNumeric(o.textContent)===want;});
-if(idx===-1)idx=opts.findIndex(function(o){return o.value===selectedLeverage;});
-if(idx!==-1)leverageField.selectedIndex=idx;
-var fieldName=leverageField.name||leverageField.getAttribute('name');
-if(fieldName&&(idx===-1||leverageField.value!==leverageRatio(selectedLeverage))){
-leverageField.disabled=true;
-if(!levHidden){
-levHidden=document.createElement('input');
-levHidden.type='hidden';
-levHidden.name=fieldName;
-form.appendChild(levHidden);
+idx=opts.findIndex(function(o){return leverageNumeric(o.textContent)===want;});
 }
-levHidden.value=leverageRatio(selectedLeverage);
-}else if(levHidden){
-levHidden.disabled=true;
-leverageField.disabled=false;
-}
-fireChange(leverageField);
+if(idx!==-1){leverageField.selectedIndex=idx;fireChange(leverageField);}
 }else{
 leverageField.value=selectedLeverage;fireChange(leverageField);
 }
