@@ -578,7 +578,20 @@ function leverageNumeric(v){return parseInt(String(v).replace(/^1:/,''),10)||0;}
 var levHidden=null;
 function applyLeverageToForm(){
 if(!selectedLeverage)return;
-if(leverageField){leverageField.value=selectedLeverage;fireChange(leverageField);return;}
+if(leverageField){
+if(leverageField.tagName==='SELECT'){
+var opts=Array.prototype.slice.call(leverageField.options);
+var idx=opts.findIndex(function(o){return o.value===selectedLeverage;});
+if(idx===-1){
+var want=leverageNumeric(selectedLeverage);
+idx=opts.findIndex(function(o){return leverageNumeric(o.textContent)===want;});
+}
+if(idx!==-1){leverageField.selectedIndex=idx;fireChange(leverageField);}
+}else{
+leverageField.value=selectedLeverage;fireChange(leverageField);
+}
+return;
+}
 if(!levHidden){
 levHidden=document.createElement('input');
 levHidden.type='hidden';
@@ -619,6 +632,9 @@ clearError('bcmStepLevError');
 card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
+}
+if(HAS_LEV_STEP&&leverageField&&leverageField.tagName==='SELECT'){
+new MutationObserver(function(){if(currentStep===PANE_LEV||wizard.querySelector('#bcmLeverageGrid').children.length===0)renderLeverageCards();}).observe(leverageField,{childList:true});
 }
 
 function renderTypeCards(){
