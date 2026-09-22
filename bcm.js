@@ -311,7 +311,7 @@ var form=document.querySelector('#myForm');
 if(!form||form.dataset.bcmWizard)return;
 var platformSelect=document.querySelector('#add_platform');
 var accountSelect=document.querySelector('#add_account_type');
-var leverageField=form.querySelector('[name="requested_leverage"]')||form.querySelector('#leverage_select')||form.querySelector('select[name="leverage"]');
+var leverageField=form.querySelector('[name="requested_leverage"]')||document.querySelector('#leverage_select')||form.querySelector('select[name="leverage"]');
 var passwordGroup=document.querySelector('#password_input_main_container');
 var confirmGroup=document.querySelector('#password_confirm_input_main_container');
 var passwordInput=document.querySelector('#password-input');
@@ -569,11 +569,12 @@ card.addEventListener('click',pick);
 card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
 });
 
-function defaultLeverageForType(){
+function leverageCapForType(){
 var activeLabel=typeGrid.querySelector('.bcm-wiz-type-card.active .bcm-wiz-type-label');
 var plan=activeLabel?activeLabel.textContent:'';
-return (/cent/i.test(plan)||/bonus/i.test(plan))?'1:500':'1:2000';
+return (/cent/i.test(plan)||/bonus/i.test(plan))?500:2000;
 }
+function leverageNumeric(v){return parseInt(String(v).replace(/^1:/,''),10)||0;}
 var levHidden=null;
 function applyLeverageToForm(){
 if(!selectedLeverage)return;
@@ -590,8 +591,12 @@ function renderLeverageCards(){
 var isSelect=!!leverageField&&leverageField.tagName==='SELECT';
 var liveOptions=isSelect?Array.prototype.filter.call(leverageField.options,function(o){return o.value;}):[];
 var usingLive=liveOptions.length>0;
-var values=usingLive?liveOptions.map(function(o){return o.value;}):LEV_PRESETS;
-var defaultValue=usingLive?(leverageField.value||values[0]):defaultLeverageForType();
+var cap=leverageCapForType();
+var allValues=usingLive?liveOptions.map(function(o){return o.value;}):LEV_PRESETS;
+var values=allValues.filter(function(v){return leverageNumeric(v)<=cap;});
+if(!values.length)values=allValues.slice(0,1);
+var nativeDefault=usingLive?(leverageField.value||allValues[0]):null;
+var defaultValue=(nativeDefault&&leverageNumeric(nativeDefault)<=cap)?nativeDefault:values[values.length-1];
 function labelFor(v){
 if(!usingLive)return v;
 var o=liveOptions.filter(function(x){return x.value===v;})[0];
