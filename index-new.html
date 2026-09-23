@@ -2732,7 +2732,7 @@ a.button-primary:hover {
   width: 1100px;
   max-width: 160%;
   height: 420px;
-  background: radial-gradient(ellipse at top, rgba(123,63,242,.12) 0%, rgba(123,63,242,.04) 45%, transparent 75%);
+  background: radial-gradient(ellipse at top, rgba(123,63,242,.32) 0%, rgba(123,63,242,.1) 45%, transparent 75%);
   pointer-events: none;
 }
 .payment-methods-section > * {
@@ -2772,14 +2772,14 @@ a.button-primary:hover {
   align-items: center;
   gap: 8px;
   font-family: 'Inter', sans-serif;
-  color: rgba(203,182,255,.75);
-  opacity: .85;
-  filter: grayscale(1) sepia(1) saturate(500%) hue-rotate(215deg) brightness(1.15);
-  transition: opacity .2s, filter .2s, color .2s;
+  color: rgba(231,224,255,.5);
+  opacity: .75;
+  filter: grayscale(1);
+  transition: opacity .2s, filter .2s;
 }
 .payment-logo:hover {
   opacity: 1;
-  filter: none;
+  filter: grayscale(0);
   color: #fff;
 }
 .payment-logo svg { height: 26px; width: auto; display: block; }
