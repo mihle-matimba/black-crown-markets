@@ -2241,6 +2241,7 @@ a.button-primary:hover {
   position: relative;
   overflow: hidden;
   background: #04020a;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
   padding: 160px 20px 16px;
   text-align: center;
 }
@@ -2490,6 +2491,7 @@ a.button-primary:hover {
 .csr-section {
   background: #04020a;
   overflow-x: hidden;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
 }
 .csr-scroll {
   position: relative;
@@ -2712,6 +2714,7 @@ a.button-primary:hover {
 .payment-methods-section {
   position: relative;
   background: #04020a;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
   padding: 80px 20px 90px;
   text-align: center;
   overflow: hidden;
@@ -2765,14 +2768,14 @@ a.button-primary:hover {
   align-items: center;
   gap: 8px;
   font-family: 'Inter', sans-serif;
-  color: rgba(231,224,255,.5);
-  opacity: .75;
-  filter: grayscale(1);
-  transition: opacity .2s, filter .2s;
+  color: rgba(203,182,255,.75);
+  opacity: .85;
+  filter: grayscale(1) sepia(1) saturate(500%) hue-rotate(215deg) brightness(1.15);
+  transition: opacity .2s, filter .2s, color .2s;
 }
 .payment-logo:hover {
   opacity: 1;
-  filter: grayscale(0);
+  filter: none;
   color: #fff;
 }
 .payment-logo svg { height: 26px; width: auto; display: block; }
@@ -2826,6 +2829,7 @@ a.button-primary:hover {
 .account-types-section {
   position: relative;
   background: #04020a;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
   padding: 100px 20px 110px;
   text-align: center;
   overflow: hidden;
@@ -3133,6 +3137,7 @@ a.button-primary:hover {
 .global-reach-section {
   position: relative;
   background: #04020a;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
   padding: 110px 20px;
   overflow: hidden;
 }
@@ -3366,6 +3371,7 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
 .reviews-section {
   position: relative;
   background: #04020a;
+  box-shadow: 0 -1px 0 #04020a, 0 1px 0 #04020a;
   padding: 100px 20px 110px;
   text-align: center;
   overflow: hidden;
