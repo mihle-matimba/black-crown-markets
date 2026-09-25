@@ -755,7 +755,7 @@ var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
-+'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>You can change this by going to <a href="https://trade.blackcrownmarkets.com/change-leverage">Change Leverage</a></strong></div>';
++'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>Default leverage 1:500. After creation, you can change it on Change Leverage</strong></div>';
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
