@@ -479,6 +479,7 @@ var wizardHtml=''
 +'<h3 class="bcm-wiz-pane-title">Review &amp; Create</h3>'
 +'<p class="bcm-wiz-pane-subtitle">Check your selections before creating the account.</p>'
 +'<div class="bcm-wiz-review" id="bcmWizardReview"></div>'
++'<p class="bcm-wiz-type-notice">Leverage is set to 1:500 by default. You can change it after account creation on the change leverage page.</p>'
 +'</div>'
 +'</div>'
 +'<div class="bcm-wizard-actions">'
@@ -755,7 +756,7 @@ var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
-+'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>1:500 default leverage</strong></div>';
++'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>1:500</strong></div>';
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
