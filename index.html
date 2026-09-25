@@ -26,6 +26,16 @@ img, svg, video {
 #smart-banner span {
     font-family: 'Inter' !important;
 }
+
+/* Hide mobile nav on scroll down, show on scroll up */
+.header_wrapper {
+  transition: transform 0.35s ease-in-out;
+}
+@media screen and (max-width: 991px) {
+  .header_wrapper.bcm-nav-hidden {
+    transform: translateY(-100%);
+  }
+}
 </style>
 
 <!-- Hide link arrow in Arabic -->
@@ -4437,4 +4447,49 @@ document.querySelectorAll('.pill').forEach(p => {
   (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/szd3fim3';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 </script>
 <!-- End of Intercom Messenger -->
+<script>
+(function () {
+  var header = document.querySelector('.header_wrapper');
+  if (!header) return;
+  var lastY = window.pageYOffset || document.documentElement.scrollTop;
+  var ticking = false;
+
+  function isMenuOpen() {
+    var burger = document.querySelector('.navbar_burger-button, .w-nav-button');
+    return !!(burger && burger.classList.contains('w--open'));
+  }
+
+  function onScroll() {
+    if (window.innerWidth > 991) {
+      header.classList.remove('bcm-nav-hidden');
+      lastY = window.pageYOffset || document.documentElement.scrollTop;
+      ticking = false;
+      return;
+    }
+    var currentY = window.pageYOffset || document.documentElement.scrollTop;
+    if (isMenuOpen()) {
+      lastY = currentY;
+      ticking = false;
+      return;
+    }
+    var delta = currentY - lastY;
+    if (Math.abs(delta) > 8) {
+      if (delta > 0 && currentY > 80) {
+        header.classList.add('bcm-nav-hidden');
+      } else {
+        header.classList.remove('bcm-nav-hidden');
+      }
+      lastY = currentY;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+</script>
 </body></html>
