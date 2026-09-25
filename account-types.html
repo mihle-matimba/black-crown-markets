@@ -3372,6 +3372,7 @@ document.querySelectorAll('.pill').forEach(p => {
   if (!header) return;
   var ticking = false;
   var TOP_THRESHOLD = 10;
+  var lastY = window.pageYOffset || document.documentElement.scrollTop;
 
   function isMenuOpen() {
     var burger = document.querySelector('.navbar_burger-button, .w-nav-button');
@@ -3384,13 +3385,19 @@ document.querySelectorAll('.pill').forEach(p => {
       header.classList.remove('bcm-nav-hidden');
       return;
     }
-    if (isMenuOpen()) return;
+    if (isMenuOpen()) {
+      lastY = window.pageYOffset || document.documentElement.scrollTop;
+      return;
+    }
     var currentY = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentY > TOP_THRESHOLD) {
+    if (currentY <= TOP_THRESHOLD) {
+      header.classList.remove('bcm-nav-hidden');
+    } else if (currentY > lastY) {
       header.classList.add('bcm-nav-hidden');
-    } else {
+    } else if (currentY < lastY) {
       header.classList.remove('bcm-nav-hidden');
     }
+    lastY = currentY;
   }
 
   window.addEventListener('scroll', function () {
