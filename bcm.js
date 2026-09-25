@@ -755,7 +755,7 @@ var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
-+'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>Set to 1:500 by default — you can change it after the account is created via Change Leverage</strong></div>';
++'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>1:500 by default — changeable after creation via Change Leverage</strong></div>';
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
