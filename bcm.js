@@ -427,7 +427,7 @@ return '<div class="bcm-wiz-type-card" data-value="'+esc(t.value)+'" role="butto
 var accountCardsHtml=accountOptions.map(accountCardHtml).join('');
 var currencyCardsHtml=CURRENCY_DEFS.map(currencyCardHtml).join('');
 
-var HAS_LEV_STEP=true;
+var HAS_LEV_STEP=false;
 var LEV_PRESETS=['1:1','1:10','1:20','1:50','1:100','1:200','1:300','1:500','1:1000','1:2000'];
 var PANE_LEV=4;
 var PANE_DETAILS=HAS_LEV_STEP?5:4;
@@ -755,7 +755,7 @@ var review=''
 +'<div class="bcm-wiz-review-row"><span>Account</span><strong>'+(accountBtn?esc(accountBtn.textContent.trim()):'')+'</strong></div>'
 +'<div class="bcm-wiz-review-row"><span>Currency</span><strong>'+esc(selectedCurrency||'')+'</strong></div>'
 +(typeDef?'<div class="bcm-wiz-review-row"><span>Account type</span><strong>'+esc(typeDef.label)+'</strong></div>':'')
-+(HAS_LEV_STEP?'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>'+esc(selectedLeverage||'')+'</strong></div>':'');
++'<div class="bcm-wiz-review-row"><span>Leverage</span><strong>You can change this by going to <a href="https://trade.blackcrownmarkets.com/change-leverage">Change Leverage</a></strong></div>';
 wizard.querySelector('#bcmWizardReview').innerHTML=review;
 }
 window.scrollTo({top:wizard.offsetTop-24,behavior:'smooth'});
