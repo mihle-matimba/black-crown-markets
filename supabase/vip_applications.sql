@@ -16,10 +16,6 @@ create table if not exists public.vip_applications (
 
 alter table public.vip_applications enable row level security;
 
--- The public site may only insert. No select/update/delete for anon,
--- so submissions can't be read back with the public key.
-create policy "anon can submit vip applications"
-  on public.vip_applications
-  for insert
-  to anon
-  with check (true);
+-- No policies on purpose: anon/authenticated can't touch this table.
+-- Only the server-side function (api/vip-application.js) writes to it,
+-- using the service role key, which bypasses RLS.
