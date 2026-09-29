@@ -1,6 +1,6 @@
 // Vercel serverless function: receives VIP applications and inserts them into
 // Supabase. Env vars (set in Vercel project settings):
-//   SUPABASE_URL              e.g. https://<ref>.supabase.co
+//   SUPABASE_URL_VIP              e.g. https://<ref>.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY server-side only, never exposed to the browser
 
 const DEPOSIT_OPTIONS = [
@@ -18,9 +18,9 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env;
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+  const { SUPABASE_URL_VIP, SUPABASE_SERVICE_ROLE_KEY } = process.env;
+  if (!SUPABASE_URL_VIP || !SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('Missing SUPABASE_URL_VIP or SUPABASE_SERVICE_ROLE_KEY');
     return res.status(500).json({ error: 'Server not configured' });
   }
 
@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
   if (!valid) return res.status(400).json({ error: 'Invalid application' });
 
   try {
-    const r = await fetch(SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/vip_applications', {
+    const r = await fetch(SUPABASE_URL_VIP.replace(/\/$/, '') + '/rest/v1/vip_applications', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
