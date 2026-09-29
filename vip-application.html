@@ -478,15 +478,61 @@ body {
   }
   toastClose.addEventListener('click', hideToast);
 
+  // Supabase project settings. The anon key is public by design; access is
+  // limited by the insert-only RLS policy in supabase/vip_applications.sql.
+  var SUPABASE_URL = 'https://YOUR_PROJECT_REF.supabase.co';
+  var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+  var submitBtn = form.querySelector('.vip-submit');
+  var toastTitle = toast.querySelector('strong');
+  var toastBody = toast.querySelector('.vip-toast-text span');
+  var SUCCESS_TITLE = toastTitle.textContent;
+  var SUCCESS_BODY = toastBody.textContent;
+
+  function setToast(title, body) {
+    toastTitle.textContent = title;
+    toastBody.textContent = body;
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    form.reset();
-    syncAccountNumberVisibility();
-    showToast();
+
+    var hasAccount = document.getElementById('hasAccountYes').checked;
+    var payload = {
+      has_account: hasAccount,
+      account_number: hasAccount ? accountNumberInput.value.trim() : null,
+      deposit_amount: form.depositAmount.value,
+      full_name: form.fullName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim()
+    };
+
+    submitBtn.disabled = true;
+    fetch(SUPABASE_URL + '/rest/v1/vip_applications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      form.reset();
+      syncAccountNumberVisibility();
+      setToast(SUCCESS_TITLE, SUCCESS_BODY);
+    }).catch(function (err) {
+      console.error('VIP application failed:', err);
+      setToast('Submission failed', 'Something went wrong. Please try again in a moment.');
+    }).then(function () {
+      submitBtn.disabled = false;
+      showToast();
+    });
   });
 })();
 </script>
