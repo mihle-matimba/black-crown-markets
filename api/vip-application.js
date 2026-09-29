@@ -1,7 +1,7 @@
 // Vercel serverless function: receives VIP applications and inserts them into
 // Supabase. Env vars (set in Vercel project settings):
 //   SUPABASE_URL_VIP              e.g. https://<ref>.supabase.co
-//   SUPABASE_SERVICE_ROLE_KEY_VIP server-side only, never exposed to the browser
+//   SUPABASE_SERVICE_ROLE_KEY server-side only, never exposed to the browser
 
 const DEPOSIT_OPTIONS = [
   '$10,000 - $50,000',
@@ -18,9 +18,9 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { SUPABASE_URL_VIP, SUPABASE_SERVICE_ROLE_KEY_VIP } = process.env;
-  if (!SUPABASE_URL_VIP || !SUPABASE_SERVICE_ROLE_KEY_VIP) {
-    console.error('Missing SUPABASE_URL_VIP or SUPABASE_SERVICE_ROLE_KEY_VIP');
+  const { SUPABASE_URL_VIP, SUPABASE_SERVICE_ROLE_KEY } = process.env;
+  if (!SUPABASE_URL_VIP || !SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('Missing SUPABASE_URL_VIP or SUPABASE_SERVICE_ROLE_KEY');
     return res.status(500).json({ error: 'Server not configured' });
   }
 
@@ -48,8 +48,8 @@ module.exports = async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        apikey: SUPABASE_SERVICE_ROLE_KEY_VIP,
-        Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY_VIP,
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY,
         Prefer: 'return=minimal'
       },
       body: JSON.stringify(row)
