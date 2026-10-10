@@ -10,16 +10,6 @@ img, svg, video {
   max-width: 100%;
   height: auto;
 }
-/* Hide mobile nav as soon as the page is scrolled, show again at the top */
-.header_wrapper {
-  transition: transform 0.3s ease-in-out;
-}
-@media screen and (max-width: 991px) {
-  .header_wrapper.bcm-nav-hidden {
-    transform: translateY(-100%) !important;
-    pointer-events: none;
-  }
-}
 </style>
 
 <!-- Hide link arrow in Arabic -->
@@ -1448,6 +1438,20 @@ a.button-primary:hover {
 .auth_component[data-dwp-user-type="unauthenticated"],
 .navbar_mobile-login-block[data-dwp-user-type="unauthenticated"] {
   display: block;
+}
+
+/* Webflow's scroll interaction leaves the phone header transparent with a white
+   burger until you scroll; show the scrolled (white bar, dark burger) look from the start. */
+@media screen and (max-width: 767px) {
+  .navbar_main-wrapper {
+    background-color: rgb(255, 255, 255) !important;
+  }
+  .navbar_burger-icon {
+    color: rgb(24, 28, 37) !important;
+  }
+  .navbar_blur-block {
+    opacity: 1 !important;
+  }
 }
 
 @media (max-width: 1092px) and (min-width: 992px) {
@@ -3149,6 +3153,11 @@ import createGlobe from 'https://esm.sh/cobe@0.6.3';
   section {
     padding: 48px 24px !important;
   }
+  /* The header is a <section> too; keep it exactly as tall as the fixed header */
+  section.header_component {
+    padding: 0 !important;
+    height: 68px;
+  }
   .bcm-section {
     flex-direction: column;
     padding: 0;
@@ -3282,25 +3291,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- script to position the 'night' text over 'day' -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  
-  function nightPosition() {
-  	const dayElement = document.getElementsByClassName('trade-day-night_heading-day')[0];
-  	const nightElement = document.getElementsByClassName('trade-day-night_heading-night')[0];
-		const dayWidth = dayElement.offsetWidth;
-  	if (document.documentElement.lang == 'ar') {
-    	nightElement.style.marginRight = `-${dayWidth}px`;
-  	} else {
-    	nightElement.style.marginLeft = `-${dayWidth}px`;
-  	}
-  }
-  
-  setInterval(nightPosition, 500);
-});
-</script>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -3357,46 +3347,4 @@ document.querySelectorAll('.pill').forEach(p => {
   (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/szd3fim3';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 </script>
 <!-- End of Intercom Messenger -->
-<script>
-(function () {
-  var header = document.querySelector('.header_wrapper');
-  if (!header) return;
-  var ticking = false;
-  var TOP_THRESHOLD = 10;
-  var lastY = window.pageYOffset || document.documentElement.scrollTop;
-
-  function isMenuOpen() {
-    var burger = document.querySelector('.navbar_burger-button, .w-nav-button');
-    return !!(burger && burger.classList.contains('w--open'));
-  }
-
-  function onScroll() {
-    ticking = false;
-    if (window.innerWidth > 991) {
-      header.classList.remove('bcm-nav-hidden');
-      return;
-    }
-    if (isMenuOpen()) {
-      lastY = window.pageYOffset || document.documentElement.scrollTop;
-      return;
-    }
-    var currentY = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentY <= TOP_THRESHOLD) {
-      header.classList.remove('bcm-nav-hidden');
-    } else if (currentY > lastY) {
-      header.classList.add('bcm-nav-hidden');
-    } else if (currentY < lastY) {
-      header.classList.remove('bcm-nav-hidden');
-    }
-    lastY = currentY;
-  }
-
-  window.addEventListener('scroll', function () {
-    if (!ticking) {
-      window.requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, { passive: true });
-})();
-</script>
 </body></html>
