@@ -1041,18 +1041,21 @@ function cycleDeck() {
     placeDeck();
   }, 540);
 }
-// for less motion, the passes still take turns, as a cross-fade
+// For less motion, the passes still take turns, as a cross-fade. Each pass fades on its own: fading the deck itself
+// would flatten its 3D (a see-through, squashed stack that then snaps back into shape).
 function fadeDeck() {
-  deck.style.transition = "opacity .5s ease";
-  deck.style.opacity = 0;
+  const passes = $$(".pass", deck);
+  passes.forEach((p) => { p.style.transition = "opacity .45s ease"; p.style.opacity = 0; });
   setTimeout(() => {
     order = [...order.slice(1), order[0]];
-    $$(".pass", deck).forEach((p) => (p.style.transition = "none"));
+    passes.forEach((p) => (p.style.transition = "none"));
     placeDeck();
+    const target = new Map(passes.map((p) => [p, p.style.opacity]));
+    passes.forEach((p) => (p.style.opacity = 0));
     void deck.offsetWidth;
-    $$(".pass", deck).forEach((p) => (p.style.transition = ""));
-    deck.style.opacity = 1;
-  }, 520);
+    passes.forEach((p) => { p.style.transition = "opacity .5s ease"; p.style.opacity = target.get(p); });
+    setTimeout(() => passes.forEach((p) => (p.style.transition = "")), 560);
+  }, 480);
 }
 setInterval(() => { if (!document.hidden) (reduce ? fadeDeck : cycleDeck)(); }, reduce ? 5200 : 4200);
 // the deck turns a little towards the pointer
