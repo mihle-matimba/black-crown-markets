@@ -1064,14 +1064,20 @@ addEventListener("pointermove", (e) => {
     last = now;
     if (visible && !document.hidden) {
       a0 += dt * ((Math.PI * 2) / (reduce ? 80000 : 26000));
-      const w = stage.clientWidth, h = stage.clientHeight;
+      const w = stage.clientWidth, h = stage.clientHeight, narrow = w < 640;
       const cx = w / 2, cy = h / 2 + 10;
-      const rx = Math.min(w * (w < 640 ? 0.3 : 0.42), 430), ry = Math.min(110, h * 0.26);
+      // On a phone the orbit is as wide as the screen and taller, so the glass sweeps from edge to edge and passes above
+      // and below the crown rather than across it.
+      const ry = narrow ? Math.min(140, h * 0.38) : Math.min(110, h * 0.26);
       chips.forEach((c, i) => {
         const a = a0 + (i * Math.PI * 2) / chips.length + 0.5, depth = Math.sin(a), k = (depth + 1) / 2;
-        const x = Math.max(4, Math.min(w - c.offsetWidth - 4, cx + rx * Math.cos(a) - c.offsetWidth / 2));
+        // half its width as drawn (the phone's smaller glass, and smaller still at the back of the orbit)
+        const scale = 0.8 + 0.2 * k, drawn = (parseFloat(getComputedStyle(c).scale) || 1) * scale;
+        const half = (c.offsetWidth * drawn) / 2, slack = c.offsetWidth / 2 - half;
+        const rx = narrow ? Math.max(0, w / 2 - half - 8) : Math.min(w * 0.42, 430);
+        const x = Math.max(4 - slack, Math.min(w - 4 - c.offsetWidth + slack, cx + rx * Math.cos(a) - c.offsetWidth / 2));
         const y = cy + ry * depth - c.offsetHeight / 2;
-        c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(0.8 + 0.2 * k).toFixed(3)})`;
+        c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${scale.toFixed(3)})`;
         c.style.opacity = (0.45 + 0.55 * k).toFixed(3);
         c.style.zIndex = depth > 0 ? 20 : 5;
         c.style.filter = depth > 0 ? "" : `blur(${(-depth * 1.2).toFixed(2)}px)`;
