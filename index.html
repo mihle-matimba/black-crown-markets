@@ -180,40 +180,56 @@ h1,h2,h3,h4,p{margin:0}
   radial-gradient(900px 640px at 78% 20%,var(--ambient-1),transparent 62%),
   radial-gradient(760px 560px at 10% 10%,var(--ambient-2),transparent 62%),
   radial-gradient(620px 520px at 60% 70%,var(--ambient-3),transparent 65%)}
-.hero{position:relative;min-height:min(980px,100svh);padding:132px 0 64px;display:flex;align-items:center;overflow:hidden;isolation:isolate}
-/* the planet's edge: the old site's horizon, drawn as light */
-.horizon{position:absolute;z-index:-1;left:50%;bottom:-136vw;width:150vw;height:150vw;transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(closest-side,var(--bg) 97%,transparent 100%);
-  box-shadow:0 -2px 0 color-mix(in srgb,var(--horizon) 70%,transparent),0 -30px 90px -20px color-mix(in srgb,var(--horizon) 55%,transparent),0 -120px 220px -60px color-mix(in srgb,var(--tint-fill) 45%,transparent)}
-/* the Earth, turning slowly under the hero (drawn in WebGL; the horizon above stays as the fallback) */
-.earth{position:absolute;z-index:-1;left:0;right:0;bottom:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.8s ease}
-.earth.on{opacity:1}
-.hero.has-earth .horizon{display:none}
-/* a soft shade behind the words, so they read over the city lights */
-.scrim{position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(52% 62% at 22% 56%,color-mix(in srgb,var(--bg) 82%,transparent) 0%,color-mix(in srgb,var(--bg) 55%,transparent) 45%,transparent 75%)}
+.hero{position:relative;min-height:max(760px,100svh);padding:118px 0 0;display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+/* the crown's light: an aurora that turns slowly behind it, and points of light in the dark round it */
+.hero .aurora{position:absolute;z-index:-3;inset:-20%;pointer-events:none;
+  background:radial-gradient(38% 34% at 50% 64%,var(--ambient-1),transparent 70%),radial-gradient(30% 30% at 22% 30%,var(--ambient-2),transparent 70%),radial-gradient(26% 26% at 80% 34%,var(--ambient-3),transparent 70%);
+  animation:aurora 18s ease-in-out infinite alternate}
+.hero .dust{z-index:-2}
 .hero::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:140px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero .wrap{position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero-copy{display:flex;flex-direction:column;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--label)}
 .eyebrow .dot{position:relative;width:7px;height:7px;border-radius:50%;background:var(--green)}
 .eyebrow .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:inherit;animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
 @keyframes ping{0%{transform:scale(1);opacity:.6}80%,100%{transform:scale(2.6);opacity:0}}
-.hero h1{margin-top:22px;font:700 clamp(46px,6.4vw,88px)/1.02 var(--display);letter-spacing:-.045em}
+.hero h1{margin-top:20px;font:700 clamp(42px,5.6vw,80px)/1.02 var(--display);letter-spacing:-.045em}
 .grad{background:linear-gradient(100deg,#c4b5fd 0%,#a78bfa 30%,#7c3aed 70%,#c084fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 :root[data-theme="light"] .grad{background-image:linear-gradient(100deg,#7c3aed 0%,#6d28d9 40%,#a855f7 100%)}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .grad{background-image:linear-gradient(100deg,#7c3aed 0%,#6d28d9 40%,#a855f7 100%)}}
-.hero .lead{margin-top:22px;max-width:30em;font-size:clamp(17px,1.5vw,21px);line-height:1.45;color:var(--label-2)}
-.hero .cta{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px}
-.proof{margin-top:30px;display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--label-2)}
+.hero .lead{margin-top:16px;max-width:30em;font-size:clamp(17px,1.5vw,21px);line-height:1.45;color:var(--label-2)}
+.hero .cta{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.proof{margin-top:20px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 18px;font-size:14px;color:var(--label-2)}
 .proof b{color:var(--label);font-weight:600}
 .proof .sep{width:4px;height:4px;border-radius:50%;background:var(--label-3)}
 .stars{display:inline-flex;gap:2px;color:#00b67a}
 .stars svg{display:block}
 
-/* the passes */
-.stage{position:relative;height:clamp(420px,46vw,560px);perspective:1400px;text-align:left}
-.deck{position:absolute;left:50%;top:50%;width:min(440px,84%);aspect-ratio:1.586;transform-style:preserve-3d;
-  transform:translate(-50%,-50%) rotateX(var(--rx,10deg)) rotateY(var(--ry,-16deg)) rotateZ(-3deg);transition:transform .9s var(--spring);animation:float 7s ease-in-out infinite}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -12px}}
+/* the crown: rays of light turning behind it, a plinth of light with ripples under it, and the crown itself, cut from
+   purple glass (sixteen thin layers give it depth, the front one is polished, with a light running across it),
+   swinging slowly and leaning a little towards the pointer */
+.crown-stage{position:relative;flex:1;min-height:380px;display:grid;place-items:center;perspective:1300px}
+.rays{position:absolute;z-index:0;left:50%;top:52%;width:min(1100px,150vw);aspect-ratio:1;translate:-50% -50%;pointer-events:none;opacity:.55;
+  background:repeating-conic-gradient(from 0deg,transparent 0deg 9deg,color-mix(in srgb,var(--tint) 22%,transparent) 11deg,transparent 14deg 24deg);
+  -webkit-mask-image:radial-gradient(closest-side,#000 8%,transparent 70%);mask-image:radial-gradient(closest-side,#000 8%,transparent 70%);animation:rays-turn 90s linear infinite}
+@keyframes rays-turn{to{rotate:360deg}}
+.plinth{position:absolute;z-index:1;left:50%;top:calc(50% + 120px);width:560px;height:120px;translate:-50% -50%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--tint-fill) 70%,transparent),transparent)}
+.plinth::before{content:"";position:absolute;inset:26% 18%;border-radius:50%;box-shadow:0 0 0 1.5px color-mix(in srgb,var(--tint) 70%,transparent),0 0 30px 4px color-mix(in srgb,var(--tint) 45%,transparent)}
+.plinth i{position:absolute;inset:26% 18%;border-radius:50%;box-shadow:0 0 0 1.5px color-mix(in srgb,var(--tint) 60%,transparent);animation:ripple 3.6s cubic-bezier(.2,.6,.3,1) infinite}
+.plinth i:nth-child(2){animation-delay:1.2s}
+.plinth i:nth-child(3){animation-delay:2.4s}
+@keyframes ripple{from{transform:scale(1);opacity:.9}to{transform:scale(2.1);opacity:0}}
+.crown-tilt{position:relative;z-index:10;transform-style:preserve-3d;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform 1s var(--spring)}
+.crown-float{transform-style:preserve-3d;animation:crown-float 6s ease-in-out infinite}
+@keyframes crown-float{0%,100%{translate:0 0}50%{translate:0 -14px}}
+.crown-spin{position:relative;width:min(330px,62vw);aspect-ratio:167/126;transform-style:preserve-3d;animation:crown-swing 10s ease-in-out infinite}
+@keyframes crown-swing{0%,100%{transform:rotateY(-32deg) rotateX(10deg)}50%{transform:rotateY(32deg) rotateX(4deg)}}
+.crown-spin svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;backface-visibility:hidden}
+.crown-spin svg.face{filter:drop-shadow(0 0 18px rgba(167,139,250,.55))}
+/* the platform's glass, in orbit round the crown (placed by the script: in front on the way past, behind on the way back) */
+.orbit{position:absolute;inset:0;pointer-events:none}
+.orbit .chip{left:0;top:0;will-change:transform,opacity}
 .pass{position:absolute;inset:0;border-radius:26px;padding:22px 24px;color:#fff;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 0 0 1px rgba(255,255,255,.1),0 40px 70px -30px rgba(0,0,0,.75);
   transform:translate3d(var(--x,0),var(--y,0),var(--z,0)) rotateZ(var(--r,0deg)) scale(var(--s,1));
@@ -248,12 +264,12 @@ h1,h2,h3,h4,p{margin:0}
 .t-vip .etch{color:rgba(245,197,42,.1)}
 .t-vip .p-tag,.t-vip .p-pill{background:rgba(245,197,42,.14)}
 
-/* the glass that floats round the passes */
+/* the glass that orbits the crown */
 .chip{position:absolute;z-index:5;padding:12px 14px;border-radius:20px;font-size:13px;animation:bob 6s ease-in-out infinite}
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -8px}}
-.chip.c1{left:-2%;top:12%;width:208px;animation-delay:-1.5s}
-.chip.c2{right:-1%;top:6%;width:188px;animation-delay:-3s}
-.chip.c3{right:4%;bottom:6%;width:256px}
+.chip.o-gold{width:208px;animation-delay:-1.5s}
+.chip.o-eq{width:188px;animation-delay:-3s}
+.chip.o-fill{width:256px}
 .tk{display:flex;align-items:center;gap:10px}
 .sdot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;font-size:9.5px;font-weight:700;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
 .sdot.gold{background:linear-gradient(150deg,#ffd76a,#c08a12)}
@@ -273,8 +289,9 @@ h1,h2,h3,h4,p{margin:0}
 .toast .ti{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:#fff;background:#30d158}
 .toast b{display:block;font-size:13.5px;font-weight:600}
 .toast .tx span{display:block;margin-top:1px;font-size:12.5px;color:var(--label-2);font-variant-numeric:tabular-nums}
+/* a new fill pops in where it is in its orbit (the orbit owns the chip's transform, so this only scales and fades) */
 .chip.pop{animation:toast-in .7s var(--bounce) both,bob 6s ease-in-out .7s infinite}
-@keyframes toast-in{from{opacity:0;transform:translateY(16px) scale(.94)}}
+@keyframes toast-in{from{opacity:.15;scale:.88}}
 
 /* ---------- the trust strip ---------- */
 .trust{position:relative;z-index:2;margin-top:-10px}
@@ -444,7 +461,6 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
 
 /* ---------- smaller screens ---------- */
 @media (max-width:1100px){
-  .chip.c1{left:-4%}
   .acc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rv-track{grid-auto-columns:calc((100% - 22px) / 2)}
   .trust ul{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -452,30 +468,25 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
 @media (max-width:900px){
   .nav-links,.nav-r .login,.nav-r .theme{display:none}
   .nav .burger{display:inline-flex}
-  .hero{padding:110px 0 30px;min-height:0}
-  .hero .wrap{grid-template-columns:minmax(0,1fr);gap:20px;text-align:center}
-  .hero .lead{margin-left:auto;margin-right:auto}
-  .hero .cta,.proof{justify-content:center}
-  .stage{height:min(440px,92vw)}
+  .hero{padding:104px 0 0}
   .stats{grid-template-columns:minmax(0,1fr)}
   .feats{grid-template-columns:minmax(0,1fr)}
   .f-top{grid-template-columns:repeat(2,minmax(0,1fr))}
   .f-top>div:first-child{grid-column:1/-1}
   .legal{grid-template-columns:minmax(0,1fr)}
-  .horizon{bottom:-160vw;width:220vw;height:220vw}
 }
 @media (max-width:640px){
   .wrap{padding:0 18px}
   .nav{top:8px;width:calc(100% - 16px);height:56px;padding:0 8px 0 14px}
   .nav .open{display:none}
   .logo img{height:26px}
-  .hero h1{font-size:clamp(42px,12vw,56px)}
+  .hero h1{font-size:clamp(40px,11vw,54px)}
+  .hero .cta{align-self:stretch}
   .hero .cta .btn{flex:1}
   .proof .sep{display:none}
-  .chip{scale:.86}
-  .chip.c1{left:-3%;top:2%;transform-origin:top left}
-  .chip.c2{display:none}
-  .chip.c3{right:-2%;bottom:0;transform-origin:bottom right}
+  .crown-stage{min-height:340px}
+  .plinth{width:360px;top:calc(50% + 86px)}
+  .chip{scale:.8}
   .p-name{font-size:22px}
   .pass{padding:16px 18px;border-radius:20px}
   .trust ul{grid-template-columns:minmax(0,1fr);border-radius:24px}
@@ -504,7 +515,10 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
    tilts or flies in, but the page still breathes. Things fade in, prices tick, the light moves through the glass. */
 @media (prefers-reduced-motion: reduce){
   .reveal{transform:none;transition:opacity .9s ease;transition-delay:calc(var(--i,0) * 70ms)}
-  .deck{animation:none}
+  /* the crown still turns, slowly; the light behind it holds still and the glass orbits at a walk */
+  .rays,.hero .aurora,.crown-float{animation:none}
+  .crown-spin{animation-duration:24s}
+  .plinth i{animation-duration:7s}
   .globe .mer{animation:none}
   .track{animation-duration:90s}
   .track.rev{animation-duration:110s}
@@ -540,7 +554,7 @@ main{overflow-x:clip}
 .grad{background-size:200% 100%;animation:grad-flow 7s ease-in-out infinite alternate}
 @keyframes grad-flow{from{background-position:0% 50%}to{background-position:100% 50%}}
 
-/* the hero arrives: the words line by line, then the passes, then the glass round them */
+/* the hero arrives: the words line by line, then the crown, then the glass round it */
 .hero-copy>*:not(h1){animation:rise-in 1s var(--spring) both}
 .hero-copy>.eyebrow{animation-delay:.1s}
 .hero-copy>.lead{animation-delay:.55s}
@@ -551,14 +565,14 @@ main{overflow-x:clip}
 .hero h1 .ln>span{display:inline-block;animation:ln-up 1.2s var(--spring) .22s both}
 .hero h1 .ln+.ln>span{animation:ln-up 1.2s var(--spring) .36s both,grad-flow 7s ease-in-out 1.6s infinite alternate}
 @keyframes ln-up{from{transform:translateY(112%) rotate(3deg)}}
-.stage{animation:stage-in 1.6s var(--spring) .3s both;translate:0 calc(var(--p,0) * 150px)}
-@keyframes stage-in{from{opacity:0;transform:translateY(80px) scale(.9) rotate(5deg)}}
+.crown-stage{animation:stage-in 1.6s var(--spring) .45s both;translate:0 calc(var(--p,0) * 150px)}
+@keyframes stage-in{from{opacity:0;transform:translateY(80px) scale(.9)}}
 .chip{animation:chip-in .9s var(--bounce) both,bob 6s ease-in-out infinite}
-.chip.c1{animation-delay:1.05s,-1.5s;transform:translateY(calc(var(--p,0) * -80px))}
-.chip.c2{animation-delay:1.25s,-3s;transform:translateY(calc(var(--p,0) * -130px))}
-.chip.c3{animation-delay:1.45s,0s;transform:translateY(calc(var(--p,0) * 60px))}
+.chip.o-gold{animation-delay:1.15s,-1.5s}
+.chip.o-eq{animation-delay:1.35s,-3s}
+.chip.o-fill{animation-delay:1.55s,0s}
 @keyframes chip-in{from{opacity:0;scale:.5}}
-/* as you scroll away the words drift down and fade, the passes sink slower: depth */
+/* as you scroll away the words drift down and fade, the crown sinks slower: depth */
 .hero-copy{transform:translateY(calc(var(--p,0) * 110px));opacity:calc(1 - var(--p,0) * 1.15)}
 /* a soft light that follows the pointer round the hero */
 .hglow{position:absolute;z-index:-1;left:0;top:0;width:680px;height:680px;margin:-340px 0 0 -340px;border-radius:50%;pointer-events:none;
@@ -696,11 +710,10 @@ main{overflow-x:clip}
 </header>
 
 <main>
-  <!-- the hero: the accounts as Wallet passes over the planet's edge -->
+  <!-- the hero: the crown in purple glass on a plinth of light, the platform's glass in orbit round it -->
   <section class="hero" aria-labelledby="heroTitle" id="hero">
-    <div class="horizon" aria-hidden="true"></div>
-    <canvas class="earth" id="earth" aria-hidden="true"></canvas>
-    <div class="scrim" aria-hidden="true"></div>
+    <div class="aurora" aria-hidden="true"></div>
+    <div class="sparks dust" id="dust" aria-hidden="true"></div>
     <div class="hglow" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-copy">
@@ -718,19 +731,23 @@ main{overflow-x:clip}
           <span><b>2,000+</b> traders</span>
         </div>
       </div>
+    </div>
 
-      <div class="stage" id="stage" aria-label="Black Crown Markets accounts">
-        <div class="deck" id="deck"></div>
-        <div class="chip glass c1" aria-hidden="true">
+    <div class="crown-stage" id="stage" aria-hidden="true">
+      <div class="rays"></div>
+      <div class="plinth"><i></i><i></i><i></i></div>
+      <div class="crown-tilt" id="crownTilt"><div class="crown-float"><div class="crown-spin" id="crown"></div></div></div>
+      <div class="orbit" id="orbit">
+        <div class="chip glass o-gold">
           <div class="tk"><span class="sdot gold">XAU</span><span class="t"><b>Gold</b><span>XAU/USD</span></span><span class="px"><b id="pxGold">2,384.12</b><span class="chg" id="chGold">+0.42%</span></span></div>
           <svg class="spark" viewBox="0 0 180 34" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#30d158" stop-opacity=".35"/><stop offset="1" stop-color="#30d158" stop-opacity="0"/></linearGradient></defs><path id="sparkFill" fill="url(#sg)"/><path id="sparkLine" fill="none" stroke="#30d158" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
         </div>
-        <div class="chip glass c2 eq" aria-hidden="true">
+        <div class="chip glass eq o-eq">
           <small>Equity</small>
           <b id="eq">$12,480.32</b>
           <div class="up">+$296.40 today</div>
         </div>
-        <div class="chip glass c3 toast" id="toast" aria-hidden="true">
+        <div class="chip glass toast o-fill" id="toast">
           <span class="ti"><span data-icon="check" data-size="15"></span></span>
           <span class="tx"><b id="toastT">Order filled</b><span id="toastS">Buy 0.50 EUR/USD at 1.08420</span></span>
         </div>
@@ -1002,74 +1019,70 @@ const passHTML = (a, { pill = true } = {}) => `<div class="pass t-${a.key}" data
   <div class="p-bot"><dl><div><dt>Leverage</dt><dd>${a.lev}</dd></div><div><dt>Spread from</dt><dd>${a.spread.replace(" pips", "")}</dd></div></dl>${pill ? '<span class="p-pill"><i></i>Live</span>' : ""}</div>
 </div>`;
 
-// The hero's deck: the front pass is the one on show, the others fan out behind it; every few seconds the front one
-// drops out and goes to the back.
-const FAN = [
-  { x: "0px", y: "0px", z: "0px", r: "0deg", s: 1, o: 1 },
-  { x: "28px", y: "-36px", z: "-60px", r: "4deg", s: 0.94, o: 1 },
-  { x: "52px", y: "-68px", z: "-120px", r: "8deg", s: 0.88, o: 0.9 },
-  { x: "72px", y: "-96px", z: "-180px", r: "12deg", s: 0.82, o: 0.55 },
-  { x: "88px", y: "-118px", z: "-240px", r: "16deg", s: 0.76, o: 0 },
-];
-const deck = $("#deck");
-const DECK = ["standard", "pro", "raw-ecn", "vip", "standard-cent"];
-deck.innerHTML = DECK.map((k) => passHTML(ACCOUNTS.find((a) => a.key === k))).join("");
-let order = [...DECK];
-function placeDeck() {
-  $$(".pass", deck).forEach((el) => {
-    const i = order.indexOf(el.dataset.type), f = FAN[i];
-    el.style.setProperty("--x", f.x); el.style.setProperty("--y", f.y); el.style.setProperty("--z", f.z);
-    el.style.setProperty("--r", f.r); el.style.setProperty("--s", f.s);
-    el.style.zIndex = 10 - i;
-    el.style.opacity = f.o;
-  });
-}
-placeDeck();
-function cycleDeck() {
-  const front = deck.querySelector(`[data-type="${order[0]}"]`);
-  // the front pass slides down and away, then comes back in at the back
-  front.style.transition = "transform .55s cubic-bezier(.4,0,.6,1), opacity .45s ease";
-  front.style.setProperty("--y", "110px"); front.style.setProperty("--x", "-30px"); front.style.setProperty("--r", "-7deg");
-  front.style.opacity = 0;
-  setTimeout(() => {
-    order = [...order.slice(1), order[0]];
-    front.style.transition = "none";
-    placeDeck();
-    front.style.opacity = 0;
-    void front.offsetWidth;
-    front.style.transition = "";
-    placeDeck();
-  }, 540);
-}
-// For less motion, the passes still take turns, as a cross-fade. Each pass fades on its own: fading the deck itself
-// would flatten its 3D (a see-through, squashed stack that then snaps back into shape).
-function fadeDeck() {
-  const passes = $$(".pass", deck);
-  passes.forEach((p) => { p.style.transition = "opacity .45s ease"; p.style.opacity = 0; });
-  setTimeout(() => {
-    order = [...order.slice(1), order[0]];
-    passes.forEach((p) => (p.style.transition = "none"));
-    placeDeck();
-    const target = new Map(passes.map((p) => [p, p.style.opacity]));
-    passes.forEach((p) => (p.style.opacity = 0));
-    void deck.offsetWidth;
-    passes.forEach((p) => { p.style.transition = "opacity .5s ease"; p.style.opacity = target.get(p); });
-    setTimeout(() => passes.forEach((p) => (p.style.transition = "")), 560);
-  }, 480);
-}
-setInterval(() => { if (!document.hidden) (reduce ? fadeDeck : cycleDeck)(); }, reduce ? 5200 : 4200);
-// the deck turns a little towards the pointer
-const stage = $("#stage");
+// The hero's crown, cut from purple glass: thin layers one behind the other give it depth (darker towards the back),
+// and the front one is a polished face with a light that runs across it.
+(function buildCrown() {
+  const LAYERS = 16, GAP = 1.5;
+  const mix = (a, b, t) => a.map((x, i) => Math.round(x + (b[i] - x) * t));
+  const back = [30, 11, 68], edge = [124, 58, 237];
+  const path = (fill, extra = "") => `<path transform="translate(0,167) scale(0.1,-0.1)" d="${CROWN_D}" fill="${fill}" ${extra}/>`;
+  let html = "";
+  for (let i = 0; i < LAYERS - 1; i++) {
+    html += `<svg viewBox="22 21 167 126" aria-hidden="true" style="transform:translateZ(${((i - LAYERS / 2) * GAP).toFixed(1)}px)">${path(`rgb(${mix(back, edge, i / (LAYERS - 2)).join(",")})`)}</svg>`;
+  }
+  html += `<svg class="face" viewBox="22 21 167 126" aria-hidden="true" style="transform:translateZ(${((LAYERS / 2) * GAP).toFixed(1)}px)">
+    <defs>
+      <linearGradient id="cFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f3ff"/><stop offset=".32" stop-color="#c4b5fd"/><stop offset=".68" stop-color="#8b5cf6"/><stop offset="1" stop-color="#4c1d95"/></linearGradient>
+      <linearGradient id="cSheen" x1="0" y1="0" x2="1" y2="0" gradientTransform="translate(-1 0)">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".85"/><stop offset=".58" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        <animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1.2 0;1.2 0" keyTimes="0;.45;1" dur="5.5s" repeatCount="indefinite"/>
+      </linearGradient>
+    </defs>
+    ${path("url(#cFace)", 'stroke="rgba(255,255,255,.65)" stroke-width="7"')}
+    ${path("url(#cSheen)", 'style="mix-blend-mode:screen"')}
+  </svg>`;
+  $("#crown").innerHTML = html;
+})();
+// the crown leans a little towards the pointer
+const stage = $("#stage"), crownTilt = $("#crownTilt");
 addEventListener("pointermove", (e) => {
-  if (e.pointerType !== "mouse") return;
+  if (reduce || e.pointerType !== "mouse") return;
   const r = stage.getBoundingClientRect();
   if (r.bottom < 0 || r.top > innerHeight) return;
-  const px = (e.clientX - (r.left + r.width / 2)) / innerWidth, py = (e.clientY - (r.top + r.height / 2)) / innerHeight;
-  deck.style.setProperty("--ry", `${(-16 + px * 22).toFixed(2)}deg`);
-  deck.style.setProperty("--rx", `${(10 - py * 16).toFixed(2)}deg`);
+  crownTilt.style.setProperty("--ty", `${((e.clientX / innerWidth - 0.5) * 18).toFixed(2)}deg`);
+  crownTilt.style.setProperty("--tx", `${(-(e.clientY / innerHeight - 0.5) * 12).toFixed(2)}deg`);
 });
+// The glass in orbit round the crown, on an ellipse: in front of it on the way past, behind it (smaller, fainter, a
+// little soft) on the way back. It stays on the screen however narrow, and goes round at a walk for those who ask
+// for less motion.
+(function orbit() {
+  const chips = $$("#orbit .chip");
+  let a0 = 0, last = performance.now(), visible = true;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(stage);
+  function frame(now) {
+    const dt = Math.min(64, now - last);
+    last = now;
+    if (visible && !document.hidden) {
+      a0 += dt * ((Math.PI * 2) / (reduce ? 80000 : 26000));
+      const w = stage.clientWidth, h = stage.clientHeight;
+      const cx = w / 2, cy = h / 2 + 10;
+      const rx = Math.min(w * (w < 640 ? 0.3 : 0.42), 430), ry = Math.min(110, h * 0.26);
+      chips.forEach((c, i) => {
+        const a = a0 + (i * Math.PI * 2) / chips.length + 0.5, depth = Math.sin(a), k = (depth + 1) / 2;
+        const x = Math.max(4, Math.min(w - c.offsetWidth - 4, cx + rx * Math.cos(a) - c.offsetWidth / 2));
+        const y = cy + ry * depth - c.offsetHeight / 2;
+        c.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(0.8 + 0.2 * k).toFixed(3)})`;
+        c.style.opacity = (0.45 + 0.55 * k).toFixed(3);
+        c.style.zIndex = depth > 0 ? 20 : 5;
+        c.style.filter = depth > 0 ? "" : `blur(${(-depth * 1.2).toFixed(2)}px)`;
+      });
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 
-/* ---------- the glass round the deck: a price that moves, equity, a fill ---------- */
+/* ---------- the glass round the crown: a price that moves, equity, a fill ---------- */
 const spark = Array.from({ length: 40 }, (_, i) => 2384 + Math.sin(i / 4) * 2.4 + i * 0.12);
 let gold = spark[spark.length - 1];
 const OPEN_GOLD = 2374.1;
@@ -1238,7 +1251,6 @@ function toggleTheme() {
   root.dataset.theme = isDark() ? "light" : "dark";
   try { localStorage.setItem("bcm-theme", root.dataset.theme); } catch (err) { /* private window: the choice lasts this visit */ }
   themeIcon();
-  window.redrawEarth?.();
 }
 try { const t = localStorage.getItem("bcm-theme"); if (t === "light" || t === "dark") root.dataset.theme = t; } catch (err) { /* no storage */ }
 $("#themeBtn").addEventListener("click", toggleTheme);
@@ -1312,140 +1324,6 @@ function lightWords() {
 addEventListener("scroll", lightWords, { passive: true });
 addEventListener("resize", () => { lightWords(); placeThumb(dn); rvEdges(); });
 
-/* ---------- the Earth: a globe drawn in WebGL, turning once every two minutes, with a violet atmosphere ---------- */
-// Night lights in dark mode, the blue marble in light mode. Tilted towards us, so the band of the world that shows over
-// the horizon is Africa and Europe at first, and the continents slide across as it turns.
-(function earth() {
-  const canvas = $("#earth"), hero = $("#hero");
-  const gl = canvas.getContext("webgl", { premultipliedAlpha: true, alpha: true, antialias: false });
-  if (!gl) return;
-  const TEX = {
-    dark: "https://cdn.jsdelivr.net/npm/three-globe@2.31.0/example/img/earth-night.jpg",
-    light: "https://cdn.jsdelivr.net/npm/three-globe@2.31.0/example/img/earth-blue-marble.jpg",
-  };
-  const VS = "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}";
-  const FS = `precision highp float;
-    uniform vec2 res;uniform vec2 cen;uniform float rad;uniform float rot;uniform float tilt;uniform float lightMode;uniform sampler2D tex;
-    void main(){
-      vec2 p=vec2(gl_FragCoord.x,res.y-gl_FragCoord.y);
-      vec2 d=(p-cen)/rad; d.y=-d.y;
-      float l=length(d);
-      vec3 glow=lightMode>.5?vec3(.49,.23,.93):vec3(.55,.36,1.);
-      float halo=exp(-max(l-1.,0.)*30.)*(lightMode>.5?.45:.8);
-      if(l>1.){gl_FragColor=vec4(glow*halo,halo);return;}
-      float z=sqrt(1.-l*l);
-      vec3 n=vec3(d,z);
-      float ct=cos(tilt),st=sin(tilt);
-      vec3 w=vec3(n.x,n.y*ct-n.z*st,n.y*st+n.z*ct);
-      float lat=asin(clamp(w.y,-1.,1.));
-      float lon=atan(w.x,w.z)+rot;
-      vec2 uv=vec2(fract(lon/6.2831853+.5),.5-lat/3.1415926);
-      vec3 t=texture2D(tex,uv).rgb;
-      vec3 L=normalize(vec3(-.4,.8,.45));
-      float diff=clamp(dot(n,L),0.,1.);
-      float rim=pow(1.-z,5.);
-      vec3 col;
-      if(lightMode>.5){
-        col=t*(.42+.8*diff);
-        col=mix(col,vec3(dot(col,vec3(.3,.59,.11)))*vec3(.86,.82,1.06),.22);
-        col+=glow*rim*.7;
-      }else{
-        vec3 lights=pow(t,vec3(.85))*vec3(1.25,1.,1.3)*1.5;
-        col=vec3(.05,.03,.13)*(.45+.9*diff)+lights;
-        col+=glow*rim*.9;
-      }
-      float edge=smoothstep(1.,1.-1.5/rad,l);
-      gl_FragColor=vec4(mix(glow*halo,col,edge),mix(halo,1.,edge));
-    }`;
-  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; };
-  const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
-  if (!vs || !fs) return;
-  const prog = gl.createProgram();
-  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
-  gl.useProgram(prog);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-  const aLoc = gl.getAttribLocation(prog, "a");
-  gl.enableVertexAttribArray(aLoc);
-  gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
-  const U = Object.fromEntries(["res", "cen", "rad", "rot", "tilt", "lightMode", "tex"].map((n) => [n, gl.getUniformLocation(prog, n)]));
-  const textures = {};
-  function load(mode) {
-    if (textures[mode]) return;
-    textures[mode] = "loading";
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      const t = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, t);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
-      // no mipmaps: the longitude wraps, and mipmapping would draw a seam there
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      textures[mode] = t;
-      draw();
-      canvas.classList.add("on");
-      hero.classList.add("has-earth");
-    };
-    img.onerror = () => { textures[mode] = null; };
-    img.src = TEX[mode];
-  }
-  let w = 0, h = 0, dpr = 1;
-  function size() {
-    dpr = Math.min(devicePixelRatio || 1, 1.5);
-    const r = canvas.getBoundingClientRect();
-    w = r.width; h = r.height;
-    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  // Africa faces us to begin with (the texture's centre is 0°; a little east of it).
-  let rot = -0.35, last = performance.now(), running = false;
-  function draw() {
-    const mode = isDark() ? "dark" : "light";
-    load(mode);
-    const t = textures[mode];
-    if (!t || t === "loading") return;
-    gl.bindTexture(gl.TEXTURE_2D, t);
-    // the globe is far bigger than the screen: only its top shows, as a horizon
-    const narrow = w < 900;
-    const R = narrow ? Math.max(w * 1.1, 520) : Math.max(w * 0.62, 760);
-    const top = h * (narrow ? 0.62 : 0.34);
-    // on a laptop it rises behind the passes, so the words beside them stay over space
-    const cx = narrow ? w / 2 : w * 0.68;
-    gl.uniform2f(U.res, canvas.width, canvas.height);
-    gl.uniform2f(U.cen, cx * dpr, (top + R) * dpr);
-    gl.uniform1f(U.rad, R * dpr);
-    gl.uniform1f(U.rot, rot);
-    gl.uniform1f(U.tilt, 1.12);
-    gl.uniform1f(U.lightMode, mode === "light" ? 1 : 0);
-    gl.uniform1i(U.tex, 0);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  }
-  function frame(now) {
-    if (!running) return;
-    // one turn every two minutes; for those who prefer less motion, every four
-    rot += ((now - last) / 1000) * ((Math.PI * 2) / (reduce ? 240 : 120));
-    last = now;
-    draw();
-    requestAnimationFrame(frame);
-  }
-  const start = () => { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); };
-  const stop = () => { running = false; };
-  // it only turns while it can be seen
-  new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(hero);
-  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
-  addEventListener("resize", () => { size(); draw(); });
-  window.redrawEarth = draw;
-  size();
-  draw();
-})();
-
 /* ---------- motion: the pointer and the scroll ---------- */
 (function motion() {
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -1485,7 +1363,9 @@ addEventListener("resize", () => { lightWords(); placeThumb(dn); rvEdges(); });
   }
   if (!reduce) $$(".sec-head h2, .fund h2, .claim h2").forEach(splitHeading);
 
-  // points of light round the globe, and sparks rising through the last word
+  // points of light round the crown and round the globe, and sparks rising through the last word
+  $("#dust").innerHTML = Array.from({ length: 40 }, () =>
+    `<i style="left:${rand(2, 98)}%;top:${rand(4, 96)}%;--s:${rand(1.5, 3.6)}px;animation-delay:-${rand(0, 6)}s;animation-duration:${rand(3, 7)}s"></i>`).join("");
   $("#sparks").innerHTML = Array.from({ length: 30 }, () =>
     `<i style="left:${rand(3, 97)}%;top:${rand(6, 94)}%;--s:${rand(2, 4.6)}px;animation-delay:-${rand(0, 6)}s;animation-duration:${rand(3, 7)}s"></i>`).join("");
   $("#motes").innerHTML = Array.from({ length: 18 }, () =>
