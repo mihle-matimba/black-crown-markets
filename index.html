@@ -336,10 +336,25 @@ section.blk{padding:120px 0 0}
 .laptop{position:relative;width:88%;border-radius:22px;padding:12px;background:linear-gradient(180deg,#2a2a2e,#141416);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 60px 120px -50px rgba(76,29,149,.8),0 30px 60px -30px rgba(0,0,0,.7)}
 .laptop::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-16px;height:16px;border-radius:0 0 18px 18px;background:linear-gradient(180deg,#3a3a3e,#1d1d20);box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
 .screen{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3418/2146;background:#000}
-.screen img,.phone .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:opacity .7s ease}
-.screen img.off,.phone .scr img.off{opacity:0}
+/* every screen of the app is in the laptop and the phone; the one showing fades in over the last (the phone a beat
+   behind), settling from a touch larger */
+.screen img,.phone .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transform:scale(1.015);transition:opacity .8s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.screen img.on,.phone .scr img.on{opacity:1;transform:none}
+.phone .scr img{transition-delay:.12s}
 .phone{position:absolute;right:0;bottom:-10px;width:22%;min-width:150px;border-radius:44px;padding:9px;background:linear-gradient(160deg,#3a3a3e,#111113);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 40px 80px -30px rgba(0,0,0,.8)}
-.phone .scr{position:relative;border-radius:36px;overflow:hidden;aspect-ratio:748/1624;background:#000}
+.phone .scr{position:relative;border-radius:36px;overflow:hidden;aspect-ratio:786/1706;background:#000}
+/* the screens by name under the devices: the one showing fills as its time runs, and any can be picked */
+.tour{max-width:1184px;margin:58px auto 0;display:flex;flex-direction:column;align-items:center;gap:16px}
+.tour-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.tour-tab{position:relative;isolation:isolate;overflow:hidden;height:38px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap;color:var(--label-2);background:var(--fill-3);transition:color .3s,background-color .3s}
+.tour-tab:hover{color:var(--label)}
+.tour-tab[aria-selected="true"]{color:var(--label);font-weight:600;background:var(--tint-soft)}
+.tour-tab .fill{position:absolute;z-index:-1;inset:0 auto 0 0;width:0;background:color-mix(in srgb,var(--tint-fill) 42%,transparent)}
+.tour-tab[aria-selected="true"] .fill{animation:tour-fill var(--dur,5s) linear forwards}
+.tour.held .tour-tab .fill{animation-play-state:paused}
+@keyframes tour-fill{to{width:100%}}
+.tour .cap{min-height:27px;margin:0;font-size:18px;line-height:1.5;color:var(--label-2);text-align:center}
+.tour .cap b{color:var(--label);font-weight:600}
 .phone .scr::before{content:"";position:absolute;z-index:2;top:9px;left:50%;width:30%;height:22px;transform:translateX(-50%);border-radius:999px;background:#000}
 .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:70px}
 .feat{padding:26px 26px 28px;border-radius:26px;background:var(--cell)}
@@ -499,6 +514,12 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .screen{border-radius:8px}
   .phone{position:relative;right:auto;bottom:auto;width:58%;margin:40px auto 0;min-width:0}
   .devices{padding-bottom:0}
+  /* on a phone the names scroll sideways in one line, edge to edge */
+  .tour{margin-top:34px}
+  .tour-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;max-width:calc(100% + 36px);margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none;scroll-padding:0 18px}
+  .tour-tabs::-webkit-scrollbar{display:none}
+  .tour-tab{flex-shrink:0}
+  .tour .cap{font-size:16px;padding:0 6px}
   .acc-grid{grid-template-columns:minmax(0,1fr)}
   .fund{border-radius:28px;padding:40px 0 44px}
   .pm{height:54px;font-size:15px}
@@ -520,6 +541,8 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .crown-spin{animation-duration:24s}
   .plinth i{animation-duration:7s}
   .globe .mer{animation:none}
+  /* the app's screens still change, by fading only */
+  .screen img,.phone .scr img{transform:none}
   .track{animation-duration:90s}
   .track.rev{animation-duration:110s}
 }
@@ -810,19 +833,18 @@ main{overflow-x:clip}
           <button type="button" data-v="night" aria-pressed="true"><span data-icon="moon" data-size="16"></span>Night</button>
         </div>
       </div>
-      <div class="devices reveal">
+      <!-- a tour of the app: the laptop and phone turn through every screen in its menu (the script below fills them) -->
+      <div class="devices reveal" id="devices">
         <div class="laptop">
-          <div class="screen">
-            <img data-mode="day" class="off" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2014.38.04.png" alt="The Black Crown Markets dashboard in light mode" loading="lazy">
-            <img data-mode="night" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2014.37.53.png" alt="The Black Crown Markets dashboard in dark mode" loading="lazy">
-          </div>
+          <div class="screen" id="tourLaptop"></div>
         </div>
         <div class="phone">
-          <div class="scr">
-            <img data-mode="day" class="off" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2011.37.19.png" alt="The dashboard on a phone, in light mode" loading="lazy">
-            <img data-mode="night" src="https://yscggkgvxfjvfmnulrcy.supabase.co/storage/v1/object/public/Media/Screenshot%202026-09-15%20at%2011.37.37.png" alt="The dashboard on a phone, in dark mode" loading="lazy">
-          </div>
+          <div class="scr" id="tourPhone"></div>
         </div>
+      </div>
+      <div class="tour reveal" id="tour">
+        <div class="tour-tabs" role="tablist" aria-label="Screens in the app" id="tourChips"></div>
+        <p class="cap" id="tourCap" aria-live="polite"></p>
       </div>
       <div class="feats">
         <div class="feat reveal" style="--i:0"><span class="fi a"><span data-icon="layers" data-size="22"></span></span><h3>Every account in one place</h3><p>Real and demo accounts side by side, with balances, equity and open trades at a glance.</p></div>
@@ -1268,18 +1290,148 @@ function placeThumb(seg) {
   th.style.width = `${on.offsetWidth}px`;
   th.style.transform = `translateX(${on.offsetLeft - 3}px)`;
 }
+/* ---------- the app, screen by screen ---------- */
+// The laptop and phone turn through every screen in the app's menu (pictures of the real app with sample figures, in
+// img/devices: <screen>-<laptop|phone>-<night|day>.jpg), named in a row under them. A screen shows for TOUR_MS; it
+// only moves on while the devices can be seen, and holds while the pointer or focus is on them. Only the screen
+// showing and the next one are fetched.
+const TOUR = [
+  ["dashboard", "Dashboard", "Your balance, equity and how you're trading, at a glance."],
+  ["accounts", "Trading accounts", "Every live and demo account, side by side."],
+  ["webtrader", "WebTrader", "Charts, one-click trading and your positions, in the browser."],
+  ["order-history", "Order history", "Every trade, with your profit by day and by symbol."],
+  ["calendar", "Economic calendar", "The releases and rate decisions that move the markets."],
+  ["certificates", "Certificates", "Certified profits and payouts that anyone can check."],
+  ["deposit", "Deposit", "Card, EFT, Apple Pay and crypto, with no deposit fees."],
+  ["withdraw", "Withdraw", "Straight to your approved bank account or wallet."],
+  ["transactions", "Transactions", "Deposits, withdrawals and transfers across all your accounts."],
+];
+const TOUR_MS = 5000;
+const tour = (() => {
+  const devices = $("#devices"), box = $("#tour"), chips = $("#tourChips"), cap = $("#tourCap");
+  let at = 0, mode = "night", timer = 0, held = false, near = false, inView = false;
+  const imgs = [];
+  TOUR.forEach(([key, name], i) => {
+    for (const m of ["night", "day"]) {
+      for (const [el, kind] of [[$("#tourLaptop"), "laptop"], [$("#tourPhone"), "phone"]]) {
+        const img = document.createElement("img");
+        img.alt = `${name}${kind === "phone" ? " on a phone" : ""}, in ${m === "day" ? "light" : "dark"} mode`;
+        img.decoding = "async";
+        img.dataset.src = `img/devices/${key}-${kind}-${m}.jpg`;
+        img.dataset.i = i;
+        img.dataset.mode = m;
+        el.appendChild(img);
+        imgs.push(img);
+      }
+    }
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "tour-tab";
+    b.id = `tour-${key}`;
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-controls", "devices");
+    b.style.setProperty("--dur", `${TOUR_MS}ms`);
+    b.innerHTML = `<i class="fill" aria-hidden="true"></i><span>${name}</span>`;
+    b.addEventListener("click", () => go(i));
+    chips.appendChild(b);
+  });
+  devices.setAttribute("role", "tabpanel");
+  const fetchScreen = (i) => imgs.forEach((img) => {
+    if (+img.dataset.i === i && img.dataset.mode === mode && !img.src) img.src = img.dataset.src;
+  });
+  function show() {
+    if (near) {
+      fetchScreen(at);
+      fetchScreen((at + 1) % TOUR.length);
+    }
+    imgs.forEach((img) => {
+      const on = +img.dataset.i === at && img.dataset.mode === mode;
+      img.classList.toggle("on", on);
+      img.setAttribute("aria-hidden", String(!on));
+    });
+    [...chips.children].forEach((c, i) => {
+      c.setAttribute("aria-selected", String(i === at));
+      c.tabIndex = i === at ? 0 : -1;
+      // its fill starts again
+      const fill = c.firstElementChild;
+      fill.style.animation = "none";
+      void fill.offsetWidth;
+      fill.style.animation = "";
+    });
+    const [key, name, line] = TOUR[at];
+    devices.setAttribute("aria-labelledby", `tour-${key}`);
+    cap.innerHTML = `<b>${name}.</b> ${line}`;
+    // the row of names follows on a phone, without moving the page
+    const c = chips.children[at];
+    const off = c.getBoundingClientRect().left - chips.getBoundingClientRect().left;
+    chips.scrollBy({ left: off - (chips.clientWidth - c.offsetWidth) / 2, behavior: reduce ? "auto" : "smooth" });
+  }
+  function schedule() {
+    clearTimeout(timer);
+    const running = inView && !held && !document.hidden;
+    box.classList.toggle("held", !running);
+    if (running) timer = setTimeout(() => go((at + 1) % TOUR.length), TOUR_MS);
+  }
+  function go(i) {
+    at = i;
+    show();
+    schedule();
+  }
+  const hold = (on) => {
+    if (held === on) return;
+    held = on;
+    if (on) schedule();
+    else go(at);
+  };
+  for (const el of [devices, box]) {
+    el.addEventListener("pointerenter", () => hold(true));
+    el.addEventListener("pointerleave", () => hold(false));
+  }
+  box.addEventListener("focusin", () => hold(true));
+  box.addEventListener("focusout", (e) => !box.contains(e.relatedTarget) && hold(false));
+  // the arrow keys move between the names, as in a row of tabs
+  chips.addEventListener("keydown", (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1, Home: -at, End: TOUR.length - 1 - at }[e.key];
+    if (step === undefined) return;
+    e.preventDefault();
+    go((at + step + TOUR.length) % TOUR.length);
+    chips.children[at].focus();
+  });
+  document.addEventListener("visibilitychange", () => (document.hidden ? schedule() : go(at)));
+  // fetched once the devices are near, turning while they can be seen
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !near) {
+      near = true;
+      show();
+    }
+  }, { rootMargin: "800px 0px" }).observe(devices);
+  new IntersectionObserver(([e]) => {
+    const was = inView;
+    inView = e.isIntersecting;
+    if (inView && !was) go(at);
+    else if (!inView) schedule();
+  }, { threshold: 0.35 }).observe(devices);
+  return {
+    // the other look, with the screen's time started again
+    mode(m) {
+      mode = m;
+      go(at);
+    },
+  };
+})();
+
 const dn = $("#dayNight");
 dn.addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   $$("button", dn).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
   placeThumb(dn);
-  $$(".devices img").forEach((img) => img.classList.toggle("off", img.dataset.mode !== b.dataset.v));
+  tour.mode(b.dataset.v);
 });
 // it starts on the page's own look
 const startMode = isDark() ? "night" : "day";
 $$("button", dn).forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.v === startMode)));
-$$(".devices img").forEach((img) => img.classList.toggle("off", img.dataset.mode !== startMode));
+tour.mode(startMode);
 
 /* ---------- numbers that roll ---------- */
 function makeRoll(el) {
