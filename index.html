@@ -15,6 +15,7 @@
 <link rel="shortcut icon" href="favicon.png" type="image/png">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -550,8 +551,6 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .globe .mer{animation:none}
   /* the app's screens still change, by fading only */
   .screen img,.phone .scr img{transform:none}
-  /* by day the light still comes and goes, where it is, without rising */
-  @keyframes rise-light{0%,100%{opacity:.12;transform:none}50%{opacity:.85;transform:none}}
   .track{animation-duration:90s}
   .track.rev{animation-duration:110s}
 }
@@ -683,15 +682,10 @@ main{overflow-x:clip}
 .rv-track.in .stars svg:nth-child(4){animation-delay:.59s}
 .rv-track.in .stars svg:nth-child(5){animation-delay:.67s}
 
-/* points of light round the crown and round the globe. By night they twinkle where they are, as stars; by day there
-   are no stars, so the light rises instead: white motes lifting out of the glow, like dust in a sunbeam. Each one
-   carries both (--x/--y/--s/--td/--tdl to twinkle, --rx/--ry/--rs/--dx/--rd/--rdl to rise), so the look follows the
-   theme without being made again. */
+/* points of light round the crown and round the globe: white motes lifting out of the glow and fading, like dust in
+   a sunbeam, by day and by night */
 .sparks{position:absolute;inset:0;pointer-events:none}
-.sparks i{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:50%;background:var(--tint);box-shadow:0 0 10px 1px var(--tint);animation:twinkle var(--td,5s) ease-in-out var(--tdl,0s) infinite}
-@keyframes twinkle{0%,100%{opacity:.08;transform:scale(.5)}50%{opacity:.9;transform:scale(1)}}
-:root[data-theme="light"] .sparks:not(.on-tint) i{left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);background:#fff;box-shadow:0 0 0 1px rgba(124,58,237,.14),0 0 12px 3px rgba(167,139,250,.55);animation:rise-light var(--rd,9s) linear var(--rdl,0s) infinite}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .sparks:not(.on-tint) i{left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);background:#fff;box-shadow:0 0 0 1px rgba(124,58,237,.14),0 0 12px 3px rgba(167,139,250,.55);animation:rise-light var(--rd,9s) linear var(--rdl,0s) infinite}}
+.sparks i{position:absolute;left:var(--rx);top:var(--ry);width:var(--rs);height:var(--rs);border-radius:50%;background:#fff;box-shadow:0 0 0 1px rgba(124,58,237,.18),0 0 14px 4px rgba(167,139,250,.65);animation:rise-light var(--rd,9s) linear var(--rdl,0s) infinite}
 @keyframes rise-light{0%{opacity:0;transform:translate(0,60px) scale(.7)}12%{opacity:1}80%{opacity:.75}100%{opacity:0;transform:translate(var(--dx,0px),-170px) scale(1)}}
 
 /* the last word: an aurora turns behind it, sparks rise, the crowns drift */
@@ -1544,13 +1538,11 @@ addEventListener("resize", () => { lightWords(); placeThumb(dn); rvEdges(); });
   }
   if (!reduce) $$(".sec-head h2, .fund h2, .claim h2").forEach(splitHeading);
 
-  // points of light round the crown and round the globe (each placed both to twinkle, by night, and to rise, by day:
-  // rising round the crown's light and up through the globe), and sparks rising through the last word
-  const lights = (n, s, rise) => Array.from({ length: n }, () =>
-    `<i style="--x:${rand(2, 98)}%;--y:${rand(4, 96)}%;--s:${rand(...s)}px;--td:${rand(3, 7)}s;--tdl:-${rand(0, 6)}s;` +
-    `--rx:${rand(...rise[0])}%;--ry:${rand(...rise[1])}%;--rs:${rand(2.5, 6.5)}px;--dx:${rand(-40, 40)}px;--rd:${rand(7, 13)}s;--rdl:-${rand(0, 13)}s"></i>`).join("");
-  $("#dust").innerHTML = lights(40, [1.5, 3.6], [[22, 78], [40, 96]]);
-  $("#sparks").innerHTML = lights(30, [2, 4.6], [[12, 88], [30, 96]]);
+  // points of light rising round the crown's light and up through the globe, and sparks rising through the last word
+  const lights = (n, [x0, x1], [y0, y1]) => Array.from({ length: n }, () =>
+    `<i style="--rx:${rand(x0, x1)}%;--ry:${rand(y0, y1)}%;--rs:${rand(3, 7)}px;--dx:${rand(-40, 40)}px;--rd:${rand(7, 13)}s;--rdl:-${rand(0, 13)}s"></i>`).join("");
+  $("#dust").innerHTML = lights(40, [22, 78], [40, 96]);
+  $("#sparks").innerHTML = lights(30, [12, 88], [30, 96]);
   $("#motes").innerHTML = Array.from({ length: 18 }, () =>
     `<i style="left:${rand(2, 98)}%;--s:${rand(2.5, 6.5)}px;--dx:${rand(-50, 50)}px;animation-delay:-${rand(0, 14)}s;animation-duration:${rand(9, 17)}s"></i>`).join("");
 
