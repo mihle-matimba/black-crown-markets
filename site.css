@@ -417,7 +417,9 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .nav .open{display:none}
   .nav .logo,.nav .logo img{height:40px}
   .f-top .logo{--h:52px}
-  .ph .cta .btn{flex:1}
+  /* side by side and equal where both fit, else one under the other; never narrower than their words (the white and
+     tinted buttons clip what overflows them, for their shine, so they would otherwise shrink and cut their label) */
+  .ph .cta .btn{flex:1;min-width:max-content}
   section.blk{padding-top:72px}
   .sec-head{margin-bottom:30px}
   .acc-grid,.values{grid-template-columns:minmax(0,1fr)}
@@ -428,7 +430,7 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .tc-doc-download{flex-wrap:wrap}
   .tc-doc-download-btn{width:100%;justify-content:center}
   .claim{margin-top:80px;padding:56px 22px;border-radius:30px}
-  .claim .cta .btn{flex:1}
+  .claim .cta .btn{flex:1;min-width:max-content}
   .vip-form-card{padding:20px 18px 18px;border-radius:26px}
   .f-top{grid-template-columns:minmax(0,1fr)}
 }

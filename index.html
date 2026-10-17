@@ -504,7 +504,9 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .f-top .logo{--h:52px}
   .hero h1{font-size:clamp(40px,11vw,54px)}
   .hero .cta{align-self:stretch}
-  .hero .cta .btn{flex:1}
+  /* side by side and equal where both fit, else one under the other; never narrower than their words (the white and
+     tinted buttons clip what overflows them, for their shine, so they would otherwise shrink and cut their label) */
+  .hero .cta .btn{flex:1;min-width:max-content}
   .proof .sep{display:none}
   .crown-stage{min-height:340px}
   .plinth{width:360px;top:calc(50% + 86px)}
@@ -540,7 +542,7 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .rv-nav{display:none}
   .rv-track{grid-auto-columns:86%;margin:0 -18px;padding:6px 18px 24px;scroll-padding:0 18px}
   .claim{margin-top:84px;padding:64px 22px;border-radius:30px}
-  .claim .cta .btn{flex:1}
+  .claim .cta .btn{flex:1;min-width:max-content}
   .f-top{grid-template-columns:minmax(0,1fr)}
 }
 /* For people whose system asks for less motion (Windows does whenever "Animation effects" is off): nothing slides,
