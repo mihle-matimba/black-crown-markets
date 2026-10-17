@@ -516,11 +516,15 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   section.blk{padding-top:84px}
   .sec-head{margin-bottom:36px}
   .plat-ctl{margin:-10px 0 28px}
-  .laptop{width:100%;padding:7px;border-radius:14px}
-  .laptop::after{bottom:-10px;height:10px}
-  .screen{border-radius:8px}
-  .phone{position:relative;right:auto;bottom:auto;width:58%;margin:40px auto 0;min-width:0}
-  .devices{padding-bottom:0}
+  /* the phone still stands in front of the laptop's corner, as on a big screen, both sized down */
+  .laptop{width:88%;padding:6px;border-radius:12px}
+  .laptop::after{bottom:-9px;height:9px;border-radius:0 0 12px 12px}
+  .screen{border-radius:7px}
+  .phone{width:28%;min-width:0;bottom:-6px;padding:4px;border-radius:20px}
+  .phone .scr{border-radius:16px}
+  .phone .scr::before{top:4px;height:9px}
+  .devices{padding-bottom:30px}
+  .devices .phone{translate:calc((1 - var(--q,1)) * 40px) calc((1 - var(--q,1)) * 26px)}
   /* on a phone the names scroll sideways in one line, edge to edge */
   .tour{margin-top:34px}
   .tour-tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;max-width:calc(100% + 36px);margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none;scroll-padding:0 18px}
