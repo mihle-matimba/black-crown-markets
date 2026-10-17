@@ -92,6 +92,8 @@ h1,h2,h3,h4,p{margin:0}
 .nav:not(.is-scrolled){background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
 .logo{display:flex;align-items:center;height:40px;margin-right:12px;flex-shrink:0}
 .logo img{height:30px;width:auto}
+/* in the bar: 50px tall, 40px on a phone */
+.nav .logo,.nav .logo img{height:50px}
 .logo .lw{display:var(--logo-white)}
 .logo .lc{display:var(--logo-colour)}
 .nav-links{display:flex;align-items:center;gap:2px}
@@ -391,7 +393,7 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
   .wrap{padding:0 18px}
   .nav{top:8px;width:calc(100% - 16px);height:56px;padding:0 8px 0 14px}
   .nav .open{display:none}
-  .logo img{height:26px}
+  .nav .logo,.nav .logo img{height:40px}
   .ph .cta .btn{flex:1}
   section.blk{padding-top:72px}
   .sec-head{margin-bottom:30px}
