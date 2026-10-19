@@ -317,7 +317,7 @@ section.blk{padding:120px 0 0}
 .stat{padding:34px 30px 30px;border-radius:30px;background:var(--cell);display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
 .stat .si{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--tint);background:var(--tint-soft);margin-bottom:22px}
 .stat .v{font:700 clamp(54px,6vw,80px)/1 var(--display);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.stat .l{font-size:17px;color:var(--label-2)}
+.stat .l{font-size:17px;color:var(--label-2);max-width:calc(100% - 84px)}
 .stat .bars{position:absolute;right:26px;bottom:26px;display:flex;align-items:flex-end;gap:5px;height:64px;opacity:.9}
 .stat .bars i{width:9px;border-radius:3px;background:var(--tint-soft);transform-origin:bottom;transform:scaleY(0);transition:transform 1.2s var(--spring);transition-delay:calc(var(--k) * 70ms)}
 .stat .bars i:last-child{background:var(--tint-fill)}
@@ -661,7 +661,7 @@ main{overflow-x:clip}
 .acc.in:hover{transform:none;translate:0 -6px}
 .feat,.rv,.fund{position:relative}
 .spot{--mx:-999px;--my:-999px;background-image:radial-gradient(520px circle at var(--mx) var(--my),color-mix(in srgb,var(--tint-fill) 11%,transparent),transparent 45%)}
-.spot::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1.5px;pointer-events:none;
+.spot::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;corner-shape:inherit;padding:1.5px;pointer-events:none;
   background:radial-gradient(260px circle at var(--mx) var(--my),color-mix(in srgb,var(--tint) 90%,transparent),transparent 70%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 /* the numbers' bars keep moving, like a market that's open */
@@ -811,9 +811,9 @@ main{overflow-x:clip}
       </div>
       <div class="stats">
         <div class="stat reveal" style="--i:0">
-          <span class="si"><span data-icon="chart" data-size="22"></span></span>
-          <span class="v"><span class="roll" data-roll="$2B+"></span></span>
-          <span class="l">Monthly notional traded</span>
+          <span class="si"><span data-icon="globe" data-size="22"></span></span>
+          <span class="v"><span class="roll" data-roll="48+"></span></span>
+          <span class="l">Countries our clients call home</span>
           <span class="bars" aria-hidden="true"><i style="--k:0;height:30%"></i><i style="--k:1;height:42%"></i><i style="--k:2;height:38%"></i><i style="--k:3;height:58%"></i><i style="--k:4;height:72%"></i><i style="--k:5;height:100%"></i></span>
         </div>
         <div class="stat reveal" style="--i:1">
@@ -1015,6 +1015,7 @@ const ICONS = {
   chart: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/>',
   users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
   layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
   candles: '<path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/>',
   bolt: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
