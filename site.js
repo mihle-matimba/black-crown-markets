@@ -1,5 +1,6 @@
 /* Black Crown Markets, Design D: what the site's pages share with the home page. The bar (its About menu, and the
-   phone's menu as a sheet), light and dark, things rising into view, and the legal pages' contents list. */
+   phone's menu as a sheet), light and dark, things rising into view, and the legal pages' contents list. The partners
+   page's form has its own script (partners.html). */
 (function () {
   "use strict";
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -24,6 +25,11 @@
     pin: '<path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
     mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
     star: '<path d="M11.52 2.3a.53.53 0 0 1 .95 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.01a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .29-.9l5.16-.76a2.12 2.12 0 0 0 1.6-1.16z"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    trend: '<path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/>',
+    wallet: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+    chart: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 16v-3"/><path d="M12 16V8"/><path d="M17 16v-6"/>',
   };
   function icon(n, s, sw) {
     return '<svg class="ic" width="' + (s || 18) + '" height="' + (s || 18) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 1.9) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[n] + "</svg>";
@@ -111,7 +117,7 @@
   var menuBtn = $("#menuBtn");
   if (menuBtn) {
     menuBtn.addEventListener("click", function () {
-      var rows = [["account-types", "layers", "Accounts"]].concat(ABOUT.map(function (a) { return [a[0], a[1], a[2]]; }), [["contact-us", "life", "Get support"]]);
+      var rows = [["account-types", "layers", "Accounts"]].concat(ABOUT.map(function (a) { return [a[0], a[1], a[2]]; }), [["partners", "users", "Become a partner"], ["contact-us", "life", "Get support"]]);
       sheet("Menu", '<div class="group">' + rows.map(function (r) {
         return '<a class="row" href="' + r[0] + '"' + (r[0] === here ? ' aria-current="page"' : "") + ">" + icon(r[1], 20) + "<span>" + r[2] + "</span>" + icon("chevR", 16) + "</a>";
       }).join("") + '<button class="row" type="button" data-theme-toggle>' + icon(isDark() ? "sun" : "moon", 20) + "<span>" + (isDark() ? "Light mode" : "Dark mode") + "</span></button></div>" +
@@ -153,6 +159,27 @@
     });
     addEventListener("scroll", setActive, { passive: true });
     setActive();
+  }
+
+  /* ---------- the Partner Agreement's live version, where a page names it ([data-ag]: "version", "since" or "line") ----------
+     Read from the client portal's server, which has the PDFs a developer uploads; until it answers, or if it can't, the
+     page's own words stay ("The newest version"). */
+  var agEls = $$("[data-ag]");
+  if (agEls.length && window.fetch) {
+    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    fetch("https://register.blackcrownmarkets.com/api/partner/agreement?info=1")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var a = d && d.agreement;
+        if (!a) return;
+        var t = new Date(a.at);
+        var since = isNaN(t) ? "" : "live since " + t.getUTCDate() + " " + MONTHS[t.getUTCMonth()] + " " + t.getUTCFullYear();
+        agEls.forEach(function (el) {
+          var kind = el.getAttribute("data-ag");
+          el.textContent = kind === "version" ? "Version " + a.version : kind === "since" ? since : "Version " + a.version + (since ? ", " + since : "");
+        });
+      })
+      .catch(function () { /* the page's own words stay */ });
   }
 
   paint();
