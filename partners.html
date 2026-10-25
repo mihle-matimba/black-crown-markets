@@ -72,7 +72,15 @@
       <!-- Left empty by people; a bot that fills it in is thanked and nothing is kept. -->
       <input class="pt-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <div class="pt-pane" id="ptStep1">
+      <!-- In place of the application while partner applications are closed (until the Partner Agreement is reviewed; the server
+           refuses them too). To open them again, take this pane away and the hidden off ptStep1. -->
+      <div class="pt-pane" id="ptClosed">
+        <div class="pt-step-h"><div class="t"><h2>Applications open soon</h2></div></div>
+        <p class="pt-closed">We are not taking partner applications yet. Check back soon, or write to <a href="mailto:support@blackcrownmarkets.com">support@blackcrownmarkets.com</a> and we let you know when they open.</p>
+        <p class="pt-login">Already a partner? <a href="https://register.blackcrownmarkets.com/partner/overview">Log in to your partner portal</a></p>
+      </div>
+
+      <div class="pt-pane" id="ptStep1" hidden>
         <div class="pt-step-h">
           <div class="t"><h2>About you</h2><span>Step 1 of 2</span></div>
           <div class="pt-bars" aria-hidden="true"><i class="on"></i><i></i></div>
@@ -227,10 +235,9 @@
     <span class="etch" data-crown="460" aria-hidden="true"></span>
     <span class="sheen" aria-hidden="true"></span>
     <h2 id="claimTitle">Know traders?<br>Let's grow together.</h2>
-    <p>Apply in about a minute. We reply by email, and on WhatsApp if we have a question.</p>
+    <p>Applications open soon. Talk to us and we let you know when they do.</p>
     <div class="cta">
-      <a class="btn lg btn-glass" href="contact-us">Talk to us</a>
-      <a class="btn lg btn-white" href="#apply">Apply now<span data-icon="arrowR" data-size="18"></span></a>
+      <a class="btn lg btn-white" href="contact-us">Talk to us<span data-icon="arrowR" data-size="18"></span></a>
     </div>
   </div>
 </section>

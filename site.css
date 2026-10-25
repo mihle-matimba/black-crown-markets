@@ -457,12 +457,15 @@ footer{margin-top:110px;padding:56px 0 calc(40px + env(safe-area-inset-bottom,0p
 .pt-login{margin:0 4px;font-size:13.5px;text-align:center;color:var(--label-2)}
 .pt-login a,.pt-noacc a.link-in{color:var(--tint)}
 .pt-err{margin:0 4px;font-size:14px;line-height:1.45;color:var(--red)}
+.pt-closed{margin:0 4px;font-size:15.5px;line-height:1.55;color:var(--label-2)}
+.pt-closed a{color:var(--tint)}
 .pt-hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
 .pt-done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:10px 6px 4px}
 .pt-done .tick{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--green);box-shadow:0 12px 28px -12px rgba(48,209,88,.8)}
 .pt-done h2{margin-top:6px;font:700 26px/1.2 var(--display);letter-spacing:-.025em}
 .pt-done p{max-width:24em;font-size:15.5px;line-height:1.5;color:var(--label-2)}
 .pt-noacc{padding:14px 16px;border-radius:16px;display:flex;flex-direction:column;gap:12px;font-size:14.5px;line-height:1.5;color:var(--label-2);background:color-mix(in srgb,var(--orange) 12%,transparent)}
+.pt-noacc[hidden]{display:none}
 .pt-noacc b{color:var(--label);font-weight:600}
 .pt-noacc .btn{height:44px;border-radius:14px}
 .pt-next{margin:0;padding:4px 16px;list-style:none;border-radius:18px;background:var(--cell-2)}
