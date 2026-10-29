@@ -740,6 +740,47 @@ main{overflow-x:clip}
 .motes i{position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;opacity:0;background:rgba(255,255,255,.85);box-shadow:0 0 12px 2px rgba(255,255,255,.5);animation:mote 12s linear infinite}
 @keyframes mote{0%{opacity:0;transform:translate(0,0)}12%{opacity:.85}85%{opacity:.5}100%{opacity:0;transform:translate(var(--dx),-520px)}}
 
+/* Win a Rolex: the competition as a tile in its own page's onyx and gold (win-a-rolex.html), in both themes: what it is and
+   what's next beside its three watches fanned out, which spread a little when the tile is pointed at. competition.js keeps its
+   line about what's next by the clock, and takes it away once the winner is drawn. */
+.rxh{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);align-items:center;gap:24px 40px;padding:52px 56px;border-radius:36px;color:#fff;
+  background:radial-gradient(55% 90% at 80% 50%,rgba(224,180,76,.42),transparent 64%),linear-gradient(140deg,#3d3523 0%,#1f1b13 45%,#0c0b08 100%);
+  box-shadow:inset 0 1px 0 rgba(255,237,190,.28),inset 0 0 0 1px rgba(224,180,76,.26),0 40px 80px -40px rgba(0,0,0,.75)}
+.rxh-etch{position:absolute;z-index:-1;left:-6%;bottom:-38%;width:42%;color:rgba(224,180,76,.07);transform:rotate(-8deg);pointer-events:none}
+.rxh-etch svg{display:block;width:100%;height:auto}
+.rxh-eye{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#e0b44c}
+.rxh-eye i{width:4px;height:4px;border-radius:50%;background:rgba(224,180,76,.6)}
+.rxh-eye span{white-space:nowrap}
+.rxh-eye span:last-child{letter-spacing:.06em;text-transform:none;font-size:13px;color:rgba(255,255,255,.7)}
+.rxh h2{margin:14px 0 0;font:700 clamp(34px,4.2vw,54px)/1.05 var(--display);letter-spacing:-.035em}
+.rxh-gold{display:inline-block;padding:0 .04em .14em 0;margin-bottom:-.14em;background:linear-gradient(180deg,#f8e3a3 10%,#c9962b 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rxh p{margin:16px 0 0;max-width:33em;font-size:17px;line-height:1.5;color:rgba(255,255,255,.76)}
+.rxh-cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.rxh .btn-glass{color:#fff;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.rxh .btn-glass:hover{background:rgba(255,255,255,.2)}
+.rxh small{display:block;margin-top:18px;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.5)}
+.rxh-pic{position:relative;height:330px}
+.rxh-pic img{position:absolute;left:50%;top:50%;width:auto;transform-origin:50% 85%;transition:transform .8s var(--spring)}
+.rxh-pic .w1{z-index:2;height:300px;transform:translate(-50%,-50%);filter:drop-shadow(0 28px 32px rgba(0,0,0,.55))}
+.rxh-pic .w0,.rxh-pic .w2{z-index:1;height:246px;filter:drop-shadow(0 20px 26px rgba(0,0,0,.6)) brightness(.84)}
+.rxh-pic .w0{transform:translate(-50%,-50%) translateX(-122px) rotate(-12deg)}
+.rxh-pic .w2{transform:translate(-50%,-50%) translateX(122px) rotate(12deg)}
+@media (hover:hover) and (pointer:fine){
+  .rxh:hover .w0{transform:translate(-50%,-50%) translateX(-136px) rotate(-15deg)}
+  .rxh:hover .w1{transform:translate(-50%,-50%) translateY(-6px) scale(1.03)}
+  .rxh:hover .w2{transform:translate(-50%,-50%) translateX(136px) rotate(15deg)}
+}
+@media (max-width:900px){
+  .rxh{grid-template-columns:minmax(0,1fr);padding:30px 24px 28px;border-radius:30px;text-align:left}
+  .rxh-pic{order:-1;height:236px;margin:-6px 0 0}
+  .rxh-pic .w1{height:214px}
+  .rxh-pic .w0,.rxh-pic .w2{height:174px}
+  .rxh-pic .w0{transform:translate(-50%,-50%) translateX(-88px) rotate(-12deg)}
+  .rxh-pic .w2{transform:translate(-50%,-50%) translateX(88px) rotate(12deg)}
+  .rxh p{font-size:16px}
+  .rxh-cta .btn{flex:1 1 auto}
+}
+
 /* less motion: the same arrivals as fades, and nothing that drifts or bobs */
 @media (prefers-reduced-motion: reduce){
   @keyframes rise-in{from{opacity:0}}
@@ -837,6 +878,30 @@ main{overflow-x:clip}
       <li><span class="ti"><span data-icon="chat" data-size="21"></span></span><span><b>24/7 support</b><span>Real people, any hour</span></span></li>
     </ul>
   </div>
+
+  <!-- the competition: Win a Rolex, as a tile in its page's onyx and gold (competition.js keeps what's next, and takes it away after the draw) -->
+  <section class="blk" aria-labelledby="rxhTitle" id="win-a-rolex" data-rx-home>
+    <div class="wrap">
+      <div class="rxh reveal">
+        <span class="rxh-etch" aria-hidden="true" data-crown="320"></span>
+        <div class="rxh-t">
+          <span class="rxh-eye"><span>Competition</span><i aria-hidden="true"></i><span data-rx-next>Entries open 1 November</span></span>
+          <h2 id="rxhTitle">Win a Rolex worth up to <span class="rxh-gold">R250,000.</span></h2>
+          <p>Opt in and trade gold on a Standard account from 1 November to 31 January. Every 0.10 lots is an entry to the live draw on 3 February at 20:00 SAST.</p>
+          <div class="rxh-cta">
+            <a class="btn lg btn-tint" href="win-a-rolex">See the competition<span data-icon="arrowR" data-size="18"></span></a>
+            <a class="btn lg btn-glass" href="win-a-rolex#how">How to enter</a>
+          </div>
+          <small>18+. Terms apply. Watches shown are for illustration only, and the prize may differ. Rolex is a registered trademark of Rolex SA, which does not sponsor this competition.</small>
+        </div>
+        <div class="rxh-pic" aria-hidden="true">
+          <img class="w0" src="img/competition/watch-gmt.webp" alt="" width="640" height="1040" loading="lazy" decoding="async">
+          <img class="w1" src="img/competition/watch-datejust.webp" alt="" width="760" height="1250" loading="lazy" decoding="async">
+          <img class="w2" src="img/competition/watch-sub.webp" alt="" width="640" height="945" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- numbers -->
   <section class="blk" aria-labelledby="numTitle">
@@ -1711,6 +1776,6 @@ document.fonts?.ready?.then(() => placeThumb(dn));
 <script>
 (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/szd3fim3';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 </script>
-<script src="/campaign-code.js" defer></script>
+<script src="/competition.js" defer></script>
 </body>
 </html>
