@@ -98,10 +98,13 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 .calm .rx-w{--sx:0%;--sr:0deg;--sg:0}
 .rx-w-in{opacity:0}
 /* The float starts only once the watch has arrived at full size. Started while a watch is still growing into place,
-   the browser keeps the smaller picture it drew then and stretches it for as long as the float runs: a soft watch. */
+   the browser keeps the smaller picture it drew then and stretches it for as long as the float runs: a soft watch.
+   It starts from where the watch rests, easing up to the top of its swing (rx-float-in, held there), and only then
+   swings: started straight on the swing, the watch would jump to its top in one frame. */
 .rx-float{position:relative}
-.rx-done .rx-float{animation:rx-float var(--fd) ease-in-out var(--fdl) infinite alternate}
-.rx-t3.in .rx-float,.rx-ctile.in .rx-float{animation:rx-float var(--fd,7s) ease-in-out 1.8s infinite alternate}
+.rx-done .rx-float{animation:rx-float-in calc(var(--fd) / 2) ease-in-out forwards,rx-float var(--fd) ease-in-out calc(var(--fd) / 2) infinite alternate}
+.rx-t3.in .rx-float,.rx-ctile.in .rx-float{animation:rx-float-in calc(var(--fd,7s) / 2) ease-in-out 1.8s forwards,rx-float var(--fd,7s) ease-in-out calc(1.8s + var(--fd,7s) / 2) infinite alternate}
+@keyframes rx-float-in{to{transform:translateY(-1.8%)}}
 @keyframes rx-float{from{transform:translateY(-1.8%)}to{transform:translateY(1.8%)}}
 /* the light that follows the pointer (or circles by itself) over each watch, masked to the watch */
 .rx-spec{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
@@ -371,7 +374,7 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
   .rx-streak{animation-duration:var(--dur,16s) !important;animation-iteration-count:infinite !important}
   .rx-copy .pill-eye .dot::after{animation-duration:2.4s !important;animation-iteration-count:infinite !important}
   .rx-gold{animation-duration:7s !important;animation-iteration-count:infinite !important}
-  .rx-float{animation-duration:var(--fd) !important;animation-iteration-count:infinite !important}
+  .rx-float{animation-duration:calc(var(--fd,7s) / 2),var(--fd,7s) !important;animation-iteration-count:1,infinite !important}
   .rx-spark{animation-duration:var(--kp,4.6s) !important;animation-iteration-count:infinite !important}
   .rx-bg::after{animation-duration:6s !important;animation-iteration-count:infinite !important}
   .ready .rx-glint{animation-duration:5.5s !important;animation-iteration-count:infinite !important}
