@@ -45,6 +45,10 @@
   var OPENS = Date.parse("2026-11-01T00:00:00+02:00");
   var CLOSES = Date.parse("2027-02-01T00:00:00+02:00");
   var DRAW = Date.parse("2027-02-03T20:00:00+02:00");
+  // Hidden for now (the user, 29 Oct 2026): no pill, the home page's section has `hidden` in its HTML, and vercel.json sends
+  // the competition's own page to the home page (a temporary redirect, so browsers don't keep it). Partners' codes are still
+  // kept (above). To show it again, make this true, take `hidden` off the home page's section and the redirect out of vercel.json.
+  var SHOWN = false;
   var now = Date.now();
   var stage = now < OPENS ? "soon" : now < CLOSES ? "open" : now < DRAW ? "closed" : "drawn";
   // What's next at each stage: in full, and short for a phone.
@@ -66,7 +70,7 @@
   var CLOSED_KEY = "bcm-rx-bar-closed";
   var closed = null;
   try { closed = localStorage.getItem(CLOSED_KEY); } catch (e) { /* storage blocked: it shows */ }
-  if (stage === "drawn" || here === "win-a-rolex" || closed === stage) return;
+  if (!SHOWN || stage === "drawn" || here === "win-a-rolex" || closed === stage) return;
 
   var css = document.createElement("style");
   css.textContent =
