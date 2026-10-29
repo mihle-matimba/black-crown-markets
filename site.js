@@ -1,6 +1,6 @@
 /* Black Crown Markets, Design D: what the site's pages share with the home page. The bar (its About menu, and the
    phone's menu as a sheet), light and dark, things rising into view, and the legal pages' contents list. The partners
-   page's form has its own script (partners.html). */
+   page's form has its own script (partners.html), and a partner's campaign code its own (campaign-code.js). */
 (function () {
   "use strict";
   var $ = function (s, r) { return (r || document).querySelector(s); };
