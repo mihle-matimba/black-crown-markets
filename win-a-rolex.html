@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Win a Rolex | Black Crown Markets</title>
-<meta name="description" content="Trade gold with Black Crown Markets from 1 November 2026 to 31 January 2027 for a chance to win a Rolex worth up to R250,000. 18+. Terms and conditions apply.">
+<meta name="description" content="Enter for a chance to win a Rolex worth up to R250,000 with Black Crown Markets, from 1 November 2026 to 31 January 2027. You don't need to deposit or trade to enter. 18+, South African residents only. Terms and conditions apply.">
 <!-- Kept out of search results until the competition rules are final; take this away at launch. -->
 <meta name="robots" content="noindex">
 
@@ -190,6 +190,25 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 /* the small print stays readable: the risk warning and the competition's terms must be easy to see */
 .rx-tc{max-width:52em;font-size:12.5px;line-height:1.55;color:var(--label-2)}
 .rx-tc a{text-decoration:underline;text-underline-offset:2px}
+/* who may enter, under every button that leads in */
+.rx-elig{font-size:14px;font-weight:600;line-height:1.45;color:var(--label)}
+/* What must be said beside the ways in and every button (compliance's recommendation, 30 Oct 2026), word for word as
+   src/lib/campaigns.js has it in BCM v2: a card of its own, in full-size type, so it is never just a footer. */
+.rx-disc{width:100%;max-width:980px;margin:0 auto;padding:22px 26px 20px;border-radius:22px;background:var(--cell);text-align:left}
+.rx-disc-h{font:700 18px/1.2 var(--display);letter-spacing:-.015em}
+.rx-disc dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 30px;margin:14px 0 0}
+.rx-disc dt{font-size:14px;font-weight:600;line-height:1.35;color:var(--label)}
+.rx-disc dd{margin:3px 0 0;font-size:14px;line-height:1.5;color:var(--label-2)}
+.rx-disc .rx-tm{margin-top:16px;padding-top:12px;border-top:1px solid var(--sep);font-size:13px;line-height:1.5;color:var(--label-2)}
+.rx-disc a{color:var(--tint);font-weight:600}
+/* The short one beside a way in: the two that matter most as someone clicks, and a link to all of them */
+.rx-disc.is-short p{margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--label-2)}
+.rx-disc.is-short p b{font-weight:600;color:var(--label)}
+.rx-disc.is-short .rx-tm{margin:12px 0 0}
+#before{scroll-margin-top:96px}
+@media (max-width:700px){.rx-disc{padding:18px 18px 16px}.rx-disc dl{grid-template-columns:minmax(0,1fr)}}
+@supports (corner-shape: squircle){.rx-disc{corner-shape:squircle;border-radius:36px}}
+.rx-foot .rx-disc{margin-top:6px}
 
 /* the opening: the words straight away (.go), the watches once their pictures are ready (.ready) */
 .go .rx-wd{animation:rx-word 1.15s var(--spring) calc(.15s + var(--i) * 75ms) both}
@@ -246,35 +265,34 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 .rx-pass{width:100%;max-width:340px;rotate:-7deg;animation:rx-bob 6s ease-in-out infinite alternate;transition:rotate .8s var(--spring),scale .8s var(--spring)}
 .rx-t1:hover .rx-pass{rotate:-2deg;scale:1.03}
 @keyframes rx-bob{from{translate:0 -6px}to{translate:0 6px}}
-/* 2 and 3: an object each, the same size, shape, tilt, shine and hover, its big bold type at the foot: a deposit block
-   in BCM purple (the wallet, and the currencies accounts are held in), and gold as it is on the periodic table */
-.rx-t2{grid-column:2;grid-row:2;justify-content:space-between;gap:26px}
-.rx-obj{position:relative;overflow:hidden;width:128px;aspect-ratio:1;border-radius:26px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;
-  rotate:-4deg;transition:rotate .8s var(--spring),scale .8s var(--spring)}
-.rx-tile:hover .rx-obj{rotate:0deg;scale:1.05}
-.rx-obj::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%) 150% 0/300% 100% no-repeat;animation:rx-glint 5s ease-in-out var(--od,1s) infinite}
-.rx-obj small{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
-.rx-obj .r{display:flex;justify-content:space-between;align-items:baseline}
-.rx-au{color:#2a1a00;background:linear-gradient(145deg,#fbeab0 0%,#dcb04a 34%,#a8741f 68%,#e9c76c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 26px 40px -24px rgba(212,160,23,.9)}
-.rx-au b{font:700 54px/1 var(--display);letter-spacing:-.045em}
-.rx-dep{color:#fff;background:linear-gradient(145deg,#d6c8ff 0%,#9b6dff 30%,#6d28d9 66%,#8b5cf6 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 26px 40px -24px rgba(124,58,237,.95)}
-.rx-dep .ic{display:block;margin:-2px 0 0 -3px}
-.rx-dep b{font:700 28px/.98 var(--display);letter-spacing:-.03em}
-/* 3: the watch in its light, running off the bottom of the tile */
-.rx-t3{grid-column:3;grid-row:1/3;padding-bottom:0;background:radial-gradient(90% 55% at 50% 82%,var(--rx-tile-glow),transparent 72%),var(--cell)}
-.rx-t3-stage{position:relative;flex:1;min-height:380px;margin:18px -34px 0}
+/* 2: the ways to earn without trading, beside step 1: a short Settings list, each way with its icon and its entries (how to
+   do each is on the member's competition page and in the rules) */
+.rx-tw{grid-column:3;grid-row:1}
+.rx-ways{display:flex;flex-direction:column;margin:20px 0 0;padding:2px 14px;list-style:none;border-radius:20px;background:var(--fill-3)}
+.rx-way{position:relative;display:flex;align-items:center;gap:12px;padding:10px 0}
+.rx-way+.rx-way::before{content:"";position:absolute;top:0;left:42px;right:0;height:1px;background:var(--sep)}
+.rx-way b{flex:1;min-width:0;font-size:15px;font-weight:600;line-height:1.3}
+.rx-way small{display:block;margin-top:1px;font-size:12.5px;font-weight:500;color:var(--label-3)}
+.rx-ico{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;background:linear-gradient(160deg,var(--a),var(--b));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.rx-pts{flex:none;height:24px;padding:0 10px;border-radius:999px;display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;white-space:nowrap;color:var(--rx-accent);background:color-mix(in srgb,var(--rx-accent) 15%,transparent)}
+.rx-tile p.rx-ways-foot{margin-top:12px;font-size:13.5px;line-height:1.45;color:var(--label-3)}
+/* trading: one way among the others, quieter than step 2, with what compliance asks be said beside it */
+.rx-tt{grid-column:1;grid-row:2}
+.rx-tt .rx-pts{align-self:flex-start;margin:16px 0 18px}
+.rx-tile p.rx-tt-note{margin-top:auto;padding:13px 15px;max-width:none;border-radius:16px;font-size:13.5px;line-height:1.45;color:var(--label-2);background:var(--fill-3)}
+/* 3: the words beside the watch in its light, the watch running off the bottom of the tile */
+.rx-t3{grid-column:2/4;grid-row:2;flex-direction:row;align-items:stretch;gap:12px;padding-bottom:0;background:radial-gradient(60% 90% at 76% 92%,var(--rx-tile-glow),transparent 72%),var(--cell)}
+.rx-t3 .rx-tx{flex:1;align-self:center;padding-bottom:34px}
+.rx-t3-stage{position:relative;flex:0 0 46%;min-height:420px;margin:-34px -34px 0 0}
 .rx-t3-rays{position:absolute;left:50%;top:66%;width:170%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;
   -webkit-mask:radial-gradient(closest-side,#000 8%,rgba(0,0,0,.55) 30%,transparent 56%);mask:radial-gradient(closest-side,#000 8%,rgba(0,0,0,.55) 30%,transparent 56%)}
 .rx-t3-w{position:absolute;left:50%;bottom:-16%;height:104%;translate:-50% 0}
 .rx-t3-w .rx-float{height:100%}
 .rx-t3-w img{display:block;height:100%;width:auto;max-width:none;filter:drop-shadow(var(--rx-shadow))}
 .rx-t3 .rx-glint{animation:rx-glint 6s ease-in-out 1.5s infinite}
-/* the entry rule, said once, plainly */
-.rx-tile p.rx-eq{margin-top:14px;font:600 clamp(22px,2vw,28px)/1.15 var(--display);letter-spacing:-.025em;color:var(--label)}
-.rx-eq b{color:var(--rx-accent);font-weight:700}
 .rx-illus{position:absolute;left:18px;bottom:18px;z-index:2;height:28px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:var(--label-2)}
-/* 2: funding (its object is .rx-dep, above) */
-.rx-t4{grid-column:1;grid-row:2;justify-content:space-between;gap:26px}
+/* what must be said, right under the steps, as wide as them */
+.rx-how .rx-disc{margin-top:20px;max-width:none}
 
 
 /* ---------- the draw in brief, and what must be said ---------- */
@@ -299,7 +317,9 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 .rx-ctile h2{margin-top:10px;font:700 clamp(44px,4.6vw,76px)/.95 var(--display);letter-spacing:-.055em}
 .rx-ctile .rx-enter{margin-top:30px}
 .rx-ctile .rx-login{margin-top:16px}
-.rx-end-fine{margin-top:18px;max-width:30em;font-size:12.5px;color:var(--label-3)}
+.rx-end-fine{margin-top:18px;max-width:30em;font-size:13px;line-height:1.5;color:var(--label-2)}
+.rx-end-fine a{text-decoration:underline;text-underline-offset:2px}
+.rx-endt .rx-disc{margin-top:20px;max-width:none}
 .rx-ctile-stage{position:relative;align-self:end;padding:44px 28px 0 8px;margin-bottom:-11%}
 .rx-ctile-rays{position:absolute;left:51%;top:46%;width:150%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;
   -webkit-mask:radial-gradient(ellipse 50% 26% at 50% 50%,#000 0%,rgba(0,0,0,.5) 45%,transparent 100%);mask:radial-gradient(ellipse 50% 26% at 50% 50%,#000 0%,rgba(0,0,0,.5) 45%,transparent 100%)}
@@ -316,18 +336,19 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 @media (max-width:1000px){
   .rx-bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .rx-t1{grid-column:1/-1}
-  .rx-t3{grid-column:2;grid-row:2/4}
-  .rx-t4{grid-column:1;grid-row:2}
-  .rx-t2{grid-column:1;grid-row:3}
+  .rx-tw{grid-column:1;grid-row:2}
+  .rx-tt{grid-column:2;grid-row:2}
+  .rx-t3{grid-column:1/-1;grid-row:3}
 }
 @media (max-width:700px){
   .rx-bento{grid-template-columns:minmax(0,1fr);grid-auto-rows:auto}
-  .rx-t1,.rx-t2,.rx-t3,.rx-t4{grid-column:1;grid-row:auto}
+  .rx-t1,.rx-tw,.rx-tt,.rx-t3{grid-column:1;grid-row:auto}
   .rx-t1{flex-direction:column;align-items:stretch}
   .rx-passbox{flex:none;padding:10px 14px 4px}
   .rx-tile{padding:28px 24px;border-radius:28px}
-  .rx-t3{padding-bottom:0}
-  .rx-t3-stage{margin:14px -24px 0;min-height:360px}
+  .rx-t3{flex-direction:column;padding-bottom:0}
+  .rx-t3 .rx-tx{padding-bottom:0}
+  .rx-t3-stage{flex:none;margin:14px -24px 0;min-height:360px}
   .rx-brief>div{grid-template-columns:minmax(0,1fr)}
 }
 /* phones: the gaps between sections close up to the site's own phone spacing */
@@ -396,9 +417,8 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
   .rx-dots i{transition-duration:.5s,.3s !important}
   .rx-pass{animation-duration:6s !important;animation-iteration-count:infinite !important}
   .rx-pass::after{animation-duration:11s !important;animation-iteration-count:infinite !important}
-  .rx-obj::after{animation-duration:5s !important;animation-iteration-count:infinite !important}
   .rx-t3 .rx-glint{animation-duration:6s !important;animation-iteration-count:infinite !important}
-  .rx-pass,.rx-obj{transition-duration:.8s !important}
+  .rx-pass{transition-duration:.8s !important}
   .rx-ctile.in .rx-glint{animation-duration:5.5s !important;animation-iteration-count:infinite !important}
 }
 </style>
@@ -438,8 +458,8 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
   <canvas class="rx-bokeh" id="rxBokeh" aria-hidden="true"></canvas>
 
   <div class="rx-copy">
-    <span class="pill-eye glass rx-in" style="--d:.05s"><i class="dot" aria-hidden="true"></i>Win a Rolex<i class="bar" aria-hidden="true"></i><span class="sub" data-open="Trade gold to enter" data-closed="Entries closed">Opens 1 November</span></span>
-    <h1 class="rx-h1" id="rxTitle"><span class="rx-wd" style="--i:0">Trade</span> <span class="rx-wd" style="--i:1">gold</span> <span class="rx-wd" style="--i:2">&amp;</span><br><span class="rx-wd" style="--i:3">wear</span> <span class="rx-wd" style="--i:4">the</span> <span class="rx-wd" style="--i:5"><span class="rx-gold">crown.</span></span></h1>
+    <span class="pill-eye glass rx-in" style="--d:.05s"><i class="dot" aria-hidden="true"></i>Win a Rolex<i class="bar" aria-hidden="true"></i><span class="sub" data-open="Entries open" data-closed="Entries closed">Opens 1 November</span></span>
+    <h1 class="rx-h1" id="rxTitle"><span class="rx-wd" style="--i:0">Win</span> <span class="rx-wd" style="--i:1">a</span> <span class="rx-wd" style="--i:2">Rolex</span> <span class="rx-wd" style="--i:3">&amp;</span><br><span class="rx-wd" style="--i:4">wear</span> <span class="rx-wd" style="--i:5">the</span> <span class="rx-wd" style="--i:6"><span class="rx-gold">crown.</span></span></h1>
   </div>
 
   <div class="rx-stage">
@@ -483,11 +503,12 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
   </div>
 
   <div class="rx-foot">
-    <p class="rx-lead rx-in" style="--d:1.7s" data-open="Trade with Black Crown Markets for a chance to <b>win a Rolex worth up to R250,000.</b>" data-closed="Entries have closed. The winner is drawn live on <b>3 February at 20:00 SAST.</b>">From 1 November, trade gold with Black Crown Markets for a chance to <b>win a Rolex worth up to R250,000.</b></p>
+    <p class="rx-lead rx-in" style="--d:1.7s" data-open="Enter for a chance to <b>win a Rolex worth up to R250,000.</b> You don't need to deposit or trade to enter." data-closed="Entries have closed. The winner is drawn live on <b>3 February at 20:00 SAST.</b>">From 1 November, enter for a chance to <b>win a Rolex worth up to R250,000.</b> You don't need to deposit or trade to enter.</p>
     <div class="rx-cta rx-in" style="--d:1.82s">
       <a class="btn lg btn-gray" href="#how">How it works</a>
       <a class="btn lg rx-enter" href="https://register.blackcrownmarkets.com/register"><span data-open="Enter the draw" data-closed="Open an account">Open an account</span><span data-icon="arrowR" data-size="19"></span></a>
     </div>
+    <p class="rx-elig rx-in" style="--d:1.86s">18+. South African residents only. No deposit or trade needed to enter.</p>
     <div class="rx-assure rx-in" style="--d:1.9s">
       <p class="rx-login">Already a client? <a href="https://register.blackcrownmarkets.com/login"><span data-open="Log in to enter" data-closed="Log in">Log in to get ready</span><span data-icon="chevR" data-size="15"></span></a></p>
       <div class="rx-trust">
@@ -514,19 +535,24 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
         <span class="rx-u"><b data-u="s">00</b><small>Secs</small></span>
       </div>
     </div>
-    <p class="rx-tc rx-in" style="--d:2.05s">18+. <a href="#rules">Terms and conditions apply.</a> Watches shown are for illustration only. CFDs are high-risk, leveraged products and you could lose all the money you invest. Black Crown Markets is an authorised FSP (No. 54549). Rolex is a registered trademark of Rolex SA, which does not sponsor this competition.</p>
+    <!-- Beside the way in, the two that matter most as someone clicks; all six are in full under the steps (#before) -->
+    <div class="rx-disc is-short rx-in" style="--d:2.05s" role="note" aria-label="Before you enter">
+      <p><b>You can enter without trading.</b> Eligible participants can enter through approved non-trading activities without funding an account or executing a trade.</p>
+      <p><b>CFDs are high risk.</b> CFDs are complex leveraged financial instruments and carry a significant risk of rapid financial loss. Consider your financial circumstances, experience and risk tolerance before trading.</p>
+      <p class="rx-tm">18+. South African residents only. <a href="#before">Read before you enter</a>. <a href="win-a-rolex-rules">Terms and conditions apply.</a> Watches shown are for illustration only. Rolex is a registered trademark of Rolex SA. Rolex SA does not sponsor this competition and is not affiliated with Black Crown Markets.</p>
+    </div>
   </div>
 </section>
 
 <section class="rx-how" id="how" aria-labelledby="howTitle">
   <div class="wrap">
-    <div class="sec-head reveal"><h2 id="howTitle">How to enter.</h2><p>Four steps between you and the draw.</p></div>
+    <div class="sec-head reveal"><h2 id="howTitle">How to enter.</h2><p>Opt in, then earn entries in the ways that suit you. None of them needs a deposit or a trade.</p></div>
     <div class="rx-bento">
       <article class="rx-tile rx-t1 reveal">
         <div class="rx-tx">
           <span class="rx-step">Step 1</span>
-          <h3>Open your account and opt in.</h3>
-          <p>Open a live Black Crown Markets Standard account, verify your identity, and opt in on the Competitions page of the client portal. Already a client? Log in and opt in.</p>
+          <h3>Sign up or log in, and opt in.</h3>
+          <p>Open a Black Crown Markets account, or log in if you have one, and opt in on the Competitions page of the client portal. Then confirm your email with the code we send you. That's your first entry. You don't need to deposit or trade.</p>
           <div class="rx-links">
             <a class="link" href="https://register.blackcrownmarkets.com/register">Open an account<span data-icon="chevR" data-size="16"></span></a>
             <a class="link" href="https://register.blackcrownmarkets.com/login">Log in<span data-icon="chevR" data-size="16"></span></a>
@@ -535,40 +561,39 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
         <div class="rx-passbox" aria-hidden="true">
           <div class="pass t-standard rx-pass">
             <span class="etch" data-crown="200"></span>
-            <div class="p-top"><span class="p-logo"><span data-crown="20"></span>BLACK CROWN</span><span class="p-tag">Live account</span></div>
-            <div class="p-name">Standard</div>
-            <div class="p-bot"><dl><div><dt>Broker</dt><dd>FSCA regulated</dd></div><div><dt>Trade</dt><dd>Gold</dd></div></dl></div>
+            <div class="p-top"><span class="p-logo"><span data-crown="20"></span>BLACK CROWN</span><span class="p-tag">Competition</span></div>
+            <div class="p-name">Win a Rolex</div>
+            <div class="p-bot"><dl><div><dt>Deposit</dt><dd>Not needed</dd></div><div><dt>Entries</dt><dd>From 1 Nov</dd></div></dl></div>
           </div>
         </div>
       </article>
-      <article class="rx-tile rx-t4 reveal" style="--i:1">
-        <div class="rx-obj rx-dep" aria-hidden="true" style="--od:3.5s">
-          <span data-icon="wallet" data-size="38"></span>
-          <b>ZAR<br>USD</b>
-        </div>
-        <div class="rx-tx">
-          <span class="rx-step">Step 2</span>
-          <h3>Fund your account.</h3>
-          <p>Make a deposit in the client portal. Only deposit money you can afford to lose.</p>
-        </div>
+      <article class="rx-tile rx-tw reveal" style="--i:1">
+        <span class="rx-step">Step 2</span>
+        <h3>Earn entries your way.</h3>
+        <p>Up to 12 entries, with no deposit or trade.</p>
+        <ul class="rx-ways">
+          <li class="rx-way"><span class="rx-ico" style="--a:#5ac8fa;--b:#007aff" data-icon="mail" data-size="16" aria-hidden="true"></span><b>Verify your email</b><span class="rx-pts">1</span></li>
+          <li class="rx-way"><span class="rx-ico" style="--a:#5bd77a;--b:#24a148" data-icon="shield" data-size="16" aria-hidden="true"></span><b>Verify your identity <small>Optional</small></b><span class="rx-pts">2</span></li>
+          <li class="rx-way"><span class="rx-ico" style="--a:#ffb340;--b:#f07b00" data-icon="file" data-size="16" aria-hidden="true"></span><b>Risk-awareness check</b><span class="rx-pts">2</span></li>
+          <li class="rx-way"><span class="rx-ico" style="--a:#ff7eb6;--b:#e0337a" data-icon="heart" data-size="16" aria-hidden="true"></span><b>Follow us</b><span class="rx-pts">1</span></li>
+          <li class="rx-way"><span class="rx-ico" style="--a:#b18cff;--b:#7c3aed" data-icon="share" data-size="16" aria-hidden="true"></span><b>Share our post</b><span class="rx-pts">1</span></li>
+          <li class="rx-way"><span class="rx-ico" style="--a:#4fd1c5;--b:#0f9488" data-icon="userPlus" data-size="16" aria-hidden="true"></span><b>Refer friends</b><span class="rx-pts">1 each, up to 5</span></li>
+        </ul>
+        <p class="rx-ways-foot">Your competition page shows how to do each one and keeps count.</p>
       </article>
-      <article class="rx-tile rx-t2 reveal" style="--i:2">
-        <div class="rx-obj rx-au" aria-hidden="true">
-          <span class="r"><small>79</small><small>196.97</small></span>
-          <b>Au</b>
-          <small>Gold</small>
-        </div>
-        <div class="rx-tx">
-          <span class="rx-step">Step 3</span>
-          <h3>Trade gold.</h3>
-          <p>Trade gold (XAU/USD) on your Standard account while the draw is open. Trades closed within 60 seconds don't count.</p>
-        </div>
+      <article class="rx-tile rx-tt reveal" style="--i:2">
+        <span class="rx-step">Also counts</span>
+        <h3>Trading gold.</h3>
+        <p>Every 0.10 lots of XAU/USD on a live Standard account, held 60 seconds or more, is one entry. Lots add up across trades.</p>
+        <span class="rx-pts">1 entry per 0.10 lots</span>
+        <p class="rx-tt-note">Do not increase trading frequency, transaction size or financial exposure to obtain competition entries or improve your chance of winning.</p>
       </article>
       <article class="rx-tile rx-t3 reveal" style="--i:3">
-        <span class="rx-step">Step 4</span>
-        <h3>You're in the draw.</h3>
-        <p class="rx-eq"><b>0.10 lots</b> = 1 entry</p>
-        <p>Every 0.10 lots of gold you trade on a Standard account adds one entry to the live lucky draw. Your lots add up across trades.</p>
+        <div class="rx-tx">
+          <span class="rx-step">Step 3</span>
+          <h3>Watch the live draw.</h3>
+          <p>The winner is drawn at random, live, on 3 February 2027 at 20:00 SAST. Every entry has the same chance of being drawn.</p>
+        </div>
         <div class="rx-t3-stage" aria-hidden="true">
           <div class="rx-t3-rays"><div class="rx-spin"><i class="rx-rays"></i><i class="rx-rays gold"></i></div></div>
           <div class="rx-t3-w" style="--img:url('img/competition/watch-datejust.webp')">
@@ -582,6 +607,18 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
           <span class="rx-illus glass">Shown for illustration</span>
         </div>
       </article>
+    </div>
+    <div class="rx-disc reveal" id="before" role="note" aria-labelledby="discHow">
+      <h3 class="rx-disc-h" id="discHow">Before you enter</h3>
+      <dl>
+        <div><dt>You can enter without trading</dt><dd>Eligible participants can enter through approved non-trading activities without funding an account or executing a trade.</dd></div>
+        <div><dt>CFDs are high risk</dt><dd>CFDs are complex leveraged financial instruments and carry a significant risk of rapid financial loss. Consider your financial circumstances, experience and risk tolerance before trading.</dd></div>
+        <div><dt>Don't trade more for entries</dt><dd>Do not increase trading frequency, transaction size or financial exposure to obtain competition entries or improve your chance of winning.</dd></div>
+        <div><dt>Not financial advice</dt><dd>The competition is not financial advice, an investment recommendation or a guarantee of any financial benefit.</dd></div>
+        <div><dt>The prize</dt><dd>The Rolex prize is subject to the published competition rules, availability and eligibility conditions. The promotion is not sponsored or endorsed by Rolex SA.</dd></div>
+        <div><dt>Who we are</dt><dd>Black Crown Holdings (Pty) Ltd, trading as Black Crown Markets (FSP No. 54549), is the promoting financial services provider. JP Markets SA (Pty) Ltd (FSP No. 46855) is the authorised over-the-counter derivative provider (ODP) and the counterparty to your CFDs.</dd></div>
+      </dl>
+      <p class="rx-tm">18+. South African residents only. <a href="win-a-rolex-rules">Read the full rules.</a></p>
     </div>
   </div>
 </section>
@@ -608,19 +645,18 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
 <section class="rx-brief-sec" id="rules" aria-labelledby="rulesTitle">
   <div class="wrap">
     <div class="sec-head reveal"><h2 id="rulesTitle">The draw in brief.</h2><p>Please read these before you enter.</p></div>
+    <!-- As the members' Competitions page has them (src/lib/campaigns.js `rules` in BCM v2), word for word. -->
     <dl class="rx-brief reveal">
-      <div><dt>Promoter</dt><dd>Black Crown Holdings (Pty) Ltd, trading as Black Crown Markets, an authorised financial services provider (FSP No. 54549).</dd></div>
-      <div><dt>Who can enter</dt><dd>People aged 18 or over with a verified Black Crown Markets Standard trading account.</dd></div>
-      <div><dt>How to enter</dt><dd>Opt in on the Competitions page of the Black Crown Markets client portal, then trade gold (XAU/USD) on a Standard account while the draw is open. Every 0.10 lots traded is one entry, and lots add up across trades. Trades closed within 60 seconds of opening don't count, and trading before you opt in doesn't count.</dd></div>
-      <div><dt>Opens and closes</dt><dd>Opens at 00:00 SAST on 1 November 2026. Closes at midnight SAST at the end of 31 January 2027. All times on this page are South African Standard Time (SAST).</dd></div>
-      <div><dt>How the winner is chosen</dt><dd>In a live lucky draw on 3 February 2027 at 20:00 SAST. Every entry goes into the draw, so the more entries you have, the higher your chance of winning.</dd></div>
-      <div><dt>The prize</dt><dd>A Rolex watch worth up to R250,000. The watches on this page are for illustration only, and the model awarded may differ.</dd></div>
-      <div><dt>How the winner is told</dt><dd>The winner is announced live, as they are drawn on the stream on 3 February 2027 at 20:00 SAST. We then contact them directly using the details on their Black Crown Markets account to arrange the prize.</dd></div>
-      <!-- Hidden until the full competition rules are published: put this back with the link then.
-      <div><dt>Full rules</dt><dd><span class="rx-tbc">Link to be added</span></dd></div> -->
+      <div><dt>Who can enter</dt><dd>South African residents aged 18 or over who have a Black Crown Markets account and opt in. You don't need to deposit or trade.</dd></div>
+      <div><dt>Ways to earn entries</dt><dd>Verify your email (1 entry), verify your identity (2, optional), pass the CFD risk-awareness check (2), follow our official account (1), share our competition post where the platform allows it (1), and refer friends who open a new live account (1 each, up to 5; they don't need to deposit or trade). Each counts once, apart from referrals. Follows and shares count once we have checked them.</dd></div>
+      <div><dt>Entries from trading</dt><dd>Every 0.10 lots of gold (XAU/USD) traded on a live Standard account, from when you opt in until entries close, is one entry. Lots add up across trades. Trades closed within 60 seconds of opening don't count.</dd></div>
+      <div><dt>When entries count</dt><dd>From 1 November 2026, 00:00 SAST, until entries close at midnight SAST at the end of 31 January 2027.</dd></div>
+      <div><dt>How the winner is chosen</dt><dd>At random, in a live draw on 3 February 2027 at 20:00 SAST. Every entry has the same chance of being drawn.</dd></div>
+      <div><dt>The prize</dt><dd>A Rolex watch worth up to R250,000. The watch shown is for illustration only, and the model awarded may differ.</dd></div>
+      <div><dt>How the winner is told</dt><dd>Announced live as they are drawn, then contacted using the details on their Black Crown Markets account. We confirm the winner's identity and eligibility before the prize is given.</dd></div>
+      <div><dt>Full rules</dt><dd><a href="win-a-rolex-rules">Read the competition's full terms and conditions</a></dd></div>
     </dl>
     <div class="rx-notes reveal">
-      <p><b>Trading carries risk.</b> CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. You could lose all the money you invest. Only trade with money you can afford to lose.</p>
       <p><b>Trademarks.</b> Rolex is a registered trademark of Rolex SA. Rolex SA does not sponsor this competition and is not affiliated with Black Crown Markets.</p>
     </div>
   </div>
@@ -634,7 +670,7 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
         <h2 id="closeTileTitle">Your crown<br>is <span class="rx-gold">waiting.</span></h2>
         <a class="btn lg rx-enter" href="https://register.blackcrownmarkets.com/register"><span data-open="Enter the draw" data-closed="Open an account">Open an account</span><span data-icon="arrowR" data-size="19"></span></a>
         <p class="rx-login">Already a client? <a href="https://register.blackcrownmarkets.com/login"><span data-open="Log in to enter" data-closed="Log in">Log in to get ready</span><span data-icon="chevR" data-size="15"></span></a></p>
-        <p class="rx-end-fine">18+. Terms and conditions apply. Watches shown are for illustration only. CFDs are high-risk, leveraged products.</p>
+        <p class="rx-end-fine">18+. South African residents only. No deposit or trade needed to enter. <a href="win-a-rolex-rules">Terms and conditions apply.</a> Watches shown are for illustration only.</p>
       </div>
       <div class="rx-ctile-stage" aria-hidden="true">
         <div class="rx-ctile-rays"><div class="rx-spin"><i class="rx-rays"></i><i class="rx-rays gold"></i></div></div>
@@ -644,6 +680,12 @@ if(matchMedia("(pointer: coarse), (max-width: 900px)").matches)document.document
           <figure class="rx-w rx-w-dj" style="--img:url('img/competition/watch-datejust.webp')"><div class="rx-float"><img crossorigin="anonymous" src="img/competition/watch-datejust.webp" alt="" width="760" height="1250" loading="lazy"><span class="rx-glint"></span><i class="rx-spark" style="--kx:75.9%;--ky:25%;--kd:1s"></i><i class="rx-spark" style="--kx:28.9%;--ky:35%;--kd:3s"></i></div></figure>
         </div>
       </div>
+    </div>
+    <!-- Beside the way in, the two that matter most as someone clicks; all six are in full under the steps (#before) -->
+    <div class="rx-disc is-short reveal" role="note" aria-label="Before you enter">
+      <p><b>You can enter without trading.</b> Eligible participants can enter through approved non-trading activities without funding an account or executing a trade.</p>
+      <p><b>CFDs are high risk.</b> CFDs are complex leveraged financial instruments and carry a significant risk of rapid financial loss. Consider your financial circumstances, experience and risk tolerance before trading.</p>
+      <p class="rx-tm"><a href="#before">Read everything before you enter</a></p>
     </div>
   </div>
 </section>

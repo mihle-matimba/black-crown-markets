@@ -45,9 +45,10 @@
   var OPENS = Date.parse("2026-11-01T00:00:00+02:00");
   var CLOSES = Date.parse("2027-02-01T00:00:00+02:00");
   var DRAW = Date.parse("2027-02-03T20:00:00+02:00");
-  // Hidden for now (the user, 29 Oct 2026): no pill, the home page's section has `hidden` in its HTML, and vercel.json sends
-  // the competition's own page to the home page (a temporary redirect, so browsers don't keep it). Partners' codes are still
-  // kept (above). To show it again, make this true, take `hidden` off the home page's section and the redirect out of vercel.json.
+  // Hidden for now, while compliance reviews it (the user, 30 Oct 2026): no pill, and the home page's section has `hidden` in
+  // its HTML, so nothing on the site leads to it. Its page and its full rules (win-a-rolex-rules) still open from their links
+  // for the review, and both are noindex. Partners' codes are still kept (above). To show it again, make this true and take
+  // `hidden` off the home page's section.
   var SHOWN = false;
   var now = Date.now();
   var stage = now < OPENS ? "soon" : now < CLOSES ? "open" : now < DRAW ? "closed" : "drawn";

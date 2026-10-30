@@ -1,7 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/win-a-rolex", "destination": "/", "permanent": false }
-  ]
+  "trailingSlash": false
 }

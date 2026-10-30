@@ -765,7 +765,11 @@ main{overflow-x:clip}
 .rxh-cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
 .rxh .btn-glass{color:#fff;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .rxh .btn-glass:hover{background:rgba(255,255,255,.2)}
-.rxh small{display:block;margin-top:18px;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.5)}
+.rxh small{display:block;margin-top:14px;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.62)}
+/* what must be said beside the buttons (compliance, 30 Oct 2026): that entering needs no trading, and the risk, readable */
+.rxh-disc{margin-top:20px;display:grid;gap:8px;max-width:38em}
+.rxh .rxh-disc p{margin:0;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.8)}
+.rxh-disc b{color:#fff;font-weight:600}
 .rxh-pic{position:relative;height:330px}
 .rxh-pic img{position:absolute;left:50%;top:50%;width:auto;transform-origin:50% 85%;transition:transform .8s var(--spring)}
 .rxh-pic .w1{z-index:2;height:300px;transform:translate(-50%,-50%);filter:drop-shadow(0 28px 32px rgba(0,0,0,.55))}
@@ -887,7 +891,8 @@ main{overflow-x:clip}
   </div>
 
   <!-- the competition: Win a Rolex, as a tile in its page's onyx and gold (competition.js keeps what's next, and takes it away after the draw).
-       Hidden for now: to show it again, take `hidden` off, make SHOWN true in competition.js and take the redirect out of vercel.json -->
+       Hidden for now, while compliance reviews it (its page still opens from its link): to show it again, take `hidden` off and
+       make SHOWN true in competition.js -->
   <section class="blk" aria-labelledby="rxhTitle" id="win-a-rolex" data-rx-home hidden>
     <div class="wrap">
       <div class="rxh reveal">
@@ -895,12 +900,16 @@ main{overflow-x:clip}
         <div class="rxh-t">
           <span class="rxh-eye"><span>Competition</span><i aria-hidden="true"></i><span data-rx-next>Entries open 1 November</span></span>
           <h2 id="rxhTitle">Win a Rolex worth up to <span class="rxh-gold">R250,000.</span></h2>
-          <p>Opt in and trade gold on a Standard account from 1 November to 31 January. Every 0.10 lots is an entry to the live draw on 3 February at 20:00 SAST.</p>
+          <p>Opt in, then earn entries from 1 November to 31 January in the ways that suit you: verify your email, take a short risk-awareness check, follow and share, or refer friends. You never need to deposit or trade to enter. The live draw is on 3 February at 20:00 SAST.</p>
           <div class="rxh-cta">
             <a class="btn lg btn-tint" href="win-a-rolex">See the competition<span data-icon="arrowR" data-size="18"></span></a>
             <a class="btn lg btn-glass" href="win-a-rolex#how">How to enter</a>
           </div>
-          <small>18+. Terms apply. Watches shown are for illustration only, and the prize may differ. Rolex is a registered trademark of Rolex SA, which does not sponsor this competition.</small>
+          <div class="rxh-disc">
+            <p><b>You can enter without trading.</b> Eligible participants can enter through approved non-trading activities without funding an account or executing a trade.</p>
+            <p><b>CFDs are high risk.</b> CFDs are complex leveraged financial instruments and carry a significant risk of rapid financial loss. Consider your financial circumstances, experience and risk tolerance before trading.</p>
+          </div>
+          <small>18+. South African residents only. Terms apply. Watches shown are for illustration only, and the prize may differ. Rolex is a registered trademark of Rolex SA, which does not sponsor this competition.</small>
         </div>
         <div class="rxh-pic" aria-hidden="true">
           <img class="w0" src="img/competition/watch-gmt.webp" alt="" width="640" height="1040" loading="lazy" decoding="async">
